@@ -20,6 +20,8 @@ dependency "preparation"
 
 # unifiedpush-server dependencies/components
 dependency "postgresql"
+dependency "nginx"
+dependency "omnibus-ctl"
 
 # Version manifest file
 dependency "version-manifest"
