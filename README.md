@@ -5,7 +5,8 @@ This project creates full-stack platform-specific packages for
 
 Preperation 
 ------------
-* Unly when runing under non root user.
+only when runing under non root user.
+
 ```shell
 sudo mkdir -p /opt/unifiedpush-server /var/cache/omnibus
 sudo chown yanivn:yanivn /opt/unifiedpush-server
