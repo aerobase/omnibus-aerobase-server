@@ -3,10 +3,26 @@ unifiedpush-server Omnibus project
 This project creates full-stack platform-specific packages for
 `unifiedpush-server`!
 
+Preperation 
+------------
+* Unly when runing under non root user.
+```shell
+sudo mkdir -p /opt/unifiedpush-server /var/cache/omnibus
+sudo chown yanivn:yanivn /opt/unifiedpush-server
+sudo chown yanivn:yanivn /var/cache/omnibus
+```
+
 Installation
 ------------
 You must have a sane Ruby 1.9+ environment with Bundler installed. Ensure all
 the required gems are installed:
+
+```shell
+yum -y install gcc ruby-devel rubygems
+gem install omnibus
+gem bundle install
+bundle install
+```
 
 ```shell
 $ bundle install --binstubs
