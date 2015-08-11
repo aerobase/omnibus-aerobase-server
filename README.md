@@ -9,8 +9,8 @@ only when runing under non root user.
 
 ```shell
 sudo mkdir -p /opt/unifiedpush-server /var/cache/omnibus
-sudo chown yanivn:yanivn /opt/unifiedpush-server
-sudo chown yanivn:yanivn /var/cache/omnibus
+sudo chown USER:USER /opt/unifiedpush-server
+sudo chown USER:USER /var/cache/omnibus
 ```
 
 Installation
