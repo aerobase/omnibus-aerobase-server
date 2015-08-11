@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/C-B4/omnibus-software.git
-  revision: e7662ec1f080e98487a3cdd2dc38e75f8c00d929
+  revision: 417d947151db774de175a4e63ddf0d1d4146d8ab
   specs:
     omnibus-software (4.0.0)
 
@@ -92,7 +92,7 @@ GEM
     nio4r (1.1.1)
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
-    ohai (8.5.0)
+    ohai (8.5.1)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
       ipaddress

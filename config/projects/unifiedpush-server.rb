@@ -23,6 +23,8 @@ dependency "postgresql"
 dependency "nginx"
 dependency "omnibus-ctl"
 
+#dependency "chef"
+
 # Version manifest file
 dependency "version-manifest"
 
