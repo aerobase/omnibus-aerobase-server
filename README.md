@@ -21,8 +21,7 @@ the required gems are installed:
 ```shell
 yum -y install gcc ruby-devel rubygems
 gem install omnibus
-gem bundle install
-bundle install
+gem install bundler
 ```
 
 ```shell
