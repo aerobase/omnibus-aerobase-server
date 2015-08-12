@@ -15,20 +15,20 @@
 # limitations under the License.
 #
 
-name "chef-server-ctl"
+name "unifiedpush-server-ctl"
 
 dependency "rsync"
 dependency "omnibus-ctl"
 
-source :path => File.expand_path("files/chef-server-ctl-commands", Omnibus.project_root)
+source :path => File.expand_path("files/unifiedpush-server-ctl-commands", Omnibus::Config.project_root)
 
 build do
   block do
-    open("#{install_dir}/bin/chef-server-ctl", "w") do |file|
+    open("#{install_dir}/bin/unifiedpush-server-ctl", "w") do |file|
       file.print <<-EOH
 #!/bin/bash
 #
-# Copyright:: Copyright (c) 2012 Opscode, Inc.
+# Copyright:: Copyright (c) 2012 C-B4, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,12 +55,12 @@ do
   unset $ruby_env_var
 done
 
-#{install_dir}/embedded/bin/omnibus-ctl chef-server #{install_dir}/embedded/service/omnibus-ctl $@
+#{install_dir}/embedded/bin/omnibus-ctl unifiedpush-server #{install_dir}/embedded/service/omnibus-ctl $@
        EOH
     end
   end
 
-  command "chmod 755 #{install_dir}/bin/chef-server-ctl"
+  command "chmod 755 #{install_dir}/bin/unifiedpush-server-ctl"
 
   # additional omnibus-ctl commands
   command "#{install_dir}/embedded/bin/rsync -a ./ #{install_dir}/embedded/service/omnibus-ctl/"
