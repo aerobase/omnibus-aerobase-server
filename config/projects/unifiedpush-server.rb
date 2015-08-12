@@ -41,6 +41,7 @@ dependency "chef"
 dependency "unifiedpush-server-ctl"
 dependency "unifiedpush-server-config-template"
 dependency "unifiedpush-server-scripts"
+dependency "unifiedpush-server-cookbooks"
 
 # Version manifest file
 dependency "version-manifest"
