@@ -25,7 +25,7 @@ homepage "https://github.com/C-B4/omnibus-unifiedpush-server"
 # and /opt/unifiedpush-server on all other platforms
 install_dir "#{default_root}/#{name}"
 
-build_version Omnibus::BuildVersion.semver
+build_version   Omnibus::BuildVersion.new.semver
 build_iteration Unifiedpush::BuildIteration.new.build_iteration
 
 # Creates required build directories
@@ -42,6 +42,7 @@ dependency "unifiedpush-server-ctl"
 dependency "unifiedpush-server-config-template"
 dependency "unifiedpush-server-scripts"
 dependency "unifiedpush-server-cookbooks"
+dependency "unifiedpush-server-package-scripts"
 
 # Version manifest file
 dependency "version-manifest"
