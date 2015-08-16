@@ -1,7 +1,0 @@
-#!/bin/bash
-#
-# Perform necessary unifiedpush-server setup steps
-# before package is installed.
-#
-
-echo "You're about to install unifiedpush-server!"

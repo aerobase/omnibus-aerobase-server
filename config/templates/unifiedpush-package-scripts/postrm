@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Perform necessary unifiedpush removal steps
+# after package is uninstalled.
+#
+
+echo "unifiedpush has been uninstalled!"
+
+exit 0

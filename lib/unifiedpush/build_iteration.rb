@@ -1,4 +1,4 @@
-# This module has tests in spec/unifiedpush-server/build_iteration_spec.rb
+# This module has tests in spec/unifiedpush/build_iteration_spec.rb
 
 module Unifiedpush
   class BuildIteration

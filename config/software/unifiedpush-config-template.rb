@@ -1,5 +1,6 @@
-# Copyright: Copyright (c) 2012 Opscode, Inc.
-# License: Apache License, Version 2.0
+#
+# Copyright:: Copyright (c) 2014 GitLab B.V.
+# License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,10 +13,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-add_command "reindex", "Reindex all server data", 1 do
-  command = "complete"
-  Dir.chdir(File.join(base_path, "embedded", "service", "erchef", "bin")) do
-    exec("./reindex-chef-server #{command}")
-  end
+name "unifiedpush-config-template"
+
+dependency "rsync"
+
+source :path => File.expand_path("files/unifiedpush-config-template", Omnibus::Config.project_root)
+
+build do
+  command "mkdir -p #{install_dir}/etc"
+  command "#{install_dir}/embedded/bin/rsync --delete -a ./ #{install_dir}/etc/"
 end

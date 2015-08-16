@@ -15,15 +15,15 @@
 # limitations under the License.
 #
 
-require "#{Omnibus::Config.project_root}/lib/unifiedpush-server/build_iteration"
+require "#{Omnibus::Config.project_root}/lib/unifiedpush/build_iteration"
 
 name "unifiedpush-server"
 maintainer "Yaniv Marom-Nachumi"
 homepage "https://github.com/C-B4/omnibus-unifiedpush-server"
 
-# Defaults to C:/unifiedpush-server on Windows
-# and /opt/unifiedpush-server on all other platforms
-install_dir "#{default_root}/#{name}"
+# Defaults to C:/unifiedpush on Windows
+# and /opt/unifiedpush on all other platforms
+install_dir "#{default_root}/unifiedpush"
 
 build_version   Omnibus::BuildVersion.new.semver
 build_iteration Unifiedpush::BuildIteration.new.build_iteration
@@ -31,18 +31,18 @@ build_iteration Unifiedpush::BuildIteration.new.build_iteration
 # Creates required build directories
 dependency "preparation"
 
-# unifiedpush-server dependencies/components
+# unifiedpush dependencies/components
 dependency "postgresql"
 dependency "nginx"
 dependency "omnibus-ctl"
 dependency "chef"
 
-# unifiedpush-server internal dependencies/components
-dependency "unifiedpush-server-ctl"
-dependency "unifiedpush-server-config-template"
-dependency "unifiedpush-server-scripts"
-dependency "unifiedpush-server-cookbooks"
-dependency "unifiedpush-server-package-scripts"
+# unifiedpush internal dependencies/components
+dependency "unifiedpush-ctl"
+dependency "unifiedpush-config-template"
+dependency "unifiedpush-scripts"
+dependency "unifiedpush-cookbooks"
+dependency "unifiedpush-package-scripts"
 
 # Version manifest file
 dependency "version-manifest"

@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015.
+# Copyright:: Copyright (c) 2015 GitLab B.V.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,10 @@
 # limitations under the License.
 #
 
-# Package attributes
+name "unifiedpush-scripts"
 
-# Default location of install-dir is /opt/unifiedpush-server/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush Server packages
-default['package']['install-dir'] = "<%= install_dir %>"
+source :path => File.expand_path("files/unifiedpush-scripts", Omnibus::Config.project_root)
+
+build do
+  copy "*", "#{install_dir}/embedded/bin/"
+end

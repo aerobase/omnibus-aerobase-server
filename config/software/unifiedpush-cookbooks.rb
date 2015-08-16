@@ -15,11 +15,11 @@
 # limitations under the License.
 #
 
-name "unifiedpush-server-cookbooks"
+name "unifiedpush-cookbooks"
 
 dependency "rsync"
 
-source :path => File.expand_path("files/unifiedpush-server-cookbooks", Omnibus::Config.project_root)
+source :path => File.expand_path("files/unifiedpush-cookbooks", Omnibus::Config.project_root)
 
 build do
   command "mkdir -p #{install_dir}/embedded/cookbooks"

@@ -1,6 +1,5 @@
-#
-# Copyright:: Copyright (c) 2015 GitLab B.V.
-# License:: Apache License, Version 2.0
+# Copyright: Copyright (c) 2015.
+# License: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,12 +12,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-name "unifiedpush-server-scripts"
-
-source :path => File.expand_path("files/unifiedpush-server-scripts", Omnibus::Config.project_root)
-
-build do
-  copy "*", "#{install_dir}/embedded/bin/"
+add_command "reindex", "Reindex all server data", 1 do
+  command = "complete"
+  Dir.chdir(File.join(base_path, "embedded", "service", "erchef", "bin")) do
+    exec("./reindex-unifiedpush #{command}")
+  end
 end

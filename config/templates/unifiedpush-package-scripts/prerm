@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Perform necessary unifiedpush-server setup steps
+# Perform necessary unifiedpush setup steps
 # prior to installing package.
 #
 
