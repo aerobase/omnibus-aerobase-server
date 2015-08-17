@@ -1,0 +1,8 @@
+# This file is managed by unifiedpush-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/unifiedpush/unifiedpush.rb
+# and run `sudo unifiedpush-ctl reconfigure`.
+#
+# unifiedpush postgresql kernel shm tweaks
+#
+kernel.shmmax = <%= node['unifiedpush']['postgresql']['shmmax'] %>
+kernel.shmall = <%= node['unifiedpush']['postgresql']['shmall'] %>
