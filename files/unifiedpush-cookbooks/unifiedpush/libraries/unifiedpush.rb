@@ -72,13 +72,13 @@ module Unifiedpush
         raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://unifiedpush.example.com/"
       end
 
-      Unifiedpush['unifiedpush_server']['unifiedpush_server_host'] = uri.host
+      Unifiedpush['unifiedpush_server']['server_host'] = uri.host
 
       case uri.scheme
       when "http"
-        Unifiedpush['unifiedpush_server']['unifiedpush_server_https'] = false
+        Unifiedpush['unifiedpush_server']['server_https'] = false
       when "https"
-        Unifiedpush['unifiedpush_server']['unifiedpush_server_https'] = true
+        Unifiedpush['unifiedpush_server']['server_https'] = true
         Unifiedpush['nginx']['ssl_certificate'] ||= "/etc/unifiedpush/ssl/#{uri.host}.crt"
         Unifiedpush['nginx']['ssl_certificate_key'] ||= "/etc/unifiedpush/ssl/#{uri.host}.key"
       else
@@ -89,7 +89,7 @@ module Unifiedpush
         raise "Unsupported external URL path: #{uri.path}"
       end
 
-      Unifiedpush['unifiedpush_server']['unifiedpush_server_port'] = uri.port
+      Unifiedpush['unifiedpush_server']['server_port'] = uri.port
     end
 
     def parse_postgresql_settings
@@ -127,17 +127,17 @@ module Unifiedpush
 
     def parse_nginx_listen_ports
       [
-        [%w{nginx listen_port}, %w{unifiedpush_server unifiedpush_server_port}],
+        [%w{nginx listen_port}, %w{unifiedpush_server server_port}],
 
       ].each do |left, right|
         if !Unifiedpush[left.first][left.last].nil?
           next
         end
 
-        default_set_unifiedpush_port = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
-        user_set_unifiedpush_port = Unifiedpush[right.first][right.last]
+        default_set_server_port = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
+        user_set_server_port = Unifiedpush[right.first][right.last]
 
-        Unifiedpush[left.first][left.last] = user_set_unifiedpush_port || default_set_unifiedpush_port
+        Unifiedpush[left.first][left.last] = user_set_server_port || default_set_server_port
       end
     end
 

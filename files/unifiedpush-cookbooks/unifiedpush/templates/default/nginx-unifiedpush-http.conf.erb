@@ -1,19 +1,14 @@
 # This file is managed by unifiedpush-ctl. Manual changes will be
-# erased! To change the contents below, edit /etc/gitlab/gitlab.rb
-# and run `sudo gitlab-ctl reconfigure`.
+# erased! To change the contents below, edit /etc/unifiedpush/unifiedpush.rb
+# and run `sudo unifiedpush-ctl reconfigure`.
 
 ## Unifiedpush
-## Modified from https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/support/nginx/gitlab-ssl & https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/support/nginx/gitlab
 ##
 ## Lines starting with two hashes (##) are comments with information.
 ## Lines starting with one hash (#) are configuration parameters that can be uncommented.
 ###################################
 ##         configuration         ##
 ###################################
-
-upstream unifiedpush {
-  server unix:<%= @socket %> fail_timeout=0;
-}
 
 <% if @https && @redirect_http_to_https %>
 ## Redirects all HTTP traffic to the HTTPS host
@@ -65,8 +60,8 @@ server {
 
   location / {
     ## Serve static files from defined root folder.
-    ## @gitlab is a named location for the upstream fallback, see below.
-    try_files $uri $uri/index.html $uri.html @unifiedpush;
+    ## @unifiedpush is a named location for the upstream fallback, see below.
+    try_files $uri $uri/index.html $uri.html;
   }
 
   location /uploads/ {
@@ -88,34 +83,9 @@ server {
     proxy_set_header    X-Forwarded-Proto   $scheme;
     proxy_set_header    X-Frame-Options     SAMEORIGIN;
 
-    proxy_pass http://gitlab;
-  }
-
-  ## If a file, which is not found in the root folder is requested,
-  ## then the proxy passes the request to the upsteam (gitlab unicorn).
-  location @gitlab {
-    ## If you use HTTPS make sure you disable gzip compression
-    ## to be safe against BREACH attack.
-    <%= 'gzip off;' if @https %>
-
-    ## Some requests take more than 30 seconds.
-    proxy_read_timeout      300;
-    proxy_connect_timeout   300;
-    proxy_redirect          off;
-
-    proxy_set_header    Host                $http_host;
-    proxy_set_header    X-Real-IP           $remote_addr;
-    <% if @https %>
-    proxy_set_header    X-Forwarded-Ssl     on;
-    <% end %>
-    proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
-    proxy_set_header    X-Forwarded-Proto   $scheme;
-    proxy_set_header    X-Frame-Options     SAMEORIGIN;
-
-    proxy_pass http://gitlab;
   }
 
   error_page 502 /502.html;
 
-  <%= @custom_gitlab_server_config %>
+  <%= @custom_unifiedpush_server_config %>
 }

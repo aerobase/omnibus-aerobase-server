@@ -26,7 +26,7 @@ http {
   gzip_proxied <%= @gzip_proxied %>;
   gzip_types <%= @gzip_types.join(' ') %>;
 
-  include /opt/gitlab/embedded/conf/mime.types;
+  include /opt/unifiedpush/embedded/conf/mime.types;
 
   <% if @unifiedpush_http_config %>
   include <%= @unifiedpush_http_config %>;

@@ -51,10 +51,9 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
 }
 
 default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
-default['unifiedpush']['unifiedpush-server']['unifiedpush_server_host'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['unifiedpush_server_port'] = 80
-default['unifiedpush']['unifiedpush-server']['unifiedpush_server_https'] = false
-default['unifiedpush']['unifiedpush-server']['unifiedpush_server_ssh_host'] = nil
+default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
+default['unifiedpush']['unifiedpush-server']['server_port'] = 80
+default['unifiedpush']['unifiedpush-server']['server_https'] = false
 default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
 
 

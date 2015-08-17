@@ -55,9 +55,9 @@ nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
              })
 
 if nginx_vars['listen_https'].nil?
-  nginx_vars['https'] = node['unifiedpush']['unifiedpush-server']['unifiedpush_https']
+  nginx_vars['https'] = node['unifiedpush']['unifiedpush-server']['server_https']
 else
-  nginx_vars['https'] = nginx_vars['listen_https']
+  nginx_vars['https'] = nginx_vars['server_https']
 end
 
 template unifiedpush_server_http_conf do
@@ -67,7 +67,7 @@ template unifiedpush_server_http_conf do
   mode "0644"
   variables(nginx_vars.merge(
     {
-      :fqdn => node['unifiedpush']['unifiedpush-server']['unifiedpush_host']
+      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host']
     }
   ))
   notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
