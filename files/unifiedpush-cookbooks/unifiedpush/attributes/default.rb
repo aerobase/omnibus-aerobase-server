@@ -89,7 +89,7 @@ default['unifiedpush']['postgresql']['home'] = "/var/opt/unifiedpush/postgresql"
 # Postgres User's Environment Path
 # defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
-default['unifiedpush']['postgresql']['sql_user'] = "unifiedpush"
+default['unifiedpush']['postgresql']['sql_user'] = "unifiedpush_server"
 default['unifiedpush']['postgresql']['port'] = 5432
 default['unifiedpush']['postgresql']['listen_address'] = nil
 default['unifiedpush']['postgresql']['max_connections'] = 200

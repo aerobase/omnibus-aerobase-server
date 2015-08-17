@@ -65,7 +65,7 @@ include_recipe "runit"
 
 # Configure Services
 [
-  #"postgresql", # Postgresql depends on Redis because of `rake db:seed_fu`
+  "postgresql",
   "nginx",
   #"logrotate",
   "bootstrap"
