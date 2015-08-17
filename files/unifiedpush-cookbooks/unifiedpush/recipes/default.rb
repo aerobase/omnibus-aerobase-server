@@ -18,7 +18,7 @@
 require 'openssl'
 
 # Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
-# DO NOT change this value unless you are building your own GitLab packages
+# DO NOT change this value unless you are building your own Unifiedpush packages
 install_dir = node['package']['install-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
@@ -66,7 +66,7 @@ include_recipe "runit"
 # Configure Services
 [
   #"postgresql", # Postgresql depends on Redis because of `rake db:seed_fu`
-  #"nginx",
+  "nginx",
   #"logrotate",
   "bootstrap"
 ].each do |service|

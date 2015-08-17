@@ -32,7 +32,6 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
   case params[:action]
   when :enable
 
-
     directory sv_dir_name do
       owner params[:owner]
       group params[:group]

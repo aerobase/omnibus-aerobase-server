@@ -1,0 +1,36 @@
+# This file is managed by unifiedpush-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/unifiedpush/unifiedpush.rb
+# and run `sudo unifiedpush-ctl reconfigure`.
+
+user <%= node['unifiedpush']['user']['username'] %> <%= node['unifiedpush']['user']['group']%>;
+worker_processes <%= @worker_processes %>;
+error_log stderr;
+pid nginx.pid;
+
+daemon off;
+
+events {
+  worker_connections <%= @worker_connections %>;
+}
+
+http {
+  sendfile <%= @sendfile %>;
+  tcp_nopush <%= @tcp_nopush %>;
+  tcp_nodelay <%= @tcp_nodelay %>;
+
+  keepalive_timeout <%= @keepalive_timeout %>;
+
+  gzip <%= @gzip %>;
+  gzip_http_version <%= @gzip_http_version %>;
+  gzip_comp_level <%= @gzip_comp_level %>;
+  gzip_proxied <%= @gzip_proxied %>;
+  gzip_types <%= @gzip_types.join(' ') %>;
+
+  include /opt/gitlab/embedded/conf/mime.types;
+
+  <% if @unifiedpush_http_config %>
+  include <%= @unifiedpush_http_config %>;
+  <% end %>
+
+  <%= @custom_nginx_config %>
+}
