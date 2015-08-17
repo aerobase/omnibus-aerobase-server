@@ -17,7 +17,7 @@
 
 require 'openssl'
 
-# Default location of install-dir is /opt/gitlab/. This path is set during build time.
+# Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
 # DO NOT change this value unless you are building your own GitLab packages
 install_dir = node['package']['install-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
@@ -36,10 +36,10 @@ end
 node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 
 if File.exists?("/var/opt/unifiedpush/bootstrapped")
-	node.set['gitlab']['bootstrap']['enable'] = false
+  node.set['unifiedpush']['bootstrap']['enable'] = false
 end
 
-directory "/var/opt/unifiedpushr" do
+directory "/var/opt/unifiedpush" do
   owner "root"
   group "root"
   mode "0755"
@@ -55,23 +55,20 @@ directory "#{install_dir}/embedded/etc" do
   action :create
 end
 
-if node['unifiedpush']['unifiedpush']['enable']
+if node['unifiedpush']['unifiedpush-server']['enable']
   include_recipe "unifiedpush::users"
-  include_recipe "unifiedpush::unifiedpush"
+  #include_recipe "unifiedpush::unifiedpush-server"
 end
-
-include_recipe "unifiedpush::selinux"
-include_recipe "unifiedpush::cron"
 
 # Install our runit instance
 include_recipe "runit"
 
 # Configure Services
 [
-  "postgresql", # Postgresql depends on Redis because of `rake db:seed_fu`
-  "nginx",
-  "logrotate",
-  "bootstrap",
+  #"postgresql", # Postgresql depends on Redis because of `rake db:seed_fu`
+  #"nginx",
+  #"logrotate",
+  "bootstrap"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "unifiedpush::#{service}"

@@ -1,0 +1,10 @@
+[Unit]
+Description=Unifiedpush Runit supervision process
+After=basic.target
+
+[Service]
+ExecStart=/opt/unifiedpush/embedded/bin/runsvdir-start
+Restart=always
+
+[Install]
+WantedBy=basic.target

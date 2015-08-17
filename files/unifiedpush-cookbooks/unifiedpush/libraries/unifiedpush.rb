@@ -54,7 +54,7 @@ module Unifiedpush
       SecretsHelper.read_unifiedpush_secrets
 
       # Note: If you add another secret to generate here make sure it gets written to disk in SecretsHelper.write_to_unifiedpush_secrets
-      Unifiedpush['unifiedpush']['secret_token'] ||= generate_hex(64)
+      Unifiedpush['unifiedpush_server']['secret_token'] ||= generate_hex(64)
 
       # Note: Besides the section below, unifiedpush-secrets.json will also change
       # in CiHelper in libraries/helper.rb
@@ -66,16 +66,19 @@ module Unifiedpush
 
       uri = URI(external_url.to_s)
 
+      info("Installing according to external_url -> " + uri.host)
+
       unless uri.host
         raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://unifiedpush.example.com/"
       end
-      Unifiedpush['unifiedpush']['unifiedpush_server_host'] = uri.host
+
+      Unifiedpush['unifiedpush_server']['unifiedpush_server_host'] = uri.host
 
       case uri.scheme
       when "http"
-        Unifiedpush['unifiedpush']['unifiedpush_server_https'] = false
+        Unifiedpush['unifiedpush_server']['unifiedpush_server_https'] = false
       when "https"
-        Unifiedpush['unifiedpush']['unifiedpush_server_https'] = true
+        Unifiedpush['unifiedpush_server']['unifiedpush_server_https'] = true
         Unifiedpush['nginx']['ssl_certificate'] ||= "/etc/unifiedpush/ssl/#{uri.host}.crt"
         Unifiedpush['nginx']['ssl_certificate_key'] ||= "/etc/unifiedpush/ssl/#{uri.host}.key"
       else
@@ -86,7 +89,7 @@ module Unifiedpush
         raise "Unsupported external URL path: #{uri.path}"
       end
 
-      Unifiedpush['unifiedpush']['unifiedpush_server_port'] = uri.port
+      Unifiedpush['unifiedpush_server']['unifiedpush_server_port'] = uri.port
     end
 
     def parse_postgresql_settings
@@ -94,11 +97,11 @@ module Unifiedpush
       # DB username, host or port, then those settings should also be applied to
       # unifiedpush.
       [
-        # %w{unifiedpush db_username} corresponds to
-        # Unifiedpush['unifiedpush']['db_username'], etc.
-        [%w{unifiedpush db_username}, %w{postgresql sql_user}],
-        [%w{unifiedpush db_host}, %w{postgresql listen_address}],
-        [%w{unifiedpush db_port}, %w{postgresql port}]
+        # %w{unifiedpush_server db_username} corresponds to
+        # Unifiedpush['unifiedpush_server']['db_username'], etc.
+        [%w{unifiedpush_server db_username}, %w{postgresql sql_user}],
+        [%w{unifiedpush_server db_host}, %w{postgresql listen_address}],
+        [%w{unifiedpush_server db_port}, %w{postgresql port}]
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
           # If the user explicitly sets a value for e.g.
@@ -124,7 +127,7 @@ module Unifiedpush
 
     def parse_nginx_listen_ports
       [
-        [%w{nginx listen_port}, %w{unifiedpush unifiedpush_server_port}],
+        [%w{nginx listen_port}, %w{unifiedpush_server unifiedpush_server_port}],
 
       ].each do |left, right|
         if !Unifiedpush[left.first][left.last].nil?
@@ -158,7 +161,7 @@ module Unifiedpush
     end
 
     def generate_config(node_name)
-      generate_secrets(node_name)
+      # generate_secrets(node_name)
       parse_external_url
       parse_postgresql_settings
       parse_nginx_listen_address

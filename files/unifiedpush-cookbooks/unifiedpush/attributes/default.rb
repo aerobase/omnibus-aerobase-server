@@ -32,8 +32,6 @@ default['unifiedpush']['user']['gid'] = nil
 default['unifiedpush']['user']['shell'] = "/bin/sh"
 # The home directory for the unifiedpush services user
 default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
-default['unifiedpush']['user']['git_user_name'] = "Unifiedpush"
-
 
 ####
 # Unifiedpush Server app
@@ -63,10 +61,10 @@ default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
 default['unifiedpush']['unifiedpush-server']['backup_path'] = "/var/opt/unifiedpush/unifiedpush-server/backups"
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
-default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_production"
+default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"
 default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
-default['unifiedpush']['unifiedpush-server']['db_username'] = "unifiedpush"
-default['unifiedpush']['unifiedpush-server']['db_password'] = "unifiedpush"
+default['unifiedpush']['unifiedpush-server']['db_username'] = "unifiedpush_server"
+default['unifiedpush']['unifiedpush-server']['db_password'] = "unifiedpush_server"
 
 # Path to postgresql socket directory
 default['unifiedpush']['unifiedpush-server']['db_host'] = "/var/opt/unifiedpush/postgresql"
@@ -74,10 +72,6 @@ default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
-
-# Path to the public Certificate Authority file
-# defaults to /opt/unifiedpush/embedded/ssl/certs/cacert.pem. The install-dir path is set at build time
-default['unifiedpush']['unifiedpush-server']['smtp_ca_file'] = "#{node['package']['install-dir']}/embedded/ssl/certs/cacert.pem"
 
 ###
 # PostgreSQL
