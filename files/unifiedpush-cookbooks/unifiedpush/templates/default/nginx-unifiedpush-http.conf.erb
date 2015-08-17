@@ -60,8 +60,7 @@ server {
 
   location / {
     ## Serve static files from defined root folder.
-    ## @unifiedpush is a named location for the upstream fallback, see below.
-    try_files $uri $uri/index.html $uri.html;
+    try_files $uri $uri/index.html $uri.html @unifiedpush;
   }
 
   location /uploads/ {
@@ -84,6 +83,30 @@ server {
     proxy_set_header    X-Frame-Options     SAMEORIGIN;
 
   }
+
+  ## If a file, which is not found in the root folder is requested,
+  ## then the proxy passes the request to the upsteam (unifiedpush server).
+  location @unifiedpush {
+    ## If you use HTTPS make sure you disable gzip compression
+    ## to be safe against BREACH attack.
+    <%= 'gzip off;' if @https %>
+
+    ## Some requests take more than 30 seconds.
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    proxy_set_header    Host                $http_host;
+    proxy_set_header    X-Real-IP           $remote_addr;
+    <% if @https %>
+    proxy_set_header    X-Forwarded-Ssl     on;
+    <% end %>
+    proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto   $scheme;
+    proxy_set_header    X-Frame-Options     SAMEORIGIN;
+
+  }
+
 
   error_page 502 /502.html;
 
