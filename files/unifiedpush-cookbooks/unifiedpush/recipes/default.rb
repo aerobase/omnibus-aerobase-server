@@ -67,7 +67,7 @@ include_recipe "runit"
 [
   "postgresql",
   "nginx",
-  #"logrotate",
+  "logrotate",
   "bootstrap"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
