@@ -44,6 +44,7 @@ dependency "unifiedpush-config-template"
 dependency "unifiedpush-scripts"
 dependency "unifiedpush-cookbooks"
 dependency "unifiedpush-package-scripts"
+dependency "unifiedpush-server"
 
 # Version manifest file
 dependency "version-manifest"
