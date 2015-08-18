@@ -40,7 +40,7 @@ build do
   copy "#{project_dir}/servers/auth-server/target/auth-server.war",  "#{install_dir}/embedded/apps/unifiedpush-server/auth-server.war"
 
   erb source: "version.yml.erb",
-      dest: "#{install_dir}/embedded/service/unifiedpush-server/version.yml",
+      dest: "#{install_dir}/embedded/apps/unifiedpush-server/",
       mode: 0644,
       vars: { default_version: default_version }
 end
