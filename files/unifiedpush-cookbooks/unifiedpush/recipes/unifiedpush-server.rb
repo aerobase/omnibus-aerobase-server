@@ -23,16 +23,38 @@ install_dir = node['package']['install-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
 
-directory server_dir do
-  owner "root"
-  group node['unifiedpush']['user']['group']
-  mode "0775"
-  action :nothing
-end.run_action(:create)
+# These directories do not need to be writable for unifiedpush-server
+[ 
+  server_dir,
+  server_log_dir
+].each do |dir_name|
+  directory dir_name do
+    owner 'root'
+    group node['unifiedpush']['user']['group']
+    mode '0775'
+    recursive true
+  end
+end
 
-execute 'extract_wildfly_8.2.1' do
-  command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-8.2.1.Final.tar.gz"
+execute 'extract_wildfly' do
+  command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-8.2.1.Final.tar.gz --strip-components 1"
   cwd "#{server_dir}"
   not_if { File.exists?(server_dir + "/README.txt") }
 end
+
+runit_service "unifiedpush-server" do
+  down node['unifiedpush']['unifiedpush-server']['ha']
+  options({
+    :log_directory => server_log_dir
+  }.merge(params))
+  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['unifiedpush-server'].to_hash)
+end
+
+if node['unifiedpush']['bootstrap']['enable']
+  execute "/opt/unifiedpush/bin/unifiedpush-ctl start unifiedpush-server" do
+    retries 20
+  end
+end
+

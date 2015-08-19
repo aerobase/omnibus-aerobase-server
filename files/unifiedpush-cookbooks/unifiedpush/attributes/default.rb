@@ -37,14 +37,12 @@ default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
 # Unifiedpush Server app
 ####
 default['unifiedpush']['unifiedpush-server']['enable'] = true
+default['unifiedpush']['unifiedpush-server']['ha'] = false
 default['unifiedpush']['unifiedpush-server']['dir'] = "/var/opt/unifiedpush/unifiedpush-server"
 default['unifiedpush']['unifiedpush-server']['log_directory'] = "/var/log/unifiedpush/unifiedpush-server"
 default['unifiedpush']['unifiedpush-server']['environment'] = 'production'
 default['unifiedpush']['unifiedpush-server']['env'] = {
   'SIDEKIQ_MEMORY_KILLER_MAX_RSS' => '1000000',
-  # Path to the Gemfile
-  # defaults to /opt/unifiedpush/embedded/service/unifiedpush-server/Gemfile. The install-dir path is set at build time
-  'BUNDLE_GEMFILE' => "#{node['package']['install-dir']}/embedded/service/unifiedpush-server/Gemfile",
   # PATH to set on the environment
   # defaults to /opt/unifiedpush/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"

@@ -57,7 +57,7 @@ end
 
 if node['unifiedpush']['unifiedpush-server']['enable']
   include_recipe "unifiedpush::users"
-  include_recipe "unifiedpush::unifiedpush-server"
+  #include_recipe "unifiedpush::unifiedpush-server"
 end
 
 # Install our runit instance
@@ -68,7 +68,8 @@ include_recipe "runit"
   "postgresql",
   "nginx",
   "logrotate",
-  "bootstrap"
+  "bootstrap",
+  "unifiedpush-server"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "unifiedpush::#{service}"
