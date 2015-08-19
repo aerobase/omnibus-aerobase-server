@@ -32,7 +32,7 @@ build_dir = "#{project_dir}"
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  command "mvn -T #{workers} clean install", env: env, cwd: build_dir
+  command "mvn -T #{workers} clean install"
 
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server"
 
