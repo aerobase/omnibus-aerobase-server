@@ -44,6 +44,13 @@ execute 'extract_wildfly' do
   not_if { File.exists?(server_dir + "/README.txt") }
 end
 
+template "#{server_dir}/standalone/standalone.conf" do
+  owner "root"
+  group node['unifiedpush']['user']['group']
+  mode 0755
+  source "wildfly.standalone.conf.erb"
+end
+
 runit_service "unifiedpush-server" do
   down node['unifiedpush']['unifiedpush-server']['ha']
   options({
