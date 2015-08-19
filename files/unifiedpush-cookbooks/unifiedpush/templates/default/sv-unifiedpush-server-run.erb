@@ -1,0 +1,4 @@
+#!/bin/sh
+exec 2>&1
+cd <%= node['unifiedpush']['unifiedpush-server']['dir'] %>
+exec chpst -P bin/standalone.sh
