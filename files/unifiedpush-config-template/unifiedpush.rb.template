@@ -7,14 +7,14 @@
 ####
 # The Unifiedpush User that services run as
 ####
-# The username for the unifiedpush services user
+## The username for the unifiedpush services user
 # user['username'] = "unifiedpush"
 # user['group'] = "unifiedpush"
 # user['uid'] = nil
 # user['gid'] = nil
-# The shell for the unifiedpush services user
+## The shell for the unifiedpush services user
 # user['shell'] = "/bin/sh"
-# The home directory for the unifiedpush services user
+## The home directory for the unifiedpush services user
 # user['home'] = "/var/opt/unifiedpush"
 
 ####
@@ -40,7 +40,7 @@
 # unifiedpush-server['db_username'] = "unifiedpush_server"
 # unifiedpush-server['db_password'] = "unifiedpush_server"
 #
-# Path to postgresql socket directory
+## Path to postgresql socket directory
 # unifiedpush-server['db_host'] = "/var/opt/unifiedpush/postgresql"
 # unifiedpush-server['db_port'] = 5432
 # unifiedpush-server['db_socket'] = nil
