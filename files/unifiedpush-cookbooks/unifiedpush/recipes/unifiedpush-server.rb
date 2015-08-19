@@ -34,5 +34,5 @@ end.run_action(:create)
 execute 'extract_wildfly_8.2.1' do
   command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-8.2.1.Final.tar.gz"
   cwd "#{server_dir}"
-  not_if { File.exists?(server_dir) }
+  not_if { File.exists?(server_dir + "/README.txt") }
 end
