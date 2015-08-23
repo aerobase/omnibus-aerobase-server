@@ -24,7 +24,7 @@ name "unifiedpush-package-scripts"
 default_version `git ls-tree HEAD -- config/templates/unifiedpush-package-scripts | awk '{ print $3 }'`
 
 build do
-  # Create the package-script folder. The gitlab.rb project excludes this folder from the package.
+  # Create the package-script folder. The unifiedpush.rb project excludes this folder from the package.
   command "mkdir -p #{install_dir}/.package_util/package-scripts"
 
   # Render the package script erb files
