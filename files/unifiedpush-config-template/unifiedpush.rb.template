@@ -1,4 +1,7 @@
-## Note: configuration settings below are optional.
+# Url on which GitLab will be reachable.
+external_url 'GENERATED_EXTERNAL_URL'
+
+# Note: configuration settings below are optional.
 ## Uncomment and change the value.
 ############################
 # unifiedpush.yml configuration #
@@ -20,32 +23,32 @@
 ####
 # Unifiedpush Applicaiton Server 
 ####
-# unifiedpush-server['enable'] = true
-# unifiedpush-server['ha'] = false
-# unifiedpush-server['dir'] = "/var/opt/unifiedpush/unifiedpush-server"
-# unifiedpush-server['log_directory'] = "/var/log/unifiedpush/unifiedpush-server"
-# unifiedpush-server['environment'] = 'production'
+# unifiedpush_server['enable'] = true
+# unifiedpush_server['ha'] = false
+# unifiedpush_server['dir'] = "/var/opt/unifiedpush/unifiedpush-server"
+# unifiedpush_server['log_directory'] = "/var/log/unifiedpush/unifiedpush-server"
+# unifiedpush_server['environment'] = 'production'
 #
-# unifiedpush-server['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
-# unifiedpush-server['server_host'] = node['fqdn']
-# unifiedpush-server['server_port'] = 80
-# unifiedpush-server['server_https'] = false
-# unifiedpush-server['time_zone'] = nil
+# unifiedpush_server['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
+# unifiedpush_server['server_host'] = node['fqdn']
+# unifiedpush_server['server_port'] = 80
+# unifiedpush_server['server_https'] = false
+# unifiedpush_server['time_zone'] = nil
 #
-# unifiedpush-server['backup_path'] = "/var/opt/unifiedpush/unifiedpush-server/backups"
-# unifiedpush-server['db_adapter'] = "postgresql"
-# unifiedpush-server['db_encoding'] = "unicode"
-# unifiedpush-server['db_database'] = "unifiedpush_server"
-# unifiedpush-server['db_pool'] = 10
-# unifiedpush-server['db_username'] = "unifiedpush_server"
-# unifiedpush-server['db_password'] = "unifiedpush_server"
+# unifiedpush_server['backup_path'] = "/var/opt/unifiedpush/unifiedpush-server/backups"
+# unifiedpush_server['db_adapter'] = "postgresql"
+# unifiedpush_server['db_encoding'] = "unicode"
+# unifiedpush_server['db_database'] = "unifiedpush_server"
+# unifiedpush_server['db_pool'] = 10
+# unifiedpush_server['db_username'] = "unifiedpush_server"
+# unifiedpush_server['db_password'] = "unifiedpush_server"
 #
 ## Path to postgresql socket directory
-# unifiedpush-server['db_host'] = "/var/opt/unifiedpush/postgresql"
-# unifiedpush-server['db_port'] = 5432
-# unifiedpush-server['db_socket'] = nil
-# unifiedpush-server['db_sslmode'] = nil
-# unifiedpush-server['db_sslrootcert'] = nil
+# unifiedpush_server['db_host'] = "/var/opt/unifiedpush/postgresql"
+# unifiedpush_server['db_port'] = 5432
+# unifiedpush_server['db_socket'] = nil
+# unifiedpush_server['db_sslmode'] = nil
+# unifiedpush+server['db_sslrootcert'] = nil
 
 ###
 # PostgreSQL
