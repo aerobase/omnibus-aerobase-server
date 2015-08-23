@@ -46,3 +46,4 @@
 software_gems ['omnibus-software']
 local_software_dirs ['~/Workspaces/C-B4-Unifiedpush/omnibus-software/']
 #local_software_dirs ['/path/to/local/software']
+append_timestamp false
