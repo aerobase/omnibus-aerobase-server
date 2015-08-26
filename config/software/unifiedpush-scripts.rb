@@ -17,8 +17,8 @@
 
 name "unifiedpush-scripts"
 
-source :path => File.expand_path("files/unifiedpush-scripts", Omnibus::Config.project_root)
-
 build do
-  copy "*", "#{install_dir}/embedded/bin/"
+  erb source: "symlink_ctl_cmds.erb",
+      dest: "#{install_dir}/embedded/bin/symlink_ctl_cmds",
+      mode: 0755
 end
