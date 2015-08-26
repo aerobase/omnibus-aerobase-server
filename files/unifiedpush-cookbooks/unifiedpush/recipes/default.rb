@@ -57,7 +57,6 @@ end
 
 if node['unifiedpush']['unifiedpush-server']['enable']
   include_recipe "unifiedpush::users"
-  #include_recipe "unifiedpush::unifiedpush-server"
 end
 
 # Install our runit instance
@@ -78,4 +77,5 @@ include_recipe "runit"
   end
 end
 
-include_recipe "unifiedpush::database_migrations"
+include_recipe "unifiedpush::database_setup"
+include_recipe "unifiedpush::database_schema"

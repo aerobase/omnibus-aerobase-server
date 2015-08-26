@@ -45,7 +45,7 @@ execute 'extract_wildfly' do
   not_if { File.exists?(server_dir + "/README.txt") }
 end
 
-template "#{server_dir}/standalone/bin/standalone.conf" do
+template "#{server_dir}/bin/standalone.conf" do
   owner "root"
   group node['unifiedpush']['user']['group']
   mode 0755
