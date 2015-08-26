@@ -15,17 +15,20 @@
 # limitations under the License.
 #
 
+install_dir = node['package']['install-dir']
+database_name = node['unifiedpush']['unifiedpush-server']['db_database']
+
 dependent_services = []
 #dependent_services << "service[unifiedpush-server]" if OmnibusHelper.should_notify?("unicorn")
 
 execute "initialize unifiedpush-server database" do
-  # Just a summy command to keep this recipe working
-  command "/sbin/sysctl -p /etc/sysctl.conf"
+  cwd "#{install_dir}/embedded/apps/unifiedpush/initdb/bin"
+  command "./init-unifiedpush-db.sh #{database_name}"
   action :nothing
 end
 
 execute "initialize keycloak-server database" do
-  # command "/opt/gitlab/bin/gitlab-ci-rake setup"
+  # just a dummy command - TODO create keyclock tables at installation time
   command "/sbin/sysctl -p /etc/sysctl.conf"
   action :nothing
 end
