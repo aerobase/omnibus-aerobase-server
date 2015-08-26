@@ -45,7 +45,7 @@ dependency "unifiedpush-ctl"
 dependency "unifiedpush-config-template"
 dependency "unifiedpush-scripts"
 dependency "unifiedpush-cookbooks"
-dependency "unifiedpush-package-scripts"
+dependency "package-scripts"
 
 # Version manifest file
 dependency "version-manifest"
@@ -53,3 +53,10 @@ dependency "version-manifest"
 exclude "**/.git"
 exclude "**/bundler/git"
 
+# Our package scripts are generated from .erb files,
+# so we will grab them from an excluded folder
+package_scripts_path "#{install_dir}/.package_util/package-scripts"
+exclude '.package_util'
+
+package_user 'root'
+package_group 'root'
