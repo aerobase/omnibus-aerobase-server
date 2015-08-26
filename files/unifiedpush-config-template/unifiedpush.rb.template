@@ -39,16 +39,18 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"
+# unifiedpush-server['db_keycloak_database'] = "keycloak_server"
 # unifiedpush_server['db_pool'] = 10
+## db_username, db_host, db_port oveeride PostgreSQL properties [sql_user, listen_address, port]
 # unifiedpush_server['db_username'] = "unifiedpush_server"
-# unifiedpush_server['db_password'] = "unifiedpush_server"
-#
+# unifiedpush_server['db_keycloak_database'] = "keycloak_server"
+# unifiedpush_server['db_password'] = nil
 ## Path to postgresql socket directory
 # unifiedpush_server['db_host'] = "/var/opt/unifiedpush/postgresql"
 # unifiedpush_server['db_port'] = 5432
 # unifiedpush_server['db_socket'] = nil
 # unifiedpush_server['db_sslmode'] = nil
-# unifiedpush+server['db_sslrootcert'] = nil
+# unifiedpush_server['db_sslrootcert'] = nil
 
 ###
 # PostgreSQL
@@ -59,7 +61,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
 # postgresql['log_directory'] = "/var/log/unifiedpush/postgresql"
 # postgresql['unix_socket_directory'] = "/var/opt/unifiedpush/postgresql"
-# postgresql['username'] = "unifiedpush-psql"
+# postgresql['username'] = "postgres-ups"
 # postgresql['uid'] = nil
 # postgresql['gid'] = nil
 # postgresql['shell'] = "/bin/sh"
@@ -68,10 +70,10 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
 # postgresql['sql_user'] = "unifiedpush_server"
 # postgresql['port'] = 5432
-# postgresql['listen_address'] = nil
+# postgresql['listen_address'] = 'localhost'
 # postgresql['max_connections'] = 200
 # postgresql['md5_auth_cidr_addresses'] = []
-# postgresql['trust_auth_cidr_addresses'] = []
+# postgresql['trust_auth_cidr_addresses'] = ['localhost']
 # postgresql['shmmax'] = kernel['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 # postgresql['shmall'] = kernel['machine'] =~ /x86_64/ ? 4194304 : 1048575
 # postgresql['shared_buffers'] = "2048MB"

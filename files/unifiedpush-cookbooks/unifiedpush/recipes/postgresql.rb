@@ -154,10 +154,12 @@ pg_port = node['unifiedpush']['postgresql']['port']
 pg_user = node['unifiedpush']['postgresql']['username']
 bin_dir = "/opt/unifiedpush/embedded/bin"
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
+keycloak_database_name = node['unifiedpush']['unifiedpush-server']['db_keycloak_database']
 
 databases = []
 if node['unifiedpush']['unifiedpush-server']['enable']
   databases << ['unifiedpush-server', database_name, node['unifiedpush']['postgresql']['sql_user']]
+  databases << ['keycloak-server', keycloak_database_name, node['unifiedpush']['postgresql']['sql_user']]
 end
 
 databases.each do |unifiedpush_app, db_name, sql_user|
@@ -174,6 +176,6 @@ databases.each do |unifiedpush_app, db_name, sql_user|
     user pg_user
     not_if { !pg_helper.is_running? || pg_helper.database_exists?(db_name) }
     retries 30
-    #notifies :run, "execute[initialize #{unifiedpush_app} database]", :immediately
+    notifies :run, "execute[initialize #{unifiedpush_app} database]", :immediately
   end
 end

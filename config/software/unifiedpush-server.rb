@@ -30,17 +30,21 @@ relative_path "unifiedpush-server"
 build_dir = "#{project_dir}"
 
 build do
-  env = with_standard_compiler_flags(with_embedded_path)
-
   command "mvn -T #{workers} clean install"
 
-  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server"
+  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush"
 
-  copy "#{project_dir}/servers/ups-wildfly/target/ag-push.war",      "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
-  copy "#{project_dir}/servers/auth-server/target/auth-server.war",  "#{install_dir}/embedded/apps/unifiedpush-server/auth-server.war"
+  copy "#{project_dir}/servers/ups-wildfly/target/unifiedpush-server.war",      "#{install_dir}/embedded/apps/unifiedpush/unifiedpush-server.war"
+  copy "#{project_dir}/servers/auth-server/target/auth-server.war",  "#{install_dir}/embedded/apps/unifiedpush/auth-server.war"
 
   erb source: "version.yml.erb",
-      dest: "#{install_dir}/embedded/apps/unifiedpush-server/version.yml",
+      dest: "#{install_dir}/embedded/apps/unifiedpush/version.yml",
       mode: 0644,
       vars: { default_version: default_version }
+end
+
+# Build initdb project to allow JPA based schema creation.
+build do
+  command "mvn -T #{workers} clean install -f databases/initdb/pom.xml"
+  command "tar xzf #{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz --strip-components 1 -C #{install_dir}/embedded/apps/unifiedpush/"
 end

@@ -60,9 +60,10 @@ default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
 default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"
 default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
+# db_username, db_host, db_port oveeride PostgreSQL properties [sql_user, listen_address, port]
 default['unifiedpush']['unifiedpush-server']['db_username'] = "unifiedpush_server"
-default['unifiedpush']['unifiedpush-server']['db_password'] = "unifiedpush_server"
-
+default['unifiedpush']['unifiedpush-server']['db_keycloak_database'] = "keycloak_server"
+default['unifiedpush']['unifiedpush-server']['db_password'] = nil
 # Path to postgresql socket directory
 default['unifiedpush']['unifiedpush-server']['db_host'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
@@ -79,7 +80,7 @@ default['unifiedpush']['postgresql']['dir'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
 default['unifiedpush']['postgresql']['log_directory'] = "/var/log/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['unix_socket_directory'] = "/var/opt/unifiedpush/postgresql"
-default['unifiedpush']['postgresql']['username'] = "unifiedpush-psql"
+default['unifiedpush']['postgresql']['username'] = "postgres-ups"
 default['unifiedpush']['postgresql']['uid'] = nil
 default['unifiedpush']['postgresql']['gid'] = nil
 default['unifiedpush']['postgresql']['shell'] = "/bin/sh"
@@ -89,10 +90,10 @@ default['unifiedpush']['postgresql']['home'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
 default['unifiedpush']['postgresql']['sql_user'] = "unifiedpush_server"
 default['unifiedpush']['postgresql']['port'] = 5432
-default['unifiedpush']['postgresql']['listen_address'] = nil
+default['unifiedpush']['postgresql']['listen_address'] = 'localhost'
 default['unifiedpush']['postgresql']['max_connections'] = 200
 default['unifiedpush']['postgresql']['md5_auth_cidr_addresses'] = []
-default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = []
+default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhsot']
 default['unifiedpush']['postgresql']['shmmax'] = kernel['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 default['unifiedpush']['postgresql']['shmall'] = kernel['machine'] =~ /x86_64/ ? 4194304 : 1048575
 

@@ -41,10 +41,11 @@ end
 execute 'extract_wildfly' do
   command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-8.2.1.Final.tar.gz --strip-components 1"
   cwd "#{server_dir}"
+
   not_if { File.exists?(server_dir + "/README.txt") }
 end
 
-template "#{server_dir}/standalone/standalone.conf" do
+template "#{server_dir}/standalone/bin/standalone.conf" do
   owner "root"
   group node['unifiedpush']['user']['group']
   mode 0755

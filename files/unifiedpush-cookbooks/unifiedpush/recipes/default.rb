@@ -77,3 +77,5 @@ include_recipe "runit"
     include_recipe "unifiedpush::#{service}_disable"
   end
 end
+
+include_recipe "unifiedpush::database_migrations"
