@@ -27,9 +27,9 @@ modules_dir = "#{server_dir}/modules/org/postgresql/main"
   modules_dir 
 ].each do |dir_name|
   directory dir_name do
-    owner 'root'
-    group node['unifiedpush']['user']['group']
-    mode '0775'
+    owner "root"
+    group "root"
+    mode 0775
     recursive true
   end
 end
@@ -37,7 +37,7 @@ end
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
   owner "root"
-  group node['unifiedpush']['user']['group']
+  group "root"
   mode 0755
   source "wildfly-standalone.conf.erb"
 end
@@ -45,16 +45,33 @@ end
 # Add postgres module
 template "#{modules_dir}/module.xml" do
   owner "root"
-  group node['unifiedpush']['user']['group']
+  group "root"
   mode 0755
   source "wildfly-postgres-module.xml.erb"
 end
 
-# Copy postgres driver
+# Copy postgres JDBC driver
 remote_file "Copy postgres driver file" do
   path "#{modules_dir}/postgresql-9.4-1201-jdbc41.jar"
   source "file://#{install_dir}/embedded/apps/unifiedpush/initdb/lib/postgresql-9.4-1201-jdbc41.jar"
   owner "root"
   group node['unifiedpush']['user']['group']
   mode 0755
+end
+
+# Replace standalone-full.xml with relevant datasource config
+template "#{server_dir}/standalone/configuration/standalone-full.xml" do
+  owner "root"
+  group "root"
+  mode 0755
+  source "wildfly-standalone-full.xml.erb"
+end
+
+# Link apps
+link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
+  to "#{install_dir}/embedded/apps/unifiedpush/unifiedpush-server.war"
+end
+
+link "#{server_dir}/standalone/deployments/auth-server.war" do
+  to "#{install_dir}/embedded/apps/unifiedpush/auth-server.war"
 end
