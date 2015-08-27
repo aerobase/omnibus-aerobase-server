@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Install omnibus
 # Omnibus gem (master) is used because tag 4.0.0 isn't stable.
 gem 'omnibus', github: 'chef/omnibus'
-gem 'omnibus-software', github: 'C-B4/omnibus-software'
+gem 'omnibus-software', github: 'C-B4/omnibus-software', branch: 'master'
 
 # Use Chef's software definitions. It is recommended that you write your own
 # software definitions, but you can clone/fork Chef's to get you started.

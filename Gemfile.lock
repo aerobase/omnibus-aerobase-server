@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/C-B4/omnibus-software.git
-  revision: dbee21bab05af699571608e3da9049d46c244411
+  revision: 99b9cb29e227ea1b4e486df6df51fb2020cdd280
+  branch: master
   specs:
     omnibus-software (4.0.0)
 
