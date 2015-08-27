@@ -62,9 +62,24 @@ end
 # Install our runit instance
 include_recipe "runit"
 
+# postgresql Configuraiton 
+[
+  "postgresql"
+].each do |service|
+  if node["unifiedpush"][service]["enable"]
+    include_recipe "unifiedpush::#{service}"
+  else
+    include_recipe "unifiedpush::#{service}_disable"
+  end
+end
+
+# Schema creation - either to embedded postgres or to external.
+# Schama must be configured before unifiedpush-server is started.
+include_recipe "unifiedpush::postgresql_database_setup"
+include_recipe "unifiedpush::postgresql_database_schema"
+
 # Configure Services
 [
-  "postgresql",
   "nginx",
   "logrotate",
   "bootstrap",
@@ -76,6 +91,3 @@ include_recipe "runit"
     include_recipe "unifiedpush::#{service}_disable"
   end
 end
-
-include_recipe "unifiedpush::database_setup"
-include_recipe "unifiedpush::database_schema"
