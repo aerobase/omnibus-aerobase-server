@@ -3,7 +3,7 @@ file_cache_path "#{CURRENT_PATH}/cache"
 cookbook_path CURRENT_PATH
 verbose_logging false
 ssl_verify_mode :verify_peer
-# Omnibus-GitLab only needs to know very little about the system it is running
+# Omnibus-Unifiedpush only needs to know very little about the system it is running
 # on. We want to disable as many Ohai plugins as we can to avoid plugin bugs
 # and speed up 'unifiedpush-ctl reconfigure'.
 #

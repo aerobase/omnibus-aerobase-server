@@ -1,4 +1,4 @@
-# Url on which GitLab will be reachable.
+# Url on which Unifiedpush will be reachable.
 external_url 'GENERATED_EXTERNAL_URL'
 
 # Note: configuration settings below are optional.
