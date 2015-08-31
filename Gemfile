@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 # Omnibus gem (master) is used because tag 4.0.0 isn't stable.
 gem 'omnibus', github: 'chef/omnibus'
 gem 'omnibus-software', github: 'C-B4/omnibus-software', branch: 'master'
-
 gem 'json'
 
 # Use Chef's software definitions. It is recommended that you write your own
@@ -16,11 +15,11 @@ gem 'json'
 # the Test Kitchen-based build lab. You can skip these unnecessary dependencies
 # by running `bundle install --without development` to speed up build times.
 
-#group :development do
+group :development do
   # Use Berkshelf for resolving cookbook dependencies
-#  gem 'berkshelf', '~> 3.0'
+  gem 'berkshelf', '~> 3.0'
 
   # Use Test Kitchen with Vagrant for converging the build environment
-#  gem 'test-kitchen',    '~> 1.2'
-#  gem 'kitchen-vagrant', '~> 0.14'
-#end
+  gem 'test-kitchen',    '~> 1.2'
+  gem 'kitchen-vagrant', '~> 0.14'
+end
