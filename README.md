@@ -9,7 +9,7 @@ only when runing under non root user.
 
 ```shell
 sudo mkdir -p /opt/unifiedpush-server /var/cache/omnibus
-sudo chown USER:USER /opt/unifiedpush-server
+sudo chown USER:USER /opt/unifiedpush
 sudo chown USER:USER /var/cache/omnibus
 ```
 
@@ -25,7 +25,7 @@ gem install bundler
 ```
 
 ```shell
-$ bundle install --binstubs
+$ bundle install --without development --binstubs
 ```
 
 Usage
