@@ -1,7 +1,10 @@
-unifiedpush-server Omnibus project
+Unifiedpush Server Omnibus
 ==================================
-This project creates full-stack platform-specific packages for
-`unifiedpush-server`!
+This project creates full-stack platform-specific packages for `unifiedpush-server`!
+
+Download Binaries
+------------
+Please follow the steps on the [downloads page](https://packagecloud.io/unifiedpush/unifiedpush-server/install)
 
 Preperation 
 ------------
