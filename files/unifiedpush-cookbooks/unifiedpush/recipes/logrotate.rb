@@ -26,6 +26,7 @@ logrotate_d_dir = File.join(logrotate_dir, 'logrotate.d')
 ].each do |dir|
   directory dir do
     mode "0700"
+    recursive true
   end
 end
 
