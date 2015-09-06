@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/C-B4/omnibus-software.git
-  revision: 4eed4181daecbfb4f80fc0c69fc17a5596e28afb
+  revision: e77129e85b2750b2d70fb515230d51e095e2c3a6
   branch: master
   specs:
     omnibus-software (4.0.0)
@@ -24,12 +24,12 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.8)
-    aws-sdk (2.1.18)
-      aws-sdk-resources (= 2.1.18)
-    aws-sdk-core (2.1.18)
+    aws-sdk (2.1.19)
+      aws-sdk-resources (= 2.1.19)
+    aws-sdk-core (2.1.19)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.1.18)
-      aws-sdk-core (= 2.1.18)
+    aws-sdk-resources (2.1.19)
+      aws-sdk-core (= 2.1.19)
     berkshelf (3.3.0)
       addressable (~> 2.3.4)
       berkshelf-api-client (~> 1.2)
@@ -63,6 +63,9 @@ GEM
     celluloid-io (0.16.2)
       celluloid (>= 0.16.0)
       nio4r (>= 1.1.0)
+    chef-config (12.5.0.alpha.1)
+      mixlib-config (~> 2.0)
+      mixlib-shellout (~> 2.0)
     chef-sugar (3.1.1)
     cleanroom (1.0.0)
     dep-selector-libgecode (1.0.2)
@@ -92,7 +95,7 @@ GEM
     mixlib-cli (1.5.0)
     mixlib-config (2.2.1)
     mixlib-log (1.6.0)
-    mixlib-shellout (2.1.0)
+    mixlib-shellout (2.2.0)
     mixlib-versioning (1.1.0)
     multi_json (1.11.2)
     multipart-post (2.0.0)
@@ -103,7 +106,8 @@ GEM
     nio4r (1.1.1)
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
-    ohai (8.5.1)
+    ohai (8.6.0)
+      chef-config (>= 12.5.0.alpha.1, < 13)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
       ipaddress
