@@ -71,10 +71,15 @@ default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
 
+default['unifiedpush']['unifiedpush-server']['inst_verification'] = false
+default['unifiedpush']['unifiedpush-server']['inst_verification_class'] = "org.jboss.aerogear.unifiedpush.service.sms.ClickatellSMSSender"
+default['unifiedpush']['unifiedpush-server']['inst_verification_properties'] = []
+# Example - Additinal properties will be passed into verification class`
+# ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8']
+
 ###
 # PostgreSQL
 ###
-default['unifiedpush']['postgresql']['enable'] = true
 default['unifiedpush']['postgresql']['ha'] = false
 default['unifiedpush']['postgresql']['dir'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['data_dir'] = "/var/opt/unifiedpush/postgresql/data"

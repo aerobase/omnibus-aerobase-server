@@ -21,6 +21,7 @@ require 'openssl'
 # DO NOT change this value unless you are building your own Unifiedpush packages
 install_dir = node['package']['install-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
+config_dir = "#{install_dir}/embedded/etc"
 
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
@@ -46,6 +47,13 @@ execute 'extract_wildfly' do
 end
 
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
+
+template "#{config_dir}/unifiedpush-server.properties" do
+  source "unifiedpush-server.properties.erb"
+  owner 'root'
+  mode "0644"
+  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
+end
 
 runit_service "unifiedpush-server" do
   down node['unifiedpush']['unifiedpush-server']['ha']

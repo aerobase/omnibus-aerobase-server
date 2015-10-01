@@ -69,4 +69,7 @@ fi
 # when you get "epoll_create function not implemented" message in dmesg output
 #JAVA_OPTS="$JAVA_OPTS -Djava.nio.channels.spi.SelectorProvider=sun.nio.ch.PollSelectorProvider"
 
+# Load Application properties from a local file.
+JAVA_OPTS="$JAVA_OPTS -Daerogear.config=/opt/unifiedpush/embedded/etc/unifiedpush-server.properties"
+
 LAUNCH_JBOSS_IN_BACKGROUND=1 

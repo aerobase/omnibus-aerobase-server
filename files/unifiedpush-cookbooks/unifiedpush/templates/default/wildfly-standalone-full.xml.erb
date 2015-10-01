@@ -266,6 +266,11 @@
             <buffer-pool name="default"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:infinispan:2.0">
+            <cache-container name="installation-verification" default-cache="verification" module="org.jboss.as.clustering.web.infinispan">
+                <local-cache name="verification" batching="true">
+                    <file-store passivation="true" purge="false"/>
+                </local-cache>
+            </cache-container>
             <cache-container name="web" default-cache="passivation" module="org.wildfly.clustering.web.infinispan">
                 <local-cache name="passivation" batching="true">
                     <file-store passivation="true" purge="false"/>
