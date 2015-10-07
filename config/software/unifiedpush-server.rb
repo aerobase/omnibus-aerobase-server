@@ -30,7 +30,7 @@ relative_path "unifiedpush-server"
 build_dir = "#{project_dir}"
 
 build do
-  command "mvn -T #{workers} clean install"
+  command "mvn clean install"
 
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush"
 
