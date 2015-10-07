@@ -45,6 +45,6 @@ end
 
 # Build initdb project to allow JPA based schema creation.
 build do
-  command "mvn -T #{workers} clean install -f databases/initdb/pom.xml"
+  command "mvn clean install -f databases/initdb/pom.xml"
   command "tar xzf #{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz --strip-components 1 -C #{install_dir}/embedded/apps/unifiedpush/"
 end
