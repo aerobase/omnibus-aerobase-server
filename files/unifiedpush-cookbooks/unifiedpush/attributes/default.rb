@@ -80,6 +80,7 @@ default['unifiedpush']['unifiedpush-server']['inst_verification_properties'] = [
 ###
 # PostgreSQL
 ###
+default['unifiedpush']['postgresql']['enable'] = true
 default['unifiedpush']['postgresql']['ha'] = false
 default['unifiedpush']['postgresql']['dir'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
