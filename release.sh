@@ -11,9 +11,9 @@ make do_release 2>&1 | tee -a /tmp/${build}.log
 
 # Check the exit status of `make`, not `tee`
 if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
-  subject="omnibus-gitlab build ${build} SUCCESS"
+  subject="unififedpush-server build ${build} SUCCESS"
 else
-  subject="omnibus-gitlab build ${build} FAIL"
+  subject="unififedpush-serverbuild ${build} FAIL"
 fi
 
 # We assume that email to the current system user will somehow reach the right
