@@ -48,6 +48,7 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"
 }
 
+default['unifiedpush']['unifiedpush-server']['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
 default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
 default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['server_port'] = 80
