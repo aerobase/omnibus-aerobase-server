@@ -25,11 +25,15 @@ config_dir = "#{install_dir}/embedded/etc"
 
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
+server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory']
+server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
 
 # These directories do not need to be writable for unifiedpush-server
 [ 
   server_dir,
-  server_log_dir
+  server_log_dir,
+  server_doc_dir, 
+  server_upl_dir
 ].each do |dir_name|
   directory dir_name do
     owner 'root'
