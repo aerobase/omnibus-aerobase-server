@@ -1,10 +1,10 @@
+# Documents deployment path
+aerogear.config.document.path.root=<%= @documents_directory %>
+
 # SMS Verification properties
-aerogear.config.sms.enable_verification=<%= @inst_verification %>
-aerogear.config.sms.impl.class=<%= @inst_verification_class %>
+aerogear.config.verification.enable_verification=<%= @inst_verification %>
+aerogear.config.verification.impl.class=<%= @inst_verification_class %>
 
 <% node['unifiedpush']['unifiedpush-server']['inst_verification_properties'].each do |prop| %>
 <%= prop %>
 <% end %>
-
-# Documents deployment path
-aerogear.config.document.path.root=<%= @documents_directory %>
