@@ -4,7 +4,7 @@ This project creates full-stack platform-specific packages for `unifiedpush-serv
 
 Download Binaries
 ------------
-Please follow the steps on the [downloads page](https://packagecloud.io/unifiedpush/unifiedpush-server/install)
+Please follow the steps on the [downloads page](https://github.com/C-B4/unifiedpush-server/wiki/Unifiedpush-Installation)
 
 Preperation 
 ------------
