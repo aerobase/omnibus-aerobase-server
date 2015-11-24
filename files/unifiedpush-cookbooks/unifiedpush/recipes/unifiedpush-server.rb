@@ -21,12 +21,12 @@ require 'openssl'
 # DO NOT change this value unless you are building your own Unifiedpush packages
 install_dir = node['package']['install-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
-config_dir = "#{install_dir}/embedded/etc"
 
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
 server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory']
 server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
+server_conf_dir = "#{server_dir}/standalone/configuration"
 
 # These directories do not need to be writable for unifiedpush-server
 [ 
@@ -52,7 +52,7 @@ end
 
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
 
-template "#{config_dir}/unifiedpush-server.properties" do
+template "#{server_conf_dir}/unifiedpush-server.properties" do
   source "unifiedpush-server.properties.erb"
   owner 'root'
   mode "0644"

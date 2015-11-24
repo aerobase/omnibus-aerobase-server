@@ -34,12 +34,15 @@ modules_dir = "#{server_dir}/modules/org/postgresql/main"
   end
 end
 
+unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
+ 
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
   owner "root"
   group "root"
   mode 0755
   source "wildfly-standalone.conf.erb"
+  variables(unifiedpush_vars)
 end
 
 # Add postgres module
@@ -60,8 +63,6 @@ remote_file "Copy postgres driver file" do
 end
 
 # Include additional config properties for unifiedpush-server in standalone-full.xml
-unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
-
 if unifiedpush_vars['server_https']
   unifiedpush_vars = unifiedpush_vars.merge(
     {
