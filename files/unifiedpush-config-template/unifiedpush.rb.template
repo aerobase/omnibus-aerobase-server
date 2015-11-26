@@ -95,9 +95,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['checkpoint_warning'] = "30s"
 
 
-####################
-# GitLab Web server #
-#####################
+####
+# Web server
+####
 ## see: https://github.com/C-B4/omnibus-unifiedpush-server/blob/master/doc/settings/nginx.md#using-a-non-bundled-web-server
 ## When bundled nginx is disabled we need to add the external webserver user to the Unifiedpush webserver group.
 # web_server['external_users'] = []
