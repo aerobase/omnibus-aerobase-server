@@ -128,7 +128,7 @@ See
 
 ### Setting the NGINX listen address or addresses
 
-See [doc/settings/nginx.md](nginx.md).
+See [doc/settings/nginx.md](nginx.md#setting-the-nginx-listen-address-or-addresses).
 
 ### Inserting custom NGINX settings into the Unifiedpush server block
 
