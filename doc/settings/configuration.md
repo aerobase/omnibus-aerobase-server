@@ -13,7 +13,7 @@ it needs to know the URL under which it is reached by your users, e.g.
 `/etc/Unifiedpush/Unifiedpush.rb`:
 
 ```ruby
-external_url "http://unifiedpush.example.com"
+external_url "http://ups.example.com"
 ```
 
 Run `sudo unifiedpush-ctl reconfigure` for the change to take effect.
