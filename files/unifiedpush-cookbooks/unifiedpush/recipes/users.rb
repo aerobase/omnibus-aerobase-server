@@ -15,25 +15,24 @@
 # limitations under the License.
 #
 
-unifiedpush_username = node['unifiedpush']['user']['username']
-unifiedpush_group = node['unifiedpush']['user']['group']
+account_helper = AccountHelper.new(node)
+
+unifiedpush_username = account_helper.unifiedpush_user
+unifiedpush_group = account_helper.unifiedpush_group
+
 unifiedpush_home = node['unifiedpush']['user']['home']
 
 directory unifiedpush_home do
   recursive true
 end
 
-# Create the group for the unifiedpush user
-group unifiedpush_group do
+account "Unifiedpush user and group" do
+  username unifiedpush_username
+  uid node['unifiedpush']['user']['uid']
+  ugid unifiedpush_group
+  groupname unifiedpush_group
   gid node['unifiedpush']['user']['gid']
-  system true
-end
-
-# Create the unifiedpush user
-user unifiedpush_username do
   shell node['unifiedpush']['user']['shell']
   home unifiedpush_home
-  uid node['unifiedpush']['user']['uid']
-  gid unifiedpush_group
-  system true
+  manage node['unifiedpush']['manage-accounts']['enable']
 end

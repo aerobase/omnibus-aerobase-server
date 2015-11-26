@@ -15,27 +15,27 @@
 # limitations under the License.
 #
 
+account_helper = AccountHelper.new(node)
+
 postgresql_dir = node['unifiedpush']['postgresql']['dir']
 postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
 postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
-postgresql_user = node['unifiedpush']['postgresql']['username']
+postgresql_user = account_helper.postgresgl_user
 
-group postgresql_user do
+account "Postgresql user and group" do
+  username postgresql_user
+  uid node['unifiedpush']['postgresql']['uid']
+  ugid postgresql_user
+  groupname postgresql_user
   gid node['unifiedpush']['postgresql']['gid']
-  system true
-end
-
-user postgresql_user do
-  uid  node['unifiedpush']['postgresql']['uid']
-  gid postgresql_user
-  system true
   shell node['unifiedpush']['postgresql']['shell']
   home node['unifiedpush']['postgresql']['home']
+  manage node['unifiedpush']['manage-accounts']['enable']
 end
 
 directory postgresql_dir do
-  owner node['unifiedpush']['postgresql']['username']
+  owner postgresql_user
   mode "0755"
   recursive true
 end

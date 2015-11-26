@@ -28,6 +28,9 @@ server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory'
 server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
 server_conf_dir = "#{server_dir}/standalone/configuration"
 
+account_helper = AccountHelper.new(node)
+unifiedpush_group = account_helper.unifiedpush_group
+
 # These directories do not need to be writable for unifiedpush-server
 [ 
   server_dir,
@@ -37,7 +40,7 @@ server_conf_dir = "#{server_dir}/standalone/configuration"
 ].each do |dir_name|
   directory dir_name do
     owner 'root'
-    group node['unifiedpush']['user']['group']
+    group unifiedpush_group
     mode '0775'
     recursive true
   end

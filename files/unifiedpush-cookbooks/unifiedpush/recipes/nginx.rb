@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+account_helper = AccountHelper.new(node)
+
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
@@ -27,7 +29,7 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 ].each do |dir_name|
   directory dir_name do
     owner 'root'
-    group node['unifiedpush']['user']['group']
+    group account_helper.web_server_group
     mode '0750'
     recursive true
   end
