@@ -12,12 +12,12 @@
 ## Configuring
 
 - [Configuring the external url](settings/configuration.md#configuring-the-external-url-for-gitlab)
-- [Only start unifiedpush-ctl services after a given filesystem is mounted](settings/configuration.md#)
-- [NGINX](settings/nginx.md)
-- [Logs](settings/logs.md)
-- [Database](settings/database.md)
 - [Environment variables](settings/environment-variables.md)
+- [NGINX](settings/nginx.md)
+- [Database](settings/database.md)
 - [Backups](settings/backups.md)
+- [Logs](settings/logs.md)
+- [Only start unifiedpush-ctl services after a given filesystem is mounted](settings/configuration.md#)
 
 ## Updating
 
