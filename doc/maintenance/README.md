@@ -44,5 +44,5 @@ Note that on a single-core server it may take up to a minute to restart Unifiedp
 It is also possible to start, stop or restart individual components.
 
 ```shell
-sudo unifiedpush-ctl restart unifiedpush
+sudo unifiedpush-ctl restart nginx
 ```
