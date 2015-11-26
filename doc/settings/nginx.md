@@ -57,3 +57,20 @@ By default NGINX will accept incoming connections on all local IPv4 addresses. Y
 By default NGINX will listen on the port specified in external_url or implicitly use the right port (80 for HTTP, 443 for HTTPS). If you are running Unifiedpush behind a reverse proxy, you may want to override the listen port to something else. For example, to use port 8181:
 `nginx['listen_port'] = 8181`
 
+## Using a non-bundled web-server
+
+By default, omnibus-unifiedpush installs Unifiedpush with bundled Nginx.
+Omnibus-unifiedpush allows webserver access through user `unifiedpush-www` which resides
+in the group with the same name. To allow an external webserver access to
+Unifiedpush, external webserver user needs to be added `unifiedpush-www` group.
+
+To use another web server like Apache or an existing Nginx installation you
+will have to perform the following steps:
+
+1. **Disable bundled Nginx**
+
+    In `/etc/unifiedpush/unifiedpush.rb` set:
+
+    ```ruby
+    nginx['enable'] = false
+    ```
