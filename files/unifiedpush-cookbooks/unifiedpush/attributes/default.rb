@@ -19,11 +19,13 @@
 # omnibus options
 ####
 default['unifiedpush']['bootstrap']['enable'] = true
+# create users and groups needed for the package
+default['unifiedpush']['manage-accounts']['enable'] = true
 
 ####
-# The Unifiedpush User that services run as
+## The Unifiedpush User that services run as
 ####
-# The username for the unifiedpush services user
+# The Unifiedpush User that services run as
 default['unifiedpush']['user']['username'] = "unifiedpush"
 default['unifiedpush']['user']['group'] = "unifiedpush"
 default['unifiedpush']['user']['uid'] = nil
