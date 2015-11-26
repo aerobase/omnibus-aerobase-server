@@ -78,6 +78,8 @@ end
 include_recipe "unifiedpush::postgresql_database_setup"
 include_recipe "unifiedpush::postgresql_database_schema"
 
+include_recipe "unifiedpush::web-server"
+
 # Configure Services
 [
   "nginx",

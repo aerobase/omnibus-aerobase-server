@@ -2,7 +2,7 @@
 # erased! To change the contents below, edit /etc/unifiedpush/unifiedpush.rb
 # and run `sudo unifiedpush-ctl reconfigure`.
 
-user <%= node['unifiedpush']['user']['username'] %> <%= node['unifiedpush']['user']['group']%>;
+user <%= node['unifiedpush']['web-server']['username'] %> <%= node['unifiedpush']['web-server']['group']%>;
 worker_processes <%= @worker_processes %>;
 error_log stderr;
 pid nginx.pid;

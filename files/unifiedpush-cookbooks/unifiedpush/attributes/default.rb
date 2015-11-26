@@ -122,6 +122,19 @@ default['unifiedpush']['postgresql']['checkpoint_completion_target'] = 0.9
 default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
 
 ####
+# Web server
+####
+# Username for the webserver user
+default['unifiedpush']['web-server']['username'] = 'unifiedpush-www'
+default['unifiedpush']['web-server']['group'] = 'unifiedpush-www'
+default['unifiedpush']['web-server']['uid'] = nil
+default['unifiedpush']['web-server']['gid'] = nil
+default['unifiedpush']['web-server']['shell'] = '/bin/false'
+default['unifiedpush']['web-server']['home'] = '/var/opt/unifiedpush/nginx'
+# When bundled nginx is disabled we need to add the external webserver user to the Unifiedpush webserver group
+default['unifiedpush']['web-server']['external_users'] = []
+
+####
 #NGINX
 ####
 default['unifiedpush']['nginx']['enable'] = true
