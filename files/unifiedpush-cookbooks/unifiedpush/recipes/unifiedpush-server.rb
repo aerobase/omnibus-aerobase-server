@@ -40,7 +40,7 @@ unifiedpush_user = account_helper.unifiedpush_user
 ].each do |dir_name|
   directory dir_name do
     owner 'root'
-    group unifiedpush_group
+    group unifiedpush_user
     mode '0775'
     recursive true
   end

@@ -35,7 +35,7 @@ if node['unifiedpush']['unifiedpush-server']['enable']
 end
 
 databases.each do |unifiedpush_app, db_name, sql_user|
-  execute "create #{sql_user} database user" do
+  execute "create user #{sql_user} for database #{db_name}" do
     command "#{bin_dir}/psql --port #{pg_port} -h #{postgresql_socket_dir} -d template1 -c \"CREATE USER #{sql_user}\""
     user pg_user
     # Added retries to give the service time to start on slower systems

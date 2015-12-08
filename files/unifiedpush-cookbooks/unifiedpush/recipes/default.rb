@@ -39,14 +39,6 @@ if File.exists?("/var/opt/unifiedpush/bootstrapped")
   node.set['unifiedpush']['bootstrap']['enable'] = false
 end
 
-directory "/var/opt/unifiedpush" do
-  owner "root"
-  group "root"
-  mode "0755"
-  recursive true
-  action :create
-end
-
 directory "#{install_dir}/embedded/etc" do
   owner "root"
   group "root"
