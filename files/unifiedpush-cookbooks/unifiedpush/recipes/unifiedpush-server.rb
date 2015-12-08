@@ -39,8 +39,8 @@ unifiedpush_user = account_helper.unifiedpush_user
   server_upl_dir
 ].each do |dir_name|
   directory dir_name do
-    owner 'root'
-    group unifiedpush_user
+    owner unifiedpush_user
+    group 'root'
     mode '0775'
     recursive true
   end
@@ -51,11 +51,6 @@ execute 'extract_wildfly' do
   cwd "#{server_dir}"
 
   not_if { File.exists?(server_dir + "/README.txt") }
-end
-
-execute "chown-unifiedpush-server" do
-  command "chown -R #{unifiedpush_user}:root #{server_dir}"
-  action :run
 end
 
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
