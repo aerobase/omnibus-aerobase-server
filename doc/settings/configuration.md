@@ -117,7 +117,7 @@ See
 
 For using an existing Nginx, Passenger, or Apache webserver see [doc/settings/nginx.md](nginx.md#using-a-non-bundled-web-server).
 
-## Using a non-packaged PostgreSQL database management server
+### Using a non-packaged PostgreSQL database management server
 
 To connect to an external PostgreSQL or MySQL DBMS see [doc/settings/database.md](database.md).
 
