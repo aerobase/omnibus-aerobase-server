@@ -22,12 +22,15 @@ install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 modules_dir = "#{server_dir}/modules/org/postgresql/main"
 
+account_helper = AccountHelper.new(node)
+unifiedpush_user = account_helper.unifiedpush_user
+
 # These directories do not need to be writable for unifiedpush-server
 [
   modules_dir 
 ].each do |dir_name|
   directory dir_name do
-    owner "root"
+    owner unifiedpush_user
     group "root"
     mode 0775
     recursive true
@@ -38,7 +41,7 @@ unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
  
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
-  owner "root"
+  owner unifiedpush_user
   group "root"
   mode 0755
   source "wildfly-standalone.conf.erb"
@@ -47,7 +50,7 @@ end
 
 # Add postgres module
 template "#{modules_dir}/module.xml" do
-  owner "root"
+  owner unifiedpush_user
   group "root"
   mode 0755
   source "wildfly-postgres-module.xml.erb"
@@ -57,8 +60,8 @@ end
 remote_file "Copy postgres driver file" do
   path "#{modules_dir}/postgresql-9.4-1201-jdbc41.jar"
   source "file://#{install_dir}/embedded/apps/unifiedpush/initdb/lib/postgresql-9.4-1201-jdbc41.jar"
-  owner "root"
-  group node['unifiedpush']['user']['group']
+  owner unifiedpush_user
+  group 'root'
   mode 0755
 end
 
@@ -74,7 +77,7 @@ end
 
 # Replace standalone-full.xml with relevant datasource config
 template "#{server_dir}/standalone/configuration/standalone-full.xml" do
-  owner "root"
+  owner unifiedpush_user
   group "root"
   mode 0755
   source "wildfly-standalone-full.xml.erb"

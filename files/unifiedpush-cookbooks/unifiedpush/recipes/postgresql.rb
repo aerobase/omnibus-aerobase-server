@@ -45,7 +45,7 @@ end
   postgresql_log_dir
 ].each do |dir|
   directory dir do
-    owner node['unifiedpush']['postgresql']['username']
+    owner postgresql_user
     mode "0700"
     recursive true
   end
@@ -57,7 +57,7 @@ link postgresql_data_dir_symlink do
 end
 
 file File.join(node['unifiedpush']['postgresql']['home'], ".profile") do
-  owner node['unifiedpush']['postgresql']['username']
+  owner postgresql_user
   mode "0600"
   content <<-EOH
 PATH=#{node['unifiedpush']['postgresql']['user_path']}
@@ -96,7 +96,7 @@ else
 end
 
 execute "/opt/unifiedpush/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
-  user node['unifiedpush']['postgresql']['username']
+  user postgresql_user
   not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
 end
 
@@ -104,7 +104,7 @@ postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
 
 template postgresql_config do
   source "postgresql.conf.erb"
-  owner node['unifiedpush']['postgresql']['username']
+  owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
   notifies :restart, 'service[postgresql]', :immediately if OmnibusHelper.should_notify?("postgresql")
@@ -114,14 +114,14 @@ pg_hba_config = File.join(postgresql_data_dir, "pg_hba.conf")
 
 template pg_hba_config do
   source "pg_hba.conf.erb"
-  owner node['unifiedpush']['postgresql']['username']
+  owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
   notifies :restart, 'service[postgresql]', :immediately if OmnibusHelper.should_notify?("postgresql")
 end
 
 template File.join(postgresql_data_dir, "pg_ident.conf") do
-  owner node['unifiedpush']['postgresql']['username']
+  owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
   notifies :restart, 'service[postgresql]' if OmnibusHelper.should_notify?("postgresql")

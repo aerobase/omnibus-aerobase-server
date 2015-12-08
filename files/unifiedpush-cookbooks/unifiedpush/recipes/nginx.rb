@@ -28,8 +28,8 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
   nginx_log_dir,
 ].each do |dir_name|
   directory dir_name do
-    owner 'root'
-    group account_helper.web_server_group
+    owner account_helper.web_server_user
+    group 'root'
     mode '0750'
     recursive true
   end

@@ -68,7 +68,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
 # postgresql['log_directory'] = "/var/log/unifiedpush/postgresql"
 # postgresql['unix_socket_directory'] = "/var/opt/unifiedpush/postgresql"
-# postgresql['username'] = "postgres-ups"
+# postgresql['username'] = "unifiedpush-pgs"
 # postgresql['uid'] = nil
 # postgresql['gid'] = nil
 # postgresql['shell'] = "/bin/sh"
@@ -100,13 +100,14 @@ external_url 'GENERATED_EXTERNAL_URL'
 ####
 ## see: https://github.com/C-B4/omnibus-unifiedpush-server/blob/master/doc/settings/nginx.md#using-a-non-bundled-web-server
 ## When bundled nginx is disabled we need to add the external webserver user to the Unifiedpush webserver group.
-# web_server['external_users'] = []
 # web_server['username'] = 'unifiedpush-www'
 # web_server['group'] = 'unifiedpush-www'
 # web_server['uid'] = nil
 # web_server['gid'] = nil
 # web_server['shell'] = '/bin/false'
 # web_server['home'] = '/var/opt/unifiedpush/nginx'
+# web_server['external_users'] = []
+
 
 ####
 #NGINX

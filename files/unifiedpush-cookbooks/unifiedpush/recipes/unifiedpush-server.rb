@@ -29,7 +29,7 @@ server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
 server_conf_dir = "#{server_dir}/standalone/configuration"
 
 account_helper = AccountHelper.new(node)
-unifiedpush_group = account_helper.unifiedpush_group
+unifiedpush_user = account_helper.unifiedpush_user
 
 # These directories do not need to be writable for unifiedpush-server
 [ 
@@ -53,11 +53,16 @@ execute 'extract_wildfly' do
   not_if { File.exists?(server_dir + "/README.txt") }
 end
 
+execute "chown-unifiedpush-server" do
+  command "chown -R #{unifiedpush_user}:root #{server_dir}"
+  action :run
+end
+
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
 
 template "#{server_conf_dir}/unifiedpush-server.properties" do
   source "unifiedpush-server.properties.erb"
-  owner 'root'
+  owner unifiedpush_user
   mode "0644"
   variables(node['unifiedpush']['unifiedpush-server'].to_hash)
 end
