@@ -53,6 +53,11 @@ execute 'extract_wildfly' do
   not_if { File.exists?(server_dir + "/README.txt") }
 end
 
+execute "chown-unifiedpush-server" do
+  command "chown -R #{unifiedpush_user}:root #{server_dir}"
+  action :run
+end
+
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
 
 template "#{server_conf_dir}/unifiedpush-server.properties" do
