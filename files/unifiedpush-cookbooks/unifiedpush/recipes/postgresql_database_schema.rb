@@ -29,6 +29,6 @@ end
 
 execute "initialize keycloak-server database" do
   # just a dummy command - TODO create keyclock tables at installation time
-  command "/sbin/sysctl -p /etc/sysctl.conf"
+  command "/sbin/sysctl -e -p /etc/sysctl.conf"
   action :nothing
 end
