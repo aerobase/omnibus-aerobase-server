@@ -72,6 +72,14 @@ sysctl "kernel.shmall" do
   value node['unifiedpush']['postgresql']['shmall']
 end
 
+sem = "#{node['unifiedpush']['postgresql']['semmsl']} "
+sem += "#{node['unifiedpush']['postgresql']['semmns']} "
+sem += "#{node['unifiedpush']['postgresql']['semopm']} "
+sem += "#{node['unifiedpush']['postgresql']['semmni']}"
+sysctl "kernel.sem" do
+  value sem
+end
+
 execute "/opt/unifiedpush/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
   user postgresql_user
   not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }

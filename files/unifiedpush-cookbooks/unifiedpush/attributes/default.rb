@@ -106,6 +106,10 @@ default['unifiedpush']['postgresql']['md5_auth_cidr_addresses'] = []
 default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhost']
 default['unifiedpush']['postgresql']['shmmax'] = kernel['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 default['unifiedpush']['postgresql']['shmall'] = kernel['machine'] =~ /x86_64/ ? 4194304 : 1048575
+default['unifiedpush']['postgresql']['semmsl'] = 250
+default['unifiedpush']['postgresql']['semmns'] = 32000
+default['unifiedpush']['postgresql']['semopm'] = 32
+default['unifiedpush']['postgresql']['semmni'] = ((node['unifiedpush']['postgresql']['max_connections'].to_i / 16) + 250)
 
 # Resolves CHEF-3889
 if (node['memory']['total'].to_i / 4) > ((node['unifiedpush']['postgresql']['shmmax'].to_i / 1024) - 2097152)
