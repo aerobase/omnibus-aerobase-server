@@ -16,7 +16,7 @@
 #
 
 name "unifiedpush-server"
-default_version "1.1.x"
+default_version "1.1.1.Final"
 
 dependency "ruby"
 dependency "bundler"
