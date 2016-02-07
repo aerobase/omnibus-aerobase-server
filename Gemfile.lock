@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/C-B4/omnibus-software.git
-  revision: 842ff07228b3d3f15bd07714b5b39bce6c7a1c82
-  tag: 1.1.1+Final.0
+  revision: e210cdf2e56948da3c6d93ee6bc267723cc984ad
+  branch: 1.1.x
   specs:
     omnibus-software (4.0.0)
 
@@ -68,7 +68,7 @@ GEM
       mixlib-shellout (~> 2.0)
     chef-sugar (3.3.0)
     cleanroom (1.0.0)
-    dep-selector-libgecode (1.0.2)
+    dep-selector-libgecode (1.1.0)
     dep_selector (1.0.3)
       dep-selector-libgecode (~> 1.0)
       ffi (~> 1.9)
