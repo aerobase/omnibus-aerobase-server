@@ -67,8 +67,8 @@ default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
 default['unifiedpush']['unifiedpush-server']['db_username'] = "unifiedpush_server"
 default['unifiedpush']['unifiedpush-server']['db_keycloak_database'] = "keycloak_server"
 default['unifiedpush']['unifiedpush-server']['db_password'] = nil
-# Path to postgresql socket directory
-default['unifiedpush']['unifiedpush-server']['db_host'] = "/var/opt/unifiedpush/postgresql"
+# Postgresql host over TCP connection, java jdbc does not support unix socket.
+default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
 default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil

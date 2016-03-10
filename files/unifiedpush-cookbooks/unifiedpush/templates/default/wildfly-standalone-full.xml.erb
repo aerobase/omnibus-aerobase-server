@@ -150,7 +150,7 @@
                     </security>
                 </datasource>
                 <datasource jta="false" jndi-name="java:jboss/datasources/UnifiedPushDS" pool-name="UnifiedPushDS" enabled="true" use-ccm="false">
-                    <connection-url>jdbc:postgresql://localhost:5432/unifiedpush_server</connection-url>
+                    <connection-url>jdbc:postgresql://<%= db_host %>:<%= db_port %>/<%= db_database %></connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
                     <driver>postgresql</driver>
                     <pool>
@@ -171,7 +171,7 @@
                     </statement>
                 </datasource>
                 <datasource jta="false" jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-ccm="false">
-                    <connection-url>jdbc:postgresql://localhost:5432/keycloak_server</connection-url>
+                    <connection-url>jdbc:postgresql://<%= db_host %>:<%= db_port %>/<%= db_keycloak_database %></connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
                     <driver>postgresql</driver>
                     <pool>
