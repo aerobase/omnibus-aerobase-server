@@ -472,7 +472,8 @@
         <subsystem xmlns="urn:jboss:domain:undertow:1.2">
             <buffer-cache name="default"/>
             <server name="default-server">
-                <http-listener name="default" socket-binding="http" <%= @http_listener_ssl %> />
+		<!-- Set max post size to 100MB-->
+                <http-listener name="default" socket-binding="http" <%= @http_listener_ssl %> max-post-size="102400000" />
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <filter-ref name="server-header"/>
