@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/C-B4/omnibus-software.git
-  revision: ee343310e9b1b28414fbcfa3455a36586abec149
-  branch: master
+  revision: 645886c8234381b696b0d5defa53a926edfe2534
+  branch: keycloak_ups
   specs:
     omnibus-software (4.0.0)
 
