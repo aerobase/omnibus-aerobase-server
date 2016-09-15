@@ -47,7 +47,7 @@ unifiedpush_user = account_helper.unifiedpush_user
 end
 
 execute 'extract_wildfly' do
-  command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-8.2.1.Final.tar.gz --strip-components 1"
+  command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-10.1.0.Final.tar.gz --strip-components 1"
   cwd "#{server_dir}"
 
   not_if { File.exists?(server_dir + "/README.txt") }

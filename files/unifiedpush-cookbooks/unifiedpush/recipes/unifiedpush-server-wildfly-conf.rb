@@ -65,16 +65,6 @@ remote_file "Copy postgres driver file" do
   mode 0755
 end
 
-# Include additional config properties for unifiedpush-server in standalone-full.xml
-if unifiedpush_vars['server_https']
-  unifiedpush_vars = unifiedpush_vars.merge(
-    {
-      :http_listener_ssl => 'proxy-address-forwarding="true" redirect-socket="proxy-https"',
-      :socket_binding_ssl => '<socket-binding name="proxy-https" port="443"/>'
-    }
-  )
-end
-
 # Replace standalone-full.xml with relevant datasource config
 template "#{server_dir}/standalone/configuration/standalone-full.xml" do
   owner unifiedpush_user
@@ -83,7 +73,6 @@ template "#{server_dir}/standalone/configuration/standalone-full.xml" do
   source "wildfly-standalone-full.xml.erb"
   variables(unifiedpush_vars)
 end
-
 
 # Link apps
 link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do

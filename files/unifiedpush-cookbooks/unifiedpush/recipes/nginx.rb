@@ -19,12 +19,14 @@ account_helper = AccountHelper.new(node)
 
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
+nginx_confd_dir = File.join(nginx_dir, "conf.d")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 
 # These directories do not need to be writable for unifiedpush-server
 [
   nginx_dir,
   nginx_conf_dir,
+  nginx_confd_dir,
   nginx_log_dir,
 ].each do |dir_name|
   directory dir_name do

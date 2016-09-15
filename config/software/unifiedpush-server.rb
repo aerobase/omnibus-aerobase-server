@@ -16,7 +16,7 @@
 #
 
 name "unifiedpush-server"
-default_version "keycloak_ups"
+default_version "master"
 
 dependency "ruby"
 dependency "bundler"

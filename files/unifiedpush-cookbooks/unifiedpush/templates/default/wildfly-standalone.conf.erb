@@ -47,7 +47,7 @@ fi
 # Specify options to pass to the Java VM.
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
-   JAVA_OPTS="-Xms64m -Xmx1024m -XX:MaxPermSize=256m -Djava.net.preferIPv4Stack=true"
+   JAVA_OPTS="-Xms64m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true"
    JAVA_OPTS="$JAVA_OPTS -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true"
 else
    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
@@ -65,11 +65,15 @@ fi
 # Uncomment to gather JBoss Modules metrics
 #JAVA_OPTS="$JAVA_OPTS -Djboss.modules.metrics=true"
 
+# Uncomment this to run with a security manager enabled
+# SECMGR="true"
+
 # Uncomment this in order to be able to run WildFly on FreeBSD
 # when you get "epoll_create function not implemented" message in dmesg output
 #JAVA_OPTS="$JAVA_OPTS -Djava.nio.channels.spi.SelectorProvider=sun.nio.ch.PollSelectorProvider"
 
+
 # Load Application properties from a local file.
 JAVA_OPTS="$JAVA_OPTS -Daerogear.config=<%= @dir %>/standalone/configuration/unifiedpush-server.properties"
 
-LAUNCH_JBOSS_IN_BACKGROUND=1 
+LAUNCH_JBOSS_IN_BACKGROUND=1
