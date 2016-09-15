@@ -4,6 +4,7 @@ aerogear.config.document.path.root=<%= @documents_directory %>
 # SMS Verification properties
 aerogear.config.verification.enable_verification=<%= @inst_verification %>
 aerogear.config.verification.impl.class=<%= @inst_verification_class %>
+aerogear.config.verification.master_code=<%= @inst_verification_master_code %>
 
 <% node['unifiedpush']['unifiedpush-server']['inst_verification_properties'].each do |prop| %>
 <%= prop %>

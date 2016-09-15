@@ -44,12 +44,7 @@ nginx_config = File.join(nginx_conf_dir, "nginx.conf")
 unifiedpush_server_http_conf = File.join(nginx_conf_dir, "unifiedpush-http.conf")
 
 # If the service is enabled, check if we are using internal nginx
-unifiedpush_server_enabled = if node['unifiedpush']['unifiedpush-server']['enable']
-                               node['unifiedpush']['nginx']['enable']
-                             else
-                               false
-                             end
-
+unifiedpush_server_enabled = node['unifiedpush']['nginx']['enable']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({

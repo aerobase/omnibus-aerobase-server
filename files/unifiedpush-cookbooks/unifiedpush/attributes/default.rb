@@ -67,8 +67,8 @@ default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
 default['unifiedpush']['unifiedpush-server']['db_username'] = "unifiedpush_server"
 default['unifiedpush']['unifiedpush-server']['db_keycloak_database'] = "keycloak_server"
 default['unifiedpush']['unifiedpush-server']['db_password'] = nil
-# Path to postgresql socket directory
-default['unifiedpush']['unifiedpush-server']['db_host'] = "/var/opt/unifiedpush/postgresql"
+# Postgresql host over TCP connection, java jdbc does not support unix socket.
+default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
 default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
@@ -76,6 +76,7 @@ default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
 
 default['unifiedpush']['unifiedpush-server']['inst_verification'] = false
 default['unifiedpush']['unifiedpush-server']['inst_verification_class'] = "org.jboss.aerogear.unifiedpush.service.sms.ClickatellSMSSender"
+default['unifiedpush']['unifiedpush-server']['inst_verification_master_code'] = nil
 default['unifiedpush']['unifiedpush-server']['inst_verification_properties'] = []
 # Example - Additinal properties will be passed into verification class`
 # ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8','aerogear.config.sms.sender.clickatell.template={0}']
@@ -106,6 +107,10 @@ default['unifiedpush']['postgresql']['md5_auth_cidr_addresses'] = []
 default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhost']
 default['unifiedpush']['postgresql']['shmmax'] = kernel['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 default['unifiedpush']['postgresql']['shmall'] = kernel['machine'] =~ /x86_64/ ? 4194304 : 1048575
+default['unifiedpush']['postgresql']['semmsl'] = 250
+default['unifiedpush']['postgresql']['semmns'] = 32000
+default['unifiedpush']['postgresql']['semopm'] = 32
+default['unifiedpush']['postgresql']['semmni'] = ((node['unifiedpush']['postgresql']['max_connections'].to_i / 16) + 250)
 
 # Resolves CHEF-3889
 if (node['memory']['total'].to_i / 4) > ((node['unifiedpush']['postgresql']['shmmax'].to_i / 1024) - 2097152)

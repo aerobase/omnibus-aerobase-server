@@ -46,8 +46,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_username'] = "unifiedpush_server"
 # unifiedpush_server['db_keycloak_database'] = "keycloak_server"
 # unifiedpush_server['db_password'] = nil
-## Path to postgresql socket directory
-# unifiedpush_server['db_host'] = "/var/opt/unifiedpush/postgresql"
+## Postgresql host over TCP connection, java jdbc does not support unix socket.
+# unifiedpush_server['db_host'] = "localhost"
 # unifiedpush_server['db_port'] = 5432
 # unifiedpush_server['db_socket'] = nil
 # unifiedpush_server['db_sslmode'] = nil
@@ -55,6 +55,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 #
 # unifiedpush_server['inst_verification'] = false
 # unifiedpush_server['inst_verification_class'] = "org.jboss.aerogear.unifiedpush.service.sms.ClickatellSMSSender"
+# unifiedpush_server['inst_verification_master_code'] = nil
 # unifiedpush_server['inst_verification_properties'] = []
 # Example - Additinal properties will be passed into verification class`
 # ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8', 'aerogear.config.sms.sender.clickatell.template={0}']
