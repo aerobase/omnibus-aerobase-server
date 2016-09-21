@@ -32,5 +32,7 @@ http {
   include <%= @unifiedpush_http_config %>;
   <% end %>
 
+  include <%= @unifiedpush_http_configd %>/*.conf;
+
   <%= @custom_nginx_config %>
 }

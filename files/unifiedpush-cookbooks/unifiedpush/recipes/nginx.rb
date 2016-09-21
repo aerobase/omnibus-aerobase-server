@@ -20,6 +20,7 @@ account_helper = AccountHelper.new(node)
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_confd_dir = File.join(nginx_dir, "conf.d")
+nginx_html_dir = File.join(nginx_dir, "www/html")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 
 # These directories do not need to be writable for unifiedpush-server
@@ -27,6 +28,7 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
   nginx_dir,
   nginx_conf_dir,
   nginx_confd_dir,
+  nginx_html_dir,
   nginx_log_dir,
 ].each do |dir_name|
   directory dir_name do
@@ -50,7 +52,8 @@ unifiedpush_server_enabled = node['unifiedpush']['nginx']['enable']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
-               :unifiedpush_http_config => unifiedpush_server_enabled ? unifiedpush_server_http_conf : nil
+               :unifiedpush_http_config => unifiedpush_server_enabled ? unifiedpush_server_http_conf : nil,
+               :unifiedpush_http_configd => nginx_confd_dir
              })
 
 if nginx_vars['listen_https'].nil?
