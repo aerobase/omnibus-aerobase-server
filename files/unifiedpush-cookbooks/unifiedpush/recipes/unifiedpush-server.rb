@@ -27,6 +27,7 @@ server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
 server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory']
 server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
 server_conf_dir = "#{server_dir}/standalone/configuration"
+server_theme_dir = "#{server_conf_dir}/themes"
 
 account_helper = AccountHelper.new(node)
 unifiedpush_user = account_helper.unifiedpush_user
@@ -36,7 +37,8 @@ unifiedpush_user = account_helper.unifiedpush_user
   server_dir,
   server_log_dir,
   server_doc_dir, 
-  server_upl_dir
+  server_upl_dir,
+  server_theme_dir
 ].each do |dir_name|
   directory dir_name do
     owner unifiedpush_user
