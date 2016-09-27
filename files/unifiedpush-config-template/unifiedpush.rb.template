@@ -47,6 +47,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_keycloak_database'] = "keycloak_server"
 # unifiedpush_server['db_password'] = nil
 ## Postgresql host over TCP connection, java jdbc does not support unix socket.
+## When explicitly seting a value for db_host, postgresql['listen_address'] will never be overriden.
 # unifiedpush_server['db_host'] = "localhost"
 # unifiedpush_server['db_port'] = 5432
 # unifiedpush_server['db_socket'] = nil
