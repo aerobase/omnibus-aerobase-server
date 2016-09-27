@@ -120,7 +120,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # nginx['log_directory'] = "/var/log/unifiedpush/nginx"
 # nginx['worker_processes'] = node['cpu']['total'].to_i
 # nginx['worker_connections'] = 10240
-# nginx['sendfile'] = 'on'
+## If you’re serving locally stored static files, sendfile is totally essential to speed your Web server. 
+## But if you use Nginx as a reverse proxy to serve pages from an application server, you can deactivate it.
+# nginx['sendfile'] = 'off'
 # nginx['tcp_nopush'] = 'on'
 # nginx['tcp_nodelay'] = 'on'
 # nginx['gzip'] = "on"
