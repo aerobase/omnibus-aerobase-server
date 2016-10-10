@@ -17,6 +17,9 @@
 
 require 'openssl'
 
+account_helper = AccountHelper.new(node)
+unifiedpush_user = account_helper.unifiedpush_user
+
 # Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages
 install_dir = node['package']['install-dir']
@@ -73,19 +76,19 @@ include_recipe "unifiedpush::postgresql_database_schema"
 include_recipe "unifiedpush::web-server"
 
 # Prepare backup configuration files
-home_dir = ['unifiedpush']['user']['home']
-backup_dir = ['unifiedpush']['backup_path']
+home_dir = node['unifiedpush']['user']['home']
+backup_dir = node['unifiedpush']['backup_path']
 
 template "#{home_dir}/postgresql-backup.conf" do
   source "postgresql-backup.erb"
   owner unifiedpush_user
-  mode "0644"
-  variables(node['unifiedpush'].to_hash)
+  mode "0664"
+  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
 end
 
 directory "#{backup_dir}" do
-  owner "unifiedpush_user"
-  mode "0764"
+  owner unifiedpush_user
+  mode "0664"
   action :create
 end
 
