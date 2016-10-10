@@ -48,7 +48,7 @@ class AccountHelper
 
   def users
     %W(
-        #{gitlab_user}
+        #{unifiedpush_user}
         #{web_server_user}
         #{postgresgl_user}
       )
@@ -56,7 +56,7 @@ class AccountHelper
 
   def groups
     %W(
-        #{gitlab_group}
+        #{unifiedpush_group}
         #{web_server_group}
         #{postgresgl_group}
       )
