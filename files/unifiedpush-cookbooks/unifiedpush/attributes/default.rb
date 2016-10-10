@@ -34,6 +34,7 @@ default['unifiedpush']['user']['gid'] = nil
 default['unifiedpush']['user']['shell'] = "/bin/sh"
 # The home directory for the unifiedpush services user
 default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
+default['unifiedpush']['backup_path'] = "/var/opt/unifiedpush/backups"
 
 ####
 # Unifiedpush Server app
@@ -57,8 +58,6 @@ default['unifiedpush']['unifiedpush-server']['server_port'] = 80
 default['unifiedpush']['unifiedpush-server']['server_https'] = false
 default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
 
-
-default['unifiedpush']['unifiedpush-server']['backup_path'] = "/var/opt/unifiedpush/unifiedpush-server/backups"
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
 default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"

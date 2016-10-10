@@ -19,6 +19,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # user['shell'] = "/bin/sh"
 ## The home directory for the unifiedpush services user
 # user['home'] = "/var/opt/unifiedpush"
+# backup_path = "/var/opt/unifiedpush/backups"
 
 ####
 # Unifiedpush Applicaiton Server 
@@ -36,7 +37,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['server_https'] = false
 # unifiedpush_server['time_zone'] = nil
 #
-# unifiedpush_server['backup_path'] = "/var/opt/unifiedpush/unifiedpush-server/backups"
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"

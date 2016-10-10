@@ -72,6 +72,23 @@ include_recipe "unifiedpush::postgresql_database_schema"
 
 include_recipe "unifiedpush::web-server"
 
+# Prepare backup configuration files
+home_dir = ['unifiedpush']['user']['home']
+backup_dir = ['unifiedpush']['backup_path']
+
+template "#{home_dir}/postgresql-backup.conf" do
+  source "postgresql-backup.erb"
+  owner unifiedpush_user
+  mode "0644"
+  variables(node['unifiedpush'].to_hash)
+end
+
+directory "#{backup_dir}" do
+  owner "unifiedpush_user"
+  mode "0764"
+  action :create
+end
+
 # Configure Services
 [
   "nginx",
