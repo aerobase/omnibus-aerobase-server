@@ -19,6 +19,8 @@ require 'openssl'
 
 account_helper = AccountHelper.new(node)
 unifiedpush_user = account_helper.unifiedpush_user
+unifiedpush_group = account_helper.unifiedpush_group
+
 
 # Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages

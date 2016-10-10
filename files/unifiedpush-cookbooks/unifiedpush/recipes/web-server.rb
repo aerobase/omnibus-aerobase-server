@@ -18,6 +18,7 @@
 account_helper = AccountHelper.new(node)
 webserver_username = account_helper.web_server_user
 webserver_group = account_helper.web_server_group
+unifiedpush_group = account_helper.unifiedpush_group
 external_webserver_users = node['unifiedpush']['web-server']['external_users']
 
 # Create the group for the Unifiedpush user

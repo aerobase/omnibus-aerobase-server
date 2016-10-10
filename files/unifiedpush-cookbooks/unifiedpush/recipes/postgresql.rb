@@ -22,13 +22,15 @@ postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
 postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
 postgresql_user = account_helper.postgresgl_user
+postgresql_group = account_helper.postgresgl_group
+unifiedpush_group = account_helper.unifiedpush_group
 
 # Create postgresql user/group 
 account "Postgresql user and group" do
   username postgresql_user
   uid node['unifiedpush']['postgresql']['uid']
   ugid postgresql_user
-  groupname postgresgl_group
+  groupname postgresql_group
   gid node['unifiedpush']['postgresql']['gid']
   shell node['unifiedpush']['postgresql']['shell']
   home node['unifiedpush']['postgresql']['home']
