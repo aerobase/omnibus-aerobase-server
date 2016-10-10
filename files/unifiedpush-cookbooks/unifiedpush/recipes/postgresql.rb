@@ -23,15 +23,23 @@ postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
 postgresql_user = account_helper.postgresgl_user
 
+# Create postgresql user/group 
 account "Postgresql user and group" do
   username postgresql_user
   uid node['unifiedpush']['postgresql']['uid']
   ugid postgresql_user
-  groupname postgresql_user
+  groupname postgresgl_group
   gid node['unifiedpush']['postgresql']['gid']
   shell node['unifiedpush']['postgresql']['shell']
   home node['unifiedpush']['postgresql']['home']
   manage node['unifiedpush']['manage-accounts']['enable']
+end
+
+# Add postgresql user to unifiedpudh group
+group unifiedpush_group do
+  action :modify
+  members postgresql_user
+  append true
 end
 
 directory postgresql_dir do

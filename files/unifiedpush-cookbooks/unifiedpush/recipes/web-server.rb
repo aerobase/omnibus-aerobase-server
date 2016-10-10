@@ -38,3 +38,10 @@ account "Webserver user and group" do
   user_supports manage_home: false
   manage node['unifiedpush']['manage-accounts']['enable']
 end
+
+# Add webserver user to unifiedpudh group
+group unifiedpush_group do
+  action :modify
+  members webserver_username
+  append true
+end
