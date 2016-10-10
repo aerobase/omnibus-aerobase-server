@@ -91,7 +91,7 @@ end
 directory "#{backup_dir}" do
   owner unifiedpush_user
   group unifiedpush_group
-  mode "0664"
+  mode "0774"
   action :create
 end
 
