@@ -17,10 +17,11 @@
 
 account_helper = AccountHelper.new(node)
 
+install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_confd_dir = File.join(nginx_dir, "conf.d")
-nginx_html_dir = File.join(nginx_dir, "www/html")
+nginx_html_dir = File.join(nginx_dir, "www/html/unifiedpush-server")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 
 # These directories do not need to be writable for unifiedpush-server
@@ -83,6 +84,14 @@ template nginx_config do
   mode "0644"
   variables nginx_vars
   notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
+end
+
+# Extract ups static contect to html directory
+if node['unifiedpush']['unifiedpush-server']['enable']
+  execute 'extract_ups_static_content' do
+    command "tar xzvf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
+    cwd "#{nginx_html_dir}"
+  end
 end
 
 runit_service "nginx" do

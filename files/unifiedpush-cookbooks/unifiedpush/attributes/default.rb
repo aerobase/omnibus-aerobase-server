@@ -64,7 +64,6 @@ default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_serve
 default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_user, listen_address, port]
 default['unifiedpush']['unifiedpush-server']['db_username'] = "unifiedpush_server"
-default['unifiedpush']['unifiedpush-server']['db_keycloak_database'] = "keycloak_server"
 default['unifiedpush']['unifiedpush-server']['db_password'] = nil
 # Postgresql host over TCP connection, java jdbc does not support unix socket.
 default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
@@ -79,6 +78,19 @@ default['unifiedpush']['unifiedpush-server']['inst_verification_master_code'] = 
 default['unifiedpush']['unifiedpush-server']['inst_verification_properties'] = []
 # Example - Additinal properties will be passed into verification class`
 # ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8','aerogear.config.sms.sender.clickatell.template={0}']
+
+####
+# Keycloak Server app
+####
+default['unifiedpush']['keycloak-server']['enable'] = true
+default['unifiedpush']['keycloak-server']['ha'] = false
+# When keycloak-server is disabled, server_host should point to external URL.
+default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
+default['unifiedpush']['keycloak-server']['server_https'] = false
+default['unifiedpush']['keycloak-server']['context_root'] = "auth"
+
+default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
+default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
 
 ###
 # PostgreSQL

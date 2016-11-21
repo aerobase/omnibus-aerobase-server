@@ -26,12 +26,16 @@ pg_port = node['unifiedpush']['postgresql']['port']
 pg_user = node['unifiedpush']['postgresql']['username']
 bin_dir = node['unifiedpush']['postgresql']['bin_dir']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
-keycloak_database_name = node['unifiedpush']['unifiedpush-server']['db_keycloak_database']
+keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
+keycloak_database_username = node['unifiedpush']['keycloak-server']['db_username']
 
 databases = []
 if node['unifiedpush']['unifiedpush-server']['enable']
   databases << ['unifiedpush-server', database_name, node['unifiedpush']['postgresql']['sql_user']]
-  databases << ['keycloak-server', keycloak_database_name, node['unifiedpush']['postgresql']['sql_user']]
+end
+
+if node['unifiedpush']['keycloak-server']['enable']
+  databases << ['unifiedpush-server', keycloak_database_name, keycloak_database_username]
 end
 
 databases.each do |unifiedpush_app, db_name, sql_user|

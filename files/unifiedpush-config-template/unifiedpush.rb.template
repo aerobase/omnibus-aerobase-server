@@ -40,11 +40,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"
-# unifiedpush-server['db_keycloak_database'] = "keycloak_server"
 # unifiedpush_server['db_pool'] = 10
 ## db_username, db_host, db_port oveeride PostgreSQL properties [sql_user, listen_address, port]
 # unifiedpush_server['db_username'] = "unifiedpush_server"
-# unifiedpush_server['db_keycloak_database'] = "keycloak_server"
 # unifiedpush_server['db_password'] = nil
 ## Postgresql host over TCP connection, java jdbc does not support unix socket.
 ## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql sql_user, listen_address, port
@@ -60,6 +58,18 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['inst_verification_properties'] = []
 # Example - Additinal properties will be passed into verification class`
 # ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8', 'aerogear.config.sms.sender.clickatell.template={0}']
+
+####
+# Keycloak Server app
+####
+# keycloak_server['enable'] = true
+# keycloak_server['ha'] = false
+# When keycloak-server is disabled, server_host should point to external URL.
+# keycloak_server['server_host'] = node['fqdn']
+# keycloak_server['server_https'] = false
+# keycloak_server['db_username'] = "keycloak_server"
+# keycloak_server['db_database'] = "keycloak_server"
+# keycloak_server['context_root'] = "auth"
 
 ###
 # PostgreSQL

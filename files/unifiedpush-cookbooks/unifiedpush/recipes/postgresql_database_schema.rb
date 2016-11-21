@@ -18,17 +18,8 @@
 install_dir = node['package']['install-dir']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 
-dependent_services = []
-#dependent_services << "service[unifiedpush-server]" if OmnibusHelper.should_notify?("unicorn")
-
 execute "initialize unifiedpush-server database" do
-  cwd "#{install_dir}/embedded/apps/unifiedpush/initdb/bin"
+  cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
   command "./init-unifiedpush-db.sh #{database_name}"
-  action :nothing
-end
-
-execute "initialize keycloak-server database" do
-  # just a dummy command - TODO create keyclock tables at installation time
-  command "/sbin/sysctl -e -p /etc/sysctl.conf"
   action :nothing
 end

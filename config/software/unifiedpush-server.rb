@@ -1,4 +1,3 @@
-#
 # Copyright:: Copyright (c) 2015.
 # License:: Apache License, Version 2.0
 #
@@ -16,7 +15,7 @@
 #
 
 name "unifiedpush-server"
-default_version "master"
+default_version "1.2.0-SNAPSHOT"
 
 dependency "ruby"
 dependency "bundler"
@@ -24,27 +23,32 @@ dependency "rsync"
 dependency "postgresql"
 dependency "wildfly"
 
-source :git => "https://github.com/C-B4/unifiedpush-server.git"
+version "1.2.0-SNAPSHOT" do
+  source md5: "52724fd826189ce87dc6417716347c96"
+end
 
-relative_path "unifiedpush-server"
-build_dir = "#{project_dir}"
+repo_home = if "#{version}".end_with?("SNAPSHOT") then "libs-snapshot-local" else "libs-release-local" end
+
+source url: "https://development.c-b4.com/artifactory/#{repo_home}/org/jboss/aerogear/unifiedpush/unifiedpush-package/#{version}/unifiedpush-package-#{version}.tar.gz"
 
 build do
-  command "mvn clean install"
+  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
+  sync "#{project_dir}/", "#{install_dir}/embedded/apps/unifiedpush-server/"
 
-  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush"
-
-  copy "#{project_dir}/servers/ups-wildfly/target/unifiedpush-server.war",      "#{install_dir}/embedded/apps/unifiedpush/unifiedpush-server.war"
-  copy "#{project_dir}/servers/auth-server/target/auth-server.war",  "#{install_dir}/embedded/apps/unifiedpush/auth-server.war"
+  # Strip version from packages.
+  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server-wildfly-#{version}.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
+  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb-#{version}.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz"
+  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme-#{version}.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme.tar.gz"
+  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui-#{version}.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
 
   erb source: "version.yml.erb",
-      dest: "#{install_dir}/embedded/apps/unifiedpush/version.yml",
+      dest: "#{install_dir}/embedded/apps/unifiedpush-server/version.yml",
       mode: 0644,
       vars: { default_version: default_version }
 end
 
-# Build initdb project to allow JPA based schema creation.
+# extract initdb project to allow JPA based schema creation.
 build do
-  command "mvn clean install -f databases/initdb/pom.xml"
-  command "tar xzf #{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz --strip-components 1 -C #{install_dir}/embedded/apps/unifiedpush/"
+  command "tar xzf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb-#{version}.tar.gz -C #{install_dir}/embedded/apps/unifiedpush-server/"
 end
+

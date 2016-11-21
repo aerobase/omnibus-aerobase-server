@@ -37,6 +37,7 @@ module Unifiedpush
   user Mash.new
   postgresql Mash.new
   unifiedpush_server Mash.new
+  keycloak_server Mash.new
   nginx Mash.new
   logging Mash.new
   logrotate Mash.new
@@ -147,6 +148,7 @@ module Unifiedpush
         "bootstrap",
         "user",
         "unifiedpush_server",
+        "keycloak_server",
         "nginx",
         "logging",
         "logrotate",

@@ -48,19 +48,20 @@ unifiedpush_user = account_helper.unifiedpush_user
   end
 end
 
+# Always re-extract wildfly and recreate configuration.
 execute 'extract_wildfly' do
   command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-10.1.0.Final.tar.gz --strip-components 1"
   cwd "#{server_dir}"
-
-  not_if { File.exists?(server_dir + "/README.txt") }
 end
 
-execute "chown-unifiedpush-server" do
-  command "chown -R #{unifiedpush_user}:root #{server_dir}"
-  action :run
+# Embeded KC server, use same properties as unifiedpush-server
+if node['unifiedpush']['keycloak-server']['enable']
+    node.set['unifiedpush']['keycloak-server']['server_host'] = node['unifiedpush']['unifiedpush-server']['server_host']
+    node.set['unifiedpush']['keycloak-server']['server_https'] = node['unifiedpush']['unifiedpush-server']['server_https']
 end
 
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
+include_recipe "unifiedpush::keycloak-server-wildfly-conf"
 
 template "#{server_conf_dir}/unifiedpush-server.properties" do
   source "unifiedpush-server.properties.erb"
@@ -75,6 +76,12 @@ runit_service "unifiedpush-server" do
     :log_directory => server_log_dir
   }.merge(params))
   log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['unifiedpush-server'].to_hash)
+end
+
+# Make sure owner is unifiedpush_user
+execute "chown-unifiedpush-server" do
+  command "chown -R #{unifiedpush_user}:root #{server_dir}"
+  action :run
 end
 
 if node['unifiedpush']['bootstrap']['enable']

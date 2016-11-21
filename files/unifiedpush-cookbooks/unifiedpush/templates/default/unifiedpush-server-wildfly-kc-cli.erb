@@ -1,0 +1,2 @@
+embed-server --server-config=standalone-full-ha.xml
+/system-property=ups.auth.server.url:add(value=http<% if @https %>s<% end %>://<%= @server_host %>/<%= @context_root %>)

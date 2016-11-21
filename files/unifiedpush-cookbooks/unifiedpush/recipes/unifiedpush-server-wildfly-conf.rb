@@ -38,7 +38,44 @@ unifiedpush_user = account_helper.unifiedpush_user
 end
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
+keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
  
+# Prepare datasource cli config script
+template "#{server_dir}/bin/unifiedpush-server-wildfly-ds.cli" do
+  owner unifiedpush_user
+  group "root"
+  mode 0755
+  source "unifiedpush-server-wildfly-ds-cli.erb"
+  variables(unifiedpush_vars)
+end
+
+# Prepare http cli config script
+template "#{server_dir}/bin/unifiedpush-server-wildfly-http.cli" do
+  owner unifiedpush_user
+  group "root"
+  mode 0755
+  source "unifiedpush-server-wildfly-http-cli.erb"
+  variables(unifiedpush_vars)
+end
+
+# Prepare kc cli config script
+template "#{server_dir}/bin/unifiedpush-server-wildfly-kc.cli" do
+  owner unifiedpush_user
+  group "root"
+  mode 0755
+  source "unifiedpush-server-wildfly-kc-cli.erb"
+  variables(keycloak_vars)
+end
+
+# Copy JMS configuration cli script.
+remote_file "Copy jms cli script" do
+  path "#{server_dir}/bin/unifiedpush-server-wildfly-jms.cli"
+  source "file://#{install_dir}/embedded/apps/unifiedpush-server/configuration/jms-setup-wildfly.cli"
+  owner unifiedpush_user
+  group 'root'
+  mode 0755
+end
+
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
   owner unifiedpush_user
@@ -48,37 +85,27 @@ template "#{server_dir}/bin/standalone.conf" do
   variables(unifiedpush_vars)
 end
 
-# Add postgres module
-template "#{modules_dir}/module.xml" do
-  owner unifiedpush_user
-  group "root"
-  mode 0755
-  source "wildfly-postgres-module.xml.erb"
+# Configure postgresql drived for wildfly
+include_recipe "unifiedpush::postgresql-module-wildfly-conf"
+
+# Execute cli scripts
+execute 'UPS datasource cli script' do
+  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/bin/unifiedpush-server-wildfly-ds.cli"
 end
 
-# Copy postgres JDBC driver
-remote_file "Copy postgres driver file" do
-  path "#{modules_dir}/postgresql-9.4-1201-jdbc41.jar"
-  source "file://#{install_dir}/embedded/apps/unifiedpush/initdb/lib/postgresql-9.4-1201-jdbc41.jar"
-  owner unifiedpush_user
-  group 'root'
-  mode 0755
+execute 'UPS http/s cli script' do
+  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/bin/unifiedpush-server-wildfly-http.cli"
 end
 
-# Replace standalone-full.xml with relevant datasource config
-template "#{server_dir}/standalone/configuration/standalone-full.xml" do
-  owner unifiedpush_user
-  group "root"
-  mode 0755
-  source "wildfly-standalone-full.xml.erb"
-  variables(unifiedpush_vars)
+execute 'UPS kc cli script' do
+  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/bin/unifiedpush-server-wildfly-kc.cli"
+end
+
+execute 'UPS jms cli script' do
+  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/bin/unifiedpush-server-wildfly-jms.cli"
 end
 
 # Link apps
 link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
-  to "#{install_dir}/embedded/apps/unifiedpush/unifiedpush-server.war"
-end
-
-link "#{server_dir}/standalone/deployments/auth-server.war" do
-  to "#{install_dir}/embedded/apps/unifiedpush/auth-server.war"
+  to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
 end
