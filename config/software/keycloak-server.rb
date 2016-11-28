@@ -15,12 +15,16 @@
 #
 
 name "keycloak-server"
-default_version "2.3.0.Final"
+default_version "2.4.0.Final"
 
 dependency "ruby"
 dependency "bundler"
 dependency "rsync"
 dependency "unifiedpush-server"
+
+version "2.4.0.Final" do
+  source md5: "12d2c1eedd7cdd60c7edb0e38bdc4f5a"
+end
 
 version "2.3.0.Final" do
   source md5: "32e46a61d38f20b6d72d493336ffb34e"
