@@ -67,6 +67,15 @@ template "#{server_dir}/bin/unifiedpush-server-wildfly-kc.cli" do
   variables(keycloak_vars)
 end
 
+# Prepare oauth2 cli config script
+template "#{server_dir}/bin/unifiedpush-server-wildfly-oauth2-cli.erb" do
+  owner unifiedpush_user
+  group "root"
+  mode 0755
+  source "unifiedpush-server-wildfly-oauth2-cli.erb"
+  variables(unifiedpush_vars)
+end
+
 # Copy JMS configuration cli script.
 remote_file "Copy jms cli script" do
   path "#{server_dir}/bin/unifiedpush-server-wildfly-jms.cli"
@@ -99,6 +108,10 @@ end
 
 execute 'UPS kc cli script' do
   command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/bin/unifiedpush-server-wildfly-kc.cli"
+end
+
+execute 'UPS kc cli script' do
+  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/bin/unifiedpush-server-wildfly-oauth2.cli"
 end
 
 execute 'UPS jms cli script' do
