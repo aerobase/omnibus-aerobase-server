@@ -72,7 +72,7 @@ template unifiedpush_server_http_conf do
   mode "0644"
   variables(nginx_vars.merge(
     {
-      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host']
+      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
       :html_dir => nginx_html_dir
     }
   ))
