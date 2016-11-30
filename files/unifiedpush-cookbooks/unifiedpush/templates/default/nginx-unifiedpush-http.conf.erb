@@ -60,7 +60,8 @@ server {
 
   location / {
     ## Serve static files from defined root folder.
-    try_files $uri $uri/index.html $uri.html @unifiedpush;
+    root <%= @html_dir %>;
+    try_files $uri $uri/ $uri/index.html $uri.html @unifiedpush;
   }
 
   location /uploads/ {

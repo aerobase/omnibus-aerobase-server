@@ -21,7 +21,8 @@ install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_confd_dir = File.join(nginx_dir, "conf.d")
-nginx_html_dir = File.join(nginx_dir, "www/html/unifiedpush-server")
+nginx_html_dir = File.join(nginx_dir, "www/html")
+nginx_ups_html_dir = File.join(nginx_html_dir, "unifiedpush-server")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 
 # These directories do not need to be writable for unifiedpush-server
@@ -30,6 +31,7 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
   nginx_conf_dir,
   nginx_confd_dir,
   nginx_html_dir,
+  nginx_ups_html_dir,
   nginx_log_dir,
 ].each do |dir_name|
   directory dir_name do
@@ -71,6 +73,7 @@ template unifiedpush_server_http_conf do
   variables(nginx_vars.merge(
     {
       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host']
+      :html_dir => nginx_html_dir
     }
   ))
   notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
@@ -90,8 +93,14 @@ end
 if node['unifiedpush']['unifiedpush-server']['enable']
   execute 'extract_ups_static_content' do
     command "tar xzvf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
-    cwd "#{nginx_html_dir}"
+    cwd "#{nginx_ups_html_dir}"
   end
+end
+
+# Make sure owner is unifiedpush_user
+execute "chown-nginx-resources" do
+  command "chown -R #{account_helper.web_server_user}:root #{nginx_ups_html_dir}"
+  action :run
 end
 
 runit_service "nginx" do
