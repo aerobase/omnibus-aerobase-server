@@ -38,8 +38,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['time_zone'] = nil
 # unifiedpush_server['webapp_host'] = node['fqdn']
 # unifiedpush_server['oauth2_enabled'] = true
-# unifiedpush_server['oauth2_admin_user'] = admin
-# unifiedpush_server['oauth2_admin_pass'] = password
+# unifiedpush_server['oauth2_admin_user'] = "admin"
+# unifiedpush_server['oauth2_admin_pass'] = "password"
 #
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"

@@ -68,7 +68,7 @@ template "#{server_dir}/bin/unifiedpush-server-wildfly-kc.cli" do
 end
 
 # Prepare oauth2 cli config script
-template "#{server_dir}/bin/unifiedpush-server-wildfly-oauth2-cli.erb" do
+template "#{server_dir}/bin/unifiedpush-server-wildfly-oauth2.cli" do
   owner unifiedpush_user
   group "root"
   mode 0755

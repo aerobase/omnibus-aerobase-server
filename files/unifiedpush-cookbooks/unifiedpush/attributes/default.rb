@@ -59,8 +59,8 @@ default['unifiedpush']['unifiedpush-server']['server_https'] = false
 default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
 default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
-default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = admin
-default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = password
+default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
+default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
 
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
