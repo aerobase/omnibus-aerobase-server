@@ -34,6 +34,7 @@ module Unifiedpush
   extend(Mixlib::Config)
 
   bootstrap Mash.new
+  java Mash.new
   user Mash.new
   postgresql Mash.new
   unifiedpush_server Mash.new
@@ -147,6 +148,7 @@ module Unifiedpush
       [
         "bootstrap",
         "user",
+	"java",
         "unifiedpush_server",
         "keycloak_server",
         "nginx",
@@ -171,5 +173,16 @@ module Unifiedpush
       # The last step is to convert underscores to hyphens in top-level keys
       generate_hash
     end
+  end
+end
+
+class JavaHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+      node['unifiedpush']['java'].each do |key, value|
+        node.set['java'][key] = value
+      end
   end
 end

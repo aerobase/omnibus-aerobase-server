@@ -22,6 +22,15 @@ external_url 'GENERATED_EXTERNAL_URL'
 # backup_path = "/var/opt/unifiedpush/backups"
 
 ####
+# Java installation options, this package is not embeded.
+# When enabled, external java package will be installed.
+####
+# java['install_java'] = true
+# java['jdk_version'] = '8'
+# java['install_flavor'] = 'openjdk'
+# java['set_default'] = true
+
+####
 # Unifiedpush Applicaiton Server 
 ####
 # unifiedpush_server['enable'] = true

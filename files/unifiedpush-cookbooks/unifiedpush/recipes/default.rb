@@ -21,7 +21,6 @@ account_helper = AccountHelper.new(node)
 unifiedpush_user = account_helper.unifiedpush_user
 unifiedpush_group = account_helper.unifiedpush_group
 
-
 # Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages
 install_dir = node['package']['install-dir']
@@ -38,7 +37,12 @@ Unifiedpush[:node] = node
 if File.exists?("/etc/unifiedpush/unifiedpush.rb")
   Unifiedpush.from_file("/etc/unifiedpush/unifiedpush.rb")
 end
+
+# Merge and cosume unifiedpush attributes.
 node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
+
+# Define java cookbook attributes.
+JavaHelper.new(node)
 
 if File.exists?("/var/opt/unifiedpush/bootstrapped")
   node.set['unifiedpush']['bootstrap']['enable'] = false
@@ -58,6 +62,9 @@ end
 
 # Install our runit instance
 include_recipe "runit"
+
+# Install java from external package
+include_recipe 'java' if node['unifiedpush']['java']['install_java']
 
 # postgresql Configuraiton 
 [

@@ -37,6 +37,16 @@ default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
 default['unifiedpush']['backup_path'] = "/var/opt/unifiedpush/backups"
 
 ####
+# Java installation options, this package is not embeded.
+# When enabled, external java package will be installed.
+####
+default['unifiedpush']['java']['install_java'] = true
+default['unifiedpush']['java']['jdk_version'] = '8'
+default['unifiedpush']['java']['install_flavor'] = 'openjdk'
+default['unifiedpush']['java']['set_default'] = true
+default['unifiedpush']['java']['oracle']['accept_oracle_download_terms'] = true
+
+####
 # Unifiedpush Server app
 ####
 default['unifiedpush']['unifiedpush-server']['enable'] = true

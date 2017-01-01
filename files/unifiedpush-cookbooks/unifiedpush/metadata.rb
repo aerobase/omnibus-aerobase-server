@@ -17,3 +17,5 @@ supports 'ubuntu'
 
 depends "runit"
 depends "package"
+depends "java"
+depends "apt"
