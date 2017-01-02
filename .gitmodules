@@ -1,0 +1,24 @@
+[submodule "java"]
+	path = files/unifiedpush-cookbooks/java
+	url = https://github.com/agileorbit-cookbooks/java.git
+	branch = v1.45.0
+[submodule "compat_resource"]
+	path = files/unifiedpush-cookbooks/compat_resource
+	url = https://github.com/chef-cookbooks/compat_resource.git
+	branch = v12.16.3
+[submodule "apt"]
+	path = files/unifiedpush-cookbooks/apt
+	url = https://github.com/chef-cookbooks/apt.git
+	branch = v5.0.1
+[submodule "windows"]
+	branch = v2.1.1
+	path = files/unifiedpush-cookbooks/windows
+	url = https://github.com/chef-cookbooks/windows.git
+[submodule "homebrew"]
+	path = files/unifiedpush-cookbooks/homebrew
+	url = https://github.com/chef-cookbooks/homebrew.git
+	branch = v3.0.0
+[submodule "ohai"]
+	path = files/unifiedpush-cookbooks/ohai
+	url = https://github.com/chef-cookbooks/ohai.git
+	branch = v4.2.3

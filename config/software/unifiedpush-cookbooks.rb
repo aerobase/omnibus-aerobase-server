@@ -23,7 +23,7 @@ source :path => File.expand_path("files/unifiedpush-cookbooks", Omnibus::Config.
 
 build do
   command "mkdir -p #{install_dir}/embedded/cookbooks"
-  command "#{install_dir}/embedded/bin/rsync --delete -a ./ #{install_dir}/embedded/cookbooks/"
+  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./ #{install_dir}/embedded/cookbooks/"
 
   # Create a package cookbook.
   command "mkdir -p #{install_dir}/embedded/cookbooks/package/attributes"
