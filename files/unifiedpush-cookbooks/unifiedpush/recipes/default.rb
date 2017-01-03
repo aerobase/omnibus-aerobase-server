@@ -44,6 +44,9 @@ node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 # Define java cookbook attributes.
 JavaHelper.new(node)
 
+# Define apache cassandra cookbook attributes.
+CassandraHelper.new(node)
+
 if File.exists?("/var/opt/unifiedpush/bootstrapped")
   node.set['unifiedpush']['bootstrap']['enable'] = false
 end
@@ -65,6 +68,16 @@ include_recipe "runit"
 
 # Install java from external package
 include_recipe 'java' if node['unifiedpush']['java']['install_java']
+
+# Install apache cassandra from external package
+include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
+
+# Make sure cassandra execution in not bloked by selinux
+# This is required only because installation_dir is symbolic link.
+execute "restorecon-cassandra-slink" do
+  command "restorecon -Rv #{node['unifiedpush']['cassandra']['installation_dir']}"
+  action :run
+end
 
 # postgresql Configuraiton 
 [

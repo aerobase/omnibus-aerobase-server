@@ -119,6 +119,14 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['checkpoint_completion_target'] = 0.9
 # postgresql['checkpoint_warning'] = "30s"
 
+###
+# Apache Cassandra 
+###
+# cassandra['enable'] = true
+# cassandra['cluster_name'] = 'unifiedpush-cluster'
+# cassandra['user'] = 'unifiedpush-cas'
+# cassandra['group'] = 'unifiedpush'
+# cassandra['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
 
 ####
 # Web server
@@ -132,7 +140,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # web_server['shell'] = '/bin/false'
 # web_server['home'] = '/var/opt/unifiedpush/nginx'
 # web_server['external_users'] = []
-
 
 ####
 #NGINX

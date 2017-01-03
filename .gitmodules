@@ -22,3 +22,35 @@
 	path = files/unifiedpush-cookbooks/ohai
 	url = https://github.com/chef-cookbooks/ohai.git
 	branch = v4.2.3
+[submodule "cassandra-dse"]
+	path = files/unifiedpush-cookbooks/cassandra-dse
+	url = https://github.com/michaelklishin/cassandra-chef-cookbook.git
+	branch = master
+[submodule "ulimit"]
+	path = files/unifiedpush-cookbooks/ulimit
+	url = https://github.com/bmhatfield/chef-ulimit.git
+	branch = v0.4.0
+[submodule "yum"]
+	path = files/unifiedpush-cookbooks/yum
+	url = https://github.com/chef-cookbooks/yum.git
+	branch = v4.1.0
+[submodule "ark"]
+	path = files/unifiedpush-cookbooks/ark
+	url = https://github.com/chef-cookbooks/ark.git
+	branch = v2.2.1
+[submodule "build-essential"]
+	path = files/unifiedpush-cookbooks/build-essential
+	url = https://github.com/chef-cookbooks/build-essential.git
+	branch = v7.0.3
+[submodule "seven_zip"]
+	path = files/unifiedpush-cookbooks/seven_zip
+	url = https://github.com/windowschefcookbooks/seven_zip.git
+	branch = v2.0.2
+[submodule "mingw"]
+	path = files/unifiedpush-cookbooks/mingw
+	url = https://github.com/chef-cookbooks/mingw.git
+	branch = v1.2.4
+[submodule "systemd"]
+	path = files/unifiedpush-cookbooks/systemd
+	url = https://github.com/nathwill/chef-systemd.git
+	branch = v2.1.3

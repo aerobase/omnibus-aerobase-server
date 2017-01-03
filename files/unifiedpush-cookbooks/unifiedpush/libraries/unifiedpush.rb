@@ -35,6 +35,7 @@ module Unifiedpush
 
   bootstrap Mash.new
   java Mash.new
+  cassandra Mash.new
   user Mash.new
   postgresql Mash.new
   unifiedpush_server Mash.new
@@ -149,6 +150,7 @@ module Unifiedpush
         "bootstrap",
         "user",
 	"java",
+	"cassandra",
         "unifiedpush_server",
         "keycloak_server",
         "nginx",
@@ -183,6 +185,17 @@ class JavaHelper
     @node = node
       node['unifiedpush']['java'].each do |key, value|
         node.set['java'][key] = value
+      end
+  end
+end
+
+class CassandraHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+      node['unifiedpush']['cassandra'].each do |key, value|
+        node.set['cassandra'][key] = value
       end
   end
 end

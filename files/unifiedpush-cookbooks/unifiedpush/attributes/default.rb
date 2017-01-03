@@ -153,6 +153,23 @@ default['unifiedpush']['postgresql']['checkpoint_timeout'] = "5min"
 default['unifiedpush']['postgresql']['checkpoint_completion_target'] = 0.9
 default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
 
+###
+# Apache Cassandra
+###
+default['unifiedpush']['cassandra']['enable'] = true
+default['unifiedpush']['cassandra']['install_method'] = 'tarball'
+default['unifiedpush']['cassandra']['version'] = '3.9'
+default['unifiedpush']['cassandra']['user'] = 'unifiedpush-cas'
+default['unifiedpush']['cassandra']['group'] = 'unifiedpush'
+default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/cassandra/cassandra'
+default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/logs'
+default['unifiedpush']['cassandra']['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
+default['unifiedpush']['cassandra']['install_java'] = false
+default['unifiedpush']['cassandra']['use_systemd'] = true
+default['unifiedpush']['cassandra']['setup_jamm'] = true
+# Cluster config options
+default['unifiedpush']['cassandra']['config']['cluster_name'] = 'unifiedpush-cluster'
+
 ####
 # Web server
 ####
