@@ -41,12 +41,6 @@ end
 # Merge and cosume unifiedpush attributes.
 node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 
-# Define java cookbook attributes.
-JavaHelper.new(node)
-
-# Define apache cassandra cookbook attributes.
-CassandraHelper.new(node)
-
 if File.exists?("/var/opt/unifiedpush/bootstrapped")
   node.set['unifiedpush']['bootstrap']['enable'] = false
 end
@@ -67,21 +61,16 @@ end
 include_recipe "runit"
 
 # Install java from external package
-include_recipe 'java' if node['unifiedpush']['java']['install_java']
-
-# Install apache cassandra from external package
-include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
-
-# Make sure cassandra execution in not bloked by selinux
-# This is required only because installation_dir is symbolic link.
-execute "restorecon-cassandra-slink" do
-  command "restorecon -Rv #{node['unifiedpush']['cassandra']['installation_dir']}"
-  action :run
+if node['unifiedpush']['java']['install_java']
+  # Define java cookbook attributes.
+  JavaHelper.new(node)
+  include_recipe 'java'
 end
 
-# postgresql Configuraiton 
+# First setup datastore configuraitons (postgres, cassandra), if required. 
 [
-  "postgresql"
+  "postgresql",
+  "cassandra"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "unifiedpush::#{service}"
@@ -96,24 +85,7 @@ include_recipe "unifiedpush::postgresql_database_setup"
 include_recipe "unifiedpush::postgresql_database_schema"
 
 include_recipe "unifiedpush::web-server"
-
-# Prepare backup configuration files
-home_dir = node['unifiedpush']['user']['home']
-backup_dir = node['unifiedpush']['backup_path']
-
-template "#{home_dir}/postgresql-backup.conf" do
-  source "postgresql-backup.erb"
-  owner unifiedpush_user
-  mode "0664"
-  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
-end
-
-directory "#{backup_dir}" do
-  owner unifiedpush_user
-  group unifiedpush_group
-  mode "0774"
-  action :create
-end
+include_recipe "unifiedpush::backup"
 
 # Configure Services
 [
