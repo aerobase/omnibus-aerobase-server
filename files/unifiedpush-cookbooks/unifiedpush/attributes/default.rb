@@ -162,7 +162,9 @@ default['unifiedpush']['cassandra']['version'] = '3.9'
 default['unifiedpush']['cassandra']['user'] = 'unifiedpush-cas'
 default['unifiedpush']['cassandra']['group'] = 'unifiedpush'
 default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/cassandra/cassandra'
+# log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
 default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/logs'
+default['unifiedpush']['cassandra']['log_directory'] = '/var/opt/unifiedpush/cassandra/logs'
 default['unifiedpush']['cassandra']['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
 default['unifiedpush']['cassandra']['install_java'] = false
 default['unifiedpush']['cassandra']['use_systemd'] = true
@@ -244,6 +246,6 @@ default['unifiedpush']['logrotate']['enable'] = true
 default['unifiedpush']['logrotate']['ha'] = false
 default['unifiedpush']['logrotate']['dir'] = "/var/opt/unifiedpush/logrotate"
 default['unifiedpush']['logrotate']['log_directory'] = "/var/log/unifiedpush/logrotate"
-default['unifiedpush']['logrotate']['services'] = %w{nginx unifiedpush-server}
+default['unifiedpush']['logrotate']['services'] = %w{nginx unifiedpush-server cassandra}
 default['unifiedpush']['logrotate']['pre_sleep'] = 600 # sleep 10 minutes before rotating after start-up
 default['unifiedpush']['logrotate']['post_sleep'] = 3000 # wait 50 minutes after rotating
