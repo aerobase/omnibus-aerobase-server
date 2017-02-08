@@ -37,6 +37,7 @@ end
 
 node['unifiedpush']['logrotate']['services'].each do |svc|
   template File.join(logrotate_d_dir, svc) do
+    mode "0644"
     source 'logrotate-service.erb'
     variables(
       log_directory: node['unifiedpush'][svc]['log_directory'],
