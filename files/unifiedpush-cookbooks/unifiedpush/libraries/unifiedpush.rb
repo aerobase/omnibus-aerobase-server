@@ -36,6 +36,7 @@ module Unifiedpush
   bootstrap Mash.new
   java Mash.new
   cassandra Mash.new
+  cassandra_config Mash.new
   user Mash.new
   postgresql Mash.new
   unifiedpush_server Mash.new
@@ -151,6 +152,7 @@ module Unifiedpush
         "user",
 	"java",
 	"cassandra",
+	"cassandra_config",
         "unifiedpush_server",
         "keycloak_server",
         "nginx",
@@ -196,6 +198,10 @@ class CassandraHelper
     @node = node
       node['unifiedpush']['cassandra'].each do |key, value|
         node.set['cassandra'][key] = value
+      end
+
+      node['unifiedpush']['cassandra-config'].each do |key, value|
+        node.set['cassandra']['config'][key] = value
       end
   end
 end

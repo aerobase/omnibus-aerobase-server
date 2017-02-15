@@ -49,7 +49,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['oauth2_enabled'] = true
 # unifiedpush_server['oauth2_admin_user'] = "admin"
 # unifiedpush_server['oauth2_admin_pass'] = "password"
-#
+# unifiedpush_server['cas_contactpoints'] = "localhost"
+# unifiedpush_server['cas_port'] = "9042
+
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"
@@ -127,6 +129,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # cassandra['user'] = 'unifiedpush-cas'
 # cassandra['group'] = 'unifiedpush'
 # cassandra['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
+## Cluster config options
+# cassandra-config['cluster_name'] = 'unifiedpush-cluster'
+
 
 ####
 # Web server

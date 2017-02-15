@@ -71,6 +71,8 @@ default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
+default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = "localhost"
+default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
 
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
@@ -170,7 +172,7 @@ default['unifiedpush']['cassandra']['install_java'] = false
 default['unifiedpush']['cassandra']['use_systemd'] = true
 default['unifiedpush']['cassandra']['setup_jamm'] = true
 # Cluster config options
-default['unifiedpush']['cassandra']['config']['cluster_name'] = 'unifiedpush-cluster'
+default['unifiedpush']['cassandra-config']['cluster_name'] = 'unifiedpush-cluster'
 
 ####
 # Web server
