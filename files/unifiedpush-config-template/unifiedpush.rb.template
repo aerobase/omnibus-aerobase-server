@@ -125,13 +125,11 @@ external_url 'GENERATED_EXTERNAL_URL'
 # Apache Cassandra 
 ###
 # cassandra['enable'] = true
-# cassandra['cluster_name'] = 'unifiedpush-cluster'
 # cassandra['user'] = 'unifiedpush-cas'
 # cassandra['group'] = 'unifiedpush'
 # cassandra['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
 ## Cluster config options
-# cassandra-config['cluster_name'] = 'unifiedpush-cluster'
-
+# cassandra_config['cluster_name'] = 'unifiedpush-cluster'
 
 ####
 # Web server
