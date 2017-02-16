@@ -36,3 +36,18 @@ account "Unifiedpush user and group" do
   home unifiedpush_home
   manage node['unifiedpush']['manage-accounts']['enable']
 end
+
+postgresql_user = account_helper.postgresgl_user
+postgresql_group = account_helper.postgresgl_group
+
+# Create postgresql user/group
+account "Postgresql user and group" do
+  username postgresql_user
+  uid node['unifiedpush']['postgresql']['uid']
+  ugid postgresql_user
+  groupname postgresql_group
+  gid node['unifiedpush']['postgresql']['gid']
+  shell node['unifiedpush']['postgresql']['shell']
+  home node['unifiedpush']['postgresql']['home']
+  manage node['unifiedpush']['manage-accounts']['enable']
+end
