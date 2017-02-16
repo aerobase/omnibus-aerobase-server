@@ -16,6 +16,7 @@
 #
 
 account_helper = AccountHelper.new(node)
+omnibus_helper = OmnibusHelper.new(node)
 
 postgresql_dir = node['unifiedpush']['postgresql']['dir']
 postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
@@ -102,7 +103,7 @@ template postgresql_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'service[postgresql]', :immediately if OmnibusHelper.should_notify?("postgresql")
+  notifies :restart, 'service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
 end
 
 pg_hba_config = File.join(postgresql_data_dir, "pg_hba.conf")
@@ -112,17 +113,17 @@ template pg_hba_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'service[postgresql]', :immediately if OmnibusHelper.should_notify?("postgresql")
+  notifies :restart, 'service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
 end
 
 template File.join(postgresql_data_dir, "pg_ident.conf") do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'service[postgresql]' if OmnibusHelper.should_notify?("postgresql")
+  notifies :restart, 'service[postgresql]' if omnibus_helper.should_notify?("postgresql")
 end
 
-should_notify = OmnibusHelper.should_notify?("postgresql")
+should_notify = omnibus_helper.should_notify?("postgresql")
 
 runit_service "postgresql" do
   down node['unifiedpush']['postgresql']['ha']

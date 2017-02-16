@@ -45,7 +45,7 @@ class PgHelper
   end
 
   def is_running?
-    OmnibusHelper.service_up?("postgresql")
+    OmnibusHelper.new(node).service_up?("postgresql")
   end
 
   def database_exists?(db_name)
@@ -85,13 +85,18 @@ class PgHelper
 end
 
 class OmnibusHelper
-  extend ShellOutHelper
+  include ShellOutHelper
 
-  def self.should_notify?(service_name)
+  attr_reader :node
+  def initialize(node)
+    @node = node
+  end
+
+  def should_notify?(service_name)
     File.symlink?("/opt/unifiedpush/service/#{service_name}") && service_up?(service_name) && service_enabled?(service_name)
   end
 
-  def self.not_listening?(service_name)
+  def not_listening?(service_name)
     File.exists?("/opt/unifiedpush/service/#{service_name}/down") && service_down?(service_name)
   end
 
@@ -99,11 +104,11 @@ class OmnibusHelper
     node['unifiedpush'][service_name]['enable']
   end
 
-  def self.service_up?(service_name)
+  def service_up?(service_name)
     success?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
   end
 
-  def self.service_down?(service_name)
+  def service_down?(service_name)
     failure?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
   end
 

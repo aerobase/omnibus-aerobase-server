@@ -16,6 +16,7 @@
 #
 
 account_helper = AccountHelper.new(node)
+omnibus_helper = OmnibusHelper.new(node)
 
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
@@ -76,7 +77,7 @@ template unifiedpush_server_http_conf do
       :html_dir => nginx_html_dir
     }
   ))
-  notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
+  notifies :restart, 'service[nginx]' if omnibus_helper.should_notify?("nginx")
   action unifiedpush_server_enabled ? :create : :delete
 end
 
@@ -86,7 +87,7 @@ template nginx_config do
   group "root"
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
+  notifies :restart, 'service[nginx]' if omnibus_helper.should_notify?("nginx")
 end
 
 # Extract ups static contect to html directory
