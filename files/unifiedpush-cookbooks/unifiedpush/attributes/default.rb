@@ -60,20 +60,21 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
   # defaults to /opt/unifiedpush/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"
 }
-
 default['unifiedpush']['unifiedpush-server']['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
 default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
 default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['server_port'] = 80
 default['unifiedpush']['unifiedpush-server']['server_https'] = false
 default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
+# OAuth2 Configureation, webapp_host is used for web application clients.
 default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
+# Cassandra connection params
 default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = "localhost"
 default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
-
+# PostgreSQL connection params
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
 default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"
@@ -87,7 +88,7 @@ default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
-
+# OTP verification params
 default['unifiedpush']['unifiedpush-server']['inst_verification'] = false
 default['unifiedpush']['unifiedpush-server']['inst_verification_class'] = "org.jboss.aerogear.unifiedpush.service.sms.ClickatellSMSSender"
 default['unifiedpush']['unifiedpush-server']['inst_verification_master_code'] = nil
