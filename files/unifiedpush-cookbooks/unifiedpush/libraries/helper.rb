@@ -88,25 +88,35 @@ class OmnibusHelper
   extend ShellOutHelper
 
   def self.should_notify?(service_name)
-    File.symlink?("/opt/unifiedpush/service/#{service_name}") && service_up?(service_name)
+    File.symlink?("/opt/unifiedpush/service/#{service_name}") && service_up?(service_name) && service_enabled?(service_name)
   end
 
   def self.not_listening?(service_name)
     File.exists?("/opt/unifiedpush/service/#{service_name}/down") && service_down?(service_name)
   end
 
+  def service_enabled?(service_name)
+    node['unifiedpush'][service_name]['enable']
+  end
+
   def self.service_up?(service_name)
-    success?("/opt/unifiedpush/bin/unifiedpush-ctl status #{service_name}")
+    success?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
   end
 
   def self.service_down?(service_name)
-    failure?("/opt/unifiedpush/bin/unifiedpush-ctl status #{service_name}")
+    failure?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
   end
 
+  def user_exists?(username)
+    success?("id -u #{username}")
+  end
+
+  def group_exists?(group)
+    success?("getent group #{group}")
+  end
 end
 
 class SecretsHelper
-
   def self.read_unifiedpush_secrets
     existing_secrets ||= Hash.new
 
