@@ -97,7 +97,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
 # postgresql['log_directory'] = "/var/log/unifiedpush/postgresql"
 # postgresql['unix_socket_directory'] = "/var/opt/unifiedpush/postgresql"
-# postgresql['username'] = "unifiedpush-pgs"
+# postgresql['username'] = "unifiedpush-sql"
 # postgresql['uid'] = nil
 # postgresql['gid'] = nil
 # postgresql['shell'] = "/bin/sh"
