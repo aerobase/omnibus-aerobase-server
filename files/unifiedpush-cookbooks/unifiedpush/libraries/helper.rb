@@ -108,11 +108,11 @@ class OmnibusHelper
   end
 
   def service_up?(service_name)
-    success?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
+    success?("/opt/unifiedpush/bin/unifiedpush-ctl status #{service_name}")
   end
 
   def service_down?(service_name)
-    failure?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
+    failure?("/opt/unifiedpush/bin/unifiedpush-ctl status #{service_name}")
   end
 
   def user_exists?(username)
