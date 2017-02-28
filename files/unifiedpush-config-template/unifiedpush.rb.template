@@ -130,6 +130,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # cassandra['user'] = 'unifiedpush-cas'
 # cassandra['group'] = 'unifiedpush'
 # cassandra['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
+# cassandra['seeds'] = 'localhsot'
 ## Cluster config options
 # cassandra_config['cluster_name'] = 'unifiedpush-cluster'
 
