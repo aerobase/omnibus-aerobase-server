@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2017
+# Copyright:: Copyright (c) 2015.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +15,11 @@
 # limitations under the License.
 #
 
-# Define apache cassandra cookbook attributes.
-CassandraHelper.new(node)
+install_dir = node['package']['install-dir']
+keyspace_name = node['unifiedpush']['unifiedpush-server']['cas_keyspace']
 
-# Install apache cassandra from external package
-include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
-include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
-
-# Make sure cassandra execution in not bloked by selinux
-# This is required only because installation_dir is symbolic link.
-execute "restorecon-cassandra-slink" do
-  command "restorecon -Rv #{node['unifiedpush']['cassandra']['installation_dir']}"
-  action :run
+execute "initialize cassandra keyspace" do
+  cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
+  command "./init-cassandra-db.sh #{keyspace_name}"
+  action :nothing
 end

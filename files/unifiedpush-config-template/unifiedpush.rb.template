@@ -52,7 +52,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['oauth2_admin_pass'] = "password"
 ## Cassandra connection params
 # unifiedpush_server['cas_contactpoints'] = "localhost"
-# unifiedpush_server['cas_port'] = "9042
+# unifiedpush_server['cas_port'] = "9042"
+# unifiedpush_server['cas_keyspace'] = "unifiedpush_server"
 ## PostgreSQL connection params
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"

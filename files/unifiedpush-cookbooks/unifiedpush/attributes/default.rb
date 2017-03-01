@@ -74,6 +74,7 @@ default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
 # Cassandra connection params
 default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = "localhost"
 default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
+default['unifiedpush']['unifiedpush-server']['cas_keyspace'] = "unifiedpush_server"
 # PostgreSQL connection params
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"

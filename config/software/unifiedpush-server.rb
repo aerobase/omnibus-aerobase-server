@@ -24,7 +24,7 @@ dependency "postgresql"
 dependency "wildfly"
 
 version "1.2.0-SNAPSHOT" do
-  source md5: "0904e804d5a22cc6625dab9ab00d0c9f"
+  source md5: "0a7fa4f6d51bb1e9f47b8321be2c8313"
 end
 
 repo_home = if "#{version}".end_with?("SNAPSHOT") then "libs-snapshot-local" else "libs-release-local" end
