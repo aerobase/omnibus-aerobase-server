@@ -166,7 +166,7 @@ default['unifiedpush']['cassandra']['install_method'] = 'tarball'
 default['unifiedpush']['cassandra']['version'] = '3.9'
 default['unifiedpush']['cassandra']['user'] = 'unifiedpush-cas'
 default['unifiedpush']['cassandra']['group'] = 'unifiedpush'
-default['unifiedpush']['cassandra']['conf_dir'] = '/var/opt/unifiedpush/cassandra/conf'
+default['unifiedpush']['cassandra']['home_dir'] = '/var/opt/unifiedpush/cassandra'
 default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/cassandra/cassandra'
 # log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
 default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/logs'

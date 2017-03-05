@@ -18,8 +18,10 @@
 install_dir = node['package']['install-dir']
 keyspace_name = node['unifiedpush']['unifiedpush-server']['cas_keyspace']
 
+omnibus_helper = OmnibusHelper.new(node)
+
 execute "initialize cassandra keyspace" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
   command "./init-cassandra-db.sh #{keyspace_name}"
-  notifies :restart, 'service[cassandra]', :immediately
+  not_if { omnibus_helper.service_down?("cassandra") } 
 end
