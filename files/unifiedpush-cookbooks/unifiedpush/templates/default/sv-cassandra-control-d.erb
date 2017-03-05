@@ -1,4 +1,4 @@
 #!/bin/sh
-<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/disablegossip
-<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/disablethrift
-<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/drain
+<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/nodetool disablegossip
+<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/nodetool disablethrift
+<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/nodetool drain
