@@ -21,5 +21,5 @@ keyspace_name = node['unifiedpush']['unifiedpush-server']['cas_keyspace']
 execute "initialize cassandra keyspace" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
   command "./init-cassandra-db.sh #{keyspace_name}"
-  action :nothing
+  notifies :restart, 'service[cassandra]', :immediately
 end

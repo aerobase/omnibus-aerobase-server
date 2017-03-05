@@ -161,17 +161,20 @@ default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
 # Apache Cassandra
 ###
 default['unifiedpush']['cassandra']['enable'] = true
+default['unifiedpush']['cassandra']['ha'] = false
 default['unifiedpush']['cassandra']['install_method'] = 'tarball'
 default['unifiedpush']['cassandra']['version'] = '3.9'
 default['unifiedpush']['cassandra']['user'] = 'unifiedpush-cas'
 default['unifiedpush']['cassandra']['group'] = 'unifiedpush'
+default['unifiedpush']['cassandra']['conf_dir'] = '/var/opt/unifiedpush/cassandra/conf'
 default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/cassandra/cassandra'
 # log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
 default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/logs'
-default['unifiedpush']['cassandra']['log_directory'] = '/var/opt/unifiedpush/cassandra/logs'
+default['unifiedpush']['cassandra']['log_directory'] = '/var/log/unifiedpush/cassandra'
 default['unifiedpush']['cassandra']['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
 default['unifiedpush']['cassandra']['install_java'] = false
-default['unifiedpush']['cassandra']['use_systemd'] = true
+default['unifiedpush']['cassandra']['use_systemd'] = false
+default['unifiedpush']['cassandra']['use_initd'] = false
 default['unifiedpush']['cassandra']['setup_jamm'] = true
 # Cluster config options
 default['unifiedpush']['cassandra-config']['cluster_name'] = 'unifiedpush-cluster'

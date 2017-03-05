@@ -22,9 +22,31 @@ CassandraHelper.new(node)
 include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
 include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
 
+cassandra_log_dir = node['unifiedpush']['cassandra']['log_directory']
+cassandra_home_dir = node['unifiedpush']['cassandra']['home_dir']
+
+link File.join(cassandra_home_dir, "logs") do
+  to cassandra_log_dir
+end
+
+runit_service "cassandra" do
+  down node['unifiedpush']['cassandra']['ha']
+  options({
+    :log_directory => cassandra_log_dir
+  }.merge(params))
+  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['cassandra'].to_hash)
+end
+
 # Make sure cassandra execution in not bloked by selinux
 # This is required only because installation_dir is symbolic link.
 execute "restorecon-cassandra-slink" do
   command "restorecon -Rv #{node['unifiedpush']['cassandra']['installation_dir']}"
   action :run
 end
+
+if node['unifiedpush']['bootstrap']['enable']
+  execute "/opt/unifiedpush/bin/unifiedpush-ctl start cassandra" do
+    retries 5
+  end
+end
+

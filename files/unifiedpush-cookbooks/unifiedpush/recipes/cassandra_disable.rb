@@ -15,9 +15,7 @@
 # limitations under the License.
 #
 
-service 'cassandra' do
-  supports :restart => true, :status => true
-  service_name node['cassandra']['service_name']
-  action [:disable, :stop]
-  only_if  { ::File.exist?(node['unifiedpush']['cassandra']['installation_dir']) }
+runit_service "cassandra" do
+  action :disable
 end
+
