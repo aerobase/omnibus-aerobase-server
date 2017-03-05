@@ -25,12 +25,13 @@ include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassand
 cassandra_log_dir = node['unifiedpush']['cassandra']['log_directory']
 cassandra_home_dir = node['unifiedpush']['cassandra']['home_dir']
 
-link File.join(cassandra_home_dir, "logs") do
-  to cassandra_log_dir
+link cassandra_log_dir do
+  to File.join(cassandra_home_dir, "logs")
 end
 
 runit_service "cassandra" do
   down node['unifiedpush']['cassandra']['ha']
+  control ['d']
   options({
     :log_directory => cassandra_log_dir
   }.merge(params))
