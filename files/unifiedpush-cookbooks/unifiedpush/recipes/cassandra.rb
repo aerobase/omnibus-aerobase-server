@@ -22,18 +22,26 @@ CassandraHelper.new(node)
 include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
 include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
 
-cassandra_log_dir = node['unifiedpush']['cassandra']['log_directory']
-cassandra_home_dir = node['unifiedpush']['cassandra']['home_dir']
+log_directory = node['unifiedpush']['cassandra']['log_directory']
+cassandra_user = node['unifiedpush']['cassandra']['user']
 
-link cassandra_log_dir do
-  to File.join(cassandra_home_dir, "logs")
+# Cassandra log additional files to CASSANDRA_HOME/logs/.
+[
+  log_directory
+].each do |dir_name|
+  directory dir_name do
+    owner cassandra_user
+    group 'root'
+    mode '0775'
+    recursive true
+  end
 end
 
 runit_service "cassandra" do
   down node['unifiedpush']['cassandra']['ha']
   control ['d']
   options({
-    :log_directory => cassandra_log_dir
+    :log_directory => log_directory
   }.merge(params))
   log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['cassandra'].to_hash)
 end
