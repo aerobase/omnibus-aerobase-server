@@ -18,10 +18,6 @@
 # Define apache cassandra cookbook attributes.
 CassandraHelper.new(node)
 
-# Install apache cassandra from external package
-include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
-include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
-
 log_directory = node['unifiedpush']['cassandra']['log_directory']
 cassandra_user = node['unifiedpush']['cassandra']['user']
 
@@ -45,6 +41,10 @@ runit_service "cassandra" do
   }.merge(params))
   log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['cassandra'].to_hash)
 end
+
+# Install apache cassandra from external package
+include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
+include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
 
 # Make sure cassandra execution in not bloked by selinux
 # This is required only because installation_dir is symbolic link.
