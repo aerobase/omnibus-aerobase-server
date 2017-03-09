@@ -22,7 +22,7 @@ unifiedpush_group = account_helper.unifiedpush_group
 
 # Prepare backup configuration files
 home_dir = node['unifiedpush']['user']['home']
-backup_dir = node['unifiedpush']['backup_path']
+backup_dir = node['unifiedpush']['global']['backup_path']
 
 directory "#{backup_dir}" do
   owner unifiedpush_user

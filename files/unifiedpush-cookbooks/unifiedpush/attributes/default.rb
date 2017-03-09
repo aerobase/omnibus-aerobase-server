@@ -21,6 +21,10 @@
 default['unifiedpush']['bootstrap']['enable'] = true
 # create users and groups needed for the package
 default['unifiedpush']['manage-accounts']['enable'] = true
+# Default contactpoints for symmetric cluster mode.
+# Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to unifiedpush.rb
+default['unifiedpush']['global']['contactpoints'] = node['fqdn']
+default['unifiedpush']['global']['backup_path'] = "/var/opt/unifiedpush/backups"
 
 ####
 ## The Unifiedpush User that services run as
@@ -34,7 +38,6 @@ default['unifiedpush']['user']['gid'] = nil
 default['unifiedpush']['user']['shell'] = "/bin/sh"
 # The home directory for the unifiedpush services user
 default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
-default['unifiedpush']['backup_path'] = "/var/opt/unifiedpush/backups"
 
 ####
 # Java installation options, this package is not embeded.
@@ -63,6 +66,7 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
 default['unifiedpush']['unifiedpush-server']['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
 default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
 default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
+default['unifiedpush']['unifiedpush-server']['server_contactpoints'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['server_port'] = 80
 default['unifiedpush']['unifiedpush-server']['server_https'] = false
 default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
@@ -72,7 +76,7 @@ default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
 # Cassandra connection params
-default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = "localhost"
+default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
 default['unifiedpush']['unifiedpush-server']['cas_keyspace'] = "unifiedpush_server"
 # PostgreSQL connection params
@@ -175,6 +179,7 @@ default['unifiedpush']['cassandra']['install_java'] = false
 default['unifiedpush']['cassandra']['use_systemd'] = false
 default['unifiedpush']['cassandra']['use_initd'] = false
 default['unifiedpush']['cassandra']['setup_jamm'] = true
+default['unifiedpush']['cassandra']['seeds'] = node['fqdn']
 # Cluster config options
 default['unifiedpush']['cassandra-config']['cluster_name'] = 'unifiedpush-cluster'
 

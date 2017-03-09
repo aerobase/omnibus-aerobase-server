@@ -19,7 +19,12 @@ external_url 'GENERATED_EXTERNAL_URL'
 # user['shell'] = "/bin/sh"
 ## The home directory for the unifiedpush services user
 # user['home'] = "/var/opt/unifiedpush"
-# backup_path = "/var/opt/unifiedpush/backups"
+
+####
+# Global (Cross component) configuration
+###
+# global['contactpoints'] = node['fqdn']
+# global['backup_path'] = "/var/opt/unifiedpush/backups"
 
 ####
 # Java installation options, this package is not embeded.
@@ -42,6 +47,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
 # unifiedpush_server['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
 # unifiedpush_server['server_host'] = node['fqdn']
+# unifiedpush_server['server_contactpoints'] = = node['fqdn']
 # unifiedpush_server['server_port'] = 80
 # unifiedpush_server['server_https'] = false
 # unifiedpush_server['time_zone'] = nil
@@ -51,7 +57,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['oauth2_admin_user'] = "admin"
 # unifiedpush_server['oauth2_admin_pass'] = "password"
 ## Cassandra connection params
-# unifiedpush_server['cas_contactpoints'] = "localhost"
+# unifiedpush_server['cas_contactpoints'] = node['fqdn']
 # unifiedpush_server['cas_port'] = "9042"
 # unifiedpush_server['cas_keyspace'] = "unifiedpush_server"
 ## PostgreSQL connection params
@@ -131,7 +137,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # cassandra['user'] = 'unifiedpush-cas'
 # cassandra['group'] = 'unifiedpush'
 # cassandra['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
-# cassandra['seeds'] = 'localhsot'
+# cassandra['seeds'] = = node['fqdn']
 ## Cluster config options
 # cassandra_config['cluster_name'] = 'unifiedpush-cluster'
 

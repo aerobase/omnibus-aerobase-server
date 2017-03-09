@@ -34,10 +34,11 @@ module Unifiedpush
   extend(Mixlib::Config)
 
   bootstrap Mash.new
+  global Mash.new
+  user Mash.new
   java Mash.new
   cassandra Mash.new
   cassandra_config Mash.new
-  user Mash.new
   postgresql Mash.new
   unifiedpush_server Mash.new
   keycloak_server Mash.new
@@ -120,6 +121,29 @@ module Unifiedpush
       end
     end
 
+    def parse_cassandra_settings
+      # If the user wants to run the in symetric cluster mode,
+      # then those settings should also be applied to cassandra / unifiedpush-server.
+      [
+        # %w{unifiedpush_server cas_contactpoints} corresponds to
+        # Unifiedpush['unifiedpush_server']['cas_contactpoints'], etc.
+        [%w{unifiedpush_server server_contactpoints}, %w{global contactpoints}],
+        [%w{unifiedpush_server cas_contactpoints}, %w{global contactpoints}],
+        [%w{cassandra seeds}, %w{global contactpoints}]
+      ].each do |left, right|
+        if ! Unifiedpush[left.first][left.last].nil?
+          # If the user explicitly sets a value for e.g.
+          # unifiedpush['db_port'] in unifiedpush.rb then we should never override
+          # that.
+          next
+        end
+
+        better_value_from_unifiedpush_rb = Unifiedpush[right.first][right.last]
+        default_from_attributes = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
+        Unifiedpush[left.first][left.last] = better_value_from_unifiedpush_rb || default_from_attributes
+      end
+    end
+
     def parse_nginx_listen_address
       return unless nginx['listen_address']
 
@@ -149,6 +173,7 @@ module Unifiedpush
       results = { "unifiedpush" => {} }
       [
         "bootstrap",
+        "global",
         "user",
 	"java",
 	"cassandra",
@@ -172,6 +197,7 @@ module Unifiedpush
       # generate_secrets(node_name)
       parse_external_url
       parse_postgresql_settings
+      parse_cassandra_settings
       parse_nginx_listen_address
       parse_nginx_listen_ports
       # The last step is to convert underscores to hyphens in top-level keys
