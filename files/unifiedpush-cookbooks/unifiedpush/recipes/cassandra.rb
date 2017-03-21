@@ -77,8 +77,8 @@ if node['unifiedpush']['cassandra']['enable']
           sleep 10
         else
           if i > 1
-            Chef::Log.fatal("Cassandra netstats return NORMAL status, waiting additional 10 seconds.")
-            sleep 10
+            Chef::Log.fatal("Cassandra netstats return NORMAL status, waiting additional 15 seconds.")
+            sleep 15
           end
           connectable = true
           break
