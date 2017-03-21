@@ -49,8 +49,7 @@ class PgHelper
 
   def is_running?
     omnibus_helper = OmnibusHelper.new(node)
-    # for some reason 'service_up' return true when service not installed.
-    omnibus_helper.service_up?("postgresql") && omnibus_helper.service_enabled?("postgresql")
+    omnibus_helper.service_up?("postgresql")
   end
 
   def database_exists?(db_name)

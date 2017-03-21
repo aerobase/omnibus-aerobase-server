@@ -29,8 +29,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 ####
 # Java installation options, this package is not embeded.
 # When enabled, external java package will be installed.
+# This option requires python installation in your path.
 ####
-# java['install_java'] = true
+# java['install_java'] = false
 # java['jdk_version'] = '8'
 # java['install_flavor'] = 'openjdk'
 # java['set_default'] = true

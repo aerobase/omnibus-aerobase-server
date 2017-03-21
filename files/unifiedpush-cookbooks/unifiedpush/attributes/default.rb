@@ -43,7 +43,7 @@ default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
 # Java installation options, this package is not embeded.
 # When enabled, external java package will be installed.
 ####
-default['unifiedpush']['java']['install_java'] = true
+default['unifiedpush']['java']['install_java'] = false
 default['unifiedpush']['java']['jdk_version'] = '8'
 default['unifiedpush']['java']['install_flavor'] = 'openjdk'
 default['unifiedpush']['java']['set_default'] = true

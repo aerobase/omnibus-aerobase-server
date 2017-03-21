@@ -79,10 +79,48 @@ end
   end
 end
 
-# Schema creation - either to embedded postgres or to external.
-# Schama must be configured before unifiedpush-server is started.
-include_recipe "unifiedpush::postgresql_database_setup"
-include_recipe "unifiedpush::postgresql_database_schema"
+# NOTE: These recipes are written idempotently, but require a running
+# PostgreSQL service.  They should run each time (on the appropriate
+# backend machine, of course), because they also handle schema
+# upgrades for new releases of AeroBasef.  As a result, we can't
+# just do a check against node['unifiedpush']['bootstrap']['enable'],
+# which would only run them one time.
+if node['unifiedpush']['postgresql']['enable']
+  execute "/opt/unifiedpush/bin/unifiedpush-ctl start postgresql" do
+    retries 20
+  end
+
+  ruby_block "wait for postgresql to start" do
+    block do
+      pg_helper = PgHelper.new(node)
+      connectable = false
+      2.times do |i|
+        # Note that we have to include the port even for a local pipe, because the port number
+        # is included in the pipe default.
+        if pg_helper.psql_cmd(["-d 'pg_database'", "-c 'SELECT * FROM pg_database' -t -A"])
+          Chef::Log.fatal("Could not connect to database, retrying in 10 seconds.")
+          sleep 10
+        else
+          connectable = true
+          break
+        end
+      end
+
+      unless connectable
+        Chef::Log.fatal <<-ERR
+Could not connect to the postgresql database.
+Please check /var/log/unifiedpush/posgresql/current for more information.
+ERR
+        exit!(1)
+      end
+    end
+  end
+
+  # Schema creation - either to embedded postgres or to external.
+  # Schama must be configured before unifiedpush-server is started.
+  include_recipe "unifiedpush::postgresql_database_setup"
+  include_recipe "unifiedpush::postgresql_database_schema"
+end
 
 include_recipe "unifiedpush::web-server"
 include_recipe "unifiedpush::backup"

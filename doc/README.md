@@ -2,7 +2,7 @@
 
 ## Installation
 
-- [Package downloads page](https://github.com/C-B4/unifiedpush-server/wiki/Unifiedpush-Installation)
+- [Package downloads page](https://github.com/aerobase/unifiedpush-server/wiki/Unifiedpush-Installation)
 
 ## Maintenance
 
