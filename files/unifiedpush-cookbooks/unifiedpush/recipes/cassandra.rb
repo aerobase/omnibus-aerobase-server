@@ -18,8 +18,13 @@
 # Define apache cassandra cookbook attributes.
 CassandraHelper.new(node)
 
+installation_dir = node['unifiedpush']['cassandra']['installation_dir']
 log_directory = node['unifiedpush']['cassandra']['log_directory']
 cassandra_user = node['unifiedpush']['cassandra']['user']
+
+# Install apache cassandra from external package
+# Must be first in action, create cassandra user/group.
+include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
 
 # Cassandra log additional files to CASSANDRA_HOME/logs/.
 [
@@ -41,9 +46,6 @@ runit_service "cassandra" do
   }.merge(params))
   log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['cassandra'].to_hash)
 end
-
-# Install apache cassandra from external package
-include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
 
 # Make sure cassandra execution in not bloked by selinux
 # This is required only because installation_dir is symbolic link.
@@ -69,9 +71,7 @@ if node['unifiedpush']['cassandra']['enable']
       6.times do |i|
         # Note that we have to include the port even for a local pipe, because the port number
         # is included in the pipe default.
-        #`nodetool statusgossip`
-        # if $?.exitstatus != 0
-        mode = `nodetool netstats`
+        mode = `#{installation_dir}/bin/nodetool netstats`
         if !mode.include? "NORMAL"
           Chef::Log.fatal("Could not connect to local cassandra node, retrying in 10 seconds.")
           sleep 10
