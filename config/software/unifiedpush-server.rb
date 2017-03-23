@@ -27,6 +27,10 @@ version "1.2.0-SNAPSHOT" do
   source md5: "e1b41125f1d4cf6f50f4d6016a1ca68d"
 end
 
+version "1.2.0-RC1" do
+  source md5: "62861491890e3613ec06de4c0dcda59f"
+end
+
 repo_home = if "#{version}".end_with?("SNAPSHOT") then "libs-snapshot-local" else "libs-release-local" end
 
 source url: "https://development.c-b4.com/artifactory/#{repo_home}/org/jboss/aerogear/unifiedpush/unifiedpush-package/#{version}/unifiedpush-package-#{version}.tar.gz"
