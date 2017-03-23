@@ -68,7 +68,7 @@ if node['unifiedpush']['cassandra']['enable']
   ruby_block "wait for cassandra to start" do
     block do
       connectable = false
-      6.times do |i|
+      12.times do |i|
         # Note that we have to include the port even for a local pipe, because the port number
         # is included in the pipe default.
         mode = `#{installation_dir}/bin/nodetool netstats`
