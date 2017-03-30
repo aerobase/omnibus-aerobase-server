@@ -28,7 +28,7 @@ version "1.2.0-SNAPSHOT" do
 end
 
 version "1.2.0-RC1" do
-  source md5: "62861491890e3613ec06de4c0dcda59f"
+  source md5: "f8f00ce9b554937445d0c9d4097f56ef"
 end
 
 repo_home = if "#{version}".end_with?("SNAPSHOT") then "libs-snapshot-local" else "libs-release-local" end
