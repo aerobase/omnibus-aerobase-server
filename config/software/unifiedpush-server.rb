@@ -15,7 +15,7 @@
 #
 
 name "unifiedpush-server"
-default_version "1.2.0-RC1"
+default_version "1.2.0-SNAPSHOT"
 
 dependency "ruby"
 dependency "bundler"
@@ -24,7 +24,7 @@ dependency "postgresql"
 dependency "wildfly"
 
 version "1.2.0-SNAPSHOT" do
-  source md5: "e1b41125f1d4cf6f50f4d6016a1ca68d"
+  source md5: "eef6faa7d04be3de0bfb73f865d4ddd8"
 end
 
 version "1.2.0-RC1" do
