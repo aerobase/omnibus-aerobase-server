@@ -97,7 +97,14 @@ server {
     proxy_connect_timeout   300;
     proxy_redirect          off;
 
-    proxy_set_header    Host                $http_host;
+    ## Use downstream host name if exists.
+    ## Some requests are proxied from a subdomain server.
+    set $http_u_host $http_host;
+    if ($http_x_host) {
+        set $http_u_host $http_x_host;
+    }
+
+    proxy_set_header    Host                $http_u_host;
     proxy_set_header    X-Real-IP           $remote_addr;
     <% if @https %>
     proxy_set_header    X-Forwarded-Ssl     on;
