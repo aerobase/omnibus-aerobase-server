@@ -24,7 +24,7 @@ dependency "postgresql"
 dependency "wildfly"
 
 version "1.2.0-SNAPSHOT" do
-  source md5: "e785e1638a1c002d5635ac3e68edd1cc"
+  source md5: "c6d07bf12e8a4ce216f780fbec95e261"
 end
 
 version "1.2.0-RC1" do
