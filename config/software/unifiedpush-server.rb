@@ -15,35 +15,28 @@
 #
 
 name "unifiedpush-server"
-default_version "1.2.0-SNAPSHOT"
+default_version "SPRING_RX"
 
 dependency "ruby"
 dependency "bundler"
 dependency "rsync"
 dependency "postgresql"
 dependency "wildfly"
+dependency "cassandra-unit"
 
-version "1.2.0-SNAPSHOT" do
-  source md5: "2747c7ff6552614cd1603683bbc86322"
-end
-
-version "1.2.0-RC1" do
-  source md5: "f8f00ce9b554937445d0c9d4097f56ef"
-end
-
-repo_home = if "#{version}".end_with?("SNAPSHOT") then "libs-snapshot-local" else "libs-release-local" end
-
-source url: "https://development.c-b4.com/artifactory/#{repo_home}/org/jboss/aerogear/unifiedpush/unifiedpush-package/#{version}/unifiedpush-package-#{version}.tar.gz"
+relative_path "unifiedpush-server"
+build_dir = "#{project_dir}"
 
 build do
+  command "mvn clean install -DskipTests"
+
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
-  sync "#{project_dir}/", "#{install_dir}/embedded/apps/unifiedpush-server/"
 
   # Strip version from packages.
-  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server-wildfly-#{version}.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
-  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb-#{version}.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz"
-  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme-#{version}.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme.tar.gz"
-  link "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui-#{version}.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
+  copy "#{project_dir}/servers/ups-wildfly/target/unifiedpush-server.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
+  copy "#{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz"
+  copy "#{project_dir}/keycloak-theme/target/unifiedpush-keycloak-theme.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme.tar.gz"
+  copy "#{project_dir}/admin-ui/target/unifiedpush-admin-ui.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
 
   erb source: "version.yml.erb",
       dest: "#{install_dir}/embedded/apps/unifiedpush-server/version.yml",
@@ -53,6 +46,6 @@ end
 
 # extract initdb project to allow JPA based schema creation.
 build do
-  command "tar xzf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb-#{version}.tar.gz -C #{install_dir}/embedded/apps/unifiedpush-server/"
+  command "tar xzf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz -C #{install_dir}/embedded/apps/unifiedpush-server/"
 end
 
