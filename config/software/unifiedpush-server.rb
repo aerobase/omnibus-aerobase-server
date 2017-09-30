@@ -15,7 +15,7 @@
 #
 
 name "unifiedpush-server"
-default_version "SPRING_RX"
+default_version "master"
 
 dependency "ruby"
 dependency "bundler"
