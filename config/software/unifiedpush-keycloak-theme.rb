@@ -14,19 +14,16 @@
 # limitations under the License.
 #
 
-name "unifiedpush-server"
+name "unifiedpush-keycloak-theme"
 default_version "master"
 
 dependency "ruby"
 dependency "bundler"
 dependency "rsync"
-dependency "postgresql"
-dependency "wildfly"
-dependency "cassandra-unit"
 
-source git: "https://github.com/aerobase/unifiedpush-server.git"
+source git: "https://github.com/aerobase/unifiedpush-keycloak-theme.git"
 
-relative_path "unifiedpush-server"
+relative_path "unifiedpush-keycloak-theme"
 build_dir = "#{project_dir}"
 
 build do
@@ -35,17 +32,5 @@ build do
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
 
   # Strip version from packages.
-  copy "#{project_dir}/servers/ups-wildfly/target/unifiedpush-server.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
-  copy "#{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz"
-
-  erb source: "version.yml.erb",
-      dest: "#{install_dir}/embedded/apps/unifiedpush-server/version.yml",
-      mode: 0644,
-      vars: { default_version: default_version }
+  copy "#{project_dir}/target/unifiedpush-keycloak-theme.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme.tar.gz"
 end
-
-# extract initdb project to allow JPA based schema creation.
-build do
-  command "tar xzf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz -C #{install_dir}/embedded/apps/unifiedpush-server/"
-end
-
