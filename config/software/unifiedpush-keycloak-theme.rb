@@ -15,11 +15,8 @@
 #
 
 name "unifiedpush-keycloak-theme"
+skip_transitive_dependency_licensing true
 default_version "master"
-
-dependency "ruby"
-dependency "bundler"
-dependency "rsync"
 
 source git: "https://github.com/aerobase/unifiedpush-keycloak-theme.git"
 
@@ -31,6 +28,6 @@ build do
 
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
 
-  # Strip version from packages.
+  # Copy file to apps dir
   copy "#{project_dir}/target/unifiedpush-keycloak-theme.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme.tar.gz"
 end
