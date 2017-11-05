@@ -15,12 +15,20 @@
 #
 
 name "keycloak-server"
-default_version "2.5.5.Final"
+default_version "3.3.0.Final"
 
 dependency "ruby"
 dependency "bundler"
 dependency "rsync"
 dependency "unifiedpush-server"
+
+version "3.3.0.Final" do
+  source md5: "a4c362c960265f11b032d98d78606479"
+end
+
+version "3.2.1.Final" do
+  source md5: "6accd47f4d8fc141833f066e9de83215"
+end
 
 version "2.5.5.Final" do
   source md5: "e580232fb2a1c7c9d4c89b6fef6a029d"
@@ -42,10 +50,10 @@ build do
 
   # Strip KC version from packages.
   link "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay-#{version}", "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay"
-  link "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/modules/system/add-ons/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem-#{version}.jar", "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/modules/system/add-ons/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem.jar"
+  link "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/modules/system/layers/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem-#{version}.jar", "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/modules/system/layers/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem.jar"
 
   # Extract default-keycloak-subsys-config.cli to /embedded/apps/keycloak-server/keycloak-overlay/
   # This can't be done during reconfigure step since JDK is not required in production.
-  command "cd #{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/; jar -xvf  #{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/modules/system/add-ons/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem.jar cli/default-keycloak-subsys-config.cli"
+  command "cd #{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/; jar -xvf  #{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/modules/system/layers/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem.jar cli/default-keycloak-subsys-config.cli"
 
 end

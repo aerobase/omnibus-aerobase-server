@@ -15,7 +15,7 @@
 #
 
 name "unifiedpush-server"
-default_version "master"
+default_version "aerogear_merge"
 
 dependency "ruby"
 dependency "bundler"
