@@ -34,8 +34,8 @@ build do
 
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
 
-  # Strip version from packages.
-  copy "#{project_dir}/servers/ups-wildfly/target/unifiedpush-server.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
+  # Copy packages to installation dir.
+  copy "#{project_dir}/servers/target/unifiedpush-server.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
   copy "#{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz"
 
   erb source: "version.yml.erb",
