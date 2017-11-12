@@ -44,8 +44,6 @@ dependency "runit"
 # unifiedpush-server is the most expensive runtime build, therefore keep it first in order.
 dependency "unifiedpush-server"
 dependency "unifiedpush-admin-ui"
-dependency "unifiedpush-keycloak-theme"
-dependency "keycloak-server"
 dependency "unifiedpush-ctl"
 dependency "unifiedpush-config-template"
 dependency "unifiedpush-scripts"
