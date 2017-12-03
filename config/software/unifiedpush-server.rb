@@ -29,7 +29,9 @@ relative_path "unifiedpush-server"
 build_dir = "#{project_dir}"
 
 build do
+  command "mvn --non-recursive clean install"
   command "mvn clean install -DskipTests"
+  command "mvn clean install -DskipTests -f databases/initdb/pom.xml"
 
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
 
