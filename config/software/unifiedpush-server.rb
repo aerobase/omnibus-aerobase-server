@@ -21,7 +21,6 @@ dependency "ruby"
 dependency "bundler"
 dependency "rsync"
 dependency "postgresql"
-dependency "cassandra-unit"
 
 source git: "https://github.com/aerobase/unifiedpush-server.git"
 
