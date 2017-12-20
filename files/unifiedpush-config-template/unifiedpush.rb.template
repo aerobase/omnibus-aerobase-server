@@ -65,6 +65,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['cas_contactpoints'] = node['fqdn']
 # unifiedpush_server['cas_port'] = "9042"
 # unifiedpush_server['cas_keyspace'] = "unifiedpush_server"
+# unifiedpush_server['cas_consistencylevel'] = "QUORUM"
 ## PostgreSQL connection params
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
