@@ -57,7 +57,7 @@ end
 include_recipe "unifiedpush::users"
 
 # Install our runit instance
-include_recipe "runit"
+include_recipe "enterprise::runit"
 
 # Install java from external package
 if node['unifiedpush']['java']['install_java']

@@ -19,11 +19,10 @@ require "#{Omnibus::Config.project_root}/lib/unifiedpush/build_iteration"
 
 name "unifiedpush-server"
 maintainer "Yaniv Marom-Nachumi"
-homepage "https://github.com/C-B4/omnibus-unifiedpush-server"
+homepage "https://github.com/aerobase/omnibus-unifiedpush-server"
 
-# Defaults to C:/unifiedpush on Windows
-# and /opt/unifiedpush on all other platforms
-install_dir "#{default_root}/unifiedpush"
+package_name    "unifiedpush-server"
+install_dir     "/opt/unifiedpush"
 
 build_version   Omnibus::BuildVersion.new.semver
 build_iteration Unifiedpush::BuildIteration.new.build_iteration
@@ -53,6 +52,16 @@ dependency "package-scripts"
 
 # Version manifest file
 dependency "version-manifest"
+
+package :rpm do
+  compression_level 6
+  compression_type :xz
+end
+
+package :deb do
+  compression_level 6
+  compression_type :xz
+end
 
 exclude "**/.git"
 exclude "**/bundler/git"

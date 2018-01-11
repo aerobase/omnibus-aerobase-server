@@ -57,3 +57,15 @@
 [submodule "files/unifiedpush-cookbooks/chef_handler"]
 	path = files/unifiedpush-cookbooks/chef_handler
 	url = https://github.com/chef-cookbooks/chef_handler.git
+[submodule "files/unifiedpush-cookbooks/enterprise"]
+	path = files/unifiedpush-cookbooks/enterprise
+	url = https://github.com/chef-cookbooks/enterprise-chef-common.git
+[submodule "files/unifiedpush-cookbooks/runit"]
+	path = files/unifiedpush-cookbooks/runit
+	url = https://github.com/chef-cookbooks/runit.git
+[submodule "files/unifiedpush-cookbooks/packagecloud"]
+	path = files/unifiedpush-cookbooks/packagecloud
+	url = https://github.com/computology/packagecloud-cookbook.git
+[submodule "files/unifiedpush-cookbooks/yum-epel"]
+	path = files/unifiedpush-cookbooks/yum-epel
+	url = https://github.com/chef-cookbooks/yum-epel.git

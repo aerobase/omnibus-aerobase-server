@@ -46,12 +46,8 @@ node['unifiedpush']['logrotate']['services'].each do |svc|
   end
 end
 
-runit_service "logrotate" do
-  down node['unifiedpush']['logrotate']['ha']
-  options({
-    :log_directory => logrotate_log_dir
-  }.merge(params))
-  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['logrotate'].to_hash)
+component_runit_service "logrotate" do
+  package "unifiedpush"
 end
 
 if node['unifiedpush']['bootstrap']['enable']

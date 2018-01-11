@@ -102,7 +102,7 @@ template postgresql_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
+  notifies :restart, 'runit_service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
 end
 
 pg_hba_config = File.join(postgresql_data_dir, "pg_hba.conf")
@@ -112,25 +112,21 @@ template pg_hba_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
+  notifies :restart, 'runit_service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
 end
 
 template File.join(postgresql_data_dir, "pg_ident.conf") do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'service[postgresql]' if omnibus_helper.should_notify?("postgresql")
+  notifies :restart, 'runit_service[postgresql]' if omnibus_helper.should_notify?("postgresql")
 end
 
 should_notify = omnibus_helper.should_notify?("postgresql")
 
-runit_service "postgresql" do
-  down node['unifiedpush']['postgresql']['ha']
-  control(['t'])
-  options({
-    :log_directory => postgresql_log_dir
-  }.merge(params))
-  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['postgresql'].to_hash)
+nent_runit_service "postgresql" do
+  package "unifiedpush"
+  control ['t']
 end
 
 if node['unifiedpush']['bootstrap']['enable']

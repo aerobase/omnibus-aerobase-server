@@ -77,12 +77,9 @@ template "#{server_etc_dir}/db.properties" do
   variables(node['unifiedpush']['unifiedpush-server'].to_hash)
 end
 
-runit_service "unifiedpush-server" do
-  down node['unifiedpush']['unifiedpush-server']['ha']
-  options({
-    :log_directory => server_log_dir
-  }.merge(params))
-  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['unifiedpush-server'].to_hash)
+component_runit_service "unifiedpush-server" do
+  package "unifiedpush"
+  control ['t']
 end
 
 # Make sure owner is unifiedpush_user

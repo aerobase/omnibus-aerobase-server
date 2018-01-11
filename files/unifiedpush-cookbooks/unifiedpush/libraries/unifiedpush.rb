@@ -190,6 +190,7 @@ module Unifiedpush
         results['unifiedpush'][rkey] = Unifiedpush[key]
       end
 
+      results['unifiedpush']["install_path"] = Unifiedpush["install_path"]
       results
     end
 

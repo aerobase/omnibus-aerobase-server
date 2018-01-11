@@ -77,7 +77,7 @@ template unifiedpush_server_http_conf do
       :html_dir => nginx_html_dir
     }
   ))
-  notifies :restart, 'service[nginx]' if omnibus_helper.should_notify?("nginx")
+  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action unifiedpush_server_enabled ? :create : :delete
 end
 
@@ -87,7 +87,7 @@ template nginx_config do
   group "root"
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'service[nginx]' if omnibus_helper.should_notify?("nginx")
+  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
 end
 
 # Extract ups static contect to html directory
@@ -104,12 +104,9 @@ execute "chown-nginx-resources" do
   action :run
 end
 
-runit_service "nginx" do
-  down node['unifiedpush']['nginx']['ha']
-  options({
-    :log_directory => nginx_log_dir
-  }.merge(params))
-  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['nginx'].to_hash)
+component_runit_service "nginx" do
+  package "unifiedpush"
+  control ['t']
 end
 
 if node['unifiedpush']['bootstrap']['enable']

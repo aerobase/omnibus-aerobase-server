@@ -15,6 +15,12 @@
 # limitations under the License.
 #
 
+###
+# Set a project-name for the enterprise-chef-common cookbook
+###
+default['enterprise']['name'] = "unifiedpush"
+default['unifiedpush']['install_path'] = "/opt/unifiedpush"
+
 ####
 # omnibus options
 ####
@@ -56,6 +62,8 @@ default['unifiedpush']['unifiedpush-server']['enable'] = true
 default['unifiedpush']['unifiedpush-server']['ha'] = false
 default['unifiedpush']['unifiedpush-server']['dir'] = "/var/opt/unifiedpush/unifiedpush-server"
 default['unifiedpush']['unifiedpush-server']['log_directory'] = "/var/log/unifiedpush/unifiedpush-server"
+default['unifiedpush']['unifiedpush-server']['log_rotation']['file_maxbytes'] = 104857600
+default['unifiedpush']['unifiedpush-server']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['unifiedpush-server']['environment'] = 'production'
 default['unifiedpush']['unifiedpush-server']['env'] = {
   'SIDEKIQ_MEMORY_KILLER_MAX_RSS' => '1000000',
@@ -129,6 +137,8 @@ default['unifiedpush']['postgresql']['ha'] = false
 default['unifiedpush']['postgresql']['dir'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
 default['unifiedpush']['postgresql']['log_directory'] = "/var/log/unifiedpush/postgresql"
+default['unifiedpush']['postgresql']['log_rotation']['file_maxbytes'] = 104857600
+default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['postgresql']['unix_socket_directory'] = "/var/opt/unifiedpush/postgresql"
 default['unifiedpush']['postgresql']['username'] = "unifiedpush-sql"
 default['unifiedpush']['postgresql']['uid'] = nil
@@ -182,6 +192,8 @@ default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/
 # log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
 default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/cassandra/logs'
 default['unifiedpush']['cassandra']['log_directory'] = '/var/log/unifiedpush/cassandra'
+default['unifiedpush']['cassandra']['log_rotation']['file_maxbytes'] = 104857600
+default['unifiedpush']['cassandra']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['cassandra']['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
 default['unifiedpush']['cassandra']['heap_dump_dir'] = '/var/opt/unifiedpush/cassandra/data'
 default['unifiedpush']['cassandra']['install_java'] = false
@@ -215,6 +227,8 @@ default['unifiedpush']['nginx']['enable'] = true
 default['unifiedpush']['nginx']['ha'] = false
 default['unifiedpush']['nginx']['dir'] = "/var/opt/unifiedpush/nginx"
 default['unifiedpush']['nginx']['log_directory'] = "/var/log/unifiedpush/nginx"
+default['unifiedpush']['nginx']['log_rotation']['file_maxbytes'] = 104857600
+default['unifiedpush']['nginx']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['nginx']['worker_processes'] = node['cpu']['total'].to_i
 default['unifiedpush']['nginx']['worker_connections'] = 10240
 default['unifiedpush']['nginx']['sendfile'] = 'off'
@@ -248,30 +262,14 @@ default['unifiedpush']['nginx']['custom_unifiedpush_server_config'] = nil
 default['unifiedpush']['nginx']['custom_nginx_config'] = nil
 
 ###
-# Logging
-###
-default['unifiedpush']['logging']['svlogd_size'] = 200 * 1024 * 1024 # rotate after 200 MB of log data
-default['unifiedpush']['logging']['svlogd_num'] = 30 # keep 30 rotated log files
-default['unifiedpush']['logging']['svlogd_timeout'] = 24 * 60 * 60 # rotate after 24 hours
-default['unifiedpush']['logging']['svlogd_filter'] = "gzip" # compress logs with gzip
-default['unifiedpush']['logging']['svlogd_udp'] = nil # transmit log messages via UDP
-default['unifiedpush']['logging']['svlogd_prefix'] = nil # custom prefix for log messages
-default['unifiedpush']['logging']['udp_log_shipping_host'] = nil # remote host to ship log messages to via UDP
-default['unifiedpush']['logging']['udp_log_shipping_port'] = 514 # remote host to ship log messages to via UDP
-default['unifiedpush']['logging']['logrotate_frequency'] = "daily" # rotate logs daily
-default['unifiedpush']['logging']['logrotate_size'] = nil # do not rotate by size by default
-default['unifiedpush']['logging']['logrotate_rotate'] = 30 # keep 30 rotated logs
-default['unifiedpush']['logging']['logrotate_compress'] = "compress" # see 'man logrotate'
-default['unifiedpush']['logging']['logrotate_method'] = "copytruncate" # see 'man logrotate'
-default['unifiedpush']['logging']['logrotate_postrotate'] = nil # no postrotate command by default
-
-###
 # Logrotate
 ###
 default['unifiedpush']['logrotate']['enable'] = true
 default['unifiedpush']['logrotate']['ha'] = false
 default['unifiedpush']['logrotate']['dir'] = "/var/opt/unifiedpush/logrotate"
 default['unifiedpush']['logrotate']['log_directory'] = "/var/log/unifiedpush/logrotate"
+default['unifiedpush']['logrotate']['log_rotation']['file_maxbytes'] = 104857600
+default['unifiedpush']['logrotate']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['logrotate']['services'] = %w{nginx unifiedpush-server cassandra}
 default['unifiedpush']['logrotate']['pre_sleep'] = 600 # sleep 10 minutes before rotating after start-up
 default['unifiedpush']['logrotate']['post_sleep'] = 3000 # wait 50 minutes after rotating

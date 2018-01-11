@@ -38,13 +38,9 @@ include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
   end
 end
 
-runit_service "cassandra" do
-  down node['unifiedpush']['cassandra']['ha']
-  control ['d']
-  options({
-    :log_directory => log_directory
-  }.merge(params))
-  log_options node['unifiedpush']['logging'].to_hash.merge(node['unifiedpush']['cassandra'].to_hash)
+component_runit_service "cassandra" do
+  package "unifiedpush"
+  control ['t']
 end
 
 # Make sure cassandra execution in not bloked by selinux
