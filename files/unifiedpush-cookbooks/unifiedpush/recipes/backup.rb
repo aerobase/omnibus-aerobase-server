@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+## Required for find_executable
+require 'mkmf'
 
 # Get OS user/group
 account_helper = AccountHelper.new(node)
@@ -46,4 +48,5 @@ cron 'postgresql-nightly-backup' do
   user "root"
   command "sh -x #{install_dir}/embedded/cookbooks/unifiedpush/libraries/pg_backup_rotated.sh -c #{home_dir}/postgresql-backup.conf > /tmp/postgresql-backup.log 2>&1"
   not_if { !node['unifiedpush']['postgresql']['enable'] }
+  only_if { find_executable 'crontab' }
 end

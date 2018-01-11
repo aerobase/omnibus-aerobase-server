@@ -79,7 +79,6 @@ end
 
 component_runit_service "unifiedpush-server" do
   package "unifiedpush"
-  control ['t']
 end
 
 # Make sure owner is unifiedpush_user

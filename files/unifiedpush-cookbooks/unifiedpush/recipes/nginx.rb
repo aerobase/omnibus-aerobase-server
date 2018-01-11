@@ -106,7 +106,6 @@ end
 
 component_runit_service "nginx" do
   package "unifiedpush"
-  control ['t']
 end
 
 if node['unifiedpush']['bootstrap']['enable']

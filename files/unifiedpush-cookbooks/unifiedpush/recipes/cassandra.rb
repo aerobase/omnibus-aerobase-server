@@ -15,6 +15,8 @@
 # limitations under the License.
 # 
 
+require 'mkmf'
+
 # Define apache cassandra cookbook attributes.
 CassandraHelper.new(node)
 
@@ -48,6 +50,7 @@ end
 execute "restorecon-cassandra-slink" do
   command "restorecon -Rv #{node['unifiedpush']['cassandra']['installation_dir']}"
   action :run
+  only_if { find_executable 'restorecon' }
 end
 
 # NOTE: These recipes are written idempotently, but require a running

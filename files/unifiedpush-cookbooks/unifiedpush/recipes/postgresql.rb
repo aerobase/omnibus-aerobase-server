@@ -124,7 +124,7 @@ end
 
 should_notify = omnibus_helper.should_notify?("postgresql")
 
-nent_runit_service "postgresql" do
+component_runit_service "postgresql" do
   package "unifiedpush"
   control ['t']
 end
