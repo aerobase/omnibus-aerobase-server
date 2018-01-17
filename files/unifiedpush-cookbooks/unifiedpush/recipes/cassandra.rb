@@ -45,14 +45,12 @@ component_runit_service "cassandra" do
   control ['d']
 end
 
-# Update sysctl -p
-# Cassandra-dse set system properties, apply to current sestion.
-execute "apply-cassandra-sysctl" do
-  command "sysctl -p"
-  action :run
-  only_if { find_executable 'sysctl' }
+# Cassandra-dse set system settings, apply settings right away.
+execute "sysctl" do
+  command "cat /etc/sysctl.conf /etc/sysctl.d/*.conf  | sysctl -e -p -"
+  action :nothing
 end
-   
+
 # Make sure cassandra execution in not bloked by selinux
 # This is required only because installation_dir is symbolic link.
 execute "restorecon-cassandra-slink" do
