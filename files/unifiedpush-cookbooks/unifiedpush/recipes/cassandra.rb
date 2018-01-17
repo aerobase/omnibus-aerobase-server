@@ -42,9 +42,16 @@ end
 
 component_runit_service "cassandra" do
   package "unifiedpush"
-  control ['t']
+  control ['d']
 end
 
+# Update sysctl -p
+# Cassandra-dse set system properties, apply to current sestion.
+execute "apply-cassandra-sysctl" do
+  command "sysctl -p" do
+  only_if { find_executable 'sysctl' }
+end
+   
 # Make sure cassandra execution in not bloked by selinux
 # This is required only because installation_dir is symbolic link.
 execute "restorecon-cassandra-slink" do
