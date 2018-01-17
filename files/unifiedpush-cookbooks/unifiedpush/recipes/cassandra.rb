@@ -48,7 +48,8 @@ end
 # Update sysctl -p
 # Cassandra-dse set system properties, apply to current sestion.
 execute "apply-cassandra-sysctl" do
-  command "sysctl -p" do
+  command "sysctl -p"
+  action :run
   only_if { find_executable 'sysctl' }
 end
    
