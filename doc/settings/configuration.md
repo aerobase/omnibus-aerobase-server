@@ -1,6 +1,6 @@
 # Configuration options
 
-Unifiedpush Server is configured by setting relevant options in
+Aerobase Server is configured by setting relevant options in
 `/etc/unifiedpush/unifiedpush.rb`. For a complete list of available options, visit the
 [unifiedpush.rb.template](https://github.com/C-B4/omnibus-unifiedpush-server/blob/master/files/unifiedpush-config-template/unifiedpush.rb.template).
 
@@ -20,7 +20,7 @@ Run `sudo unifiedpush-ctl reconfigure` for the change to take effect.
 
 ### Loading external configuration file from non-root user
 
-unifiedpush-server package loads all configuration from `/etc/unifiedpush/unifiedpush.rb` file.
+Aerobase packages loads all configuration from `/etc/unifiedpush/unifiedpush.rb` file.
 This file has strict file permissions and is owned by the `root` user. The reason for strict permissions
 and ownership is that `/etc/unifiedpush/unifiedpush.rb` is being executed as Ruby code by the `root` user during `unifiedpush-ctl reconfigure`. This means
 that users who have write access to `/etc/unifiedpush/unifiedpush.rb` can add configuration that will be executed as code by `root`.
@@ -38,7 +38,7 @@ Any configuration that is set in `/etc/unifiedpush/unifiedpush.rb` after `from_f
 
 ### Storing Documents data in an alternative directory
 
-By default, Unifiedpush stores documents data under
+By default, Aerobase stores documents data under
 `/var/opt/unifiedpush/unifiedpush-server/documents/`: uploads are stored in
 `/var/opt/unifiedpush/unifiedpush-server/documents/`.  You can change the location of
 the above directories by editing the following lines to
@@ -55,7 +55,7 @@ Run `sudo unifiedpush-ctl reconfigure` for the change to take effect.
 
 ### Changing the name of the Unifiedpush user / group
 
-By default, Unifiedpush uses the user name `unifiedpush` for ownership of the Unifiedpush data itself.
+By default, Aerobase uses the user name `unifiedpush` for ownership of the Aerobase data itself.
 
 We do not recommend changing the user/group of an existing installation because it can cause unpredictable side-effects.
 If you still want to do change the user and group, you can do so by adding the following lines to
@@ -72,7 +72,7 @@ Note that if you are changing the username of an existing installation, the reco
 
 ### Specify numeric user and group identifiers
 
-Unifiedpush creates users for Unifiedpush, PostgreSQL, and NGINX. You can
+Aerobase creates users for Unifiedpush-server, PostgreSQL, Cassandra, and NGINX. You can
 specify the numeric identifiers for these users in `/etc/unifiedpush/unifiedpush.rb` as
 follows.
 
@@ -89,7 +89,7 @@ Run `sudo unifiedpush-ctl reconfigure` for the changes to take effect.
 
 ## Only start Unifiedpush services after a given filesystem is mounted
 
-If you want to prevent Unifiedpush services (NGINX, PostgresSQL.)
+If you want to prevent Aerobase services (NGINX, PostgresSQL.)
 from starting before a given filesystem is mounted, add the following to
 `/etc/unifiedpush/unifiedpush.rb`:
 
@@ -120,11 +120,6 @@ For using an existing Nginx, Passenger, or Apache webserver see [doc/settings/ng
 ### Using a non-packaged PostgreSQL database management server
 
 To connect to an external PostgreSQL or MySQL DBMS see [doc/settings/database.md](database.md).
-
-### Adding ENV Vars to the Unifiedpush Runtime Environment
-
-See
-[doc/settings/environment-variables.md](environment-variables.md).
 
 ### Setting the NGINX listen address or addresses
 
