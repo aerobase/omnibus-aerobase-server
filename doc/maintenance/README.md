@@ -19,27 +19,27 @@ See [doc/settings/logs.md.](doc/settings/logs.md)
 
 ### Starting and stopping
 
-After unifiedpush-server is installed and configured, your server will have a Runit
+After Aerobase is installed and configured, your server will have a Runit
 service directory (`runsvdir`) process running that gets started at boot via
 `/etc/inittab` or the `/etc/init/unifiedpush-server.conf` Upstart resource.  You
 should not have to deal with the `runsvdir` process directly; you can use the
 `unifiedpush-ctl` front-end instead.
 
-You can start, stop or restart Unifiedpush Server and all of its components with the
+You can start, stop or restart Aerobase Server and all of its components with the
 following commands.
 
 ```shell
-# Start all Unifiedpush components
+# Start all Aerobase components
 sudo unifiedpush-ctl start
 
-# Stop all Unifiedpush components
+# Stop all Aerobase components
 sudo unifiedpush-ctl stop
 
-# Restart all Unifiedpush components
+# Restart all Aerobase components
 sudo unifiedpush-ctl restart
 ```
 
-Note that on a single-core server it may take up to a minute to restart Unifiedpush.
+Note that on a single-core server it may take up to a minute to restart Aerobase.
 
 It is also possible to start, stop or restart individual components.
 
