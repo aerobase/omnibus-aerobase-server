@@ -9,11 +9,11 @@ Aerobase Server is configured by setting relevant options in
 
 In order for Unifiedpush to display correct repository clone links to your users
 it needs to know the URL under which it is reached by your users, e.g.
-`http://unifiedpush.example.com`. Add or edit the following line in
-`/etc/Unifiedpush/Unifiedpush.rb`:
+`http://aerobase.example.com`. Add or edit the following line in
+`/etc/unifiedpush/unifiedpush.rb`:
 
 ```ruby
-external_url "http://ups.example.com"
+external_url "http://aerobase.example.com"
 ```
 
 Run `sudo unifiedpush-ctl reconfigure` for the change to take effect.
@@ -53,7 +53,7 @@ Note that the target directory and any of its subpaths must not be a symlink.
 
 Run `sudo unifiedpush-ctl reconfigure` for the change to take effect.
 
-### Changing the name of the Unifiedpush user / group
+### Changing the name of the Aerobase user / group
 
 By default, Aerobase uses the user name `unifiedpush` for ownership of the Aerobase data itself.
 
