@@ -1,7 +1,7 @@
 embed-server --server-config=standalone-full-ha.xml
 /system-property=aerogear.config.oauth2.enable:add(value=<%= @oauth2_enabled %>)
-/system-property=aerogear.config.oauth2.ups.realm.name:add(value=unifiedpush)
-/system-property=aerogear.config.oauth2.upsi.realm.name:add(value=unifiedpush-installations)
+/system-property=aerogear.config.oauth2.ups.realm.name:add(value=aerobase)
+/system-property=aerogear.config.oauth2.upsi.realm.name:add(value=aerobase-installations)
 /system-property=aerogear.config.oauth2.ups.admin.client:add(value=admin-cli)
 /system-property=aerogear.config.oauth2.admin.username:add(value=<%= @oauth2_admin_user %>)
 /system-property=aerogear.config.oauth2.admin.password:add(value=<%= @oauth2_admin_pass %>)
