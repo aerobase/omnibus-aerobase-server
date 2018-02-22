@@ -25,6 +25,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ###
 # global['contactpoints'] = node['fqdn']
 # global['backup_path'] = "/var/opt/unifiedpush/backups"
+## By default portal_fqdn is extracted from external_url ($shema://portal.$host)
+# global['portal_fqdn'] = "http://portal.#{node['fqdn']}"
 
 ####
 # Java installation options, this package is not embeded.
@@ -47,7 +49,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 #
 # unifiedpush_server['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
 # unifiedpush_server['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
+## By default server_host is extracted from external_url
 # unifiedpush_server['server_host'] = node['fqdn']
+## Internal network bind address. If the node has a default route, this is the IPV4 address for the interface.
 # unifiedpush_server['server_address'] = node['ipaddress']
 # unifiedpush_server['server_contactpoints'] = node['fqdn']
 # unifiedpush_server['server_port'] = 80

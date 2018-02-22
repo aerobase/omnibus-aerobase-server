@@ -46,7 +46,7 @@
             }
         ]
     },
-    "scopeMappings": [
+    "scopeMappings":[
         {
             "client": "aerobase-app",
             "roles": ["admin", "developer"]
@@ -65,11 +65,48 @@
             "baseUrl": "/unifiedpush-server/",
             "redirectUris": [
                 <% if node['unifiedpush']['keycloak-server']['enable'] %>
-                    "/unifiedpush-server/*"
+                    "/unifiedpush-server/*",
                 <% else %>
-                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*"
+                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*",
                 <% end %>
+		<%= @cloud_fqdn %>
+            ]
+        },
+        {
+            "clientId": "aerobase-gsg",
+            "enabled": true,
+            "publicClient": true,
+            "baseUrl": "/getting-started/",
+            "redirectUris": [
+                <% if node['unifiedpush']['keycloak-server']['enable'] %>
+                    "/getting-started/*",
+                <% else %>
+                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/getting-started/*",
+                <% end %>
+		<%= @cloud_fqdn %>
             ]
         }
-    ]
+
+    ],
+    "browserSecurityHeaders": {
+         "xContentTypeOptions": "nosniff",
+         "xRobotsTag": "none",
+         "xFrameOptions": "ALLOW-FROM <%= @cloud_fqdn %>",
+         "xXSSProtection": "1; mode=block",
+         "contentSecurityPolicy": "frame-src 'self' *.<%= @server_host %>; frame-ancestors 'self' *.<%= @server_host %>; object-src 'none';",
+         "strictTransportSecurity": "max-age=31536000; includeSubDomains"
+    },
+    "smtpServer": {
+        "password": "",
+        "replyToDisplayName": "Aerobase Cloud",
+        "starttls": "true",
+        "auth": "true",
+        "port": "587",
+        "host": "smtp.gmail.com",
+        "replyTo": "support@aerobase.io",
+        "from": "support@aerobase.io",
+        "fromDisplayName": "Aerobase Cloud",
+        "ssl": "",
+        "user": ""
+    }
 }

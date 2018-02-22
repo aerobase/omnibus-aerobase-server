@@ -74,7 +74,7 @@ module Unifiedpush
       info("Installing according to external_url -> " + uri.host)
 
       unless uri.host
-        raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://unifiedpush.example.com/"
+        raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
       end
 
       Unifiedpush['unifiedpush_server']['server_host'] = uri.host
@@ -94,6 +94,7 @@ module Unifiedpush
         raise "Unsupported external URL path: #{uri.path}"
       end
 
+      Unifiedpush['global']['portal_fqdn'] = "#{uri.scheme}://portal.#{uri.host}"
       Unifiedpush['unifiedpush_server']['server_port'] = uri.port
     end
 
