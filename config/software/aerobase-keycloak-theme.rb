@@ -14,15 +14,15 @@
 # limitations under the License.
 #
 
-name "unifiedpush-keycloak-theme"
+name "aerobase-keycloak-theme"
 
 dependency "rsync"
 
 skip_transitive_dependency_licensing true
 default_version "master"
-source git: "https://github.com/aerobase/unifiedpush-keycloak-theme.git"
+source git: "https://github.com/aerobase/aerobase-keycloak-theme.git"
 
-relative_path "unifiedpush-keycloak-theme"
+relative_path "aerobase-keycloak-theme"
 build_dir = "#{project_dir}"
 
 build do

@@ -61,9 +61,13 @@ execute 'KC datasource and config cli script' do
   command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/keycloak-server-ups-realms.cli"
 end
 
-# Extract default theme
-execute 'extract_ups_theme' do
-  command "tar xzvf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-keycloak-theme.tar.gz"
-  cwd "#{server_dir}/themes"
+# Copy default theme
+execute 'extract_aerogear_theme' do
+  command "cp -R  #{install_dir}/embedded/apps/themes/unifiedpush-keycloak-theme/* #{server_dir}/themes/"
+end
+
+# Copy Aerobse directory
+execute 'extract_aerobase_theme' do
+  command "cp -R  #{install_dir}/embedded/apps/themes/aerobase-keycloak-theme/* #{server_dir}/themes/"
 end
 
