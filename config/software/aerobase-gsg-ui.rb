@@ -30,5 +30,6 @@ build do
   command "npm run build"
 
   # Copy dist to package dir.
+  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/"
   command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./dist/ #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/"
 end

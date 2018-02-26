@@ -119,3 +119,8 @@ end
 link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
   to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
 end
+
+# Copy themes
+execute 'extract_aerobase_themes' do
+  command "cp -R  #{install_dir}/embedded/apps/themes/* #{server_dir}/themes/"
+end

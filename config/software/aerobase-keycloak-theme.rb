@@ -26,6 +26,6 @@ relative_path "aerobase-keycloak-theme"
 build_dir = "#{project_dir}"
 
 build do
-  command "mkdir -p #{install_dir}/embedded/apps/themes"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./ #{install_dir}/embedded/apps/themes"
+  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase"
+  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./aerobase #{install_dir}/embedded/apps/themes/aerobase"
 end
