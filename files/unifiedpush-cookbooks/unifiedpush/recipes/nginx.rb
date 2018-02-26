@@ -90,11 +90,14 @@ template nginx_config do
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
 end
 
-# Extract ups static contect to html directory
+# Extract aerobae static contect to html directory
 if node['unifiedpush']['unifiedpush-server']['enable']
   execute 'extract_ups_static_content' do
-    command "tar xzvf #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
-    cwd "#{nginx_ups_html_dir}"
+    command "mkdir -p #{nginx_ups_html_dir}/unifiedpush-server/"
+    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/ #{nginx_ups_html_dir}/unifiedpush-server/"
+
+    command "mkdir -p #{nginx_ups_html_dir}/getting-started/"
+    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/ #{nginx_ups_html_dir}/getting-started/"
   end
 end
 
