@@ -27,10 +27,14 @@ relative_path "unifiedpush-admin-ui"
 build_dir = "#{project_dir}"
 
 build do
-  command "mvn clean install -DskipTests"
+  command "npm install"
+  command "npm install -g bower"
+  command "npm install -g grunt"
+  command "npm install grunt-cli"
+  command "bower update"
+  command "grunt build" 
 
-  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/"
-
-  # Strip version from packages.
-  copy "#{project_dir}/target/unifiedpush-admin-ui.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui.tar.gz"
+  # Copy resources
+  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
+  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./dist/ #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
 end

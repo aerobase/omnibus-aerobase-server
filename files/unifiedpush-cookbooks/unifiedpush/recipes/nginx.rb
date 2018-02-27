@@ -92,7 +92,7 @@ end
 
 # Extract aerobae static contect to html directory
 if node['unifiedpush']['unifiedpush-server']['enable']
-  execute 'extract_ups_static_content' do
+  execute 'extract_aerobase_static_content' do
     command "mkdir -p #{nginx_ups_html_dir}/unifiedpush-server/"
     command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/ #{nginx_ups_html_dir}/unifiedpush-server/"
 
