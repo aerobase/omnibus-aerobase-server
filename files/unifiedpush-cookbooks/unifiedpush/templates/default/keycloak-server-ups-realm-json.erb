@@ -69,7 +69,7 @@
                 <% else %>
                     "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*",
                 <% end %>
-		<%= @portal_fqdn %>
+	        "<%= @portal_fqdn %>"
             ]
         },
         {
@@ -83,7 +83,7 @@
                 <% else %>
                     "http<% if @server_https %>s<% end %>://<%= @server_host %>/getting-started/*",
                 <% end %>
-		<%= @portal_fqdn %>
+	        "<%= @portal_fqdn %>"
             ]
         }
 

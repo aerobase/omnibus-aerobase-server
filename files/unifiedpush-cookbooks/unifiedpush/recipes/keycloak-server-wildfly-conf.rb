@@ -20,6 +20,7 @@ unifiedpush_user = account_helper.unifiedpush_user
 
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
+global_vars = node['unifiedpush']['global'].to_hash
 
 # Prepare ups realm json
 template "#{server_dir}/standalone/configuration/keycloak-server-ups-realm.json" do
@@ -27,7 +28,7 @@ template "#{server_dir}/standalone/configuration/keycloak-server-ups-realm.json"
   group "root"
   mode 0755
   source "keycloak-server-ups-realm-json.erb"
-  variables(keycloak_vars)
+  variables(keycloak_vars.merge(global_vars))
 end
 
 # Prepare upsi realm json
@@ -36,7 +37,7 @@ template "#{server_dir}/standalone/configuration/keycloak-server-upsi-realm.json
   group "root"
   mode 0755
   source "keycloak-server-upsi-realm-json.erb"
-  variables(keycloak_vars)
+  variables(keycloak_vars.merge(global_vars))
 end
 
 if node['unifiedpush']['keycloak-server']['enable']
