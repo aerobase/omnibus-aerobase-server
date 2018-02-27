@@ -24,6 +24,7 @@ nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_confd_dir = File.join(nginx_dir, "conf.d")
 nginx_html_dir = File.join(nginx_dir, "www/html")
 nginx_ups_html_dir = File.join(nginx_html_dir, "unifiedpush-server")
+nginx_gsg_html_dir = File.join(nginx_html_dir, "getting-started")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 
 # These directories do not need to be writable for unifiedpush-server
@@ -33,6 +34,7 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
   nginx_confd_dir,
   nginx_html_dir,
   nginx_ups_html_dir,
+  nginx_gsg_html_dir,
   nginx_log_dir,
 ].each do |dir_name|
   directory dir_name do
@@ -93,11 +95,13 @@ end
 # Extract aerobae static contect to html directory
 if node['unifiedpush']['unifiedpush-server']['enable']
   execute 'extract_aerobase_static_content' do
-    command "mkdir -p #{nginx_ups_html_dir}/unifiedpush-server/"
-    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/ #{nginx_ups_html_dir}/unifiedpush-server/"
+    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/* #{nginx_ups_html_dir}"
+  end
+end
 
-    command "mkdir -p #{nginx_ups_html_dir}/getting-started/"
-    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/ #{nginx_ups_html_dir}/getting-started/"
+if node['unifiedpush']['unifiedpush-server']['enable']
+  execute 'extract_aerobase_static_content' do
+    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/* #{nginx_gsg_html_dir}"
   end
 end
 
