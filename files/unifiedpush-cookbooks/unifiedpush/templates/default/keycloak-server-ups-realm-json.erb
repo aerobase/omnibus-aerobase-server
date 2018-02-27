@@ -69,7 +69,7 @@
                 <% else %>
                     "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*",
                 <% end %>
-		<%= @cloud_fqdn %>
+		<%= @portal_fqdn %>
             ]
         },
         {
@@ -83,7 +83,7 @@
                 <% else %>
                     "http<% if @server_https %>s<% end %>://<%= @server_host %>/getting-started/*",
                 <% end %>
-		<%= @cloud_fqdn %>
+		<%= @portal_fqdn %>
             ]
         }
 
@@ -91,7 +91,7 @@
     "browserSecurityHeaders": {
          "xContentTypeOptions": "nosniff",
          "xRobotsTag": "none",
-         "xFrameOptions": "ALLOW-FROM <%= @cloud_fqdn %>",
+         "xFrameOptions": "ALLOW-FROM <%= @portal_fqdn %>",
          "xXSSProtection": "1; mode=block",
          "contentSecurityPolicy": "frame-src 'self' *.<%= @server_host %>; frame-ancestors 'self' *.<%= @server_host %>; object-src 'none';",
          "strictTransportSecurity": "max-age=31536000; includeSubDomains"

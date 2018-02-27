@@ -27,5 +27,5 @@ build_dir = "#{project_dir}"
 
 build do
   command "mkdir -p #{install_dir}/embedded/apps/themes/aerogear"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./aerogear #{install_dir}/embedded/apps/themes/aerogear"
+  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./aerogear/* #{install_dir}/embedded/apps/themes/aerogear"
 end
