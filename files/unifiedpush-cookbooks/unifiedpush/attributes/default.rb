@@ -31,8 +31,8 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 # Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to unifiedpush.rb
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "/var/opt/unifiedpush/backups"
-# By default portal_fqdn is extracted from external_url ($shema://portal.$host)
-default['unifiedpush']['global']['portal_fqdn'] = "http://portal.#{node['fqdn']}"
+# By default portal_fqdn is not listed to allow easy override from /etc config file.
+default['unifiedpush']['global']['portal_mode'] = true
 
 ####
 ## The Unifiedpush User that services run as
@@ -75,6 +75,8 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
 }
 default['unifiedpush']['unifiedpush-server']['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
 default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
+# Max JSON size in KB
+default['unifiedpush']['unifiedpush-server']['documents_json_limit'] = 4
 # By default server_host extracted from external_url
 default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
 # Internal network bind address. If the node has a default route, this is the IPV4 address for the interface. 
