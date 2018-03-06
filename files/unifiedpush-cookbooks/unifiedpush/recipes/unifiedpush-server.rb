@@ -32,6 +32,10 @@ server_etc_dir = "#{server_dir}/etc"
 account_helper = AccountHelper.new(node)
 unifiedpush_user = account_helper.unifiedpush_user
 
+unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
+global_vars = node['unifiedpush']['global'].to_hash
+all_vars = unifiedpush_vars.merge(global_vars)
+
 # These directories do not need to be writable for unifiedpush-server
 [ 
   server_dir,
@@ -67,14 +71,14 @@ template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"
   owner unifiedpush_user
   mode "0644"
-  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
+  variables(all_vars)
 end
 
 template "#{server_etc_dir}/db.properties" do
   source "unifiedpush-server-db-properties.erb"
   owner unifiedpush_user
   mode "0644"
-  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
+  variables(all_vars)
 end
 
 component_runit_service "unifiedpush-server" do
