@@ -24,6 +24,7 @@ cli_dir = "#{server_dir}/cli"
 
 account_helper = AccountHelper.new(node)
 unifiedpush_user = account_helper.unifiedpush_user
+global_vars = node['unifiedpush']['global'].to_hash
 
 # These directories do not need to be writable for unifiedpush-server
 [
