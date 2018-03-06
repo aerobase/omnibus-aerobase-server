@@ -15,7 +15,7 @@
     "emailTheme": "aerobase",
     "updateProfileOnInitialSocialLogin": false,
     "requiredCredentials": [ "password" ],
-    "defaultRoles": [ "developer" ],
+    "defaultRoles": [ "installation" ],
     "users" : [
         {
             "username" : "admin",
@@ -43,6 +43,10 @@
             {
                 "name": "developer",
                 "description": "Developer privileges"
+            },
+            {
+                "name": "installation",
+                "description": "Device installation privileges"
             }
         ]
     },
@@ -65,11 +69,10 @@
             "baseUrl": "/unifiedpush-server/",
             "redirectUris": [
                 <% if node['unifiedpush']['keycloak-server']['enable'] %>
-                    "/unifiedpush-server/*",
+                    "/unifiedpush-server/*"
                 <% else %>
-                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*",
+                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*"
                 <% end %>
-	        "<%= @portal_fqdn %>"
             ]
         },
         {
@@ -79,23 +82,14 @@
             "baseUrl": "/getting-started/",
             "redirectUris": [
                 <% if node['unifiedpush']['keycloak-server']['enable'] %>
-                    "/getting-started/*",
+                    "/getting-started/*"
                 <% else %>
-                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/getting-started/*",
+                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/getting-started/*"
                 <% end %>
-	        "<%= @portal_fqdn %>"
             ]
         }
 
     ],
-    "browserSecurityHeaders": {
-         "xContentTypeOptions": "nosniff",
-         "xRobotsTag": "none",
-         "xFrameOptions": "ALLOW-FROM <%= @portal_fqdn %>",
-         "xXSSProtection": "1; mode=block",
-         "contentSecurityPolicy": "frame-src 'self' *.<%= @server_host %>; frame-ancestors 'self' *.<%= @server_host %>; object-src 'none';",
-         "strictTransportSecurity": "max-age=31536000; includeSubDomains"
-    },
     "smtpServer": {
         "password": "",
         "replyToDisplayName": "Aerobase Cloud",

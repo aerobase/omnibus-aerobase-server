@@ -73,7 +73,7 @@ template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
   group "root"
   mode 0755
   source "unifiedpush-server-wildfly-oauth2-cli.erb"
-  variables(unifiedpush_vars)
+  variables(unifiedpush_vars.merge(global_vars))
 end
 
 # Prepare jgroup cli config script

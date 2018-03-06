@@ -31,15 +31,6 @@ template "#{server_dir}/standalone/configuration/keycloak-server-ups-realm.json"
   variables(keycloak_vars.merge(global_vars))
 end
 
-# Prepare upsi realm json
-template "#{server_dir}/standalone/configuration/keycloak-server-upsi-realm.json" do
-  owner unifiedpush_user
-  group "root"
-  mode 0755
-  source "keycloak-server-upsi-realm-json.erb"
-  variables(keycloak_vars.merge(global_vars))
-end
-
 if node['unifiedpush']['keycloak-server']['enable']
     include_recipe "unifiedpush::keycloak-embeded-wildfly-conf"
 end
