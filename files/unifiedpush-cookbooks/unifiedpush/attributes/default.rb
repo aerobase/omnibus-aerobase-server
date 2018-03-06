@@ -32,7 +32,7 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "/var/opt/unifiedpush/backups"
 # By default portal_fqdn is not listed to allow easy override from /etc config file.
-default['unifiedpush']['global']['portal_mode'] = true
+default['unifiedpush']['global']['portal_mode'] = false
 
 ####
 ## The Unifiedpush User that services run as
