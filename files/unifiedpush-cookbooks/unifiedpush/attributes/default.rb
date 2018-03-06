@@ -90,6 +90,8 @@ default['unifiedpush']['unifiedpush-server']['java_xmx'] = "1g"
 # OAuth2 Configureation, webapp_host is used as web applications root-url.
 default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
+# Realm name used for aerobase authentication, When running in portal mode, 'maser' realm must be used.
+default['unifiedpush']['unifiedpush-server']['oauth2_realm'] = 'aerobase'
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
 default['unifiedpush']['unifiedpush-server']['oauth2_subdomain_seperator'] = "."

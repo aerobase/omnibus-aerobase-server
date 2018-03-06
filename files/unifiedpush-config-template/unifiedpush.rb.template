@@ -65,6 +65,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## OAuth2 Configureation, webapp_host is used as web applications root-url.
 # unifiedpush_server['webapp_host'] = node['fqdn']
 # unifiedpush_server['oauth2_enabled'] = true
+## Realm name used for aerobase authentication. When running in portal mode, 'maser' realm must be used.
+# unifiedpush_server['oauth2_realm'] = 'aerobase'
 # unifiedpush_server['oauth2_admin_user'] = "admin"
 # unifiedpush_server['oauth2_admin_pass'] = "password"
 # unifiedpush_server['oauth2_subdomain_seperator'] = "."
