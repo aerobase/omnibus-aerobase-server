@@ -1,5 +1,9 @@
-# Url on which Unifiedpush will be reachable.
+# Url on which aerobase will be reachable.
 external_url 'GENERATED_EXTERNAL_URL'
+
+# Portal external URL which aerobase portal will be reachable.
+# Default is portal.external_url
+external_portal_url 'GENERATED_EXTERNAL_PORTAL_URL'
 
 # Note: configuration settings below are optional.
 ## Uncomment and change the value.
@@ -25,9 +29,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 ###
 # global['contactpoints'] = node['fqdn']
 # global['backup_path'] = "/var/opt/unifiedpush/backups"
-## By default portal_fqdn is extracted from external_url ($shema://portal.$host)
-# global['portal_fqdn'] = "http://portal.#{node['fqdn']}"
-# global['portal_mode'] = false
+## By default server_host is extracted from external_portal_url
+# global['portal_fqdn'] = node['fqdn']
+# global['portal_mode'] = falsea
 
 ####
 # Java installation options, this package is not embeded.

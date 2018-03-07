@@ -31,7 +31,6 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 # Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to unifiedpush.rb
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "/var/opt/unifiedpush/backups"
-# By default portal_fqdn is not listed to allow easy override from /etc config file.
 default['unifiedpush']['global']['portal_mode'] = false
 
 ####
