@@ -31,7 +31,7 @@ external_portal_url 'GENERATED_EXTERNAL_PORTAL_URL'
 # global['backup_path'] = "/var/opt/unifiedpush/backups"
 ## By default server_host is extracted from external_portal_url
 # global['portal_fqdn'] = node['fqdn']
-# global['portal_mode'] = falsea
+# global['portal_mode'] = false
 
 ####
 # Java installation options, this package is not embeded.
