@@ -72,7 +72,7 @@ module Unifiedpush
       uri = URI(external_url.to_s)
       portal_uri = URI(external_portal_url.to_s)
 
-      info("Installing according to external_url -> " + uri.host + " and " portal_uri.host)
+      info("Installing according to external_url -> " + uri.host + " and " + portal_uri.host)
 
       unless uri.host
         raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
