@@ -29,6 +29,7 @@ require 'chef/json_compat'
 require 'chef/mixin/deep_merge'
 require 'securerandom'
 require 'uri'
+require 'public_suffix'
 
 module Unifiedpush
   extend(Mixlib::Config)

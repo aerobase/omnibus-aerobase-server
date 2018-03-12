@@ -38,6 +38,7 @@ dependency "chef"
 dependency "python"
 dependency "logrotate"
 dependency "runit"
+dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
 # unifiedpush-server is the most expensive runtime build, therefore keep it first in order.
