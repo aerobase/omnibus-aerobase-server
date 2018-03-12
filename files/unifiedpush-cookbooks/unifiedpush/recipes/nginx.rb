@@ -83,6 +83,36 @@ template unifiedpush_server_http_conf do
   action unifiedpush_server_enabled ? :create : :delete
 end
 
+template unifiedpush_locations_http_conf do
+  source "nginx-locations-http.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(nginx_vars.merge(
+    {
+      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+      :html_dir => nginx_html_dir
+    }
+  ))
+  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
+  action unifiedpush_server_enabled ? :create : :delete
+end
+
+template unifiedpush_subdomains_http_conf do
+  source "nginx-subdomains-http.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(nginx_vars.merge(
+    {
+      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+      :html_dir => nginx_html_dir
+    }
+  ))
+  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
+  action unifiedpush_server_enabled ? :create : :delete
+end
+
 template nginx_config do
   source "nginx.conf.erb"
   owner "root"

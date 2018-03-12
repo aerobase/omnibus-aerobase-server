@@ -1,0 +1,50 @@
+    location ~ ^/auth/(.*)$ {
+        ## If you use HTTPS make sure you disable gzip compression
+        ## to be safe against BREACH attack.
+        gzip off;
+
+        ## Some requests take more than 30 seconds.
+        proxy_read_timeout      300;
+        proxy_connect_timeout   300;
+
+        proxy_set_header    X-Real-IP           $remote_addr;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+
+        proxy_pass http<% if @https %>s<% end %>://<%= @fqdn %>/auth/$1$is_args$query_string;
+        proxy_cookie_domain <%= @fqdn %> $http_host;
+        proxy_redirect ~*/auth/(.*)$ http<% if @https %>s<% end %>://$http_host/auth/$1;
+
+        expires 0;
+    }
+   
+    location ~ ^/unifiedpush-server/(.*)$ {
+        ## If you use HTTPS make sure you disable gzip compression
+        ## to be safe against BREACH attack.
+        gzip off;
+
+        ## Some requests take more than 30 seconds.
+        proxy_read_timeout      300;
+        proxy_connect_timeout   300;
+
+        proxy_set_header    X-Real-IP           $remote_addr;
+        proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+
+        proxy_pass http<% if @https %>s<% end %>://<%= @fqdn %>/unifiedpush-server/$1$is_args$query_string;
+        proxy_cookie_domain <%= @fqdn %> $http_host;
+        proxy_redirect ~*/unifiedpush-server/(.*)$ http<% if @https %>s<% end %>://$http_host/unifiedpush-server/$1;
+
+        expires 0;
+    }
+
+    location / {
+        root   /var/opt/unifiedpush/nginx/www/html/$http_host;
+        try_files $uri $uri/index.html $uri.html;
+    }
+
+    #error_page  404              /404.html;
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /var/opt/unifiedpush/nginx/www/html;
+    }
