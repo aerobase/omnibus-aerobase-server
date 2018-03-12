@@ -51,14 +51,20 @@ end
 
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")
 
-unifiedpush_server_http_conf = File.join(nginx_conf_dir, "unifiedpush-http.conf")
+unifiedpush_server_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
+unifiedpush_locations_http_conf = File.join(nginx_conf_dir, "aerobase-locations.conf")
+unifiedpush_subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 
 # If the service is enabled, check if we are using internal nginx
-unifiedpush_server_enabled = node['unifiedpush']['nginx']['enable']
+nginx_server_enabled = node['unifiedpush']['nginx']['enable']
+unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
+keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
-               :unifiedpush_http_config => unifiedpush_server_enabled ? unifiedpush_server_http_conf : nil,
+               :unifiedpush_http_config => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_server_http_conf : nil,
+	       :unifiedpush_locations_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_locations_http_conf : nil,
+	       :unifiedpush_subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_subdomains_http_conf : nil,
                :unifiedpush_http_configd => nginx_confd_dir
              })
 
@@ -80,7 +86,7 @@ template unifiedpush_server_http_conf do
     }
   ))
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
-  action unifiedpush_server_enabled ? :create : :delete
+  action nginx_server_enabled ? :create : :delete
 end
 
 template unifiedpush_locations_http_conf do
@@ -95,7 +101,7 @@ template unifiedpush_locations_http_conf do
     }
   ))
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
-  action unifiedpush_server_enabled ? :create : :delete
+  action nginx_server_enabled ? :create : :delete
 end
 
 template unifiedpush_subdomains_http_conf do
@@ -110,7 +116,7 @@ template unifiedpush_subdomains_http_conf do
     }
   ))
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
-  action unifiedpush_server_enabled ? :create : :delete
+  action nginx_server_enabled ? :create : :delete
 end
 
 template nginx_config do
@@ -120,16 +126,17 @@ template nginx_config do
   mode "0644"
   variables nginx_vars
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
+  action nginx_server_enabled ? :create : :delete
 end
 
 # Extract aerobae static contect to html directory
-if node['unifiedpush']['unifiedpush-server']['enable']
+if unifiedpush_server_enabled
   execute 'extract_aerobase_static_content' do
     command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/* #{nginx_ups_html_dir}"
   end
 end
 
-if node['unifiedpush']['unifiedpush-server']['enable']
+if unifiedpush_server_enabled
   execute 'extract_aerobase_static_content' do
     command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/* #{nginx_gsg_html_dir}"
   end

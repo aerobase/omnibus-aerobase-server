@@ -37,7 +37,12 @@ http {
   <% if @unifiedpush_http_config %>
   include <%= @unifiedpush_http_config %>;
   <% end %>
-
+  <% if @unifiedpush_locations_http_conf %>
+  include <%= @unifiedpush_locations_http_conf %>
+  <% end %>
+  <% if @unifiedpush_subdomains_http_conf %>
+  include <%= @unifiedpush_subdomains_http_conf %>
+  <% end %>
   include <%= @unifiedpush_http_configd %>/*.conf;
 
   <%= @custom_nginx_config %>
