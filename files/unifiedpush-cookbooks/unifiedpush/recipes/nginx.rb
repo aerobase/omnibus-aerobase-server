@@ -52,7 +52,7 @@ end
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")
 
 unifiedpush_server_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
-unifiedpush_locations_http_conf = File.join(nginx_conf_dir, "aerobase-locations.conf")
+unifiedpush_locations_http_conf = File.join(nginx_conf_dir, "aerobase-locations.import")
 unifiedpush_subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 
 # If the service is enabled, check if we are using internal nginx
@@ -63,7 +63,6 @@ keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
                :unifiedpush_http_config => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_server_http_conf : nil,
-	       :unifiedpush_locations_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_locations_http_conf : nil,
 	       :unifiedpush_subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_subdomains_http_conf : nil,
                :unifiedpush_http_configd => nginx_confd_dir
              })
