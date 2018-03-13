@@ -73,7 +73,7 @@ get_fqdn_from_hostname()
   fqdn=$(/bin/hostname -f)
   if [ -n "${fqdn}" ]; then
     EXTERNAL_URL="http://${fqdn}"
-    EXTERNAL_PORTAL_URL="http://poral.${fqdn}"
+    EXTERNAL_PORTAL_URL="http://portal.${fqdn}"
   fi
 }
 
@@ -83,7 +83,7 @@ get_ec2_hostname()
   fqdn=$(/opt/unifiedpush/embedded/bin/curl -s http://169.254.169.254/latest/meta-data/public-hostname)
   if [ -n "${fqdn}" ]; then
     EXTERNAL_URL="http://${fqdn}"
-    EXTERNAL_PORTAL_URL="http://poral.${fqdn}"
+    EXTERNAL_PORTAL_URL="http://portal.${fqdn}"
   fi
 }
 
