@@ -38,7 +38,7 @@
 
     location / {
         root   /var/opt/unifiedpush/nginx/www/html/$http_host;
-        try_files $uri $uri/index.html $uri.html;
+        try_files $uri $uri/index.html $uri.html =404;
     }
 
     #error_page  404              /404.html;
