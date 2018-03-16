@@ -145,6 +145,17 @@ module Unifiedpush
         default_from_attributes = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
         Unifiedpush[left.first][left.last] = better_value_from_unifiedpush_rb || default_from_attributes
       end
+
+      # Only if user did not set a value to cas_consistencylevel
+      # Calculate consistencylevel according to number of nodes.
+      contactpoints = Unifiedpush['unifiedpush_server']['cas_contactpoints']
+      if Unifiedpush['unifiedpush_server']['cas_consistencylevel'].nil?
+        if contactpoints.nil? || contactpoints.split(",").length == 1
+          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_ONE"
+        else
+          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_QUORUM"
+        end
+      end
     end
 
     def parse_nginx_listen_address

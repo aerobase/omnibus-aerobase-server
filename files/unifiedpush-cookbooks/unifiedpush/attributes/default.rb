@@ -98,7 +98,7 @@ default['unifiedpush']['unifiedpush-server']['oauth2_subdomain_seperator'] = "."
 default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
 default['unifiedpush']['unifiedpush-server']['cas_keyspace'] = "unifiedpush_server"
-default['unifiedpush']['unifiedpush-server']['cas_consistencylevel'] = "QUORUM"
+default['unifiedpush']['unifiedpush-server']['cas_consistencylevel'] = "LOCAL_ONE"
 # PostgreSQL connection params
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
