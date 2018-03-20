@@ -21,7 +21,7 @@ cassandra_home = node['unifiedpush']['cassandra']['installation_dir']
 cassandra_user = node['unifiedpush']['cassandra']['user']
 
 omnibus_helper = OmnibusHelper.new(node)
-cassandra_vars = node['unifiedpush']['cassandra-config'].to_hash
+cassandra_vars = node['unifiedpush']['cassandra'].to_hash
 
 execute "initialize cassandra keyspace" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"

@@ -162,10 +162,10 @@ external_portal_url 'GENERATED_EXTERNAL_PORTAL_URL'
 # cassandra['max_heap_size'] = '1G'
 # cassandra['heap_new_size'] = '200M'
 # cassandra['heap_dump_dir'] = '/var/opt/unifiedpush/cassandra/data'
+# cassandra['replication_factor'] = 2
 ## Cluster config options
 # cassandra_config['cluster_name'] = 'unifiedpush-cluster'
 # cassandra_config['endpoint_snitch'] = 'SimpleSnitch'
-# cassandra_config['replication_factor'] = 2
 
 ####
 # Web server

@@ -196,6 +196,8 @@ default['unifiedpush']['cassandra']['version'] = '3.11.2'
 default['unifiedpush']['cassandra']['user'] = 'unifiedpush-cas'
 default['unifiedpush']['cassandra']['group'] = 'unifiedpush'
 default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/cassandra/cassandra'
+# aerobase replication_factor will be used on schema creation
+default['unifiedpush']['cassandra']['replication_factor'] = 2
 # log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
 default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/cassandra/logs'
 default['unifiedpush']['cassandra']['log_directory'] = '/var/log/unifiedpush/cassandra'
@@ -214,7 +216,6 @@ default['unifiedpush']['cassandra']['heap_new_size'] = '200M'
 # Cluster config options
 default['unifiedpush']['cassandra-config']['cluster_name'] = 'unifiedpush-cluster'
 default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
-default['unifiedpush']['cassandra-config']['replication_factor'] = 2
 
 ####
 # Web server
