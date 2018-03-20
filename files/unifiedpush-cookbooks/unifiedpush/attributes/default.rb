@@ -210,9 +210,12 @@ default['unifiedpush']['cassandra']['setup_jamm'] = true
 default['unifiedpush']['cassandra']['seeds'] = node['fqdn']
 default['unifiedpush']['cassandra']['max_heap_size'] = '1G'
 default['unifiedpush']['cassandra']['heap_new_size'] = '200M'
+node[:cassandra][:rackdc][:dc]
 
 # Cluster config options
 default['unifiedpush']['cassandra-config']['cluster_name'] = 'unifiedpush-cluster'
+default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
+default['unifiedpush']['cassandra-config']['replication_factor'] = 2
 
 ####
 # Web server

@@ -17,11 +17,28 @@
 
 install_dir = node['package']['install-dir']
 keyspace_name = node['unifiedpush']['unifiedpush-server']['cas_keyspace']
+cassandra_home = node['unifiedpush']['cassandra']['installation_dir']
+cassandra_user = node['unifiedpush']['cassandra']['user']
 
 omnibus_helper = OmnibusHelper.new(node)
+cassandra_vars = node['unifiedpush']['cassandra-config'].to_hash
 
 execute "initialize cassandra keyspace" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
   command "./init-cassandra-db.sh #{keyspace_name}"
   not_if { omnibus_helper.service_down?("cassandra") } 
 end
+
+template "#{cassandra_home}/conf/unifiedpush-server-keyspace.cql" do
+  source "cassandra-unifiedpush-server-keyspace.erb"
+  owner cassandra_user
+  mode "0644"
+  variables(cassandra_vars)
+end
+
+execute "update cassandra keyspace" do
+  cwd "#{cassandra_home}/bin"
+  command "cqlsh -f  #{cassandra_home}/conf/unifiedpush-server-keyspace.cql"
+  not_if { omnibus_helper.service_down?("cassandra") }
+end
+
