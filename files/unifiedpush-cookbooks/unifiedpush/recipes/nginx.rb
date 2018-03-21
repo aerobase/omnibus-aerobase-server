@@ -111,7 +111,7 @@ template unifiedpush_subdomains_http_conf do
   mode "0644"
   variables(nginx_vars.merge(
     {
-      :fqdn => domain_helper.parse_portal_domain(node['unifiedpush']['unifiedpush-server']['server_host']),
+      :fqdn => domain_helper.parse_main_domain(node['unifiedpush']['unifiedpush-server']['server_host']),
       :html_dir => nginx_html_dir
     }
   ))
