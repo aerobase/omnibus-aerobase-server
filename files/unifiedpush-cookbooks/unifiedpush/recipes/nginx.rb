@@ -17,6 +17,7 @@
 
 account_helper = AccountHelper.new(node)
 omnibus_helper = OmnibusHelper.new(node)
+domain_helper = DomainHelper.new(node)
 
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
@@ -110,7 +111,7 @@ template unifiedpush_subdomains_http_conf do
   mode "0644"
   variables(nginx_vars.merge(
     {
-      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+      :fqdn => domain_helper.parse_portal_domain(node['unifiedpush']['unifiedpush-server']['server_host']),
       :html_dir => nginx_html_dir
     }
   ))

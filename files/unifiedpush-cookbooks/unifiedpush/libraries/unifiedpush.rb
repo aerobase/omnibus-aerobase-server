@@ -232,6 +232,26 @@ class JavaHelper
   end
 end
 
+class DomainHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+
+  # In case portal fqdn and fqdn share the same domain level, remove private domains from portal_fqdn
+  # TODO - Check how we can remove only the first private domain
+  def parse_portal_domain(domain)
+    levels = PublicSuffix::Domain.name_to_labels(node['unifiedpush']['unifiedpush-server']['server_host']).length
+    portal_levels = PublicSuffix::Domain.name_to_labels(node['unifiedpush']['global']['portal_fqdn']).length
+    if (levels == portal_levels)
+      return PublicSuffix.domain(domain, ignore_private: true)
+    else
+      return domain
+    end
+  end
+end
+
 class CassandraHelper
   attr_reader :node
 
