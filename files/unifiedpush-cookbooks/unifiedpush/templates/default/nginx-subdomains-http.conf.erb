@@ -9,7 +9,26 @@ server {
   ## Increase this if you want to upload large attachments
   ## Or if you want to accept large git objects over http
   client_max_body_size <%= @client_max_body_size %>;
-      
+
+  <% if @https %>
+  ## Strong SSL Security
+  ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
+  ssl on;
+  ssl_certificate <%= @ssl_certificate %>;
+  ssl_certificate_key <%= @ssl_certificate_key %>;
+
+  # Unifiedpush needs backwards compatible ciphers to retain compatibility with Java IDEs
+  ssl_ciphers '<%= @ssl_ciphers %>';
+  ssl_protocols  <%= @ssl_protocols %>;
+  ssl_prefer_server_ciphers <%= @ssl_prefer_server_ciphers %>;
+  ssl_session_cache  <%= @ssl_session_cache %>;
+  ssl_session_timeout  <%= @ssl_session_timeout %>;
+
+  <% if @ssl_dhparam %>
+  ssl_dhparam <%= @ssl_dhparam %>;
+  <% end %>
+  <% end %>
+
   include aerobase-locations.import;
 }
 
