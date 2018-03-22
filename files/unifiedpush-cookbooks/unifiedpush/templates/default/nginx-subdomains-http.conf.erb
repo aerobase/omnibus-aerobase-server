@@ -5,6 +5,7 @@ server {
 
   server_name  *.<%= @fqdn %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
+  resolver 8.8.8.8;
 
   ## Increase this if you want to upload large attachments
   ## Or if you want to accept large git objects over http
