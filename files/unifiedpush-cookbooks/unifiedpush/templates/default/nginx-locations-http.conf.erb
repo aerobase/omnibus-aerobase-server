@@ -13,8 +13,6 @@
         proxy_pass http<% if @https %>s<% end %>://<%= @fqdn %>/auth/$1$is_args$query_string;
         proxy_cookie_domain <%= @fqdn %> $http_host;
         proxy_redirect ~*/auth/(.*)$ http<% if @https %>s<% end %>://$http_host/auth/$1;
-
-        expires 0;
     }
    
     location ~ ^/unifiedpush-server/(.*)$ {
