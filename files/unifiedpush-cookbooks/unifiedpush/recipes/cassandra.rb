@@ -21,6 +21,8 @@ require 'mkmf'
 CassandraHelper.new(node)
 
 installation_dir = node['unifiedpush']['cassandra']['installation_dir']
+# log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
+log_dir = node['unifiedpush']['cassandra']['log_dir']
 log_directory = node['unifiedpush']['cassandra']['log_directory']
 cassandra_user = node['unifiedpush']['cassandra']['user']
 
@@ -38,6 +40,11 @@ include_recipe 'cassandra-dse' if node['unifiedpush']['cassandra']['enable']
     mode '0775'
     recursive true
   end
+end
+
+# Link logrotate dir to cassandra logs 
+link "#{log_directory}/logs" do
+  to log_dir
 end
 
 component_runit_service "cassandra" do

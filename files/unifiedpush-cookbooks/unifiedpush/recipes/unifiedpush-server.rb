@@ -67,6 +67,11 @@ end
 include_recipe "unifiedpush::unifiedpush-server-wildfly-conf"
 include_recipe "unifiedpush::keycloak-server-wildfly-conf"
 
+# Link logrotate gir to wildfly log dir
+link "#{server_log_dir}/logs" do
+  to "#{server_dir}/standalone/log"
+end
+
 template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"
   owner unifiedpush_user
