@@ -273,6 +273,25 @@ default['unifiedpush']['nginx']['custom_unifiedpush_server_config'] = nil
 default['unifiedpush']['nginx']['custom_nginx_config'] = nil
 
 ###
+# Logging (svlog* attributes are used in runit log config)
+# logrotate * attributes are used in logrotare-service.erb
+###
+default['unifiedpush']['logging']['svlogd_size'] = 200 * 1024 * 1024 # rotate after 200 MB of log data
+default['unifiedpush']['logging']['svlogd_num'] = 30 # keep 30 rotated log files
+default['unifiedpush']['logging']['svlogd_timeout'] = 24 * 60 * 60 # rotate after 24 hours
+default['unifiedpush']['logging']['svlogd_filter'] = "gzip" # compress logs with gzip
+default['unifiedpush']['logging']['svlogd_udp'] = nil # transmit log messages via UDP
+default['unifiedpush']['logging']['svlogd_prefix'] = nil # custom prefix for log messages
+default['unifiedpush']['logging']['udp_log_shipping_host'] = nil # remote host to ship log messages to via UDP
+default['unifiedpush']['logging']['udp_log_shipping_port'] = 514 # remote host to ship log messages to via UDP
+default['unifiedpush']['logging']['logrotate_frequency'] = "daily" # rotate logs daily
+default['unifiedpush']['logging']['logrotate_size'] = nil # do not rotate by size by default
+default['unifiedpush']['logging']['logrotate_rotate'] = 30 # keep 30 rotated logs
+default['unifiedpush']['logging']['logrotate_compress'] = "compress" # see 'man logrotate'
+default['unifiedpush']['logging']['logrotate_method'] = "copytruncate" # see 'man logrotate'
+default['unifiedpush']['logging']['logrotate_postrotate'] = nil # no postrotate command by default
+
+###
 # Logrotate
 ###
 default['unifiedpush']['logrotate']['enable'] = true
