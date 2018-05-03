@@ -1,10 +1,14 @@
 Unifiedpush Server Omnibus
 ==================================
-This project creates full-stack platform-specific packages for `unifiedpush-server`.
+This project creates full-stack platform-specific packages for the Aerobase Server.
+
+Aerobase Server is part of the [Aerobase project](http://aerobase.org/), see the [Community Page](http://aerobase.org/community) for general guidelines for contributing to the project.
+
+The easiest way to start using Aerobase is sign-up a free Plan at [Aerobase.io](https://aerobase.io)
 
 Download Binaries
 ------------
-Please follow the steps on the [downloads page](https://github.com/aerobase/unifiedpush-server/wiki/AeroBase-Installation)
+Please follow the steps on the [installation page](https://aerobase.atlassian.net/wiki/spaces/ARB/pages)
 
 Preperation 
 ------------
