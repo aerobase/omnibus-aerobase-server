@@ -1,10 +1,6 @@
 # Url on which aerobase will be reachable.
 external_url 'GENERATED_EXTERNAL_URL'
 
-# Portal external URL which aerobase portal will be reachable.
-# Default is portal.external_url
-external_portal_url 'GENERATED_EXTERNAL_PORTAL_URL'
-
 # Note: configuration settings below are optional.
 ## Uncomment and change the value.
 ############################
@@ -29,8 +25,6 @@ external_portal_url 'GENERATED_EXTERNAL_PORTAL_URL'
 ###
 # global['contactpoints'] = node['fqdn']
 # global['backup_path'] = "/var/opt/unifiedpush/backups"
-## By default server_host is extracted from external_portal_url
-# global['portal_fqdn'] = node['fqdn']
 # global['portal_mode'] = false
 
 ####

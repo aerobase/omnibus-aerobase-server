@@ -5,7 +5,6 @@
 #
 DEST_DIR=<%= install_dir %>
 EXTERNAL_URL="http://aerobase.example.com"
-EXTERNAL_PORTAL_URL="http://portal.aerobase.example.com"
 
 notify()
 {
@@ -19,11 +18,9 @@ create_config_template()
     mkdir -p /etc/unifiedpush
     cp "${DEST_DIR}/etc/unifiedpush.rb.template" /etc/unifiedpush/unifiedpush.rb
     sed -i 's!GENERATED_EXTERNAL_URL!'$EXTERNAL_URL'!g' /etc/unifiedpush/unifiedpush.rb
-    sed -i 's!GENERATED_EXTERNAL_PORTAL_URL!'$EXTERNAL_PORTAL_URL'!g' /etc/unifiedpush/unifiedpush.rb
     chmod 600 /etc/unifiedpush/unifiedpush.rb
   else
     EXTERNAL_URL=$(awk '/^external_url/ { print $2 }' /etc/unifiedpush/unifiedpush.rb | tr -d "'\"")
-    EXTERNAL_PORTAL_URL=$(awk '/^external_portal_url/ { print $2 }' /etc/unifiedpush/unifiedpush.rb | tr -d "'\"")
   fi
 }
 
@@ -73,7 +70,6 @@ get_fqdn_from_hostname()
   fqdn=$(/bin/hostname -f)
   if [ -n "${fqdn}" ]; then
     EXTERNAL_URL="http://${fqdn}"
-    EXTERNAL_PORTAL_URL="http://portal.${fqdn}"
   fi
 }
 
@@ -83,7 +79,6 @@ get_ec2_hostname()
   fqdn=$(/opt/unifiedpush/embedded/bin/curl -s http://169.254.169.254/latest/meta-data/public-hostname)
   if [ -n "${fqdn}" ]; then
     EXTERNAL_URL="http://${fqdn}"
-    EXTERNAL_PORTAL_URL="http://portal.${fqdn}"
   fi
 }
 

@@ -71,18 +71,17 @@ module Unifiedpush
       return unless external_url
 
       uri = URI(external_url.to_s)
-      portal_uri = URI(external_portal_url.to_s)
 
-      info("Installing according to external_url -> " + uri.host + " and " + portal_uri.host)
+      info("Installing according to external_url -> " + uri.host)
 
       unless uri.host
         raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
       end
 
-      Unifiedpush['global']['portal_fqdn'] = external_portal_url.to_s
+      Unifiedpush['global']['fqdn'] = external_url.to_s
       Unifiedpush['unifiedpush_server']['server_host'] = uri.host
       Unifiedpush['unifiedpush_server']['server_port'] = uri.port
-      Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host, external_portal_url.to_s, uri.host)
+      Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host)
 
       case uri.scheme
       when "http"
@@ -239,20 +238,8 @@ class DomainHelper
     @node = node
   end
 
-  def parse_main_domain(domain)
-    return parse_domain(node['unifiedpush']['unifiedpush-server']['server_host'], node['unifiedpush']['global']['portal_fqdn'], domain)
-  end
-
-  # In case portal fqdn and fqdn share the same domain level, remove private domains from portal_fqdn
-  # TODO - Check how we can remove only the first private domain
-  def parse_domain(fqdn, portal_fqdn, domain)
-    levels = PublicSuffix::Domain.name_to_labels(fqdn).length
-    portal_levels = PublicSuffix::Domain.name_to_labels(portal_fqdn).length
-    if (levels == portal_levels)
-      return PublicSuffix.domain(domain, ignore_private: true)
-    else
-      return domain
-    end
+  def parse_domain(domain)
+    return PublicSuffix.domain(domain, ignore_private: true)
   end
 end
 
