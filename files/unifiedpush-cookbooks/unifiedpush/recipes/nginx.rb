@@ -57,21 +57,27 @@ link "#{nginx_log_dir}/logs" do
 end
 
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")
+nginx_aerobase_js = File.join(nginx_html_dir, "aerobase.js")
 
 unifiedpush_server_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
 unifiedpush_locations_http_conf = File.join(nginx_conf_dir, "aerobase-locations.import")
+unifiedpush_locations_http_sub_module_conf = File.join(nginx_conf_dir, "aerobase-locations-http-sub-module.import")
 unifiedpush_subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
 unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
 keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
+portal_mode = node['unifiedpush']['global']['portal_mode']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
                :unifiedpush_http_config => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_server_http_conf : nil,
 	       :unifiedpush_subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_subdomains_http_conf : nil,
-               :unifiedpush_http_configd => nginx_confd_dir
+               :unifiedpush_http_configd => nginx_confd_dir,
+	       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+      	       :html_dir => nginx_html_dir,
+               :portal_mode => portal_mode
              })
 
 if nginx_vars['listen_https'].nil?
@@ -85,12 +91,7 @@ template unifiedpush_server_http_conf do
   owner "root"
   group "root"
   mode "0644"
-  variables(nginx_vars.merge(
-    {
-      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
-      :html_dir => nginx_html_dir
-    }
-  ))
+  variables nginx_vars
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
 end
@@ -100,14 +101,22 @@ template unifiedpush_locations_http_conf do
   owner "root"
   group "root"
   mode "0644"
-  variables(nginx_vars.merge(
-    {
-      :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
-      :html_dir => nginx_html_dir
-    }
-  ))
+  variables nginx_vars
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
+end
+
+# Install nginx protection to serving apps outside of portal iframe.
+# This case is relevant when returning from external actions e.g registration.
+template unifiedpush_locations_http_sub_module_conf do
+  source "nginx-locations-http-sub-module.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables nginx_vars
+  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
+  action nginx_server_enabled ? :create : :delete
+  only_if { portal_mode }
 end
 
 template unifiedpush_subdomains_http_conf do
@@ -115,12 +124,7 @@ template unifiedpush_subdomains_http_conf do
   owner "root"
   group "root"
   mode "0644"
-  variables(nginx_vars.merge(
-    {
-      :fqdn => domain_helper.parse_domain(node['unifiedpush']['unifiedpush-server']['server_host']),
-      :html_dir => nginx_html_dir
-    }
-  ))
+  variables nginx_vars
   notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
 end
@@ -135,15 +139,23 @@ template nginx_config do
   action nginx_server_enabled ? :create : :delete
 end
 
+template nginx_aerobase_js do
+  source "nginx-aerobase.js.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables nginx_vars
+end
+
 # Extract aerobae static contect to html directory
 if unifiedpush_server_enabled
-  execute 'extract_aerobase_static_content' do
+  execute 'extract_aerobase_ups_static_content' do
     command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/* #{nginx_ups_html_dir}"
   end
 end
 
 if unifiedpush_server_enabled
-  execute 'extract_aerobase_static_content' do
+  execute 'extract_aerobase_gsg_static_content' do
     command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/* #{nginx_gsg_html_dir}"
   end
 end

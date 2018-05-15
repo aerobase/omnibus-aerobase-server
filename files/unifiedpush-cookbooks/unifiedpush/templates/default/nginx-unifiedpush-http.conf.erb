@@ -58,6 +58,11 @@ server {
   access_log  <%= @log_directory %>/unifiedpush_access.log;
   error_log   <%= @log_directory %>/unifiedpush_error.log;
 
+  # Protect access to aerobase apps outside of iframe context
+  <% if @portal_mode %>
+  include aerobase-locations-http-sub-module.import;
+  <% end %>
+
   location / {
     ## Serve static files from defined root folder.
     root <%= @html_dir %>;

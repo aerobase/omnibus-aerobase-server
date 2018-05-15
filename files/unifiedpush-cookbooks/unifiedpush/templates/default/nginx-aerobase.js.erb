@@ -1,0 +1,6 @@
+'use strict';
+
+// When running in portal mode (iframe) redirect to home page if page is not wrapped in iframe
+if (window.self == window.top){
+  window.location.href = window.location.protocol + "//" + window.location.hostname + "/portal/start";
+}
