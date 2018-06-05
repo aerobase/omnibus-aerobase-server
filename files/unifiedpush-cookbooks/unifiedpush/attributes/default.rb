@@ -113,13 +113,6 @@ default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
-# OTP verification params
-default['unifiedpush']['unifiedpush-server']['inst_verification'] = false
-default['unifiedpush']['unifiedpush-server']['inst_verification_class'] = "org.jboss.aerogear.unifiedpush.service.sms.ClickatellSMSSender"
-default['unifiedpush']['unifiedpush-server']['inst_verification_master_code'] = nil
-default['unifiedpush']['unifiedpush-server']['inst_verification_properties'] = []
-# Example - Additinal properties will be passed into verification class`
-# ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8','aerogear.config.sms.sender.clickatell.template={0}']
 
 ####
 # Keycloak Server app

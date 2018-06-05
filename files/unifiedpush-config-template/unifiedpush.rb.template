@@ -88,13 +88,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_socket'] = nil
 # unifiedpush_server['db_sslmode'] = nil
 # unifiedpush_server['db_sslrootcert'] = nil
-## OTP verification params
-# unifiedpush_server['inst_verification'] = false
-# unifiedpush_server['inst_verification_class'] = "org.jboss.aerogear.unifiedpush.service.sms.ClickatellSMSSender"
-# unifiedpush_server['inst_verification_master_code'] = nil
-# unifiedpush_server['inst_verification_properties'] = []
-# Example - Additinal properties will be passed into verification class`
-# ['aerogear.config.sms.sender.clickatell.api_id=','aerogear.config.sms.sender.clickatell.username=','aerogear.config.sms.sender.clickatell.password=','aerogear.config.sms.sender.clickatell.encoding=UTF-8', 'aerogear.config.sms.sender.clickatell.template={0}']
 
 ####
 # Keycloak Server app
