@@ -47,3 +47,4 @@ software_gems ['omnibus-software']
 #local_software_dirs ['../omnibus-software/']
 #local_software_dirs ['/path/to/local/software']
 append_timestamp false
+windows_arch 'x64'

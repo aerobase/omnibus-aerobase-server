@@ -21,36 +21,44 @@ name "unifiedpush-server"
 maintainer "Yaniv Marom-Nachumi"
 homepage "https://github.com/aerobase/omnibus-unifiedpush-server"
 
-package_name    "unifiedpush-server"
-install_dir     "/opt/unifiedpush"
-
-build_version   Omnibus::BuildVersion.new.semver
-build_iteration Unifiedpush::BuildIteration.new.build_iteration
+package_name    "aerobase"
 
 # Creates required build directories
 dependency "preparation"
 
+if windows?
+  install_dir     "C:/Aerobase"
+  build_version "1.2.8"
+  dependency "postgresql-bin"
+else
+  install_dir     "/opt/unifiedpush"
+  
+  build_version   Omnibus::BuildVersion.new.semver
+  build_iteration Unifiedpush::BuildIteration.new.build_iteration
+
+  dependency "postgresql"
+end
+
 # unifiedpush dependencies/components
-dependency "postgresql"
-dependency "nginx"
-dependency "omnibus-ctl"
-dependency "chef"
-dependency "python"
-dependency "logrotate"
-dependency "runit"
-dependency "public_suffix"
+#dependency "nginx"
+#dependency "omnibus-ctl"
+#dependency "chef"
+#dependency "python"
+#dependency "logrotate"
+#dependency "runit"
+#dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
 # unifiedpush-server is the most expensive runtime build, therefore keep it first in order.
-dependency "unifiedpush-server"
-dependency "unifiedpush-admin-ui"
-dependency "aerobase-gsg-ui"
-dependency "aerobase-keycloak-theme"
-dependency "unifiedpush-ctl"
-dependency "unifiedpush-config-template"
-dependency "unifiedpush-scripts"
-dependency "unifiedpush-cookbooks"
-dependency "package-scripts"
+#dependency "unifiedpush-server"
+#dependency "unifiedpush-admin-ui"
+#dependency "aerobase-gsg-ui"
+#dependency "aerobase-keycloak-theme"
+#dependency "unifiedpush-ctl"
+#dependency "unifiedpush-config-template"
+#dependency "unifiedpush-scripts"
+#dependency "unifiedpush-cookbooks"
+#dependency "package-scripts"
 
 # Version manifest file
 dependency "version-manifest"
@@ -63,6 +71,10 @@ end
 package :deb do
   compression_level 6
   compression_type :xz
+end
+
+package :msi do
+  upgrade_code '2CD7259C-776D-4DDB-A4C8-6E544E580AA1'
 end
 
 exclude "**/.git"
