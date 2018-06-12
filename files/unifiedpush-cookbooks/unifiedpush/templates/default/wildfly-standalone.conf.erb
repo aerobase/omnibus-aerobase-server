@@ -82,6 +82,6 @@ fi
 JAVA_OPTS="$JAVA_OPTS -Daerobase.config.dir=<%= @dir %>/etc/"
 
 # Cluster configuration - Set private address to required subnet
-JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address.private=<%= @server_address %>"
+JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address.private=<%= @server_address %> -Dspring.profiles.active=default<% if @cassandra_enabled %>,realtimedb<% end %>"
 
 LAUNCH_JBOSS_IN_BACKGROUND=1

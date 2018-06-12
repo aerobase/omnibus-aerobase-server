@@ -40,6 +40,7 @@ end
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
+cassandra_enabled = node['unifiedpush']['cassandra']['enable']
 
 # Prepare datasource cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
@@ -92,7 +93,10 @@ template "#{server_dir}/bin/standalone.conf" do
   group "root"
   mode 0755
   source "wildfly-standalone.conf.erb"
-  variables(unifiedpush_vars)
+  variables(unifiedpush_vars.merge({
+      :cassandra_enabled => cassandra_enabled
+    }
+  ))
 end
 
 # Execute cli scripts
