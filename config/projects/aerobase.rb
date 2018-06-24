@@ -14,38 +14,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-require "#{Omnibus::Config.project_root}/lib/unifiedpush/build_iteration"
-
-name "unifiedpush-server"
-maintainer "Yaniv Marom-Nachumi"
-homepage "https://github.com/aerobase/omnibus-unifiedpush-server"
-
+name "aerobase"
 package_name    "aerobase"
+friendly_name   "Aerobase Platform"
+maintainer "Aerobase Software, Inc. <maintainers@aerobase.io>"
+homepage "https://aerobase.io"
+license "Apache-2.0"
+license_file "LICENSE"
+install_dir     "#{default_root}/#{name}"
+
+build_iteration 1
+# Do not use __FILE__ after this point, use current_file. If you use __FILE__
+# after this point, any dependent defs (ex: angrychef) that use instance_eval
+# will fail to work correctly.
+current_file ||= __FILE__
+version_file = File.expand_path("../../../VERSION", current_file)
+build_version IO.read(version_file).strip
 
 # Creates required build directories
 dependency "preparation"
 
 if windows?
-  install_dir     "C:/Aerobase"
-  build_version "1.2.8"
   dependency "postgresql-bin"
 else
-  install_dir     "/opt/unifiedpush"
-  
-  build_version   Omnibus::BuildVersion.new.semver
-  build_iteration Unifiedpush::BuildIteration.new.build_iteration
-
   dependency "postgresql"
+  dependency "omnibus-ctl"
+  dependency "logrotate"
+  dependency "runit"
+  
+  dependency "unifiedpush-ctl"
 end
 
 # unifiedpush dependencies/components
 #dependency "nginx"
-#dependency "omnibus-ctl"
 #dependency "chef"
-#dependency "python"
-#dependency "logrotate"
-#dependency "runit"
 #dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
@@ -54,14 +56,12 @@ end
 #dependency "unifiedpush-admin-ui"
 #dependency "aerobase-gsg-ui"
 #dependency "aerobase-keycloak-theme"
-#dependency "unifiedpush-ctl"
 #dependency "unifiedpush-config-template"
 #dependency "unifiedpush-scripts"
 #dependency "unifiedpush-cookbooks"
-#dependency "package-scripts"
 
 # Version manifest file
-dependency "version-manifest"
+#dependency "version-manifest"
 
 package :rpm do
   compression_level 6
@@ -79,11 +79,6 @@ end
 
 exclude "**/.git"
 exclude "**/bundler/git"
-
-# Our package scripts are generated from .erb files,
-# so we will grab them from an excluded folder
-package_scripts_path "#{install_dir}/.package_util/package-scripts"
-exclude '.package_util'
 
 package_user 'root'
 package_group 'root'
