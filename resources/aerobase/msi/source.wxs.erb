@@ -99,16 +99,24 @@
             </Directory>
           </Directory>
         </Directory>
+		<Directory Id="CONFIGLOCATION" Name="Configuration" >
+		</Directory>
       </Directory>
     </Directory>
 
     <!-- Set the components defined in our fragment files that will be used for our feature  -->
-    <Feature Id="AerobaseFeature" Title="!(loc.FeatureMainName)" Absent="disallow" AllowAdvertise="no" Level="1" ConfigurableDirectory="INSTALLLOCATION">
+    <Feature Id="AeroBaseFeature" Title="!(loc.FeatureMainName)" Absent="disallow" AllowAdvertise="no" Level="1" ConfigurableDirectory="INSTALLLOCATION">
       <ComponentGroupRef Id="ProjectDir" />
       <ComponentRef Id="ProjectLocationPermissions" />
       <ComponentRef Id="AerobasePath" />
     </Feature>
 
+	<CustomAction Id="PropertyAssign" Property="SilentLaunch" Value="&quot;[INSTALLDIR]mycopier.exe&quot;" Execute="immediate" />
+	<CustomAction Id="SilentLaunch" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="check" Impersonate="no" /> 
+	<InstallExecuteSequence> 
+      <Custom Action="PropertyAssign" Before="SilentLaunch">NOT Installed </Custom> 
+      <Custom Action="SilentLaunch" After="InstallFiles">NOT Installed </Custom> 
+    </InstallExecuteSequence>
     <!--
       UI Stuff
     -->

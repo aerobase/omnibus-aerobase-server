@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/aerobase/omnibus-software.git
-  revision: 0a49b6dbc3d5577f0093d08590724fecbe44661c
+  revision: 1ecca2f303d0487af0e2c95edc32be25d68f1ef9
   branch: master
   specs:
     omnibus-software (4.0.0)
@@ -30,14 +30,14 @@ GEM
   specs:
     addressable (2.3.8)
     awesome_print (1.8.0)
-    aws-sdk (2.11.75)
-      aws-sdk-resources (= 2.11.75)
-    aws-sdk-core (2.11.75)
+    aws-sdk (2.11.80)
+      aws-sdk-resources (= 2.11.80)
+    aws-sdk-core (2.11.80)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.75)
-      aws-sdk-core (= 2.11.75)
-    aws-sigv4 (1.0.2)
+    aws-sdk-resources (2.11.80)
+      aws-sdk-core (= 2.11.80)
+    aws-sigv4 (1.0.3)
     berkshelf (3.3.0)
       addressable (~> 2.3.4)
       berkshelf-api-client (~> 1.2)
@@ -119,7 +119,7 @@ GEM
     minitar (0.5.4)
     mixlib-authentication (2.1.1)
     mixlib-cli (1.7.0)
-    mixlib-config (2.2.8)
+    mixlib-config (2.2.11)
       tomlrb
     mixlib-install (3.10.0)
       mixlib-shellout
@@ -192,7 +192,7 @@ GEM
       dep_selector (~> 1.0)
       semverse (~> 1.1)
     systemu (2.6.5)
-    test-kitchen (1.21.2)
+    test-kitchen (1.22.0)
       mixlib-install (~> 3.6)
       mixlib-shellout (>= 1.2, < 3.0)
       net-scp (~> 1.1)

@@ -16,8 +16,10 @@
 #
 if windows?
   name "Aerobase"
+  install_dir  "#{default_root}/Aerobase/#{name}"
 else
   name "aerobase"
+  install_dir  "#{default_root}/#{name}"
 end 
 
 package_name    "aerobase"
@@ -26,15 +28,8 @@ maintainer "Aerobase Software, Inc. <maintainers@aerobase.io>"
 homepage "https://aerobase.io"
 license "Apache-2.0"
 license_file "LICENSE"
-install_dir     "#{default_root}/#{name}"
-
+build_version IO.read(File.expand_path("../../../VERSION", __FILE__)).strip
 build_iteration 1
-# Do not use __FILE__ after this point, use current_file. If you use __FILE__
-# after this point, any dependent defs (ex: angrychef) that use instance_eval
-# will fail to work correctly.
-current_file ||= __FILE__
-version_file = File.expand_path("../../../VERSION", current_file)
-build_version IO.read(version_file).strip
 
 # Creates required build directories
 dependency "preparation"
@@ -50,23 +45,16 @@ else
 end
 
 # unifiedpush dependencies/components
-#dependency "omnibus-ctl"
-#dependency "unifiedpush-ctl"
-#dependency "chef"
-#dependency "public_suffix"
+dependency "omnibus-ctl"
+dependency "chef"
+dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
-# unifiedpush-server is the most expensive runtime build, therefore keep it first in order.
-#dependency "unifiedpush-server"
-#dependency "unifiedpush-admin-ui"
-#dependency "aerobase-gsg-ui"
-#dependency "aerobase-keycloak-theme"
-#dependency "unifiedpush-config-template"
-#dependency "unifiedpush-scripts"
-#dependency "unifiedpush-cookbooks"
+dependency "aerobase"
 
 # Version manifest file
 #dependency "version-manifest"
+
 
 package :rpm do
   compression_level 6

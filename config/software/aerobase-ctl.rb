@@ -15,16 +15,15 @@
 # limitations under the License.
 #
 
-name "unifiedpush-ctl"
-
-dependency "rsync"
+name "aerobase-ctl"
 dependency "omnibus-ctl"
 
-source :path => File.expand_path("files/unifiedpush-ctl-commands", Omnibus::Config.project_root)
+license :project_license
+source :path => File.expand_path("files/aerobase-ctl-commands", Omnibus::Config.project_root)
 
 build do
   block do
-    open("#{install_dir}/bin/unifiedpush-ctl", "w") do |file|
+    open("#{install_dir}/bin/aerobase-ctl", "w") do |file|
       file.print <<-EOH
 #!/bin/bash
 #
@@ -45,7 +44,7 @@ build do
 #
 
 # Ensure the calling environment (disapproval look Bundler) does not infect our
-# Ruby environment if unifiedpush-ctl is called from a Ruby script.
+# Ruby environment if aerobase-ctl is called from a Ruby script.
 for ruby_env_var in RUBYOPT \\
                     BUNDLE_BIN_PATH \\
                     BUNDLE_GEMFILE \\
@@ -55,13 +54,13 @@ do
   unset $ruby_env_var
 done
 
-#{install_dir}/embedded/bin/omnibus-ctl unifiedpush #{install_dir}/embedded/service/omnibus-ctl $@
+#{install_dir}/embedded/bin/omnibus-ctl aerobase #{install_dir}/embedded/service/omnibus-ctl $@
        EOH
     end
   end
 
-  command "chmod 755 #{install_dir}/bin/unifiedpush-ctl"
+  command "chmod 755 #{install_dir}/bin/aerobase-ctl"
 
   # additional omnibus-ctl commands
-  command "#{install_dir}/embedded/bin/rsync -a ./ #{install_dir}/embedded/service/omnibus-ctl/"
+  copy "./*.*", "#{install_dir}/embedded/service/omnibus-ctl/"
 end

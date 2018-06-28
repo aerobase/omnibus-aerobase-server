@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 add_command 'reload', 'Run migrations after a package upgrade', 2 do |cmd_name, sv_name|
-  service_statuses = `#{base_path}/bin/unifiedpush-ctl status`
+  service_statuses = `#{base_path}/bin/aerobase-ctl status`
 
   if /: runsv not running/.match(service_statuses) || service_statuses.empty? then
-    log 'It looks like Unifiedpush has not been installed yet; skipping the upgrade '\
+    log 'It looks like aerobase has not been installed yet; skipping the upgrade '\
       'script.'
     exit! 0
   end
@@ -26,11 +26,11 @@ add_command 'reload', 'Run migrations after a package upgrade', 2 do |cmd_name, 
   case sv_name
   when 'nginx'
     # test config first
-    output=system("#{base_path}/embedded/sbin/nginx -t -s reload -g \"pid /var/opt/unifiedpush/nginx/nginx.pid;\"")
+    output=system("#{base_path}/embedded/sbin/nginx -t -s reload -g \"pid /var/opt/aerobase/nginx/nginx.pid;\"")
     
     # reload config
     if output == true
-        system("#{base_path}/embedded/sbin/nginx -s reload -g \"pid /var/opt/unifiedpush/nginx/nginx.pid;\"")
+        system("#{base_path}/embedded/sbin/nginx -s reload -g \"pid /var/opt/aerobase/nginx/nginx.pid;\"")
     end
   else
     puts "Usage: #{cmd_name} is supported only for nginx"

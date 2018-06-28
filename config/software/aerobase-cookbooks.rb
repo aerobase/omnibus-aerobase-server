@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015.
+# Copyright:: Copyright (c) 2015
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,12 @@
 # limitations under the License.
 #
 
-name "unifiedpush-config-template"
+name "aerobase-cookbooks"
+license :project_license
 
-dependency "rsync"
-
-source :path => File.expand_path("files/unifiedpush-config-template", Omnibus::Config.project_root)
+source :path => File.expand_path("files/aerobase-cookbooks", Omnibus::Config.project_root)
 
 build do
-  command "mkdir -p #{install_dir}/etc"
-  command "#{install_dir}/embedded/bin/rsync --delete -a ./ #{install_dir}/etc/"
+  command "mkdir -p #{install_dir}/embedded/cookbooks"
+  sync "./", "#{install_dir}/embedded/cookbooks/"
 end

@@ -1,3 +1,4 @@
+#
 # Copyright:: Copyright (c) 2015.
 # License:: Apache License, Version 2.0
 #
@@ -14,24 +15,11 @@
 # limitations under the License.
 #
 
-name "postgresql-bin"
-default_version "9.6.9-1"
+name "aerobase-config-template"
 
-version "9.6.9-1" do
-  source md5: "a3bc0afea4f31ec27ebf2ed4a80c9476"
-end
-
-source url: "https://get.enterprisedb.com/postgresql/postgresql-#{version}-windows-x64-binaries.zip"
-
-relative_path "pgsql"
-build_dir = "#{project_dir}"
+source :path => File.expand_path("files/aerobase-config-template", Omnibus::Config.project_root)
 
 build do
-  mkdir "#{install_dir}/embedded/bin"
-  mkdir "#{install_dir}/embedded/lib"
-  mkdir "#{install_dir}/embedded/include"
-
-  copy "./bin/*.*", "#{install_dir}/embedded/bin/"
-  copy "./lib/*.*", "#{install_dir}/embedded/lib/"
-  copy "./include/*.*", "#{install_dir}/embedded/include/"
+  command "mkdir -p #{install_dir}/etc"
+  copy "./*.*", "#{install_dir}/etc/"
 end

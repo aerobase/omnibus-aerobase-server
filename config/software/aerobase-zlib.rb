@@ -18,6 +18,8 @@
 name "unifiedpush-server-zlib"
 default_version "1.2.6"
 
+license :project_license
+
 # A software can specify more than one version that is available for install
 version("1.2.6") { source md5: "618e944d7c7cd6521551e30b32322f4a" }
 version("1.2.8") { source md5: "44d667c142d7cda120332623eab69f40" }

@@ -16,10 +16,10 @@
 
 name "unifiedpush-admin-ui"
 default_version "master"
+license :project_license
 
 dependency "ruby"
 dependency "bundler"
-dependency "rsync"
 
 source git: "https://github.com/aerobase/unifiedpush-admin-ui.git"
 
@@ -27,14 +27,18 @@ relative_path "unifiedpush-admin-ui"
 build_dir = "#{project_dir}"
 
 build do
-  command "npm install"
-  command "npm install -g bower"
-  command "npm install -g grunt"
-  command "npm install grunt-cli"
-  command "bower update"
-  command "grunt build" 
+  if windows?
+    command "mvn clean install"
+  else
+    command "npm install"
+    command "npm install -g bower"
+    command "npm install -g grunt"
+    command "npm install grunt-cli"
+    command "bower update"
+    command "grunt build" 
+  end
 
   # Copy resources
   command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./dist/ #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
+  sync "./dist/", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
 end

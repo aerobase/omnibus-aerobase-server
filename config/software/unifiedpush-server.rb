@@ -16,11 +16,10 @@
 
 name "unifiedpush-server"
 default_version "master"
+license :project_license
 
 dependency "ruby"
 dependency "bundler"
-dependency "rsync"
-dependency "postgresql"
 
 source git: "https://github.com/aerobase/unifiedpush-server.git"
 
@@ -37,11 +36,6 @@ build do
   # Copy packages to installation dir.
   copy "#{project_dir}/servers/target/unifiedpush-server.war", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
   copy "#{project_dir}/databases/initdb/target/unifiedpush-initdb.tar.gz", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-initdb.tar.gz"
-
-  erb source: "version.yml.erb",
-      dest: "#{install_dir}/embedded/apps/unifiedpush-server/version.yml",
-      mode: 0644,
-      vars: { default_version: default_version }
 end
 
 # extract initdb project to allow JPA based schema creation.
