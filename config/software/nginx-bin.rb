@@ -14,16 +14,16 @@
 # limitations under the License.
 #
 
-name "postgresql-bin"
-default_version "9.6.9-1"
+name "nginx-bin"
+default_version "1.14.0"
 
-version "9.6.9-1" do
-  source md5: "a3bc0afea4f31ec27ebf2ed4a80c9476"
+version "1.14.0" do
+  source md5: "c645cfcd1c74416c7741fd17ce616523"
 end
 
-source url: "https://get.enterprisedb.com/postgresql/postgresql-#{version}-windows-x64-binaries.zip"
+source url: "http://nginx.org/download/nginx-#{version}.zip"
 
-relative_path "pgsql"
+relative_path "nginx-#{version}"
 build_dir = "#{project_dir}"
 
 build do
@@ -31,7 +31,5 @@ build do
   mkdir "#{install_dir}/embedded/lib"
   mkdir "#{install_dir}/embedded/include"
 
-  sync "./bin/", "#{install_dir}/embedded/bin/"
-  sync "./lib/", "#{install_dir}/embedded/lib/"
-  sync "./include/", "#{install_dir}/embedded/include/"
+  sync "./", "#{install_dir}/nginx"
 end

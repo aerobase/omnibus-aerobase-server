@@ -14,7 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name "aerobase"
+if windows?
+  name "Aerobase"
+else
+  name "aerobase"
+end 
+
 package_name    "aerobase"
 friendly_name   "Aerobase Platform"
 maintainer "Aerobase Software, Inc. <maintainers@aerobase.io>"
@@ -36,17 +41,17 @@ dependency "preparation"
 
 if windows?
   dependency "postgresql-bin"
+  dependency "nginx-bin"
 else
   dependency "postgresql"
-  dependency "omnibus-ctl"
+  dependency "nginx"
   dependency "logrotate"
   dependency "runit"
-  
-  dependency "unifiedpush-ctl"
 end
 
 # unifiedpush dependencies/components
-#dependency "nginx"
+#dependency "omnibus-ctl"
+#dependency "unifiedpush-ctl"
 #dependency "chef"
 #dependency "public_suffix"
 
@@ -73,8 +78,14 @@ package :deb do
   compression_type :xz
 end
 
+msi_upgrade_code = "2CD7259C-776D-4DDB-A4C8-6E544E580AA1"
+project_location_dir = name
 package :msi do
-  upgrade_code '2CD7259C-776D-4DDB-A4C8-6E544E580AA1'
+  fast_msi true
+  upgrade_code msi_upgrade_code
+  wix_candle_extension "WixUtilExtension"
+  wix_light_extension "WixUtilExtension"
+  parameters ProjectLocationDir: project_location_dir
 end
 
 exclude "**/.git"

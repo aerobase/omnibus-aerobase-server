@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/aerobase/omnibus-software.git
-  revision: 28977ee34c8fa59c83316bc6ce970ce3309f978b
+  revision: 0a49b6dbc3d5577f0093d08590724fecbe44661c
   branch: master
   specs:
     omnibus-software (4.0.0)
