@@ -56,6 +56,13 @@
                   Impersonate="no"
                   Return="check" />
 
+	<CustomAction Id="UpdateInstallationPath"
+                  Directory="INSTALLLOCATION"
+                  ExeCommand="powershell -Command &quot;$(var.ProjectLocationDir)\bin\aerobase-bootstrap.bat '[INSTALLLOCATION]'&quot;"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore" />
+				  
     <Binary Id="CustomActionFastMsiDLL"
             SourceFile="CustomActionFastMsi.CA.dll" />
 
@@ -68,6 +75,7 @@
 
     <InstallExecuteSequence>
       <Custom Action="FastUnzip" After="InstallFiles">NOT Installed</Custom>
+	  <Custom Action="UpdateInstallationPath" After="FastUnzip">NOT Installed</Custom>
       <Custom Action="Cleanup" After="RemoveFiles">REMOVE~="ALL"</Custom>
     </InstallExecuteSequence>
 
@@ -92,15 +100,13 @@
               </CreateFolder>
             </Component>
             <Directory Id="PROJECTLOCATIONBIN" Name="bin" >
-              <Component Id="AerobasePath" Guid="{30CCCAE9-4657-45BB-BFA6-F4CC1A6F66FD}" >
+              <Component Id="AerobasePath" Guid="{ccab34f4-050e-4f86-84f8-53c1269a582f}" >
                 <Environment Id="AerobasePathEnvironment"
                              Name="PATH" Action="set" Part="last" System="yes" Value="[PROJECTLOCATIONBIN]" />
               </Component>
             </Directory>
           </Directory>
         </Directory>
-		<Directory Id="CONFIGLOCATION" Name="Configuration" >
-		</Directory>
       </Directory>
     </Directory>
 
@@ -111,12 +117,6 @@
       <ComponentRef Id="AerobasePath" />
     </Feature>
 
-	<CustomAction Id="PropertyAssign" Property="SilentLaunch" Value="&quot;[INSTALLDIR]mycopier.exe&quot;" Execute="immediate" />
-	<CustomAction Id="SilentLaunch" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="deferred" Return="check" Impersonate="no" /> 
-	<InstallExecuteSequence> 
-      <Custom Action="PropertyAssign" Before="SilentLaunch">NOT Installed </Custom> 
-      <Custom Action="SilentLaunch" After="InstallFiles">NOT Installed </Custom> 
-    </InstallExecuteSequence>
     <!--
       UI Stuff
     -->

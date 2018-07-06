@@ -27,6 +27,10 @@ build do
       dest: "#{install_dir}/bin/aerobase-ctl.bat",
       mode: 0755, 
 	  vars: {install_dir: "#{install_dir}"}
+	  
+	  erb source: "aerobase-bootstrap.bat.erb",
+      dest: "#{install_dir}/bin/aerobase-bootstrap.bat",
+      mode: 0755
   else
     erb source: "aerobase-ctl.erb",
       dest: "#{install_dir}/bin/aerobase-ctl",
