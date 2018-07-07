@@ -1,71 +1,71 @@
 [submodule "java"]
-	path = files/unifiedpush-cookbooks/java
+	path = files/aerobase-cookbooks/java
 	url = https://github.com/agileorbit-cookbooks/java.git
 	branch = v1.45.0
 [submodule "compat_resource"]
-	path = files/unifiedpush-cookbooks/compat_resource
+	path = files/aerobase-cookbooks/compat_resource
 	url = https://github.com/chef-cookbooks/compat_resource.git
 	branch = v12.16.3
 [submodule "apt"]
-	path = files/unifiedpush-cookbooks/apt
+	path = files/aerobase-cookbooks/apt
 	url = https://github.com/chef-cookbooks/apt.git
 	branch = v5.0.1
 [submodule "windows"]
 	branch = v2.1.1
-	path = files/unifiedpush-cookbooks/windows
+	path = files/aerobase-cookbooks/windows
 	url = https://github.com/chef-cookbooks/windows.git
 [submodule "homebrew"]
-	path = files/unifiedpush-cookbooks/homebrew
+	path = files/aerobase-cookbooks/homebrew
 	url = https://github.com/chef-cookbooks/homebrew.git
 	branch = v3.0.0
 [submodule "ohai"]
-	path = files/unifiedpush-cookbooks/ohai
+	path = files/aerobase-cookbooks/ohai
 	url = https://github.com/chef-cookbooks/ohai.git
 	branch = v4.2.3
 [submodule "cassandra-dse"]
-	path = files/unifiedpush-cookbooks/cassandra-dse
+	path = files/aerobase-cookbooks/cassandra-dse
 	url = https://github.com/aerobase/cassandra-chef-cookbook.git
 	branch = master
 [submodule "ulimit"]
-	path = files/unifiedpush-cookbooks/ulimit
+	path = files/aerobase-cookbooks/ulimit
 	url = https://github.com/bmhatfield/chef-ulimit.git
 	branch = v0.4.0
 [submodule "yum"]
-	path = files/unifiedpush-cookbooks/yum
+	path = files/aerobase-cookbooks/yum
 	url = https://github.com/chef-cookbooks/yum.git
 	branch = v4.1.0
 [submodule "ark"]
-	path = files/unifiedpush-cookbooks/ark
+	path = files/aerobase-cookbooks/ark
 	url = https://github.com/chef-cookbooks/ark.git
 	branch = v2.2.1
 [submodule "build-essential"]
-	path = files/unifiedpush-cookbooks/build-essential
+	path = files/aerobase-cookbooks/build-essential
 	url = https://github.com/chef-cookbooks/build-essential.git
 	branch = v7.0.3
 [submodule "seven_zip"]
-	path = files/unifiedpush-cookbooks/seven_zip
+	path = files/aerobase-cookbooks/seven_zip
 	url = https://github.com/windowschefcookbooks/seven_zip.git
 	branch = v2.0.2
 [submodule "mingw"]
-	path = files/unifiedpush-cookbooks/mingw
+	path = files/aerobase-cookbooks/mingw
 	url = https://github.com/chef-cookbooks/mingw.git
 	branch = v1.2.4
 [submodule "systemd"]
-	path = files/unifiedpush-cookbooks/systemd
+	path = files/aerobase-cookbooks/systemd
 	url = https://github.com/nathwill/chef-systemd.git
 	branch = v2.1.3
-[submodule "files/unifiedpush-cookbooks/chef_handler"]
-	path = files/unifiedpush-cookbooks/chef_handler
+[submodule "files/aerobase-cookbooks/chef_handler"]
+	path = files/aerobase-cookbooks/chef_handler
 	url = https://github.com/chef-cookbooks/chef_handler.git
-[submodule "files/unifiedpush-cookbooks/enterprise"]
-	path = files/unifiedpush-cookbooks/enterprise
+[submodule "files/aerobase-cookbooks/enterprise"]
+	path = files/aerobase-cookbooks/enterprise
 	url = https://github.com/chef-cookbooks/enterprise-chef-common.git
-[submodule "files/unifiedpush-cookbooks/runit"]
-	path = files/unifiedpush-cookbooks/runit
+[submodule "files/aerobase-cookbooks/runit"]
+	path = files/aerobase-cookbooks/runit
 	url = https://github.com/chef-cookbooks/runit.git
-[submodule "files/unifiedpush-cookbooks/packagecloud"]
-	path = files/unifiedpush-cookbooks/packagecloud
+[submodule "files/aerobase-cookbooks/packagecloud"]
+	path = files/aerobase-cookbooks/packagecloud
 	url = https://github.com/computology/packagecloud-cookbook.git
-[submodule "files/unifiedpush-cookbooks/yum-epel"]
-	path = files/unifiedpush-cookbooks/yum-epel
+[submodule "files/aerobase-cookbooks/yum-epel"]
+	path = files/aerobase-cookbooks/yum-epel
 	url = https://github.com/chef-cookbooks/yum-epel.git
