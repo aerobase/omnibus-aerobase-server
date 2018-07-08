@@ -54,18 +54,18 @@
 	path = files/aerobase-cookbooks/systemd
 	url = https://github.com/nathwill/chef-systemd.git
 	branch = v2.1.3
-[submodule "files/aerobase-cookbooks/chef_handler"]
+[submodule "files/unifiedpush-cookbooks/chef_handler"]
 	path = files/aerobase-cookbooks/chef_handler
 	url = https://github.com/chef-cookbooks/chef_handler.git
-[submodule "files/aerobase-cookbooks/enterprise"]
+[submodule "files/unifiedpush-cookbooks/enterprise"]
 	path = files/aerobase-cookbooks/enterprise
 	url = https://github.com/chef-cookbooks/enterprise-chef-common.git
-[submodule "files/aerobase-cookbooks/runit"]
+[submodule "files/unifiedpush-cookbooks/runit"]
 	path = files/aerobase-cookbooks/runit
 	url = https://github.com/chef-cookbooks/runit.git
-[submodule "files/aerobase-cookbooks/packagecloud"]
+[submodule "files/unifiedpush-cookbooks/packagecloud"]
 	path = files/aerobase-cookbooks/packagecloud
 	url = https://github.com/computology/packagecloud-cookbook.git
-[submodule "files/aerobase-cookbooks/yum-epel"]
+[submodule "files/unifiedpush-cookbooks/yum-epel"]
 	path = files/aerobase-cookbooks/yum-epel
 	url = https://github.com/chef-cookbooks/yum-epel.git
