@@ -29,6 +29,11 @@ build do
   erb :dest => "#{install_dir}/embedded/cookbooks/package/attributes/default.rb",
     :source => "cookbook_packages_default.erb",
     :mode => 0755,
-    :vars => { :install_dir => project.install_dir }
-
+    :vars => { 
+		:install_dir => project.install_dir,		
+		:name => project.name,
+		:runtime_dir => '/var/opt/' + project.name,
+		:logs_dir => '/var/log/' + project.name,
+		:config_dir => '/etc/' + project.name,
+	}
 end

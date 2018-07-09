@@ -18,8 +18,8 @@
 ###
 # Set a project-name for the enterprise-chef-common cookbook
 ###
-default['enterprise']['name'] = "unifiedpush"
-default['unifiedpush']['install_path'] = "/opt/unifiedpush"
+default['enterprise']['name'] = "aerobase"
+default['unifiedpush']['install_path'] = "#{node['package']['install-dir']}"
 
 ####
 # omnibus options
@@ -28,23 +28,23 @@ default['unifiedpush']['bootstrap']['enable'] = true
 # create users and groups needed for the package
 default['unifiedpush']['manage-accounts']['enable'] = true
 # Default contactpoints for symmetric cluster mode.
-# Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to unifiedpush.rb
+# Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to aerobase.rb
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
-default['unifiedpush']['global']['backup_path'] = "/var/opt/unifiedpush/backups"
+default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
 
 ####
-## The Unifiedpush User that services run as
+## The Aerobase User that services run as
 ####
-# The Unifiedpush User that services run as
-default['unifiedpush']['user']['username'] = "unifiedpush"
-default['unifiedpush']['user']['group'] = "unifiedpush"
+# The Aerobase User that services run as
+default['unifiedpush']['user']['username'] = "aerobase"
+default['unifiedpush']['user']['group'] = "aerobase"
 default['unifiedpush']['user']['uid'] = nil
 default['unifiedpush']['user']['gid'] = nil
-# The shell for the unifiedpush services user
+# The shell for the aerobase services user
 default['unifiedpush']['user']['shell'] = "/bin/sh"
-# The home directory for the unifiedpush services user
-default['unifiedpush']['user']['home'] = "/var/opt/unifiedpush"
+# The home directory for the aerobase services user
+default['unifiedpush']['user']['home'] = "#{node['package']['runtime-dir']}"
 
 ####
 # Java installation options, this package is not embeded.
@@ -61,8 +61,8 @@ default['unifiedpush']['java']['oracle']['accept_oracle_download_terms'] = true
 ####
 default['unifiedpush']['unifiedpush-server']['enable'] = true
 default['unifiedpush']['unifiedpush-server']['ha'] = false
-default['unifiedpush']['unifiedpush-server']['dir'] = "/var/opt/unifiedpush/unifiedpush-server"
-default['unifiedpush']['unifiedpush-server']['log_directory'] = "/var/log/unifiedpush/unifiedpush-server"
+default['unifiedpush']['unifiedpush-server']['dir'] = "#{node['package']['runtime-dir']}/unifiedpush-server"
+default['unifiedpush']['unifiedpush-server']['log_directory'] = "#{node['package']['logs-dir']}/unifiedpush-server"
 default['unifiedpush']['unifiedpush-server']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['unifiedpush-server']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['unifiedpush-server']['environment'] = 'production'
@@ -72,8 +72,8 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
   # defaults to /opt/unifiedpush/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"
 }
-default['unifiedpush']['unifiedpush-server']['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
-default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
+default['unifiedpush']['unifiedpush-server']['documents_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/documents"
+default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/uploads"
 # Max JSON size in KB
 default['unifiedpush']['unifiedpush-server']['documents_json_limit'] = 4
 # By default server_host extracted from external_url
@@ -134,17 +134,17 @@ default['unifiedpush']['keycloak-server']['db_maxpoll_size'] = "15"
 ###
 default['unifiedpush']['postgresql']['enable'] = true
 default['unifiedpush']['postgresql']['ha'] = false
-default['unifiedpush']['postgresql']['dir'] = "/var/opt/unifiedpush/postgresql"
-default['unifiedpush']['postgresql']['data_dir'] = "/var/opt/unifiedpush/postgresql/data"
-default['unifiedpush']['postgresql']['log_directory'] = "/var/log/unifiedpush/postgresql"
+default['unifiedpush']['postgresql']['dir'] = "#{node['package']['runtime-dir']}/postgresql"
+default['unifiedpush']['postgresql']['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
+default['unifiedpush']['postgresql']['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
 default['unifiedpush']['postgresql']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['postgresql']['unix_socket_directory'] = "/var/opt/unifiedpush/postgresql"
+default['unifiedpush']['postgresql']['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
 default['unifiedpush']['postgresql']['username'] = "unifiedpush-sql"
 default['unifiedpush']['postgresql']['uid'] = nil
 default['unifiedpush']['postgresql']['gid'] = nil
 default['unifiedpush']['postgresql']['shell'] = "/bin/sh"
-default['unifiedpush']['postgresql']['home'] = "/var/opt/unifiedpush/postgresql"
+default['unifiedpush']['postgresql']['home'] = "#{node['package']['runtime-dir']}/postgresql"
 # Postgres User's Environment Path
 # defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
@@ -184,20 +184,20 @@ default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
 default['unifiedpush']['cassandra']['enable'] = true
 default['unifiedpush']['cassandra']['schedule_repairs'] = false
 default['unifiedpush']['cassandra']['ha'] = false
-default['unifiedpush']['cassandra']['install_method'] = 'tarball'
-default['unifiedpush']['cassandra']['version'] = '3.11.2'
-default['unifiedpush']['cassandra']['user'] = 'unifiedpush-cas'
-default['unifiedpush']['cassandra']['group'] = 'unifiedpush'
-default['unifiedpush']['cassandra']['installation_dir'] = '/var/opt/unifiedpush/cassandra/cassandra'
+default['unifiedpush']['cassandra']['install_method'] = "tarball"
+default['unifiedpush']['cassandra']['version'] = "3.11.2"
+default['unifiedpush']['cassandra']['user'] = "unifiedpush-cas"
+default['unifiedpush']['cassandra']['group'] = "unifiedpush"
+default['unifiedpush']['cassandra']['installation_dir'] = "#{node['package']['runtime-dir']}/cassandra/cassandra"
 # aerobase replication_factor will be used on schema creation
 default['unifiedpush']['cassandra']['replication_factor'] = 2
 # log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
-default['unifiedpush']['cassandra']['log_dir'] = '/var/opt/unifiedpush/cassandra/cassandra/logs'
-default['unifiedpush']['cassandra']['log_directory'] = '/var/log/unifiedpush/cassandra'
+default['unifiedpush']['cassandra']['log_dir'] = "#{node['package']['runtime-dir']}/cassandra/cassandra/logs"
+default['unifiedpush']['cassandra']['log_directory'] = "#{node['package']['logs-dir']}/cassandra"
 default['unifiedpush']['cassandra']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['cassandra']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['cassandra']['root_dir'] = '/var/opt/unifiedpush/cassandra/data'
-default['unifiedpush']['cassandra']['heap_dump_dir'] = '/var/opt/unifiedpush/cassandra/data'
+default['unifiedpush']['cassandra']['root_dir'] = "#{node['package']['runtime-dir']}/cassandra/data"
+default['unifiedpush']['cassandra']['heap_dump_dir'] = "#{node['package']['runtime-dir']}/cassandra/data"
 default['unifiedpush']['cassandra']['install_java'] = false
 default['unifiedpush']['cassandra']['use_systemd'] = false
 default['unifiedpush']['cassandra']['use_initd'] = false
@@ -214,12 +214,12 @@ default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
 # Web server
 ####
 # Username for the webserver user
-default['unifiedpush']['web-server']['username'] = 'unifiedpush-www'
-default['unifiedpush']['web-server']['group'] = 'unifiedpush-www'
+default['unifiedpush']['web-server']['username'] = "aerobase-www"
+default['unifiedpush']['web-server']['group'] = "aerobase-www"
 default['unifiedpush']['web-server']['uid'] = nil
 default['unifiedpush']['web-server']['gid'] = nil
-default['unifiedpush']['web-server']['shell'] = '/bin/false'
-default['unifiedpush']['web-server']['home'] = '/var/opt/unifiedpush/nginx'
+default['unifiedpush']['web-server']['shell'] = "/bin/false"
+default['unifiedpush']['web-server']['home'] = "#{node['package']['runtime-dir']}/nginx"
 # When bundled nginx is disabled we need to add the external webserver user to the Unifiedpush webserver group
 default['unifiedpush']['web-server']['external_users'] = []
 
@@ -228,8 +228,8 @@ default['unifiedpush']['web-server']['external_users'] = []
 ####
 default['unifiedpush']['nginx']['enable'] = true
 default['unifiedpush']['nginx']['ha'] = false
-default['unifiedpush']['nginx']['dir'] = "/var/opt/unifiedpush/nginx"
-default['unifiedpush']['nginx']['log_directory'] = "/var/log/unifiedpush/nginx"
+default['unifiedpush']['nginx']['dir'] = "#{node['package']['runtime-dir']}/nginx"
+default['unifiedpush']['nginx']['log_directory'] = "#{node['package']['logs-dir']}/nginx"
 default['unifiedpush']['nginx']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['nginx']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['nginx']['worker_processes'] = node['cpu']['total'].to_i
@@ -251,8 +251,8 @@ default['unifiedpush']['nginx']['client_max_body_size'] = '250m'
 default['unifiedpush']['nginx']['cache_max_size'] = '5000m'
 default['unifiedpush']['nginx']['redirect_http_to_https'] = false
 default['unifiedpush']['nginx']['redirect_http_to_https_port'] = 80
-default['unifiedpush']['nginx']['ssl_certificate'] = "/etc/unifiedpush/ssl/#{node['fqdn']}.crt"
-default['unifiedpush']['nginx']['ssl_certificate_key'] = "/etc/unifiedpush/ssl/#{node['fqdn']}.key"
+default['unifiedpush']['nginx']['ssl_certificate'] = "#{node['package']['config-dir']}/ssl/#{node['fqdn']}.crt"
+default['unifiedpush']['nginx']['ssl_certificate_key'] = "#{node['package']['config-dir']}/ssl/#{node['fqdn']}.key"
 default['unifiedpush']['nginx']['ssl_ciphers'] = "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4"
 default['unifiedpush']['nginx']['ssl_prefer_server_ciphers'] = "on"
 default['unifiedpush']['nginx']['ssl_protocols'] = "TLSv1 TLSv1.1 TLSv1.2" # recommended by https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
@@ -289,8 +289,8 @@ default['unifiedpush']['logging']['logrotate_postrotate'] = nil # no postrotate 
 ###
 default['unifiedpush']['logrotate']['enable'] = true
 default['unifiedpush']['logrotate']['ha'] = false
-default['unifiedpush']['logrotate']['dir'] = "/var/opt/unifiedpush/logrotate"
-default['unifiedpush']['logrotate']['log_directory'] = "/var/log/unifiedpush/logrotate"
+default['unifiedpush']['logrotate']['dir'] = "#{node['package']['runtime-dir']}/logrotate"
+default['unifiedpush']['logrotate']['log_directory'] = "#{node['package']['logs-dir']}/logrotate"
 default['unifiedpush']['logrotate']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['logrotate']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['logrotate']['services'] = %w{nginx unifiedpush-server cassandra}
