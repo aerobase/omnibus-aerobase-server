@@ -17,6 +17,9 @@
 
 # Package attributes
 
-# Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush Server packages
+# Default location of install-dir is /opt/aerobase/ | C:/Aerobase. This path is set during build time.
+# DO NOT change this value unless you are building your own Aerobase Server packages
+default['package']['name'] = "<%= name %>"
 default['package']['install-dir'] = "<%= install_dir %>"
+default['package']['runtime-dir'] = "<%= runtime_dir %>"
+default['package']['logs-dir'] = "<%= logs_dir %>"

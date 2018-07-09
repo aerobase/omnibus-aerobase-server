@@ -15,9 +15,12 @@ set AEROBASE_HOME=%AEROBASE_HOME:\=/%
 @powershell -Command "(gc %AEROBASE_HOME%\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/etc/#{name}', '%AEROBASE_HOME%/Configuration' | Out-File %AEROBASE_HOME%\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default"
 @powershell -Command "(gc %AEROBASE_HOME%\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/etc', '%AEROBASE_HOME%/Configuration' | Out-File %AEROBASE_HOME%\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default"
 
+REM todo, set new home to package cookbook 
+
 REM Copy configuration template and set windows defaults
-@powershell -Command "New-Item -ItemType directory -Path '%AEROBASE_HOME%\Configuration'"
-@powershell -Command "Copy-Item -Path '%AEROBASE_HOME%\Aerobase\etc\aerobase.rb.template' -Destination '%AEROBASE_HOME%\Configuration\aerobase.rb'"
+@powershell -Command "New-Item -ItemType directory -Force -Path '%AEROBASE_HOME%\Configuration'"
+@powershell -Command "if ((Test-Path '%AEROBASE_HOME%\Configuration\aerobase.rb') -eq $False){Copy-Item -Path '%AEROBASE_HOME%\Aerobase\etc\aerobase.rb.template' -Destination '%AEROBASE_HOME%\Configuration\aerobase.rb'}"
+
 GOTO End1
 
 :No1

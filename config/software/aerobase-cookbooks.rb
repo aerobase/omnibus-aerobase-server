@@ -24,6 +24,8 @@ build do
   command "mkdir -p #{install_dir}/embedded/cookbooks"
   sync "./", "#{install_dir}/embedded/cookbooks/"
   
+  # Create a package cookbook.
+  command "mkdir -p #{install_dir}/embedded/cookbooks/package/attributes"
   erb :dest => "#{install_dir}/embedded/cookbooks/package/attributes/default.rb",
     :source => "cookbook_packages_default.erb",
     :mode => 0755,
