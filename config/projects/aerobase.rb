@@ -44,17 +44,23 @@ else
   dependency "runit"
 end
 
-# unifiedpush dependencies/components
-dependency "omnibus-ctl"
+dependency "cacerts"
+
+# ruby core tools
+dependency "ruby"
+dependency "rubygems"
+dependency "bundler"
 dependency "chef"
+dependency "omnibus-ctl"
 dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
 dependency "aerobase"
 
+
 # Version manifest file
 #dependency "version-manifest"
-
+dependency "openssl-customization"
 
 package :rpm do
   compression_level 6

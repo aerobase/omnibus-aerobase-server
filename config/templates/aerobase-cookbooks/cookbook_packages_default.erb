@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015
+# Copyright:: Copyright (c) 2015.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,18 +15,8 @@
 # limitations under the License.
 #
 
-name "aerobase-cookbooks"
-license :project_license
+# Package attributes
 
-source :path => File.expand_path("files/aerobase-cookbooks", Omnibus::Config.project_root)
-
-build do
-  command "mkdir -p #{install_dir}/embedded/cookbooks"
-  sync "./", "#{install_dir}/embedded/cookbooks/"
-  
-  erb :dest => "#{install_dir}/embedded/cookbooks/package/attributes/default.rb",
-    :source => "cookbook_packages_default.erb",
-    :mode => 0755,
-    :vars => { :install_dir => project.install_dir }
-
-end
+# Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
+# DO NOT change this value unless you are building your own Unifiedpush Server packages
+default['package']['install-dir'] = "<%= install_dir %>"

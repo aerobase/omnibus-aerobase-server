@@ -3,12 +3,12 @@ file_cache_path "#{CURRENT_PATH}/cache"
 cookbook_path CURRENT_PATH
 verbose_logging false
 ssl_verify_mode :verify_peer
-# Omnibus-Unifiedpush only needs to know very little about the system it is running
+# Omnibus-Aerobase only needs to know very little about the system it is running
 # on. We want to disable as many Ohai plugins as we can to avoid plugin bugs
-# and speed up 'unifiedpush-ctl reconfigure'.
+# and speed up 'aerobase-ctl reconfigure'.
 #
 # The list below, based on Ohai 7.4.1, is a blacklist. UNcomment a plugin to
-# disable it. For example, ':Groovy,' is uncommented because omnibus-unifiedpush
+# disable it. For example, ':Groovy,' is uncommented because omnibus-aerobase
 # does not care about Groovy.
 Ohai::Config[:disabled_plugins] = [
 :Azure,
