@@ -30,8 +30,12 @@ build do
   mkdir "#{install_dir}/embedded/bin"
   mkdir "#{install_dir}/embedded/lib"
   mkdir "#{install_dir}/embedded/include"
+  mkdir "#{install_dir}/embedded/symbols"
+  mkdir "#{install_dir}/embedded/share"
 
   copy "./bin/*.*", "#{install_dir}/embedded/bin/"
   copy "./lib/*.*", "#{install_dir}/embedded/lib/"
   copy "./include/*.*", "#{install_dir}/embedded/include/"
+  copy "./symbols/*.*", "#{install_dir}/embedded/symbols/"
+  copy "./share/*.*", "#{install_dir}/embedded/share/"
 end

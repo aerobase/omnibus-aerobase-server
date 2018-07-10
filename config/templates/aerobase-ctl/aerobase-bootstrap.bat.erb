@@ -26,7 +26,7 @@ REM Copy configuration template and set windows defaults
 @powershell -Command "if ((Test-Path '%AEROBASE_HOME%\Configuration\aerobase.rb') -eq $False){Copy-Item -Path '%AEROBASE_HOME%\Aerobase\etc\aerobase.rb.template' -Destination '%AEROBASE_HOME%\Configuration\aerobase.rb'}"
 
 REM Set Windows hostname to default config
-@powershell -Command "(gc %AEROBASE_HOME%\Configuration\aerobase.rb) -replace 'GENERATED_EXTERNAL_URL', '%COMPUTERNAME%.%USERDNSDOMAIN%' | Out-File %AEROBASE_HOME%\Configuration\aerobase.rb -Encoding default"
+@powershell -Command "(gc %AEROBASE_HOME%\Configuration\aerobase.rb) -replace 'GENERATED_EXTERNAL_URL', 'http://%COMPUTERNAME%.%USERDNSDOMAIN%' | Out-File %AEROBASE_HOME%\Configuration\aerobase.rb -Encoding default"
 
 GOTO End1
 

@@ -73,12 +73,12 @@ module Unifiedpush
 
       uri = URI(external_url.to_s)
 
-      info("Installing according to external_url -> " + uri.host)
-
       unless uri.host
-        raise "Unifiedpush external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
+        raise "Aerobase external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
       end
 
+	  info("Installing according to external_url -> " + uri.host)
+	  
       Unifiedpush['global']['fqdn'] = external_url.to_s
       Unifiedpush['unifiedpush_server']['server_host'] = uri.host
       Unifiedpush['unifiedpush_server']['server_port'] = uri.port

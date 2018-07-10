@@ -20,6 +20,7 @@ require 'openssl'
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
+os_helper = OsHelper.new(node)
 
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Aerobase packages
@@ -29,8 +30,8 @@ runtime_dir = node['package']['runtime-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
 directory config_dir do
-  owner "root"
-  group "root"
+  owner aerobase_user
+  group aerobase_group
   mode "0775"
   action :nothing
 end.run_action(:create)
@@ -48,18 +49,18 @@ if File.exists?("#{runtime_dir}/bootstrapped")
 end
 
 directory "#{install_dir}/embedded/etc" do
-  owner "root"
-  group "root"
+  owner aerobase_user
+  group aerobase_group
   mode "0755"
   recursive true
   action :create
 end
 
 # Always create default user and group.
-include_recipe "unifiedpush::users"
+include_recipe "aerobase::users"
 
-# Install our runit instance
-unless windows?
+# Install our runit instance for none windows os
+if os_helper.not_windows?
   include_recipe "enterprise::runit"
 end
 
@@ -76,9 +77,9 @@ end
   "cassandra"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
-    include_recipe "unifiedpush::#{service}"
+    include_recipe "aerobase::#{service}"
   else
-    include_recipe "unifiedpush::#{service}_disable"
+    include_recipe "aerobase::#{service}_disable"
   end
 end
 
@@ -89,7 +90,7 @@ end
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
 if node['unifiedpush']['postgresql']['enable']
-  execute "/opt/unifiedpush/bin/unifiedpush-ctl start postgresql" do
+  execute "#{install_dir}/bin/aerobase-ctl start postgresql" do
     retries 20
   end
 
@@ -118,26 +119,37 @@ ERR
       end
     end
   end
-
-  # Schema creation - either to embedded postgres or to external.
-  # Schama must be configured before unifiedpush-server is started.
-  include_recipe "unifiedpush::postgresql_database_setup"
-  include_recipe "unifiedpush::postgresql_database_schema"
 end
 
-include_recipe "unifiedpush::web-server"
-include_recipe "unifiedpush::backup"
+if node['unifiedpush']['unifiedpush-server']['enable'] && node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
+  # Schema creation - either to embedded postgres or to external.
+  # Schama must be configured before unifiedpush-server is started.
+  include_recipe "aerobase::postgresql_database_setup"
+  include_recipe "aerobase::postgresql_database_schema"
+end 
+
+include_recipe "aerobase::web-server"
+include_recipe "aerobase::backup"
 
 # Configure Services
 [
-  "nginx",
-  "logrotate",
   "bootstrap",
-  "unifiedpush-server"
+  "nginx",
+  "unifiedpush-server", 
+  "keycloak-server"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
-    include_recipe "unifiedpush::#{service}"
+    include_recipe "aerobase::#{service}"
   else
-    include_recipe "unifiedpush::#{service}_disable"
+    include_recipe "aerobase::#{service}_disable"
   end
 end
+
+# logrotate only support unix like flavors
+if os_helper.not_windows?
+  if node["unifiedpush"]["logrotate"]["enable"]
+    include_recipe "aerobase::logrotate"
+  else
+    include_recipe "aerobase::logrotate_disable"
+  end
+end 

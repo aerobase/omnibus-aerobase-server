@@ -17,6 +17,9 @@
 
 account_helper = AccountHelper.new(node)
 omnibus_helper = OmnibusHelper.new(node)
+os_helper = OsHelper.new(node)
+
+install_dir = node['package']['install-dir']
 
 postgresql_dir = node['unifiedpush']['postgresql']['dir']
 postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
@@ -37,7 +40,7 @@ account "Postgresql user and group" do
   manage node['unifiedpush']['manage-accounts']['enable']
 end
 
-# Add postgresql user to unifiedpudh group
+# Add postgresql user to aerobaes group
 group aerobase_group do
   action :modify
   members postgresql_user
@@ -74,25 +77,36 @@ PATH=#{node['unifiedpush']['postgresql']['user_path']}
 EOH
 end
 
-sysctl "kernel.shmmax" do
-  value node['unifiedpush']['postgresql']['shmmax']
+if os_helper.not_windows?
+  sysctl "kernel.shmmax" do
+    value node['unifiedpush']['postgresql']['shmmax']
+  end
+
+  sysctl "kernel.shmall" do
+    value node['unifiedpush']['postgresql']['shmall']
+  end
+
+  sem = "#{node['unifiedpush']['postgresql']['semmsl']} "
+  sem += "#{node['unifiedpush']['postgresql']['semmns']} "
+  sem += "#{node['unifiedpush']['postgresql']['semopm']} "
+  sem += "#{node['unifiedpush']['postgresql']['semmni']}"
+  sysctl "kernel.sem" do
+    value sem
+  end
+  
+  execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
+    not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
+    user postgresql_user
+  end
+else
+  execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
+    not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
+  end
 end
 
-sysctl "kernel.shmall" do
-  value node['unifiedpush']['postgresql']['shmall']
-end
-
-sem = "#{node['unifiedpush']['postgresql']['semmsl']} "
-sem += "#{node['unifiedpush']['postgresql']['semmns']} "
-sem += "#{node['unifiedpush']['postgresql']['semopm']} "
-sem += "#{node['unifiedpush']['postgresql']['semmni']}"
-sysctl "kernel.sem" do
-  value sem
-end
-
-execute "/opt/unifiedpush/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
-  user postgresql_user
+execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
   not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
+  user postgresql_user
 end
 
 postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
@@ -124,13 +138,15 @@ end
 
 should_notify = omnibus_helper.should_notify?("postgresql")
 
-component_runit_service "postgresql" do
-  package "unifiedpush"
-  control ['t']
-end
-
-if node['unifiedpush']['bootstrap']['enable']
-  execute "/opt/unifiedpush/bin/unifiedpush-ctl start postgresql" do
-    retries 20
+if os_helper.not_windows?
+  component_runit_service "postgresql" do
+    package "unifiedpush"
+    control ['t']
   end
-end
+
+  if node['unifiedpush']['bootstrap']['enable']
+    execute "#{install_dir}/bin/unifiedpush-ctl start postgresql" do
+      retries 20
+    end
+  end
+end 

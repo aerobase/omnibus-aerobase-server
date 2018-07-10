@@ -185,3 +185,19 @@ class RedhatHelper
     contents[/Rawhide/i] ? contents[/((\d+) \(Rawhide\))/i, 1].downcase : contents[/release ([\d\.]+)/, 1]
   end
 end
+
+class OsHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+  
+  def is_windows?
+	node['platform'] == 'windows'
+  end
+  
+  def not_windows?
+	node['platform'] != 'windows'
+  end
+end
