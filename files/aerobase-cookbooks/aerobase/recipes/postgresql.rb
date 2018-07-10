@@ -24,7 +24,7 @@ postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
 postgresql_user = account_helper.postgresgl_user
 postgresql_group = account_helper.postgresgl_group
-unifiedpush_group = account_helper.unifiedpush_group
+aerobase_group = account_helper.aerobase_group
 
 account "Postgresql user and group" do
   username postgresql_user
@@ -38,7 +38,7 @@ account "Postgresql user and group" do
 end
 
 # Add postgresql user to unifiedpudh group
-group unifiedpush_group do
+group aerobase_group do
   action :modify
   members postgresql_user
   append true

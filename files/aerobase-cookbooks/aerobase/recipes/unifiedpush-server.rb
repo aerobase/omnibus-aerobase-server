@@ -30,7 +30,7 @@ server_conf_dir = "#{server_dir}/standalone/configuration"
 server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
-unifiedpush_user = account_helper.unifiedpush_user
+aerobase_user = account_helper.aerobase_user
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
@@ -45,7 +45,7 @@ all_vars = unifiedpush_vars.merge(global_vars)
   server_etc_dir
 ].each do |dir_name|
   directory dir_name do
-    owner unifiedpush_user
+    owner aerobase_user
     group 'root'
     mode '0775'
     recursive true
@@ -74,14 +74,14 @@ end
 
 template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"
-  owner unifiedpush_user
+  owner aerobase_user
   mode "0644"
   variables(all_vars)
 end
 
 template "#{server_etc_dir}/db.properties" do
   source "unifiedpush-server-db-properties.erb"
-  owner unifiedpush_user
+  owner aerobase_user
   mode "0644"
   variables(all_vars)
 end
@@ -90,9 +90,9 @@ component_runit_service "unifiedpush-server" do
   package "unifiedpush"
 end
 
-# Make sure owner is unifiedpush_user
+# Make sure owner is aerobase_user
 execute "chown-unifiedpush-server" do
-  command "chown -R #{unifiedpush_user}:root #{server_dir}"
+  command "chown -R #{aerobase_user}:root #{server_dir}"
   action :run
 end
 

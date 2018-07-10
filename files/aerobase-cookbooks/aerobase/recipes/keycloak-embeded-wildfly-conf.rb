@@ -22,7 +22,7 @@ install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 
 account_helper = AccountHelper.new(node)
-unifiedpush_user = account_helper.unifiedpush_user
+aerobase_user = account_helper.aerobase_user
 
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
@@ -35,7 +35,7 @@ execute "copy keycloak overlay to wildfly dir" do
 end
 
 template "#{server_dir}/cli/keycloak-server-wildfly.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "keycloak-server-wildfly-cli.erb"
@@ -46,7 +46,7 @@ template "#{server_dir}/cli/keycloak-server-wildfly.cli" do
 end
 
 template "#{server_dir}/cli/keycloak-server-ups-realms.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "keycloak-server-ups-realms-cli.erb"

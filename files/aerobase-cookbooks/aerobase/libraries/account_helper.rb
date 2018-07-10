@@ -22,11 +22,11 @@ class AccountHelper
     @node = node
   end
 
-  def unifiedpush_user
+  def aerobase_user
     node['unifiedpush']['user']['username']
   end
 
-  def unifiedpush_group
+  def aerobase_group
     node['unifiedpush']['user']['group']
   end
 
@@ -48,7 +48,7 @@ class AccountHelper
 
   def users
     %W(
-        #{unifiedpush_user}
+        #{aerobase_user}
         #{web_server_user}
         #{postgresgl_user}
       )
@@ -56,7 +56,7 @@ class AccountHelper
 
   def groups
     %W(
-        #{unifiedpush_group}
+        #{aerobase_group}
         #{web_server_group}
         #{postgresgl_group}
       )

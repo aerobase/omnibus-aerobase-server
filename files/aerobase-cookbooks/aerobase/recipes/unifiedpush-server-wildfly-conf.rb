@@ -23,14 +23,14 @@ server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 cli_dir = "#{server_dir}/cli"
 
 account_helper = AccountHelper.new(node)
-unifiedpush_user = account_helper.unifiedpush_user
+aerobase_user = account_helper.aerobase_user
 
 # These directories do not need to be writable for unifiedpush-server
 [
   cli_dir
 ].each do |dir_name|
   directory dir_name do
-    owner unifiedpush_user
+    owner aerobase_user
     group "root"
     mode 0775
     recursive true
@@ -44,7 +44,7 @@ cassandra_enabled = node['unifiedpush']['cassandra']['enable']
 
 # Prepare datasource cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "unifiedpush-server-wildfly-ds-cli.erb"
@@ -53,7 +53,7 @@ end
 
 # Prepare http cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-http.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "unifiedpush-server-wildfly-http-cli.erb"
@@ -62,7 +62,7 @@ end
 
 # Prepare kc cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-kc.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "unifiedpush-server-wildfly-kc-cli.erb"
@@ -71,7 +71,7 @@ end
 
 # Prepare oauth2 cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "unifiedpush-server-wildfly-oauth2-cli.erb"
@@ -80,7 +80,7 @@ end
 
 # Prepare jgroup cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "unifiedpush-server-wildfly-jgroup-cli.erb"
@@ -89,7 +89,7 @@ end
 
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "wildfly-standalone.conf.erb"

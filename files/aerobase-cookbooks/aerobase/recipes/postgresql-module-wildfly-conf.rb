@@ -23,14 +23,14 @@ server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 modules_dir = "#{server_dir}/modules/org/postgresql/main"
 
 account_helper = AccountHelper.new(node)
-unifiedpush_user = account_helper.unifiedpush_user
+aerobase_user = account_helper.aerobase_user
 
 # These directories do not need to be writable for unifiedpush-server
 [
   modules_dir
 ].each do |dir_name|
   directory dir_name do
-    owner unifiedpush_user
+    owner aerobase_user
     group "root"
     mode 0775
     recursive true
@@ -39,7 +39,7 @@ end
 
 # Add postgres module
 template "#{modules_dir}/module.xml" do
-  owner unifiedpush_user
+  owner aerobase_user
   group "root"
   mode 0755
   source "wildfly-postgres-module.xml.erb"
@@ -49,7 +49,7 @@ end
 remote_file "Copy postgres driver file" do
   path "#{modules_dir}/postgresql-42.1.4.jar"
   source "file://#{install_dir}/embedded/apps/unifiedpush-server/initdb/lib/postgresql-42.1.4.jar"
-  owner unifiedpush_user
+  owner aerobase_user
   group 'root'
   mode 0755
 end

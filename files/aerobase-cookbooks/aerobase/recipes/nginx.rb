@@ -160,7 +160,7 @@ if unifiedpush_server_enabled
   end
 end
 
-# Make sure owner is unifiedpush_user
+# Make sure owner is aerobase_user
 execute "chown-nginx-resources" do
   command "chown -R #{account_helper.web_server_user}:root #{nginx_ups_html_dir}"
   action :run

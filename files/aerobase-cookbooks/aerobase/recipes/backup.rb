@@ -19,8 +19,8 @@ require 'mkmf'
 
 # Get OS user/group
 account_helper = AccountHelper.new(node)
-unifiedpush_user = account_helper.unifiedpush_user
-unifiedpush_group = account_helper.unifiedpush_group
+aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
 
 # Prepare backup configuration files
 install_dir = node['package']['install-dir']
@@ -28,15 +28,15 @@ home_dir = node['unifiedpush']['user']['home']
 backup_dir = node['unifiedpush']['global']['backup_path']
 
 directory "#{backup_dir}" do
-  owner unifiedpush_user
-  group unifiedpush_group
+  owner aerobase_user
+  group aerobase_group
   mode "0774"
   action :create
 end
 
 template "#{home_dir}/postgresql-backup.conf" do
   source "postgresql-backup.erb"
-  owner unifiedpush_user
+  owner aerobase_user
   mode "0664"
   variables(node['unifiedpush']['unifiedpush-server'].to_hash)
   not_if { !node['unifiedpush']['postgresql']['enable'] }

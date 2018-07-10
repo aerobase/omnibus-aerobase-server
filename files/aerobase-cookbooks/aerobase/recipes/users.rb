@@ -17,8 +17,8 @@
 
 account_helper = AccountHelper.new(node)
 
-unifiedpush_username = account_helper.unifiedpush_user
-unifiedpush_group = account_helper.unifiedpush_group
+aerobase_username = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
 
 unifiedpush_home = node['unifiedpush']['user']['home']
 
@@ -27,10 +27,10 @@ directory unifiedpush_home do
 end
 
 account "Unifiedpush user and group" do
-  username unifiedpush_username
+  username aerobase_username
   uid node['unifiedpush']['user']['uid']
-  ugid unifiedpush_group
-  groupname unifiedpush_group
+  ugid aerobase_group
+  groupname aerobase_group
   gid node['unifiedpush']['user']['gid']
   shell node['unifiedpush']['user']['shell']
   home unifiedpush_home

@@ -19,11 +19,11 @@ install_dir = node['package']['install-dir']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 
 account_helper = AccountHelper.new(node)
-unifiedpush_user = account_helper.unifiedpush_user
+aerobase_user = account_helper.aerobase_user
 
 template "/tmp/db.properties" do
   source "unifiedpush-server-db-properties.erb"
-  owner unifiedpush_user
+  owner aerobase_user
   mode "0644"
   variables(node['unifiedpush']['unifiedpush-server'].to_hash)
 end

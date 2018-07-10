@@ -18,7 +18,7 @@
 account_helper = AccountHelper.new(node)
 webserver_username = account_helper.web_server_user
 webserver_group = account_helper.web_server_group
-unifiedpush_group = account_helper.unifiedpush_group
+aerobase_group = account_helper.aerobase_group
 external_webserver_users = node['unifiedpush']['web-server']['external_users']
 
 # Create the group for the Unifiedpush user
@@ -40,7 +40,7 @@ account "Webserver user and group" do
 end
 
 # Add webserver user to unifiedpudh group
-group unifiedpush_group do
+group aerobase_group do
   action :modify
   members webserver_username
   append true
