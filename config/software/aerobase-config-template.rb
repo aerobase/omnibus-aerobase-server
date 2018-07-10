@@ -17,9 +17,10 @@
 
 name "aerobase-config-template"
 
-source :path => File.expand_path("files/aerobase-config-template", Omnibus::Config.project_root)
-
 build do
   command "mkdir -p #{install_dir}/etc"
-  copy "./*.*", "#{install_dir}/etc/"
+  erb :dest => "#{install_dir}/etc/aerobase.rb.template",
+    :source => "aerobase.rb.template.erb",
+    :mode => 0755,
+    :vars => {} 
 end

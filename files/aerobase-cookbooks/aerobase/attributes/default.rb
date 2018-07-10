@@ -181,7 +181,7 @@ default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
 ###
 # Apache Cassandra
 ###
-default['unifiedpush']['cassandra']['enable'] = true
+default['unifiedpush']['cassandra']['enable'] = false
 default['unifiedpush']['cassandra']['schedule_repairs'] = false
 default['unifiedpush']['cassandra']['ha'] = false
 default['unifiedpush']['cassandra']['install_method'] = "tarball"

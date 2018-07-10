@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 
-# The unifiedpush module in this file is used to parse /etc/unifiedpush/unifiedpush.rb.
+# The unifiedpush module in this file is used to parse /etc/aerobase/aerobase.rb.
 #
 # Warning to the reader:
-# Because the Ruby DSL in /etc/unifiedpush/unifiedpush.rb does not accept hyphens (_) in
+# Because the Ruby DSL in /etc/aerobase/aerobase.rb does not accept hyphens (_) in
 # section names, this module translates names like 'unifiedpush_server' to the
 # correct 'unifiedpush-server' in the `generate_hash` method. This module is the only
 # place in the cookbook where we write 'unifiedpush_server'.
@@ -57,14 +57,15 @@ module Unifiedpush
     end
 
     def generate_secrets(node_name)
-      SecretsHelper.read_unifiedpush_secrets
+      secret_helper = SecretsHelper.new(node)
+	  secret_helper.read_unifiedpush_secrets
 
       # Note: If you add another secret to generate here make sure it gets written to disk in SecretsHelper.write_to_unifiedpush_secrets
       Unifiedpush['unifiedpush_server']['secret_token'] ||= generate_hex(64)
 
       # Note: Besides the section below, unifiedpush-secrets.json will also change
       # in CiHelper in libraries/helper.rb
-      SecretsHelper.write_to_unifiedpush_secrets
+      secret_helper.write_to_unifiedpush_secrets
     end
 
     def parse_external_url
@@ -188,9 +189,9 @@ module Unifiedpush
         "bootstrap",
         "global",
         "user",
-	"java",
-	"cassandra",
-	"cassandra_config",
+		"java",
+		"cassandra",
+		"cassandra_config",
         "unifiedpush_server",
         "keycloak_server",
         "nginx",

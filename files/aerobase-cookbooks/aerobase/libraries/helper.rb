@@ -65,9 +65,10 @@ class PgHelper
   end
 
   def psql_cmd(cmd_list)
-    cmd = ["/opt/unifiedpush/embedded/bin/chpst",
+    install_dir = node['package']['install-dir']
+    cmd = ["#{install_dir}/embedded/bin/chpst",
            "-u #{pg_user}",
-           "/opt/unifiedpush/embedded/bin/psql",
+           "#{install_dir}/embedded/bin/psql",
            "-h #{pg_host}",
            "--port #{pg_port}",
            cmd_list.join(" ")].join(" ")
@@ -89,11 +90,18 @@ class PgHelper
 end
 
 class SecretsHelper
+  include ShellOutHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+  
   def self.read_unifiedpush_secrets
     existing_secrets ||= Hash.new
-
-    if File.exists?("/etc/unifiedpush/unifiedpush-secrets.json")
-      existing_secrets = Chef::JSONCompat.from_json(File.read("/etc/unifiedpush/unifiedpush-secrets.json"))
+	config_dir = node['package']['config-dir']
+    if File.exists?("#{config_dir}/unifiedpush-secrets.json")
+      existing_secrets = Chef::JSONCompat.from_json(File.read("#{config_dir}/unifiedpush-secrets.json"))
     end
 
     existing_secrets.each do |k, v|
@@ -106,17 +114,18 @@ class SecretsHelper
 
   def self.write_to_unifiedpush_secrets
     secret_tokens = {
-                      'unifiedpush' => {
-                        'secret_token' => Unifiedpush['unifiedpush']['secret_token'],
-                      }
-                    }
-
-    if File.directory?("/etc/unifiedpush")
-      File.open("/etc/unifiedpush/unifiedpush-secrets.json", "w") do |f|
+	  'unifiedpush' => {
+		'secret_token' => Unifiedpush['unifiedpush']['secret_token'],
+	  }
+	}
+	
+	config_dir = node['package']['config-dir']
+    if File.directory?(config_dir)
+      File.open("#{config_dir}/unifiedpush-secrets.json", "w") do |f|
         f.puts(
           Chef::JSONCompat.to_json_pretty(secret_tokens)
         )
-        system("chmod 0600 /etc/unifiedpush/unifiedpush-secrets.json")
+        system("chmod 0600 #{config_dir}/unifiedpush-secrets.json")
       end
     end
   end

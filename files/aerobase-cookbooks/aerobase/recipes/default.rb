@@ -21,12 +21,14 @@ account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
-# Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush packages
+# Default location of install-dir is /opt/aerobase/. This path is set during build time.
+# DO NOT change this value unless you are building your own Aerobase packages
 install_dir = node['package']['install-dir']
+config_dir = node['package']['config-dir']
+runtime_dir = node['package']['runtime-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
-directory "/etc/unifiedpush" do
+directory config_dir do
   owner "root"
   group "root"
   mode "0775"
@@ -34,14 +36,14 @@ directory "/etc/unifiedpush" do
 end.run_action(:create)
 
 Unifiedpush[:node] = node
-if File.exists?("/etc/unifiedpush/unifiedpush.rb")
-  Unifiedpush.from_file("/etc/unifiedpush/unifiedpush.rb")
+if File.exists?("#{config_dir}/aerobase.rb")
+  Unifiedpush.from_file("#{config_dir}/aerobase.rb")
 end
 
-# Merge and cosume unifiedpush attributes.
+# Merge and cosume aerobase attributes.
 node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 
-if File.exists?("/var/opt/unifiedpush/bootstrapped")
+if File.exists?("#{runtime_dir}/bootstrapped")
   node.set['unifiedpush']['bootstrap']['enable'] = false
 end
 
@@ -57,7 +59,9 @@ end
 include_recipe "unifiedpush::users"
 
 # Install our runit instance
-include_recipe "enterprise::runit"
+unless windows?
+  include_recipe "enterprise::runit"
+end
 
 # Install java from external package
 if node['unifiedpush']['java']['install_java']
@@ -81,7 +85,7 @@ end
 # NOTE: These recipes are written idempotently, but require a running
 # PostgreSQL service.  They should run each time (on the appropriate
 # backend machine, of course), because they also handle schema
-# upgrades for new releases of AeroBasef.  As a result, we can't
+# upgrades for new releases of AeroBase.  As a result, we can't
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
 if node['unifiedpush']['postgresql']['enable']

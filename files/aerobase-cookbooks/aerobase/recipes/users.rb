@@ -19,20 +19,19 @@ account_helper = AccountHelper.new(node)
 
 aerobase_username = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
+aerobase_home = node['unifiedpush']['user']['home']
 
-unifiedpush_home = node['unifiedpush']['user']['home']
-
-directory unifiedpush_home do
+directory aerobase_home do
   recursive true
 end
 
-account "Unifiedpush user and group" do
+account "Aerobase user and group" do
   username aerobase_username
   uid node['unifiedpush']['user']['uid']
   ugid aerobase_group
   groupname aerobase_group
   gid node['unifiedpush']['user']['gid']
   shell node['unifiedpush']['user']['shell']
-  home unifiedpush_home
+  home aerobase_home
   manage node['unifiedpush']['manage-accounts']['enable']
 end

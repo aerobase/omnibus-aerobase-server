@@ -73,7 +73,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['cas_port'] = "9042"
 # unifiedpush_server['cas_keyspace'] = "unifiedpush_server"
 # unifiedpush_server['cas_consistencylevel'] = "QUORUM"
-## PostgreSQL connection params
+## Database connection params
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"
@@ -103,9 +103,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # keycloak_server['context_root'] = "auth"
 
 ###
-# PostgreSQL
+# PostgreSQL - Disabled for non unix OS
 ###
-# postgresql['enable'] = true
+# postgresql['enable'] = "true"
 # postgresql['ha'] = false
 # postgresql['dir'] = "#{node['package']['runtime-dir']}/postgresql"
 # postgresql['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
@@ -140,7 +140,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 ###
 # Apache Cassandra 
 ###
-# cassandra['enable'] = true
+# cassandra['enable'] = false
 # cassandra['schedule_repairs'] = false
 # cassandra['user'] = 'unifiedpush-cas'
 # cassandra['group'] = 'unifiedpush'
