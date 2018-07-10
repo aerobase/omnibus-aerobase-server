@@ -15,27 +15,21 @@
 # limitations under the License.
 #
 
+install_dir = node['package']['install-dir']
+database_name = node['unifiedpush']['unifiedpush-server']['db_database']
+
 account_helper = AccountHelper.new(node)
+aerobase_user = account_helper.aerobase_user
 
-aerobase_username = account_helper.aerobase_user
-aerobase_group = account_helper.aerobase_group
-aerobase_home = node['unifiedpush']['user']['home']
-os_helper = OsHelper.new(node)
-
-directory aerobase_home do
-  recursive true
+template "#{install_dir}/Temp/db.properties" do
+  source "unifiedpush-server-db-properties.erb"
+  owner aerobase_user
+  mode "0644"
+  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
 end
- 
-account "Aerobase user and group" do
-    username aerobase_username
-	if os_helper.is_windows?
-	  password '$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/'
-	end 
-    uid node['unifiedpush']['user']['uid']
-    ugid aerobase_group
-    groupname aerobase_group
-    gid node['unifiedpush']['user']['gid']
-    shell node['unifiedpush']['user']['shell']
-    home aerobase_home
-    manage node['unifiedpush']['manage-accounts']['enable']
-end  
+
+execute "initialize unifiedpush-server database" do
+  cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
+  command "./init-unifiedpush-db.sh --config-path=#{install_dir}/Temp/db.properties"
+  action :nothing
+end

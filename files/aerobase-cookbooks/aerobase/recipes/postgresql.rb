@@ -31,20 +31,17 @@ aerobase_group = account_helper.aerobase_group
 
 account "Postgresql user and group" do
   username postgresql_user
+  if os_helper.is_windows?
+	password '$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/'
+  end 
   uid node['unifiedpush']['postgresql']['uid']
   ugid postgresql_user
   groupname postgresql_group
+  group_members postgresql_user
   gid node['unifiedpush']['postgresql']['gid']
   shell node['unifiedpush']['postgresql']['shell']
   home node['unifiedpush']['postgresql']['home']
   manage node['unifiedpush']['manage-accounts']['enable']
-end
-
-# Add postgresql user to aerobaes group
-group aerobase_group do
-  action :modify
-  members postgresql_user
-  append true
 end
 
 directory postgresql_dir do
@@ -104,11 +101,6 @@ else
   end
 end
 
-execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
-  not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
-  user postgresql_user
-end
-
 postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
 
 template postgresql_config do
@@ -135,8 +127,6 @@ template File.join(postgresql_data_dir, "pg_ident.conf") do
   variables(node['unifiedpush']['postgresql'].to_hash)
   notifies :restart, 'runit_service[postgresql]' if omnibus_helper.should_notify?("postgresql")
 end
-
-should_notify = omnibus_helper.should_notify?("postgresql")
 
 if os_helper.not_windows?
   component_runit_service "postgresql" do

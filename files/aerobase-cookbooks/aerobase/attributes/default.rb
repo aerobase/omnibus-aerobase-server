@@ -38,7 +38,7 @@ default['unifiedpush']['global']['portal_mode'] = false
 ####
 # The Aerobase User that services run as
 default['unifiedpush']['user']['username'] = "aerobase"
-default['unifiedpush']['user']['group'] = "aerobase"
+default['unifiedpush']['user']['group'] = "aerobase-group"
 default['unifiedpush']['user']['uid'] = nil
 default['unifiedpush']['user']['gid'] = nil
 # The shell for the aerobase services user
@@ -140,7 +140,7 @@ default['unifiedpush']['postgresql']['log_directory'] = "#{node['package']['logs
 default['unifiedpush']['postgresql']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['postgresql']['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
-default['unifiedpush']['postgresql']['username'] = "unifiedpush-sql"
+default['unifiedpush']['postgresql']['username'] = "aerobase-sql"
 default['unifiedpush']['postgresql']['uid'] = nil
 default['unifiedpush']['postgresql']['gid'] = nil
 default['unifiedpush']['postgresql']['shell'] = "/bin/sh"
@@ -186,8 +186,7 @@ default['unifiedpush']['cassandra']['schedule_repairs'] = false
 default['unifiedpush']['cassandra']['ha'] = false
 default['unifiedpush']['cassandra']['install_method'] = "tarball"
 default['unifiedpush']['cassandra']['version'] = "3.11.2"
-default['unifiedpush']['cassandra']['user'] = "unifiedpush-cas"
-default['unifiedpush']['cassandra']['group'] = "unifiedpush"
+default['unifiedpush']['cassandra']['user'] = "aerobase-cas"
 default['unifiedpush']['cassandra']['installation_dir'] = "#{node['package']['runtime-dir']}/cassandra/cassandra"
 # aerobase replication_factor will be used on schema creation
 default['unifiedpush']['cassandra']['replication_factor'] = 2
@@ -207,7 +206,7 @@ default['unifiedpush']['cassandra']['max_heap_size'] = '1G'
 default['unifiedpush']['cassandra']['heap_new_size'] = '200M'
 
 # Cluster config options
-default['unifiedpush']['cassandra-config']['cluster_name'] = 'unifiedpush-cluster'
+default['unifiedpush']['cassandra-config']['cluster_name'] = 'aerobase-cluster'
 default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
 
 ####
@@ -215,7 +214,6 @@ default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
 ####
 # Username for the webserver user
 default['unifiedpush']['web-server']['username'] = "aerobase-www"
-default['unifiedpush']['web-server']['group'] = "aerobase-www"
 default['unifiedpush']['web-server']['uid'] = nil
 default['unifiedpush']['web-server']['gid'] = nil
 default['unifiedpush']['web-server']['shell'] = "/bin/false"

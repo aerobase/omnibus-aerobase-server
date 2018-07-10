@@ -21,7 +21,7 @@ database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 
-template "/tmp/db.properties" do
+template "#{install_dir}/tmp/db.properties" do
   source "unifiedpush-server-db-properties.erb"
   owner aerobase_user
   mode "0644"
@@ -30,6 +30,6 @@ end
 
 execute "initialize unifiedpush-server database" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
-  command "./init-unifiedpush-db.sh --config-path=/tmp/db.properties"
+  command "./init-unifiedpush-db.sh --config-path=#{install_dir}/tmp/db.properties"
   action :nothing
 end

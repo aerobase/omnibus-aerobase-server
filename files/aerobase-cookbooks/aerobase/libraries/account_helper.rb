@@ -35,7 +35,7 @@ class AccountHelper
   end
 
   def web_server_group
-    node['unifiedpush']['web-server']['group']
+    node['unifiedpush']['user']['group']
   end
 
   def postgresgl_user
@@ -43,14 +43,23 @@ class AccountHelper
   end
 
   def postgresgl_group
-    node['unifiedpush']['postgresql']['username']
+    node['unifiedpush']['user']['group']
+  end
+  
+  def cassandra_user
+    node['unifiedpush']['cassandra']['user']
   end
 
+  def cassandra_group
+    node['unifiedpush']['user']['group']
+  end
+  
   def users
     %W(
         #{aerobase_user}
         #{web_server_user}
         #{postgresgl_user}
+		#{cassandra_user}
       )
   end
 
@@ -59,6 +68,7 @@ class AccountHelper
         #{aerobase_group}
         #{web_server_group}
         #{postgresgl_group}
+		#{cassandra_group}
       )
   end
 end

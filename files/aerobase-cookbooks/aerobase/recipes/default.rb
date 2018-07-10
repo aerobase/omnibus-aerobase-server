@@ -29,12 +29,14 @@ config_dir = node['package']['config-dir']
 runtime_dir = node['package']['runtime-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
+# Always create default user and group.
+include_recipe "aerobase::users"
+
 directory config_dir do
   owner aerobase_user
   group aerobase_group
   mode "0775"
-  action :nothing
-end.run_action(:create)
+end
 
 Unifiedpush[:node] = node
 if File.exists?("#{config_dir}/aerobase.rb")
@@ -55,9 +57,6 @@ directory "#{install_dir}/embedded/etc" do
   recursive true
   action :create
 end
-
-# Always create default user and group.
-include_recipe "aerobase::users"
 
 # Install our runit instance for none windows os
 if os_helper.not_windows?
@@ -122,10 +121,18 @@ ERR
 end
 
 if node['unifiedpush']['unifiedpush-server']['enable'] && node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
+  if os_helper.is_windows?
+    include_recipe_user_db = "aerobase::postgresql_user_and_db_win"
+    include_recipe_schema = "aerobase::postgresql_schema_win"
+  else
+    include_recipe_user_db = "aerobase::postgresql_user_and_db"
+    include_recipe_schema = "aerobase::postgresql_schema"
+  end
+
   # Schema creation - either to embedded postgres or to external.
   # Schama must be configured before unifiedpush-server is started.
-  include_recipe "aerobase::postgresql_database_setup"
-  include_recipe "aerobase::postgresql_database_schema"
+  include_recipe include_recipe_user_db
+  include_recipe include_recipe_schema
 end 
 
 include_recipe "aerobase::web-server"

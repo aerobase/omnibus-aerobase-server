@@ -12,7 +12,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 ####
 ## The username for the aerobase services user
 # user['username'] = "aerobase"
-# user['group'] = "aerobase"
+# user['group'] = "aerobase-group"
 # user['uid'] = nil
 # user['gid'] = nil
 ## The shell for the aerobase services user
@@ -111,7 +111,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
 # postgresql['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
 # postgresql['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
-# postgresql['username'] = "unifiedpush-sql"
+# postgresql['username'] = "aerobase-sql"
 # postgresql['uid'] = nil
 # postgresql['gid'] = nil
 # postgresql['shell'] = "/bin/sh"
@@ -142,8 +142,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 ###
 # cassandra['enable'] = false
 # cassandra['schedule_repairs'] = false
-# cassandra['user'] = 'unifiedpush-cas'
-# cassandra['group'] = 'unifiedpush'
+# cassandra['user'] = 'aerobase-cas'
 # cassandra['root_dir'] = '{node['package']['runtime-dir']}/cassandra/data'
 # cassandra['seeds'] = node['fqdn']
 # cassandra['max_heap_size'] = '1G'
@@ -151,16 +150,15 @@ external_url 'GENERATED_EXTERNAL_URL'
 # cassandra['heap_dump_dir'] = '{node['package']['runtime-dir']}/cassandra/data'
 # cassandra['replication_factor'] = 2
 ## Cluster config options
-# cassandra_config['cluster_name'] = 'unifiedpush-cluster'
+# cassandra_config['cluster_name'] = 'aerobase-cluster'
 # cassandra_config['endpoint_snitch'] = 'SimpleSnitch'
 
 ####
 # Web server
 ####
-## see: https://github.com/C-B4/omnibus-unifiedpush-server/blob/master/doc/settings/nginx.md#using-a-non-bundled-web-server
-## When bundled nginx is disabled we need to add the external webserver user to the Unifiedpush webserver group.
-# web_server['username'] = 'unifiedpush-www'
-# web_server['group'] = 'unifiedpush-www'
+## see: https://github.com/aerobase/omnibus-unifiedpush-server/blob/master/doc/settings/nginx.md#using-a-non-bundled-web-server
+## When bundled nginx is disabled we need to add the external webserver user to the Aerobase webserver group.
+# web_server['username'] = 'aerobase-www'
 # web_server['uid'] = nil
 # web_server['gid'] = nil
 # web_server['shell'] = '/bin/false'
