@@ -28,7 +28,7 @@ build_dir = "#{project_dir}"
 
 build do
   if windows?
-    command "mvn clean install"
+    command "mvn install"
   else
     command "npm install"
     command "npm install -g bower"
