@@ -121,14 +121,9 @@ ERR
 end
 
 if node['unifiedpush']['unifiedpush-server']['enable'] && node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
-  if os_helper.is_windows?
-    include_recipe_user_db = "aerobase::postgresql_user_and_db_win"
-    include_recipe_schema = "aerobase::postgresql_schema_win"
-  else
-    include_recipe_user_db = "aerobase::postgresql_user_and_db"
-    include_recipe_schema = "aerobase::postgresql_schema"
-  end
-
+  include_recipe_user_db = "aerobase::postgresql_user_and_db"
+  include_recipe_schema = "aerobase::postgresql_schema"
+ 
   # Schema creation - either to embedded postgresqk or to external.
   # Schama must be configured before unifiedpush-server is started.
   include_recipe include_recipe_user_db

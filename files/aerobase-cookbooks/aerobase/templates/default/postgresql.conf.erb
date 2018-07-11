@@ -128,7 +128,7 @@ work_mem = <%= node['unifiedpush']['postgresql']['work_mem'] %> # min 64kB
 #replacement_sort_tuples = 150000	# limits use of replacement selection sort
 #autovacuum_work_mem = -1		# min 1MB, or -1 to use maintenance_work_mem
 #max_stack_depth = 2MB			# min 100kB
-dynamic_shared_memory_type =   <% if OsHelper.new(node).is_windows? %>windows<% else %>posix<% end %>
+dynamic_shared_memory_type = <% if OsHelper.new(node).is_windows? %>windows<% else %>posix<% end %>
 					# the default is the first option
 					# supported by the operating system:
 					#   posix
@@ -571,11 +571,11 @@ timezone = 'Israel'
 					# encoding
 
 # These settings are initialized by initdb, but they can be changed.
-lc_messages = 'en_US.UTF-8'			# locale for system error message
-					# strings
-lc_monetary = 'en_US.UTF-8'			# locale for monetary formatting
-lc_numeric = 'en_US.UTF-8'			# locale for number formatting
-lc_time = 'en_US.UTF-8'				# locale for time formatting
+lc_messages = '<% if OsHelper.new(node).is_windows? %>English_United States.1252<% else %>en_US.UTF-8'<% end %>			# locale for system error message
+									# strings
+lc_monetary = '<% if OsHelper.new(node).is_windows? %>English_United States.1252<% else %>en_US.UTF-8'<% end %>'			# locale for monetary formatting
+lc_numeric = '<% if OsHelper.new(node).is_windows? %>English_United States.1252<% else %>en_US.UTF-8'<% end %>'			# locale for number formatting
+lc_time = '<% if OsHelper.new(node).is_windows? %>English_United States.1252<% else %>en_US.UTF-8'<% end %>'				# locale for time formatting
 
 # default configuration for text search
 default_text_search_config = 'pg_catalog.english'

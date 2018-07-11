@@ -54,7 +54,7 @@ databases.each do |unifiedpush_app, db_name, sql_user|
   end
 
   execute "create #{db_name} database" do
-    command "#{bin_dir}/createdb --port #{pg_port} -h #{postgresql_socket_dir} -O #{sql_user} #{db_name}"
+    command "#{bin_dir}/createdb --port #{pg_port} -h #{postgresql_socket_dir} -O #{sql_user} -E UTF8 #{db_name}"
     user pg_user
     if os_helper.is_windows?
 	  password pg_password

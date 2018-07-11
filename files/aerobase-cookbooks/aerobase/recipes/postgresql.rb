@@ -93,12 +93,7 @@ if os_helper.not_windows?
   end
 end
   
-initdb_cmd="#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8"
-if os_helper.not_windows?
-  initdb_cmd = initdb_cmd + " --locale=american_usa"
-end
- 
-execute initdb_cmd do
+execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
   not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
   user postgresql_user
   if os_helper.is_windows?
