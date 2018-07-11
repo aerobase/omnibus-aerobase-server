@@ -1,6 +1,6 @@
-# This file is managed by unifiedpush-ctl. Manual changes will be
-# erased! To change the contents below, edit /etc/unifiedpush/unifiedpush.rb
-# and run `sudo unifiedpush-ctl reconfigure`.
+# This file is managed by aerobase-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/aerobase/aerobase.rb
+# and run `sudo aerobase-ctl reconfigure`.
 
 # -----------------------------
 # PostgreSQL configuration file
@@ -128,7 +128,8 @@ work_mem = <%= node['unifiedpush']['postgresql']['work_mem'] %> # min 64kB
 #replacement_sort_tuples = 150000	# limits use of replacement selection sort
 #autovacuum_work_mem = -1		# min 1MB, or -1 to use maintenance_work_mem
 #max_stack_depth = 2MB			# min 100kB
-dynamic_shared_memory_type = posix	# the default is the first option
+dynamic_shared_memory_type =   <% if OsHelper.new(node).is_windows? %>windows<% else %>posix<% end %>
+					# the default is the first option
 					# supported by the operating system:
 					#   posix
 					#   sysv

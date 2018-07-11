@@ -13,6 +13,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## The username for the aerobase services user
 # user['username'] = "aerobase"
 # user['group'] = "aerobase-group"
+## Used only under windows os
+# user['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 # user['uid'] = nil
 # user['gid'] = nil
 ## The shell for the aerobase services user
@@ -112,6 +114,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
 # postgresql['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
 # postgresql['username'] = "aerobase-sql"
+## Used only under windows os
+# postgresql['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 # postgresql['uid'] = nil
 # postgresql['gid'] = nil
 # postgresql['shell'] = "/bin/sh"

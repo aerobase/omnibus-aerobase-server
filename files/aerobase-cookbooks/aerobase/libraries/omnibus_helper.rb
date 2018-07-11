@@ -7,14 +7,15 @@ class OmnibusHelper
 
   def initialize(node)
     @node = node
+	
   end
 
   def should_notify?(service_name)
-    File.symlink?("/opt/unifiedpush/service/#{service_name}") && service_up?(service_name) && service_enabled?(service_name)
+    File.symlink?("#{node['package']['install-dir']}/service/#{service_name}") && service_up?(service_name) && service_enabled?(service_name)
   end
 
   def not_listening?(service_name)
-    File.exists?("/opt/unifiedpush/service/#{service_name}/down") && service_down?(service_name)
+    File.exists?("#{node['package']['install-dir']}/service/#{service_name}/down") && service_down?(service_name)
   end
 
   def service_enabled?(service_name)
@@ -22,11 +23,11 @@ class OmnibusHelper
   end
 
   def service_up?(service_name)
-    success?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
+    success?("#{node['package']['install-dir']}/embedded/bin/sv status #{service_name}")
   end
 
   def service_down?(service_name)
-    failure?("/opt/unifiedpush/embedded/bin/sv status #{service_name}")
+    failure?("#{node['package']['install-dir']}/embedded/bin/sv status #{service_name}")
   end
 
   def user_exists?(username)

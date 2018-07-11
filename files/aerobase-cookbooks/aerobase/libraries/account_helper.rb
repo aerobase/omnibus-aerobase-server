@@ -25,6 +25,10 @@ class AccountHelper
   def aerobase_user
     node['unifiedpush']['user']['username']
   end
+  
+  def aerobase_password
+    node['unifiedpush']['user']['password']
+  end
 
   def aerobase_group
     node['unifiedpush']['user']['group']
@@ -40,6 +44,10 @@ class AccountHelper
 
   def postgresgl_user
     node['unifiedpush']['postgresql']['username']
+  end
+  
+  def postgresgl_password
+    node['unifiedpush']['postgresql']['password']
   end
 
   def postgresgl_group
@@ -69,6 +77,13 @@ class AccountHelper
         #{web_server_group}
         #{postgresgl_group}
 		#{cassandra_group}
+      )
+  end
+  
+  def passwords
+    %W(
+        #{aerobase_password}
+        #{postgresgl_password}
       )
   end
 end

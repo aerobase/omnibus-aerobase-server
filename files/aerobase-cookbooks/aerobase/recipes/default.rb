@@ -129,7 +129,7 @@ if node['unifiedpush']['unifiedpush-server']['enable'] && node['unifiedpush']['u
     include_recipe_schema = "aerobase::postgresql_schema"
   end
 
-  # Schema creation - either to embedded postgres or to external.
+  # Schema creation - either to embedded postgresqk or to external.
   # Schama must be configured before unifiedpush-server is started.
   include_recipe include_recipe_user_db
   include_recipe include_recipe_schema

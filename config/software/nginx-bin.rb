@@ -27,16 +27,11 @@ relative_path "nginx-#{version}"
 build_dir = "#{project_dir}"
 
 build do
-  mkdir "#{install_dir}/embedded/conf"
-  mkdir "#{install_dir}/embedded/contrib"
-  mkdir "#{install_dir}/embedded/docs"
-  mkdir "#{install_dir}/embedded/html"
   mkdir "#{install_dir}/embedded/sbin"
-  
-  
-  copy "./conf/*.*", "#{install_dir}/embedded/conf"
-  copy "./contrib/*.*", "#{install_dir}/embedded/contrib"
-  copy "./docs/*.*", "#{install_dir}/embedded/docs"
-  copy "./html/*.*", "#{install_dir}/embedded/html"
+    
+  copy "./conf", "#{install_dir}/embedded"
+  copy "./contrib", "#{install_dir}/embedded"
+  copy "./docs", "#{install_dir}/embedded"
+  copy "./html", "#{install_dir}/embedded"
   copy "./nginx.exe", "#{install_dir}/embedded/sbin/"
 end

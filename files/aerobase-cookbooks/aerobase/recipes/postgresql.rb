@@ -26,13 +26,14 @@ postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
 postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
 postgresql_user = account_helper.postgresgl_user
+postgresql_password = account_helper.postgresgl_password
 postgresql_group = account_helper.postgresgl_group
 aerobase_group = account_helper.aerobase_group
 
 account "Postgresql user and group" do
   username postgresql_user
   if os_helper.is_windows?
-	password '$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/'
+	password postgresql_password
   end 
   uid node['unifiedpush']['postgresql']['uid']
   ugid postgresql_user
@@ -90,14 +91,18 @@ if os_helper.not_windows?
   sysctl "kernel.sem" do
     value sem
   end
+end
   
-  execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
-    not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
-    user postgresql_user
-  end
-else
-  execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
-    not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
+initdb_cmd="#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8"
+if os_helper.not_windows?
+  initdb_cmd = initdb_cmd + " --locale=american_usa"
+end
+ 
+execute initdb_cmd do
+  not_if { File.exists?(File.join(postgresql_data_dir, "PG_VERSION")) }
+  user postgresql_user
+  if os_helper.is_windows?
+    password postgresql_password
   end
 end
 
@@ -108,7 +113,6 @@ template postgresql_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'runit_service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
 end
 
 pg_hba_config = File.join(postgresql_data_dir, "pg_hba.conf")
@@ -118,14 +122,12 @@ template pg_hba_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'runit_service[postgresql]', :immediately if omnibus_helper.should_notify?("postgresql")
 end
 
 template File.join(postgresql_data_dir, "pg_ident.conf") do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash)
-  notifies :restart, 'runit_service[postgresql]' if omnibus_helper.should_notify?("postgresql")
 end
 
 if os_helper.not_windows?
@@ -134,9 +136,7 @@ if os_helper.not_windows?
     control ['t']
   end
 
-  if node['unifiedpush']['bootstrap']['enable']
-    execute "#{install_dir}/bin/unifiedpush-ctl start postgresql" do
-      retries 20
-    end
+  execute "#{install_dir}/bin/unifiedpush-ctl restart postgresql" do
+    retries 20
   end
 end 

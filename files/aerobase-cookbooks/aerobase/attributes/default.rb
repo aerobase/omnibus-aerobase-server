@@ -39,6 +39,8 @@ default['unifiedpush']['global']['portal_mode'] = false
 # The Aerobase User that services run as
 default['unifiedpush']['user']['username'] = "aerobase"
 default['unifiedpush']['user']['group'] = "aerobase-group"
+# Used only under windows os
+default['unifiedpush']['user']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['user']['uid'] = nil
 default['unifiedpush']['user']['gid'] = nil
 # The shell for the aerobase services user
@@ -141,6 +143,8 @@ default['unifiedpush']['postgresql']['log_rotation']['file_maxbytes'] = 10485760
 default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
 default['unifiedpush']['postgresql']['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
 default['unifiedpush']['postgresql']['username'] = "aerobase-sql"
+# Used only under windows os
+default['unifiedpush']['postgresql']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['postgresql']['uid'] = nil
 default['unifiedpush']['postgresql']['gid'] = nil
 default['unifiedpush']['postgresql']['shell'] = "/bin/sh"

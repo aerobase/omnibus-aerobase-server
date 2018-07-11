@@ -20,9 +20,13 @@
 # privileges.
 ###
 pg_helper = PgHelper.new(node)
+account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
+
 postgresql_socket_dir = node['unifiedpush']['postgresql']['unix_socket_directory']
 pg_port = node['unifiedpush']['postgresql']['port']
-pg_user = node['unifiedpush']['postgresql']['username']
+pg_user = account_helper.postgresgl_user
+pg_password = account_helper.postgresgl_password
 bin_dir = node['unifiedpush']['postgresql']['bin_dir']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
@@ -41,15 +45,21 @@ databases.each do |unifiedpush_app, db_name, sql_user|
   execute "create user #{sql_user} for database #{db_name}" do
     command "#{bin_dir}/psql --port #{pg_port} -h #{postgresql_socket_dir} -d template1 -c \"CREATE USER #{sql_user}\""
     user pg_user
+	if os_helper.is_windows?
+	  password pg_password
+	end
     # Added retries to give the service time to start on slower systems
     retries 20
-    not_if { !pg_helper.is_running? || pg_helper.user_exists?(sql_user) }
+    not_if { pg_helper.user_exists?(sql_user) }
   end
 
   execute "create #{db_name} database" do
     command "#{bin_dir}/createdb --port #{pg_port} -h #{postgresql_socket_dir} -O #{sql_user} #{db_name}"
     user pg_user
-    not_if { !pg_helper.is_running? || pg_helper.database_exists?(db_name) }
+    if os_helper.is_windows?
+	  password pg_password
+	end
+    not_if { pg_helper.database_exists?(db_name) }
     retries 30
     notifies :run, "execute[initialize #{unifiedpush_app} database]", :immediately
   end

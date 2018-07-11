@@ -18,6 +18,7 @@
 account_helper = AccountHelper.new(node)
 
 aerobase_username = account_helper.aerobase_user
+aerobase_password = account_helper.aerobase_password
 aerobase_group = account_helper.aerobase_group
 aerobase_home = node['unifiedpush']['user']['home']
 os_helper = OsHelper.new(node)
@@ -29,7 +30,7 @@ end
 account "Aerobase user and group" do
     username aerobase_username
 	if os_helper.is_windows?
-	  password '$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/'
+	  password aerobase_password
 	end 
     uid node['unifiedpush']['user']['uid']
     ugid aerobase_group
