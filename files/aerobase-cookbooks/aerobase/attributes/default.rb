@@ -141,7 +141,8 @@ default['unifiedpush']['postgresql']['data_dir'] = "#{node['package']['runtime-d
 default['unifiedpush']['postgresql']['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
 default['unifiedpush']['postgresql']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['postgresql']['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
+# Unix socket directory is supported only for linux.
+default['unifiedpush']['postgresql']['unix_socket_directory'] = "localhost"
 default['unifiedpush']['postgresql']['username'] = "aerobase-sql"
 # Used only under windows os
 default['unifiedpush']['postgresql']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
@@ -158,7 +159,7 @@ default['unifiedpush']['postgresql']['port'] = 5432
 default['unifiedpush']['postgresql']['listen_address'] = 'localhost'
 default['unifiedpush']['postgresql']['max_connections'] = 200
 default['unifiedpush']['postgresql']['md5_auth_cidr_addresses'] = []
-default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1']
+default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1/32','::1']
 default['unifiedpush']['postgresql']['shmmax'] = node['kernel']['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 default['unifiedpush']['postgresql']['shmall'] = node['kernel']['machine'] =~ /x86_64/ ? 4194304 : 1048575
 default['unifiedpush']['postgresql']['semmsl'] = 250

@@ -112,7 +112,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['dir'] = "#{node['package']['runtime-dir']}/postgresql"
 # postgresql['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
 # postgresql['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
-# postgresql['unix_socket_directory'] = "#{node['package']['runtime-dir']}/postgresql"
+## Unix socket directory is supported only for linux.
+# postgresql['unix_socket_directory'] = "localhost"
 # postgresql['username'] = "aerobase-sql"
 ## Used only under windows os
 # postgresql['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
@@ -129,7 +130,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['listen_address'] = 'localhost'
 # postgresql['max_connections'] = 200
 # postgresql['md5_auth_cidr_addresses'] = []
-# postgresql['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1']
+# postgresql['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1/32','::1']
 # postgresql['shmmax'] = kernel['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 # postgresql['shmall'] = kernel['machine'] =~ /x86_64/ ? 4194304 : 1048575
 # postgresql['shared_buffers'] = "2048MB"
