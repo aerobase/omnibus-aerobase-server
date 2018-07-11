@@ -31,11 +31,11 @@ module ShellOutHelper
   end
   def success?(cmd)
     o = do_shell_out(cmd)
-    o.exitstatus == 0
+    !o.error?
   end
   def failure?(cmd)
     o = do_shell_out(cmd)
-    o.exitstatus != 0
+    o.error?
   end
 end
 

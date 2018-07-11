@@ -103,11 +103,22 @@ end
 
 postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
 
+if os_helper.is_windows? 
+  encoding = "English_United States.1252" 
+  shared_memory = "windows"
+else
+  encoding = "en_US.UTF-8"
+  shared_memory = "posix"
+end
+
 template postgresql_config do
   source "postgresql.conf.erb"
   owner postgresql_user
   mode "0644"
-  variables(node['unifiedpush']['postgresql'].to_hash)
+  variables(node['unifiedpush']['postgresql'].to_hash.merge({
+    :encoding => encoding, 
+	:shared_memory =>  shared_memory
+  }))
 end
 
 pg_hba_config = File.join(postgresql_data_dir, "pg_hba.conf")
@@ -125,13 +136,17 @@ template File.join(postgresql_data_dir, "pg_ident.conf") do
   variables(node['unifiedpush']['postgresql'].to_hash)
 end
 
-if os_helper.not_windows?
+if os_helper.is_windows?
+  windows_service 'aerobase' do
+    action :delete
+  end
+else
   component_runit_service "postgresql" do
     package "unifiedpush"
     control ['t']
   end
 
-  execute "#{install_dir}/bin/unifiedpush-ctl restart postgresql" do
+  execute "#{install_dir}/bin/aerobase-ctl restart postgresql" do
     retries 20
   end
 end 

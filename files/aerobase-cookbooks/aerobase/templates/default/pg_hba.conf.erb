@@ -67,8 +67,9 @@
 # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 
 # "local" is for Unix domain socket connections only
-local   all         all                               peer map=unifiedpush
-
+<% if OsHelper.new(node).not_windows? %>
+local   all         all                               peer map=aerobase
+<% end %>
 <% node['unifiedpush']['postgresql']['trust_auth_cidr_addresses'].each do |cidr| %>
 host    all         all         <%= cidr %>           trust
 <% end %>

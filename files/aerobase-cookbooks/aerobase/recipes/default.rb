@@ -88,11 +88,7 @@ end
 # upgrades for new releases of AeroBase.  As a result, we can't
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
-if node['unifiedpush']['postgresql']['enable']
-  execute "#{install_dir}/bin/aerobase-ctl start postgresql" do
-    retries 20
-  end
-
+if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
   ruby_block "wait for postgresql to start" do
     block do
       pg_helper = PgHelper.new(node)
@@ -100,7 +96,7 @@ if node['unifiedpush']['postgresql']['enable']
       2.times do |i|
         # Note that we have to include the port even for a local pipe, because the port number
         # is included in the pipe default.
-        if pg_helper.psql_cmd(["-d 'pg_database'", "-c 'SELECT * FROM pg_database' -t -A"])
+        if !pg_helper.psql_cmd(["-d 'pg_database'", "-c 'SELECT * FROM pg_database' -t -A"])
           Chef::Log.fatal("Could not connect to database, retrying in 10 seconds.")
           sleep 10
         else
