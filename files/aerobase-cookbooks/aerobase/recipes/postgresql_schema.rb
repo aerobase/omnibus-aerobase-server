@@ -25,7 +25,7 @@ os_helper = OsHelper.new(node)
 
 if os_helper.is_windows?
   tmp_dir = "Temp"
-  command = "init-unifiedpush-db"
+  command = "init-unifiedpush-db.bat"
 else
   tmp_dir = "tmp"
   command = "./init-unifiedpush-db.sh"
