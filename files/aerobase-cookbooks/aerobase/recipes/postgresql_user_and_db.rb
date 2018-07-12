@@ -61,6 +61,5 @@ databases.each do |unifiedpush_app, db_name, sql_user|
 	end
     not_if { pg_helper.database_exists?(db_name, pg_user, pg_password) }
     retries 30
-    notifies :run, "execute[initialize #{unifiedpush_app} database]", :immediately
   end
 end
