@@ -25,9 +25,9 @@ postgresql_dir = node['unifiedpush']['postgresql']['dir']
 postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
 postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
-postgresql_user = account_helper.postgresgl_user
-postgresql_password = account_helper.postgresgl_password
-postgresql_group = account_helper.postgresgl_group
+postgresql_user = account_helper.postgresql_user
+postgresql_password = account_helper.postgresql_password
+postgresql_group = account_helper.postgresql_group
 aerobase_group = account_helper.aerobase_group
 
 account "Postgresql user and group" do
@@ -137,8 +137,23 @@ template File.join(postgresql_data_dir, "pg_ident.conf") do
 end
 
 if os_helper.is_windows?
-  windows_service 'aerobase' do
+  service 'Aerobase PostgreSQL' do
+    action :stop
+  end
+  
+  windows_service 'Aerobase PostgreSQL' do
     action :delete
+  end
+  
+  windows_service 'Aerobase PostgreSQL' do
+    action :create
+    binary_path_name "#{install_dir}/embedded/bin/postgres"
+    startup_type :automatic
+    description "Aerobase PostgreSQL Instance"
+  end
+
+  service 'Aerobase PostgreSQL' do
+    action :restart
   end
 else
   component_runit_service "postgresql" do

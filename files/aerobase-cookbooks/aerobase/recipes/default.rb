@@ -18,9 +18,11 @@
 require 'openssl'
 
 account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
-os_helper = OsHelper.new(node)
+postgresql_user = account_helper.postgresql_user
+postgresql_password = account_helper.postgresql_password
 
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Aerobase packages

@@ -25,8 +25,8 @@ os_helper = OsHelper.new(node)
 
 postgresql_socket_dir = node['unifiedpush']['postgresql']['unix_socket_directory']
 pg_port = node['unifiedpush']['postgresql']['port']
-pg_user = account_helper.postgresgl_user
-pg_password = account_helper.postgresgl_password
+pg_user = account_helper.postgresql_user
+pg_password = account_helper.postgresql_password
 bin_dir = node['unifiedpush']['postgresql']['bin_dir']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
