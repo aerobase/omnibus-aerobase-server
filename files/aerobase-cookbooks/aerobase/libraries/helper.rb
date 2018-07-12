@@ -18,8 +18,12 @@
 require 'mixlib/shellout'
 
 module ShellOutHelper
-  def do_shell_out(cmd, user = nil, cwd = nil)
-    o = Mixlib::ShellOut.new(cmd, user: user, cwd: cwd)
+  def do_shell_out(cmd, user = nil, password = nil, cwd = nil)
+	if OsHelper.new(node).is_windows?
+      o = Mixlib::ShellOut.new(cmd, :user=>user, :password=>password, :cwd=>cwd)
+	else
+	  o = Mixlib::ShellOut.new(cmd, :user=>user, :cwd=>cwd)
+	end 
     o.run_command
     o
   rescue Errno::EACCES
@@ -29,8 +33,8 @@ module ShellOutHelper
     Chef::Log.info("#{cmd} does not exist.")
     o
   end
-  def success?(cmd)
-    o = do_shell_out(cmd)
+  def success?(cmd, user = nil, password = nil)
+    o = do_shell_out(cmd, user, password)
     !o.error?
   end
   def failure?(cmd)
@@ -52,27 +56,48 @@ class PgHelper
     omnibus_helper.service_up?("postgresql")
   end
 
-  def database_exists?(db_name)
-    psql_cmd(["-d 'template1'",
-              "-c 'select datname from pg_database' -A",
-              "| grep -x #{db_name}"])
+  def database_exists?(db_name, user = nil, password = nil)
+    if OsHelper.new(node).is_windows?
+	  grep_cmd = "findstr"
+	else
+	  grep_cmd = "grep -x"
+	end
+    psql_cmd(["-d \"postgres\"",
+              "-c \"select datname from pg_database\" -A",
+              "|#{grep_cmd} #{db_name}"], user, password)
   end
 
-  def user_exists?(db_user)
-    psql_cmd(["-d 'template1'",
-              "-c 'select usename from pg_user' -A",
-              "|grep -x #{db_user}"])
+  def user_exists?(db_user, user = nil, password = nil)
+    if OsHelper.new(node).is_windows?
+	  grep_cmd = "findstr"
+	else
+	  grep_cmd = "grep -x"
+	end
+    psql_cmd(["-d \"postgres\"",
+              "-c \"select usename from pg_user\" -A",
+              "|#{grep_cmd} \"#{db_user}\""], user, password)
   end
 
-  def psql_cmd(cmd_list)
+  def psql_cmd(cmd_list, user = nil, password = nil)
     install_dir = node['package']['install-dir']
-    cmd = ["#{install_dir}/embedded/bin/chpst",
-           "-u #{pg_user}",
-           "#{install_dir}/embedded/bin/psql",
-           "-h #{pg_host}",
-           "--port #{pg_port}",
-           cmd_list.join(" ")].join(" ")
-    success?(cmd)
+	cmd = []
+	if OsHelper.new(node).not_windows?
+	  cmd << "#{install_dir}/embedded/bin/chpst"
+	  cmd << "-u #{pg_user}"
+	  cmd << "#{install_dir}/embedded/bin/psql"
+	else
+	  cmd << "\"#{install_dir}/embedded/bin/psql\""
+	end
+
+    cmd << "-h #{pg_host}"
+	unless user.nil?
+	  cmd << "-U #{user}"
+	end
+    cmd << "--port #{pg_port}"
+    cmd << cmd_list.join(" ")
+    cmd = cmd.join(" ")
+	
+    success?(cmd, user, password)
   end
 
   def pg_user

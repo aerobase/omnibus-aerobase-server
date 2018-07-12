@@ -96,7 +96,8 @@ if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
       2.times do |i|
         # Note that we have to include the port even for a local pipe, because the port number
         # is included in the pipe default.
-        if !pg_helper.psql_cmd(["-d 'pg_database'", "-c 'SELECT * FROM pg_database' -t -A"])
+		
+        if !pg_helper.psql_cmd(["-d \"postgres\"", "-c \"SELECT * FROM pg_database\" -t -A"], postgresql_user, postgresql_password)
           Chef::Log.fatal("Could not connect to database, retrying in 10 seconds.")
           sleep 10
         else

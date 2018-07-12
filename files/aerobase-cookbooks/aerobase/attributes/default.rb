@@ -159,7 +159,7 @@ default['unifiedpush']['postgresql']['port'] = 5432
 default['unifiedpush']['postgresql']['listen_address'] = 'localhost'
 default['unifiedpush']['postgresql']['max_connections'] = 200
 default['unifiedpush']['postgresql']['md5_auth_cidr_addresses'] = []
-default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1/32','::1']
+default['unifiedpush']['postgresql']['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1/32','::1/128']
 default['unifiedpush']['postgresql']['shmmax'] = node['kernel']['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
 default['unifiedpush']['postgresql']['shmall'] = node['kernel']['machine'] =~ /x86_64/ ? 4194304 : 1048575
 default['unifiedpush']['postgresql']['semmsl'] = 250

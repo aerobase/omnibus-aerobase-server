@@ -43,14 +43,14 @@ end
 
 databases.each do |unifiedpush_app, db_name, sql_user|
   execute "create user #{sql_user} for database #{db_name}" do
-    command "#{bin_dir}/psql --port #{pg_port} -h #{postgresql_socket_dir} -d template1 -c \"CREATE USER #{sql_user}\""
+    command "#{bin_dir}/psql --port #{pg_port} -h #{postgresql_socket_dir} -d \"postgres\" -c \"CREATE USER #{sql_user}\""
     user pg_user
 	if os_helper.is_windows?
 	  password pg_password
 	end
     # Added retries to give the service time to start on slower systems
     retries 20
-    not_if { pg_helper.user_exists?(sql_user) }
+    not_if { pg_helper.user_exists?(sql_user, pg_user, pg_password) }
   end
 
   execute "create #{db_name} database" do
@@ -59,7 +59,7 @@ databases.each do |unifiedpush_app, db_name, sql_user|
     if os_helper.is_windows?
 	  password pg_password
 	end
-    not_if { pg_helper.database_exists?(db_name) }
+    not_if { pg_helper.database_exists?(db_name, pg_user, pg_password) }
     retries 30
     notifies :run, "execute[initialize #{unifiedpush_app} database]", :immediately
   end
