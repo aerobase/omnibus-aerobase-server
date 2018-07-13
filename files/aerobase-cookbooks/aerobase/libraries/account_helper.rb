@@ -37,6 +37,10 @@ class AccountHelper
   def web_server_user
     node['unifiedpush']['web-server']['username']
   end
+  
+  def web_server_password
+    node['unifiedpush']['web-server']['password']
+  end
 
   def web_server_group
     node['unifiedpush']['user']['group']
@@ -84,6 +88,7 @@ class AccountHelper
     %W(
         #{aerobase_password}
         #{postgresql_password}
+		#{web_server_password}
       )
   end
 end

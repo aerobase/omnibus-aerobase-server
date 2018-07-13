@@ -18,12 +18,14 @@
 # Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages
 
+os_helper = OsHelper.new(node)
+account_helper = AccountHelper.new(node)
+aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
+
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 cli_dir = "#{server_dir}/cli"
-
-account_helper = AccountHelper.new(node)
-aerobase_user = account_helper.aerobase_user
 
 # These directories do not need to be writable for unifiedpush-server
 [
@@ -31,7 +33,7 @@ aerobase_user = account_helper.aerobase_user
 ].each do |dir_name|
   directory dir_name do
     owner aerobase_user
-    group "root"
+    group aerobase_group
     mode 0775
     recursive true
   end
@@ -45,7 +47,7 @@ cassandra_enabled = node['unifiedpush']['cassandra']['enable']
 # Prepare datasource cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-ds-cli.erb"
   variables(unifiedpush_vars)
@@ -54,7 +56,7 @@ end
 # Prepare http cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-http.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-http-cli.erb"
   variables(unifiedpush_vars)
@@ -63,7 +65,7 @@ end
 # Prepare kc cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-kc.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-kc-cli.erb"
   variables(keycloak_vars)
@@ -72,7 +74,7 @@ end
 # Prepare oauth2 cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-oauth2-cli.erb"
   variables(unifiedpush_vars.merge(global_vars))
@@ -81,7 +83,7 @@ end
 # Prepare jgroup cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-jgroup-cli.erb"
   variables(unifiedpush_vars)
@@ -90,7 +92,7 @@ end
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "wildfly-standalone.conf.erb"
   variables(unifiedpush_vars.merge({
@@ -99,25 +101,31 @@ template "#{server_dir}/bin/standalone.conf" do
   ))
 end
 
+if os_helper.is_windows?
+  cli_cmd = "jboss-cli.bat"
+else
+  cli_cmd = "jboss-cli.sh"
+end
+
 # Execute cli scripts
 execute 'UPS datasource cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli"
 end
 
 execute 'UPS http/s cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/unifiedpush-server-wildfly-http.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-http.cli"
 end
 
 execute 'UPS kc cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/unifiedpush-server-wildfly-kc.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-kc.cli"
 end
 
 execute 'UPS oauth2 cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli"
 end
 
 execute 'UPS jgroup cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli"
 end
 
 # Link apps
@@ -125,8 +133,15 @@ link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
   to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
 end
 
-# Copy themes
 execute 'extract_aerobase_themes' do
-    command "mkdir -p #{server_dir}/themes/"
-    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/themes/ #{server_dir}/themes/"
+  command "mkdir -p #{server_dir}/themes/"
+end
+
+# Copy themes
+remote_directory "#{server_dir}/themes/" do
+  files_mode '0755'
+  files_owner aerobase_user
+  mode '0775'
+  owner aerobase_user
+  source "themes"
 end

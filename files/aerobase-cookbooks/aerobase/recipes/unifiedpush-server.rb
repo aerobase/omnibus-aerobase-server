@@ -28,6 +28,7 @@ server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
 os_helper = OsHelper.new(node)
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
@@ -35,12 +36,12 @@ global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
 
 include_recipe "aerobase::wildfly-server"
-
 include_recipe "aerobase::unifiedpush-server-wildfly-conf"
 
 template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"
   owner aerobase_user
+  group aerobase_group
   mode "0644"
   variables(all_vars)
 end
@@ -48,6 +49,7 @@ end
 template "#{server_etc_dir}/db.properties" do
   source "unifiedpush-server-db-properties.erb"
   owner aerobase_user
+  group aerobase_group
   mode "0644"
   variables(all_vars)
 end
@@ -65,10 +67,8 @@ if os_helper.not_windows?
     package "unifiedpush"
   end
 
-  if node['unifiedpush']['bootstrap']['enable']
-    execute "/opt/unifiedpush/bin/unifiedpush-ctl start unifiedpush-server" do
-      retries 20
-    end
+  execute "/opt/unifiedpush/bin/aerobase-ctl restart unifiedpush-server" do
+    retries 20
   end
 end
 

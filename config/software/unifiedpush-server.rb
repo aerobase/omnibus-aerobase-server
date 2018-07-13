@@ -20,7 +20,9 @@ license :project_license
 
 dependency "ruby"
 dependency "bundler"
-
+if windows?
+  dependency "wildfly"
+end
 source git: "https://github.com/aerobase/unifiedpush-server.git"
 
 relative_path "unifiedpush-server"

@@ -25,6 +25,7 @@ server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
@@ -40,19 +41,23 @@ all_vars = unifiedpush_vars.merge(global_vars)
 ].each do |dir_name|
   directory dir_name do
     owner aerobase_user
-    group 'root'
+    group aerobase_group
     mode '0775'
     recursive true
   end
 end
 
-# Always re-extract wildfly and recreate configuration.
-execute 'extract_wildfly' do
-  command "tar xzvf #{install_dir}/embedded/apps/wildfly/wildfly-11.0.0.Final.tar.gz --strip-components 1"
-  cwd "#{server_dir}"
+# Copy themes
+remote_directory "#{server_dir}" do
+  files_mode '0755'
+  files_owner aerobase_user
+  mode '0775'
+  owner aerobase_user
+  source "wildfly"
 end
 
 # Link logrotate gir to wildfly log dir
 link "#{server_log_dir}/logs" do
   to "#{server_dir}/standalone/log"
 end
+

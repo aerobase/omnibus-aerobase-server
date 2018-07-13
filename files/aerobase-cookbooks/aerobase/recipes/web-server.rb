@@ -16,8 +16,11 @@
 #
 
 account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
+
 webserver_username = account_helper.web_server_user
 webserver_group = account_helper.web_server_group
+webserver_password = account_helper.web_server_password
 aerobase_group = account_helper.aerobase_group
 external_webserver_users = node['unifiedpush']['web-server']['external_users']
 
@@ -28,6 +31,9 @@ append_members = external_webserver_users.any? && !node['unifiedpush']['nginx'][
 
 account "Webserver user and group" do
   username webserver_username
+  if os_helper.is_windows?
+	password webserver_password
+  end 
   uid node['unifiedpush']['web-server']['uid']
   ugid webserver_group
   groupname webserver_group

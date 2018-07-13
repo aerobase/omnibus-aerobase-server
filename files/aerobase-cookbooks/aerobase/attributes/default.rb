@@ -219,6 +219,7 @@ default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
 ####
 # Username for the webserver user
 default['unifiedpush']['web-server']['username'] = "aerobase-www"
+default['unifiedpush']['web-server']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['web-server']['uid'] = nil
 default['unifiedpush']['web-server']['gid'] = nil
 default['unifiedpush']['web-server']['shell'] = "/bin/false"

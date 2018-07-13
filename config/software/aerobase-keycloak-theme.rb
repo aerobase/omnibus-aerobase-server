@@ -25,10 +25,6 @@ relative_path "aerobase-keycloak-theme"
 build_dir = "#{project_dir}"
 
 build do
-  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase"
-  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase-cloud"
-  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase-bootstrap"
-  sync "./aerobase/", "#{install_dir}/embedded/apps/themes/aerobase"
-  sync "./aerobase-cloud/", "#{install_dir}/embedded/apps/themes/aerobase-cloud"
-  sync "./aerobase-bootstrap/", "#{install_dir}/embedded/apps/themes/aerobase-bootstrap"
+  command "mkdir -p #{install_dir}/embedded/cookbooks/aerobase/files/default/themes"
+  copy "./", "#{install_dir}/embedded/cookbooks/aerobase/files/default/themes"
 end

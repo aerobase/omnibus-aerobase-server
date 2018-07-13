@@ -15,11 +15,17 @@
 # limitations under the License.
 #
 
-bootstrap_status_file = "/var/opt/unifiedpush/bootstrapped"
+account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
+aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
+
+runtime_dir = node['package']['runtime-dir']
+bootstrap_status_file = "#{runtime_dir}/bootstrapped"
 
 file bootstrap_status_file do
-  owner "root"
-  group "root"
+  owner aerobase_user
+  group aerobase_group
   mode "0600"
-  content "All your bootstraps are belong to Unifiedpush"
+  content "All your bootstraps are belong to Aerobase"
 end
