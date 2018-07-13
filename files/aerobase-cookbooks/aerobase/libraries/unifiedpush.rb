@@ -83,14 +83,16 @@ module Unifiedpush
       Unifiedpush['unifiedpush_server']['server_host'] = uri.host
       Unifiedpush['unifiedpush_server']['server_port'] = uri.port
       Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host)
-
+      
+	  config_dir = node['package']['config-dir']
+	  
       case uri.scheme
       when "http"
         Unifiedpush['unifiedpush_server']['server_https'] = false
       when "https"
         Unifiedpush['unifiedpush_server']['server_https'] = true
-        Unifiedpush['nginx']['ssl_certificate'] ||= "/etc/unifiedpush/ssl/#{uri.host}.crt"
-        Unifiedpush['nginx']['ssl_certificate_key'] ||= "/etc/unifiedpush/ssl/#{uri.host}.key"
+        Unifiedpush['nginx']['ssl_certificate'] ||= "#{config_dir}/ssl/#{uri.host}.crt"
+        Unifiedpush['nginx']['ssl_certificate_key'] ||= "#{config_dir}/ssl/#{uri.host}.key"
       else
         raise "Unsupported external URL scheme: #{uri.scheme}"
       end

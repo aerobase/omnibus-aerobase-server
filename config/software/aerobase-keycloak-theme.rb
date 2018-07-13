@@ -26,5 +26,5 @@ build_dir = "#{project_dir}"
 
 build do
   command "mkdir -p #{install_dir}/embedded/cookbooks/aerobase/files/default/themes"
-  copy "./", "#{install_dir}/embedded/cookbooks/aerobase/files/default/themes"
+  sync "./", "#{install_dir}/embedded/cookbooks/aerobase/files/default/themes"
 end

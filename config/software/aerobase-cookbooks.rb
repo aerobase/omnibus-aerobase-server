@@ -22,7 +22,7 @@ source :path => File.expand_path("files/aerobase-cookbooks", Omnibus::Config.pro
 
 build do
   command "mkdir -p #{install_dir}/embedded/cookbooks"
-  copy "./", "#{install_dir}/embedded/cookbooks/"
+  sync "./", "#{install_dir}/embedded/cookbooks/"
   
   # Create a package cookbook.
   command "mkdir -p #{install_dir}/embedded/cookbooks/package/attributes"
