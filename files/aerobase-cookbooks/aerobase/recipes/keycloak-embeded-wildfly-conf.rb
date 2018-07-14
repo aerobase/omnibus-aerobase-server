@@ -23,20 +23,23 @@ server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
 
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 
-include_recipe "unifiedpush::postgresql-module-wildfly-conf"
+include_recipe "aerobase::postgresql-module-wildfly-conf"
 
-execute "copy keycloak overlay to wildfly dir" do
-    command "cp -R #{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/* #{server_dir}"
-    user "root"
+ruby_block 'copy_wildfly_sources' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/.", "#{server_dir}"
+  end
+  action :run
 end
 
 template "#{server_dir}/cli/keycloak-server-wildfly.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "keycloak-server-wildfly-cli.erb"
   variables(unifiedpush_vars.merge(keycloak_vars).merge({
@@ -47,7 +50,7 @@ end
 
 template "#{server_dir}/cli/keycloak-server-ups-realms.cli" do
   owner aerobase_user
-  group "root"
+  group aerobase_group
   mode 0755
   source "keycloak-server-ups-realms-cli.erb"
   variables({:server_dir => "#{server_dir}"})

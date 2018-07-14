@@ -17,12 +17,8 @@
 
 require 'openssl'
 
-if node['unifiedpush']['keycloak-server']['enable']
-    include_recipe "aerobase::wildfly-server"
-	
-	# Embeded KC server, use same properties as unifiedpush-server
-    node.set['unifiedpush']['keycloak-server']['server_host'] = node['unifiedpush']['unifiedpush-server']['server_host']
-    node.set['unifiedpush']['keycloak-server']['server_https'] = node['unifiedpush']['unifiedpush-server']['server_https']
-	
-	include_recipe "aerobase::keycloak-server-wildfly-conf"
-end
+# Embeded KC server, use same properties as unifiedpush-server
+node.set['unifiedpush']['keycloak-server']['server_host'] = node['unifiedpush']['unifiedpush-server']['server_host']
+node.set['unifiedpush']['keycloak-server']['server_https'] = node['unifiedpush']['unifiedpush-server']['server_https']
+
+include_recipe "aerobase::keycloak-server-wildfly-conf"

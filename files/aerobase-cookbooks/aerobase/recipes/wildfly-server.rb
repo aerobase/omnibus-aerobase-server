@@ -17,6 +17,7 @@
 
 require 'openssl'
 
+install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
 server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory']
@@ -47,13 +48,11 @@ all_vars = unifiedpush_vars.merge(global_vars)
   end
 end
 
-# Copy themes
-remote_directory "#{server_dir}" do
-  files_mode '0755'
-  files_owner aerobase_user
-  mode '0775'
-  owner aerobase_user
-  source "wildfly"
+ruby_block 'copy_wildfly_sources' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly/.", "#{server_dir}"
+  end
+  action :run
 end
 
 # Link logrotate gir to wildfly log dir

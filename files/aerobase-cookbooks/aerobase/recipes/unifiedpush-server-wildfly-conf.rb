@@ -132,16 +132,3 @@ end
 link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
   to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
 end
-
-execute 'extract_aerobase_themes' do
-  command "mkdir -p #{server_dir}/themes/"
-end
-
-# Copy themes
-remote_directory "#{server_dir}/themes/" do
-  files_mode '0755'
-  files_owner aerobase_user
-  mode '0775'
-  owner aerobase_user
-  source "themes"
-end

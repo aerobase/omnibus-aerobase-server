@@ -49,7 +49,7 @@ end
 node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 
 if File.exists?("#{runtime_dir}/bootstrapped")
-  node.set['unifiedpush']['bootstrap']['enable'] = false
+  node.default['unifiedpush']['bootstrap']['enable'] = false
 end
 
 directory "#{install_dir}/embedded/etc" do
@@ -82,21 +82,21 @@ end
   else
     include_recipe "aerobase::#{service}_disable"
   end
+end
 
 # Schema creation - either to embedded postgresqk or to external.
 # Schama must be configured before unifiedpush-server is started.
 if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
-  include_recipe "aerobase::postgreql_initialize"
+  include_recipe "aerobase::postgresql_initialize"
 end
 
 include_recipe "aerobase::web-server"
 
 # Configure Services
 [
-  "bootstrap",
   "unifiedpush-server", 
   "keycloak-server",
-  "nginx",
+  "nginx"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "aerobase::#{service}"
@@ -115,3 +115,4 @@ if os_helper.not_windows?
 end 
 
 include_recipe "aerobase::backup"
+include_recipe "aerobase::bootstrap"

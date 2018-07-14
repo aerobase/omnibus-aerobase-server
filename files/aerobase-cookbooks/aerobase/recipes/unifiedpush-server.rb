@@ -54,6 +54,21 @@ template "#{server_etc_dir}/db.properties" do
   variables(all_vars)
 end
 
+# create themes dir
+directory "#{server_dir}/themes" do
+  owner aerobase_user
+  group aerobase_group
+  mode "0775"
+end
+
+# Copy themes
+ruby_block 'copy_wildfly_sources' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/themes/.", "#{server_dir}/themes"
+  end
+  action :run
+end
+
 # Make sure owner is aerobase_user
 directory server_dir do
   owner aerobase_user

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/aerobase/omnibus-software.git
-  revision: 16d19b195d8654000e90ff0f3867e8571d99832d
+  revision: 7d46b231f844921ab400292ac4b77559b86240a0
   branch: master
   specs:
     omnibus-software (4.0.0)
@@ -30,13 +30,13 @@ GEM
   specs:
     addressable (2.3.8)
     awesome_print (1.8.0)
-    aws-sdk (2.11.83)
-      aws-sdk-resources (= 2.11.83)
-    aws-sdk-core (2.11.83)
+    aws-sdk (2.11.89)
+      aws-sdk-resources (= 2.11.89)
+    aws-sdk-core (2.11.89)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.83)
-      aws-sdk-core (= 2.11.83)
+    aws-sdk-resources (2.11.89)
+      aws-sdk-core (= 2.11.89)
     aws-sigv4 (1.0.3)
     berkshelf (3.3.0)
       addressable (~> 2.3.4)
@@ -72,10 +72,10 @@ GEM
     celluloid-io (0.16.2)
       celluloid (>= 0.16.0)
       nio4r (>= 1.1.0)
-    chef-config (14.2.0)
+    chef-config (14.3.37)
       addressable
       fuzzyurl
-      mixlib-config (~> 2.0)
+      mixlib-config (>= 2.2.12, < 3.0)
       mixlib-shellout (~> 2.0)
       tomlrb (~> 1.2)
     chef-sugar (3.6.0)
@@ -119,9 +119,9 @@ GEM
     minitar (0.5.4)
     mixlib-authentication (2.1.1)
     mixlib-cli (1.7.0)
-    mixlib-config (2.2.12)
+    mixlib-config (2.2.13)
       tomlrb
-    mixlib-install (3.10.0)
+    mixlib-install (3.11.2)
       mixlib-shellout
       mixlib-versioning
       thor
@@ -142,7 +142,7 @@ GEM
     nori (2.6.0)
     octokit (3.8.0)
       sawyer (~> 0.6.0, >= 0.5.3)
-    ohai (14.2.0)
+    ohai (14.3.0)
       chef-config (>= 12.8, < 15)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
