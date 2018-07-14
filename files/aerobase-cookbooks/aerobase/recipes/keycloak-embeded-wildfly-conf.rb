@@ -22,6 +22,8 @@ install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 
 account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
+
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
@@ -56,10 +58,16 @@ template "#{server_dir}/cli/keycloak-server-ups-realms.cli" do
   variables({:server_dir => "#{server_dir}"})
 end
 
-execute 'KC datasource and config cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/keycloak-server-wildfly.cli"
+if os_helper.is_windows?
+  cli_cmd = "jboss-cli.bat"
+else
+  cli_cmd = "jboss-cli.sh"
 end
 
 execute 'KC datasource and config cli script' do
-  command "#{server_dir}/bin/jboss-cli.sh --file=#{server_dir}/cli/keycloak-server-ups-realms.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/keycloak-server-wildfly.cli"
+end
+
+execute 'KC datasource and config cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/keycloak-server-ups-realms.cli"
 end
