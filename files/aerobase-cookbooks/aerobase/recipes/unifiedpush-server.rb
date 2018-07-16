@@ -29,6 +29,7 @@ server_etc_dir = "#{server_dir}/etc"
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
+aerobase_password = account_helper.aerobase_password
 os_helper = OsHelper.new(node)
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
@@ -77,7 +78,23 @@ directory server_dir do
   action :nothing
 end.run_action(:create)
 
-if os_helper.not_windows?
+directory server_dir do
+  rights :read, aerobase_group, :applies_to_children => true
+  rights :full_control, aerobase_user,  :applies_to_children => true
+  only_if { os_helper.is_windows? }
+end
+
+if os_helper.is_windows?
+  execute "#{server_dir}/bin/service.bat install /startup /config standalone-full-ha.xml" do
+    user aerobase_user
+	password aerobase_password
+  end
+
+  execute "#{server_dir}/bin/service.bat restart /name Aerobase" do
+    user aerobase_user
+	password aerobase_password
+  end
+else
   component_runit_service "unifiedpush-server" do
     package "unifiedpush"
   end

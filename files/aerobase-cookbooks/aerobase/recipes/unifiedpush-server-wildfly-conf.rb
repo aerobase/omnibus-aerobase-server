@@ -89,22 +89,33 @@ template "#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli" do
   variables(unifiedpush_vars)
 end
 
+if os_helper.is_windows?
+  cli_cmd = "jboss-cli.bat"
+  standalone_file = "conf.bat"
+else
+  cli_cmd = "jboss-cli.sh"
+  standalone_file = "conf"
+end
+
 # Update configuration 
 template "#{server_dir}/bin/standalone.conf" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "wildfly-standalone.conf.erb"
+  source "wildfly-standalone.#{standalone_file}.erb"
   variables(unifiedpush_vars.merge({
       :cassandra_enabled => cassandra_enabled
     }
   ))
 end
 
-if os_helper.is_windows?
-  cli_cmd = "jboss-cli.bat"
-else
-  cli_cmd = "jboss-cli.sh"
+template "#{server_dir}/bin/service.bat" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "wildfly-service.bat.erb"
+  variables(unifiedpush_vars)
+  only_if { os_helper.is_windows? }
 end
 
 # Execute cli scripts

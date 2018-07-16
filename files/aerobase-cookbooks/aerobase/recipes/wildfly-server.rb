@@ -24,6 +24,7 @@ server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory'
 server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
 server_etc_dir = "#{server_dir}/etc"
 
+os_helper = OsHelper.new(node)
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
@@ -53,6 +54,14 @@ ruby_block 'copy_wildfly_sources' do
 	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly/.", "#{server_dir}"
   end
   action :run
+end
+
+ruby_block 'copy_wildfly_service' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly/docs/contrib/scripts/service/.", "#{server_dir}/bin"
+  end
+  action :run
+  only_if { os_helper.is_windows? }
 end
 
 # Link logrotate gir to wildfly log dir
