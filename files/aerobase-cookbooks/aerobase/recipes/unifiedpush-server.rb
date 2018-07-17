@@ -86,13 +86,9 @@ end
 
 if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat install /startup /config standalone-full-ha.xml" do
-    user aerobase_user
-	password aerobase_password
   end
 
   execute "#{server_dir}/bin/service.bat restart /name Aerobase" do
-    user aerobase_user
-	password aerobase_password
   end
 else
   component_runit_service "unifiedpush-server" do

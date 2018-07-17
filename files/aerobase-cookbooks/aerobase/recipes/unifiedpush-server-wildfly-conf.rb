@@ -98,7 +98,7 @@ else
 end
 
 # Update configuration 
-template "#{server_dir}/bin/standalone.conf" do
+template "#{server_dir}/bin/standalone.#{standalone_file}" do
   owner aerobase_user
   group aerobase_group
   mode 0755
