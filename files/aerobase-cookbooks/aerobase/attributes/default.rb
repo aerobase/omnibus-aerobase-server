@@ -266,7 +266,7 @@ default['unifiedpush']['nginx']['ssl_dhparam'] = nil # Path to dhparam.pem
 default['unifiedpush']['nginx']['listen_addresses'] = ['*']
 default['unifiedpush']['nginx']['listen_port'] = nil # override only if you have a reverse proxy
 default['unifiedpush']['nginx']['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP
-default['unifiedpush']['nginx']['custom_unifiedpush_server_config'] = nil
+default['unifiedpush']['nginx']['custom_aerobase_config'] = nil
 default['unifiedpush']['nginx']['custom_nginx_config'] = nil
 
 ###

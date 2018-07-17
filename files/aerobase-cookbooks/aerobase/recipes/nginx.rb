@@ -20,6 +20,9 @@ account_helper = AccountHelper.new(node)
 omnibus_helper = OmnibusHelper.new(node)
 domain_helper = DomainHelper.new(node)
 
+web_server_user = account_helper.web_server_user
+web_server_group = account_helper.web_server_group
+
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
@@ -40,8 +43,8 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
   nginx_log_dir,
 ].each do |dir_name|
   directory dir_name do
-    owner account_helper.web_server_user
-    group account_helper.web_server_group
+    owner web_server_user
+    group web_server_group
     mode '0750'
     recursive true
   end
@@ -55,15 +58,16 @@ end
 # A workarround to ensure logrotate always exists at log_directory/logs
 link "#{nginx_log_dir}/logs" do
   to nginx_log_dir
+  only_if { os_helper.not_windows? }
 end
 
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")
 nginx_aerobase_js = File.join(nginx_html_dir, "aerobase.js")
 
-unifiedpush_server_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
-unifiedpush_locations_http_conf = File.join(nginx_conf_dir, "aerobase-locations.import")
-unifiedpush_locations_http_sub_module_conf = File.join(nginx_conf_dir, "aerobase-locations-http-sub-module.import")
-unifiedpush_subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
+aerobase_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
+aerobase_locations_import = File.join(nginx_conf_dir, "aerobase-locations.import")
+aerobase_sub_module_import = File.join(nginx_conf_dir, "aerobase-sub-module.import")
+subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
@@ -73,10 +77,11 @@ portal_mode = node['unifiedpush']['global']['portal_mode']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
-               :unifiedpush_http_config => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_server_http_conf : nil,
-			   :unifiedpush_subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_subdomains_http_conf : nil,
-               :unifiedpush_http_configd => nginx_confd_dir,
+               :aerobase_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
+			   :subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
+               :aerobase_http_configd => nginx_confd_dir,
 	           :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+			   :install_dir => install_dir,
       	       :html_dir => nginx_html_dir,
                :portal_mode => portal_mode
              })
@@ -87,19 +92,19 @@ else
   nginx_vars['https'] = nginx_vars['server_https']
 end
 
-template unifiedpush_server_http_conf do
-  source "nginx-unifiedpush-http.conf.erb"
-  owner account_helper.web_server_user
-  group account_helper.web_server_group
+template aerobase_http_conf do
+  source "nginx-aerobase-http.conf.erb"
+  owner web_server_user
+  group web_server_group
   mode "0644"
   variables nginx_vars
   action nginx_server_enabled ? :create : :delete
 end
 
-template unifiedpush_locations_http_conf do
-  source "nginx-locations-http.conf.erb"
-  owner account_helper.web_server_user
-  group account_helper.web_server_group  
+template aerobase_locations_import do
+  source "nginx-aerobase-locations.import.erb"
+  owner web_server_user
+  group web_server_group  
   mode "0644"
   variables nginx_vars
   action nginx_server_enabled ? :create : :delete
@@ -107,20 +112,20 @@ end
 
 # Install nginx protection to serving apps outside of portal iframe.
 # This case is relevant when returning from external actions e.g registration.
-template unifiedpush_locations_http_sub_module_conf do
-  source "nginx-locations-http-sub-module.conf.erb"
-  owner account_helper.web_server_user
-  group account_helper.web_server_group
+template aerobase_sub_module_import do
+  source "nginx-aerobase-sub-module.import.erb"
+  owner web_server_user
+  group web_server_group
   mode "0644"
   variables nginx_vars
   action nginx_server_enabled ? :create : :delete
   only_if { portal_mode }
 end
 
-template unifiedpush_subdomains_http_conf do
+template subdomains_http_conf do
   source "nginx-subdomains-http.conf.erb"
-  owner account_helper.web_server_user
-  group account_helper.web_server_group
+  owner web_server_user
+  group web_server_group
   mode "0644"
   variables nginx_vars
   action nginx_server_enabled ? :create : :delete
@@ -128,8 +133,8 @@ end
 
 template nginx_config do
   source "nginx.conf.erb"
-  owner account_helper.web_server_user
-  group account_helper.web_server_group
+  owner web_server_user
+  group web_server_group
   mode "0644"
   variables nginx_vars
   action nginx_server_enabled ? :create : :delete
@@ -137,16 +142,16 @@ end
 
 template nginx_aerobase_js do
   source "nginx-aerobase.js.erb"
-  owner account_helper.web_server_user
-  group account_helper.web_server_group
+  owner web_server_user
+  group web_server_group
   mode "0644"
   variables nginx_vars
+  action nginx_server_enabled ? :create : :delete
 end
 
-# Extract aerobae static contect to html directory
+# Extract aerobase static contect to html directory
 ruby_block 'copy_ups_html_sources' do
   block do
-    FileUtils.mkdir_p "#{nginx_ups_html_dir}"
 	FileUtils.cp_r "#{install_dir}/embedded/apps/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
   end
   action :run
@@ -155,7 +160,6 @@ end
 
 ruby_block 'copy_gsg_html_sources' do
   block do
-    FileUtils.mkdir_p "#{nginx_ups_html_dir}"
 	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
   end
   action :run
@@ -164,13 +168,15 @@ end
 
 # Make sure owner is web_server_user
 directory "#{nginx_ups_html_dir}" do
-  owner account_helper.web_server_user
-  group account_helper.web_server_group
+  owner web_server_user
+  group web_server_group
   mode "0775"
   action :create
 end
 
-if os_helper.not_windows?
+if os_helper.is_windows?
+  include_recipe "aerobase::nginx-win-service"
+else
   component_runit_service "nginx" do
     package "unifiedpush"
   end

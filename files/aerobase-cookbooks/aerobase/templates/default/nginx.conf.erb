@@ -37,13 +37,13 @@ http {
 
   include /opt/unifiedpush/embedded/conf/mime.types;
 
-  <% if @unifiedpush_http_config %>
-  include <%= @unifiedpush_http_config %>;
+  <% if @aerobase_http_conf %>
+  include <%= @aerobase_http_conf %>;
   <% end %>
-  <% if @unifiedpush_subdomains_http_conf %>
-  include <%= @unifiedpush_subdomains_http_conf %>;
+  <% if @subdomains_http_conf %>
+  include <%= @subdomains_http_conf %>;
   <% end %>
-  include <%= @unifiedpush_http_configd %>/*.conf;
+  include <%= @aerobase_http_configd %>/*.conf;
 
-  <%= @custom_nginx_config %>
+  <%= @custom_nginx_config %
 }
