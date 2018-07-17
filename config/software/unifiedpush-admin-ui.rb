@@ -39,6 +39,6 @@ build do
   end
 
   # Copy resources
-  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
-  sync "./dist/", "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/"
+  command "mkdir -p #{install_dir}/embedded/cookbooks/aerobase/files/default/unifiedpush-admin-ui"
+  sync "./dist/", "#{install_dir}/embedded/cookbooks/aerobase/files/default/unifiedpush-admin-ui"
 end

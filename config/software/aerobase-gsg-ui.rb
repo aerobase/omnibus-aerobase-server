@@ -32,6 +32,6 @@ build do
   end
 
   # Copy dist to package dir.
-  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/"
-  sync "./dist/", "#{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/"
+  command "mkdir -p #{install_dir}/embedded/cookbooks/aerobase/files/default/aerobase-gsg-ui"
+  sync "./dist/", "#{install_dir}/embedded/cookbooks/aerobase/files/default/aerobase-gsg-ui"
 end

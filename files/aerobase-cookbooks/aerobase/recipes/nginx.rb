@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+os_helper = OsHelper.new(node)
 account_helper = AccountHelper.new(node)
 omnibus_helper = OmnibusHelper.new(node)
 domain_helper = DomainHelper.new(node)
@@ -40,7 +41,7 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 ].each do |dir_name|
   directory dir_name do
     owner account_helper.web_server_user
-    group 'root'
+    group account_helper.web_server_group
     mode '0750'
     recursive true
   end
@@ -73,9 +74,9 @@ portal_mode = node['unifiedpush']['global']['portal_mode']
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
                :unifiedpush_http_config => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_server_http_conf : nil,
-	       :unifiedpush_subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_subdomains_http_conf : nil,
+			   :unifiedpush_subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? unifiedpush_subdomains_http_conf : nil,
                :unifiedpush_http_configd => nginx_confd_dir,
-	       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+	           :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
       	       :html_dir => nginx_html_dir,
                :portal_mode => portal_mode
              })
@@ -88,21 +89,19 @@ end
 
 template unifiedpush_server_http_conf do
   source "nginx-unifiedpush-http.conf.erb"
-  owner "root"
-  group "root"
+  owner account_helper.web_server_user
+  group account_helper.web_server_group
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
 end
 
 template unifiedpush_locations_http_conf do
   source "nginx-locations-http.conf.erb"
-  owner "root"
-  group "root"
+  owner account_helper.web_server_user
+  group account_helper.web_server_group  
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
 end
 
@@ -110,68 +109,73 @@ end
 # This case is relevant when returning from external actions e.g registration.
 template unifiedpush_locations_http_sub_module_conf do
   source "nginx-locations-http-sub-module.conf.erb"
-  owner "root"
-  group "root"
+  owner account_helper.web_server_user
+  group account_helper.web_server_group
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
   only_if { portal_mode }
 end
 
 template unifiedpush_subdomains_http_conf do
   source "nginx-subdomains-http.conf.erb"
-  owner "root"
-  group "root"
+  owner account_helper.web_server_user
+  group account_helper.web_server_group
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
 end
 
 template nginx_config do
   source "nginx.conf.erb"
-  owner "root"
-  group "root"
+  owner account_helper.web_server_user
+  group account_helper.web_server_group
   mode "0644"
   variables nginx_vars
-  notifies :restart, 'runit_service[nginx]' if omnibus_helper.should_notify?("nginx")
   action nginx_server_enabled ? :create : :delete
 end
 
 template nginx_aerobase_js do
   source "nginx-aerobase.js.erb"
-  owner "root"
-  group "root"
+  owner account_helper.web_server_user
+  group account_helper.web_server_group
   mode "0644"
   variables nginx_vars
+  notifies :create, 'ruby_block[copy_ups_html_sources]', :immediately
+  notifies :create, 'ruby_block[copy_gsg_html_sources]', :immediately
 end
 
 # Extract aerobae static contect to html directory
-if unifiedpush_server_enabled
-  execute 'extract_aerobase_ups_static_content' do
-    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-admin-ui/* #{nginx_ups_html_dir}"
+ruby_block 'copy_ups_html_sources' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
   end
+  action :nothing
+  only_if { unifiedpush_server_enabled }
 end
 
-if unifiedpush_server_enabled
-  execute 'extract_aerobase_gsg_static_content' do
-    command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/* #{nginx_gsg_html_dir}"
+ruby_block 'copy_gsg_html_sources' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
   end
+  action :nothing
+  only_if { unifiedpush_server_enabled }
 end
 
-# Make sure owner is aerobase_user
-execute "chown-nginx-resources" do
-  command "chown -R #{account_helper.web_server_user}:root #{nginx_ups_html_dir}"
-  action :run
-end
+# Make sure owner is web_server_user
+directory "#{nginx_ups_html_dir}" do
+  owner account_helper.web_server_user
+  group account_helper.web_server_group
+  mode "0775"
+  action :nothing
+end.run_action(:create)
 
-component_runit_service "nginx" do
-  package "unifiedpush"
-end
+if os_helper.not_windows?
+  component_runit_service "nginx" do
+    package "unifiedpush"
+  end
 
-if node['unifiedpush']['bootstrap']['enable']
-  execute "/opt/unifiedpush/bin/unifiedpush-ctl start nginx" do
+  execute "/opt/unifiedpush/bin/unifiedpush-ctl restart nginx" do
     retries 20
   end
 end
