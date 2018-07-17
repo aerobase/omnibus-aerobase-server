@@ -65,7 +65,7 @@ end
 # Copy themes
 ruby_block 'copy_wildfly_sources' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/themes/.", "#{server_dir}/themes"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/themes/.", "#{server_dir}/themes"
   end
   action :run
 end

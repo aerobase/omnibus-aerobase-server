@@ -51,14 +51,14 @@ end
 
 ruby_block 'copy_wildfly_sources' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly/.", "#{server_dir}"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/wildfly/.", "#{server_dir}"
   end
   action :run
 end
 
 ruby_block 'copy_wildfly_service' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly/docs/contrib/scripts/service/.", "#{server_dir}/bin"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/wildfly/docs/contrib/scripts/service/.", "#{server_dir}/bin"
   end
   action :run
   only_if { os_helper.is_windows? }

@@ -40,6 +40,6 @@ relative_path "wildfly-#{version}"
 build do
   env = with_standard_compiler_flags
 
-  command "mkdir -p #{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly"
-  sync "./", "#{install_dir}/embedded/cookbooks/aerobase/files/default/wildfly"
+  command "mkdir -p #{install_dir}/embedded/apps/wildfly"
+  sync "./", "#{install_dir}/embedded/apps/wildfly"
 end

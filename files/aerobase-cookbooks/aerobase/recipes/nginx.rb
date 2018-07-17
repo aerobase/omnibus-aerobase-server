@@ -141,24 +141,24 @@ template nginx_aerobase_js do
   group account_helper.web_server_group
   mode "0644"
   variables nginx_vars
-  notifies :create, 'ruby_block[copy_ups_html_sources]', :immediately
-  notifies :create, 'ruby_block[copy_gsg_html_sources]', :immediately
 end
 
 # Extract aerobae static contect to html directory
 ruby_block 'copy_ups_html_sources' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
+    FileUtils.mkdir_p "#{nginx_ups_html_dir}"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
   end
-  action :nothing
+  action :run
   only_if { unifiedpush_server_enabled }
 end
 
 ruby_block 'copy_gsg_html_sources' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/cookbooks/aerobase/files/default/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
+    FileUtils.mkdir_p "#{nginx_ups_html_dir}"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
   end
-  action :nothing
+  action :run
   only_if { unifiedpush_server_enabled }
 end
 
@@ -167,8 +167,8 @@ directory "#{nginx_ups_html_dir}" do
   owner account_helper.web_server_user
   group account_helper.web_server_group
   mode "0775"
-  action :nothing
-end.run_action(:create)
+  action :create
+end
 
 if os_helper.not_windows?
   component_runit_service "nginx" do
