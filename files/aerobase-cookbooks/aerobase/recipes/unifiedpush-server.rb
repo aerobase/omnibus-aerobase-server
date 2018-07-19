@@ -36,6 +36,13 @@ unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
 
+# Stop windows service before we try to override files.
+if os_helper.is_windows?
+  execute "#{server_dir}/bin/service.bat stop /name Aerobase" do
+  only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
+  end
+end
+
 include_recipe "aerobase::wildfly-server"
 include_recipe "aerobase::unifiedpush-server-wildfly-conf"
 include_recipe "aerobase::keycloak-server"

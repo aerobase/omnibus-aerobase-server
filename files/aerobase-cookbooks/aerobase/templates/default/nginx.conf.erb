@@ -2,8 +2,12 @@
 # erased! To change the contents below, edit /etc/unifiedpush/unifiedpush.rb
 # and run `sudo unifiedpush-ctl reconfigure`.
 
+<% if @windows %>
+worker_processes 1;
+<% else %>
 user <%= node['unifiedpush']['web-server']['username'] %> <%= node['unifiedpush']['web-server']['group']%>;
 worker_processes <%= @worker_processes %>;
+<% end %>
 error_log stderr;
 pid nginx.pid;
 
@@ -35,7 +39,7 @@ http {
   # Controls the maximum length of a virtual host entry (ie the length of the domain name).
   server_names_hash_bucket_size <%= @server_names_hash_bucket_size %>; 
 
-  include /opt/unifiedpush/embedded/conf/mime.types;
+  include <%= @install_dir %>/embedded/conf/mime.types;
 
   <% if @aerobase_http_conf %>
   include <%= @aerobase_http_conf %>;
@@ -45,5 +49,5 @@ http {
   <% end %>
   include <%= @aerobase_http_configd %>/*.conf;
 
-  <%= @custom_nginx_config %
+  <%= @custom_nginx_config %>
 }

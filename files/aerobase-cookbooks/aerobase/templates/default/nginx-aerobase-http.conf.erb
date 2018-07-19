@@ -58,7 +58,7 @@ server {
   access_log  <%= @log_directory %>/unifiedpush_access.log;
   error_log   <%= @log_directory %>/unifiedpush_error.log;
 
-  include <%= @custom_aerobase_config %>;
+  <%= @custom_aerobase_config %>
   
   include aerobase-locations.import;
 }

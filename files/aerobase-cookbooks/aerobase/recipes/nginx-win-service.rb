@@ -23,15 +23,23 @@ web_server_group = account_helper.web_server_group
 
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
+nginx_html_dir = File.join(nginx_dir, "www/html")
 
 directory nginx_dir do
   rights :full_control, web_server_group, :applies_to_children => true
   rights :full_control, web_server_user,  :applies_to_children => true
 end
 
-ruby_block 'copy_gsg_html_sources' do
+ruby_block 'copy_nginx_exe' do
   block do
 	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
+  end
+  action :run
+end
+
+ruby_block 'copy_nginx_index_html' do
+  block do
+	FileUtils.cp_r "#{install_dir}/embedded/html/.", "#{nginx_html_dir}"
   end
   action :run
 end

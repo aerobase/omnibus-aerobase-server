@@ -83,7 +83,8 @@ nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
 	           :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
 			   :install_dir => install_dir,
       	       :html_dir => nginx_html_dir,
-               :portal_mode => portal_mode
+               :portal_mode => portal_mode,
+			   :windows => os_helper.is_windows?
              })
 
 if nginx_vars['listen_https'].nil?
