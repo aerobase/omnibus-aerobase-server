@@ -34,32 +34,23 @@ build_iteration 1
 # Creates required build directories
 dependency "preparation"
 
-if windows?
-  dependency "postgresql-bin"
-  dependency "nginx-bin"
-else
-  dependency "postgresql"
-  dependency "nginx"
-  dependency "logrotate"
-  dependency "runit"
-end
-
-dependency "cacerts"
-
-# ruby core tools
-dependency "ruby"
-dependency "rubygems"
-dependency "bundler"
+# ruby core tools, chef already include ruby, rubygems, bundler, ohai, appbundler ...
+# ruby includes openssl, cacerts ...
 dependency "chef"
-dependency "omnibus-ctl"
-dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
 dependency "aerobase"
 
+#
+# addons which require omnibus software defns (not direct deps of chef itself - RFC-063)
+#
+dependency "nokogiri" # (nokogiri cannot go in the Gemfile, see wall of text in the software defn)
 
-# Version manifest file
-#dependency "version-manifest"
+# FIXME?: might make sense to move dependencies below into the omnibus-software chef
+#  definition or into a chef-complete definition added to omnibus-software.
+dependency "gem-permissions"
+dependency "shebang-cleanup"
+dependency "version-manifest"
 dependency "openssl-customization"
 
 package :rpm do
