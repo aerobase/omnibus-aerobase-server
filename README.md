@@ -25,8 +25,10 @@ Windows Builds
 --------------
 Required packages:
 - [omnibus-toolchain](https://github.com/aerobase/omnibus-toolchain)
-- WiX Toolset v3.11
-- Windows Kits 10
+- [WiX Toolset v3.11](http://wixtoolset.org/releases/)
+- [Windows Kits 10](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
+- [7zip](https://www.7-zip.org/download.html)
+- Create Directory C:\omnibus-ruby
 
 Any OS
 --------------

@@ -38,6 +38,7 @@ all_vars = unifiedpush_vars.merge(global_vars)
 
 include_recipe "aerobase::wildfly-server"
 include_recipe "aerobase::unifiedpush-server-wildfly-conf"
+include_recipe "aerobase::keycloak-server"
 
 template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"

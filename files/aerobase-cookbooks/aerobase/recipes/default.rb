@@ -95,7 +95,6 @@ include_recipe "aerobase::web-server"
 # Configure Services
 [
   "unifiedpush-server", 
-  "keycloak-server",
   "nginx"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
