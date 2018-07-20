@@ -83,8 +83,7 @@ directory server_dir do
   owner aerobase_user
   group aerobase_group
   mode "0775"
-  action :nothing
-end.run_action(:create)
+end
 
 directory server_dir do
   rights :read, aerobase_group, :applies_to_children => true

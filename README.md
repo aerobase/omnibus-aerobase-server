@@ -28,6 +28,8 @@ Required packages:
 - [WiX Toolset v3.11](http://wixtoolset.org/releases/)
 - [Windows Kits 10](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
 - [7zip](https://www.7-zip.org/download.html)
+- Install .net 3.5 and .net 4+
+- Install [Visual C++ Redistributable 2013](https://www.microsoft.com/en-us/download/confirmation.aspx?id=40784)
 - Create Directory C:\omnibus-ruby
 
 Any OS

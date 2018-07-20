@@ -142,7 +142,7 @@ if os_helper.is_windows?
   end
   
   windows_service 'Aerobase PostgreSQL' do
-    action :configure
+    action :create
     binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"Aerobase PostgreSQL\" -D \"#{postgresql_data_dir}\" -w"
     startup_type :automatic
     description "Aerobase PostgreSQL Instance"
