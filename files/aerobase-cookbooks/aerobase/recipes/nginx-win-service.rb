@@ -25,6 +25,12 @@ install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_html_dir = File.join(nginx_dir, "www/html")
 
+
+# Include the config file for unifiedpush-server in nginx.conf later
+nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
+               :nginx_dir => nginx_dir
+             })
+			 
 directory nginx_dir do
   rights :full_control, web_server_group, :applies_to_children => true
   rights :full_control, web_server_user,  :applies_to_children => true
@@ -36,17 +42,25 @@ directory "#{nginx_dir}/temp" do
   group web_server_group
   mode '0750'
 end
-  
-ruby_block 'copy_nginx_exe' do
-  block do
-	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
-  end
-  action :run
-end
 
 ruby_block 'copy_nginx_index_html' do
   block do
 	FileUtils.cp_r "#{install_dir}/embedded/html/.", "#{nginx_html_dir}"
   end
   action :run
+end
+
+ruby_block 'copy_nginx_exe' do
+  block do
+	FileUtils.cp "#{install_dir}/embedded/apps/winsw/aerobasesw.exe", "#{nginx_dir}"
+  end
+  action :run
+end
+
+template "#{nginx_dir}/aerobasesw.xml" do
+  source "nginx-winsw-config.erb"
+  owner web_server_user
+  group web_server_group
+  mode "0644"
+  variables nginx_vars
 end

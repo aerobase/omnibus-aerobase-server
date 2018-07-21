@@ -24,6 +24,7 @@ dependency "unifiedpush-admin-ui"
 dependency "aerobase-gsg-ui"
 dependency "aerobase-config-template" 
 dependency "aerobase-cookbooks"
+dependency "winsw"
 
 # KC server and themes must be added after cookbooks
 if windows?
