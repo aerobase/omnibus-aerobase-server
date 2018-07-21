@@ -25,7 +25,7 @@ os_helper = OsHelper.new(node)
 
 if os_helper.is_windows?
   tmp_dir = "Temp"
-  command = "init-unifiedpush-db.bat #{install_dir}/#{tmp_dir}"
+  command = "init-unifiedpush-db.bat /#{install_dir}/#{tmp_dir} > #{install_dir}/#{tmp_dir}/initdb.log"
 else
   tmp_dir = "tmp"
   command = "./init-unifiedpush-db.sh --config-path=#{install_dir}/#{tmp_dir}"

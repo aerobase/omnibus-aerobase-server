@@ -30,6 +30,13 @@ directory nginx_dir do
   rights :full_control, web_server_user,  :applies_to_children => true
 end
 
+# Nginx start failed without temp dir.
+directory "#{nginx_dir}/temp" do
+  owner web_server_user
+  group web_server_group
+  mode '0750'
+end
+  
 ruby_block 'copy_nginx_exe' do
   block do
 	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
