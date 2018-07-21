@@ -25,10 +25,10 @@ os_helper = OsHelper.new(node)
 
 if os_helper.is_windows?
   tmp_dir = "Temp"
-  command = "init-unifiedpush-db.bat"
+  command = "init-unifiedpush-db.bat #{install_dir}/#{tmp_dir}"
 else
   tmp_dir = "tmp"
-  command = "./init-unifiedpush-db.sh"
+  command = "./init-unifiedpush-db.sh --config-path=#{install_dir}/#{tmp_dir}"
 end 
 
 directory "#{install_dir}/#{tmp_dir}" do
@@ -49,5 +49,5 @@ end
 
 execute "initialize unifiedpush-server database" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
-  command "#{command} --config-path=#{install_dir}/#{tmp_dir}/db.properties"
+  command "#{command}"
 end
