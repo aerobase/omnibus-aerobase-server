@@ -43,6 +43,23 @@ module ShellOutHelper
   end
 end
 
+class CmdHelper
+  include ShellOutHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+  
+  def success(cmd, user = nil, password = nil)
+    success?(cmd, user, password)
+  end
+  
+  def failure(cmd)
+    failure?(cmd)
+  end
+end
+
 class PgHelper
   include ShellOutHelper
   attr_reader :node

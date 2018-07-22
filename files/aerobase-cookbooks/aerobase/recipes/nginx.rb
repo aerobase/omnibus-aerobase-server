@@ -23,6 +23,7 @@ domain_helper = DomainHelper.new(node)
 web_server_user = account_helper.web_server_user
 web_server_group = account_helper.web_server_group
 
+config_dir = node['package']['config-dir']
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
@@ -31,6 +32,7 @@ nginx_html_dir = File.join(nginx_dir, "www/html")
 nginx_ups_html_dir = File.join(nginx_html_dir, "unifiedpush-server")
 nginx_gsg_html_dir = File.join(nginx_html_dir, "getting-started")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
+nginx_ssl_dir = File.join(config_dir, "ssl")
 
 # These directories do not need to be writable for unifiedpush-server
 [
@@ -41,6 +43,7 @@ nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
   nginx_ups_html_dir,
   nginx_gsg_html_dir,
   nginx_log_dir,
+  nginx_ssl_dir,
 ].each do |dir_name|
   directory dir_name do
     owner web_server_user

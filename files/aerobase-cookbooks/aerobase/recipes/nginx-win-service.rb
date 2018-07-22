@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+cmd_helper = CmdHelper.new(node)
 os_helper = OsHelper.new(node)
 account_helper = AccountHelper.new(node)
 
@@ -70,4 +71,18 @@ template "#{nginx_dir}/aerobasesw.xml" do
   group web_server_group
   mode "0644"
   variables nginx_vars
+end
+
+execute "stop nginx service" do
+  command "#{nginx_dir}/aerobasesw.exe stop"
+  not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
+end
+
+execute "create nginx service" do
+  command "#{nginx_dir}/aerobasesw.exe install"
+  not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
+end
+
+execute "restart nginx service" do
+  command "#{nginx_dir}/aerobasesw.exe restart"
 end
