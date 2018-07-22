@@ -21,6 +21,10 @@ set AEROBASE_HOME=%AEROBASE_HOME:\=/%
 @powershell -Command "(gc %AEROBASE_HOME%\Aerobase\embedded\cookbooks\package\attributes\default.rb) -replace '/var/log/Aerobase', '%AEROBASE_HOME%/Logs' | Out-File %AEROBASE_HOME%\Aerobase\embedded\cookbooks\package\attributes\default.rb -Encoding default"
 @powershell -Command "(gc %AEROBASE_HOME%\Aerobase\embedded\cookbooks\package\attributes\default.rb) -replace '/etc/Aerobase', '%AEROBASE_HOME%/Configuration' | Out-File %AEROBASE_HOME%\Aerobase\embedded\cookbooks\package\attributes\default.rb -Encoding default"
 
+REM Create license accepted file
+mkdir %AEROBASE_HOME%/Data/
+echo "" > %AEROBASE_HOME%/Data/.license.accepted
+
 REM Copy configuration template and set windows defaults
 @powershell -Command "New-Item -ItemType directory -Force -Path '%AEROBASE_HOME%\Configuration'"
 @powershell -Command "if ((Test-Path '%AEROBASE_HOME%\Configuration\aerobase.rb') -eq $False){Copy-Item -Path '%AEROBASE_HOME%\Aerobase\etc\aerobase.rb.template' -Destination '%AEROBASE_HOME%\Configuration\aerobase.rb'}"

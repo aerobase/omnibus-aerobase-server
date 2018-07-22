@@ -52,6 +52,13 @@ end
 
 ruby_block 'copy_nginx_exe' do
   block do
+	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
+  end
+  action :run
+end
+
+ruby_block 'copy_nginx_winsw' do
+  block do
 	FileUtils.cp "#{install_dir}/embedded/apps/winsw/aerobasesw.exe", "#{nginx_dir}"
   end
   action :run
