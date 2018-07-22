@@ -81,7 +81,7 @@ end
 
 execute "create nginx service" do
   command "#{nginx_dir}/aerobasesw.exe install"
-  not_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe status") }
+  not_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe restart") }
 end
 
 execute "restart nginx service" do
