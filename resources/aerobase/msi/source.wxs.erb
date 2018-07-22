@@ -106,6 +106,19 @@
               </Component>
             </Directory>
           </Directory>
+		  <Directory Id="PROJECTDATA" Name="Data" >
+            <Component Id="DataLocationPermissions" Guid="{986f0f71-d3d4-438c-b7fc-fd7c6f5be256}" >
+              <!--
+                Windows client SKUs give the Authenticated Users group modify rights
+                to new folders created. We ONLY want the local system account and any administrator to have that right to protect non admin users from injecting code that could be executed by a service running as SYSTEM
+              -->
+              <CreateFolder>
+                <Permission User="[WIX_ACCOUNT_LOCALSYSTEM]" GenericAll="yes"/>
+                <Permission User="[WIX_ACCOUNT_ADMINISTRATORS]" GenericAll="yes"/>
+                <Permission User="[WIX_ACCOUNT_USERS]" GenericRead="yes" GenericExecute="yes"/>
+              </CreateFolder>
+            </Component>
+		  </Directory>
         </Directory>
       </Directory>
     </Directory>
