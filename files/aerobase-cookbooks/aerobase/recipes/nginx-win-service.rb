@@ -51,11 +51,10 @@ ruby_block 'copy_nginx_index_html' do
   action :run
 end
 
-ruby_block 'copy_nginx_exe' do
-  block do
-	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
-  end
-  action :run
+# Stop service before we copy exe files
+execute "stop nginx service" do
+  command "#{nginx_dir}/aerobasesw.exe stop"
+  not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
 end
 
 ruby_block 'copy_nginx_winsw' do
@@ -73,14 +72,16 @@ template "#{nginx_dir}/aerobasesw.xml" do
   variables nginx_vars
 end
 
-execute "stop nginx service" do
-  command "#{nginx_dir}/aerobasesw.exe stop"
-  not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
+ruby_block 'copy_nginx_exe' do
+  block do
+	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
+  end
+  action :run
 end
 
 execute "create nginx service" do
   command "#{nginx_dir}/aerobasesw.exe install"
-  not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
+  not_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe status") }
 end
 
 execute "restart nginx service" do
