@@ -34,10 +34,16 @@ ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 # Always create default user and group.
 include_recipe "aerobase::users"
 
-directory config_dir do
-  owner aerobase_user
-  group aerobase_group
-  mode "0775"
+# These directories do not need to be writable for unifiedpush-server
+[
+  config_dir,
+  runtime_dir,
+].each do |dir_name|
+  directory dir_name do
+    owner aerobase_user
+    group aerobase_group
+    mode '0775'
+  end
 end
 
 Unifiedpush[:node] = node

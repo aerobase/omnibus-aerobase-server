@@ -34,7 +34,7 @@ nginx_gsg_html_dir = File.join(nginx_html_dir, "getting-started")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 nginx_ssl_dir = File.join(config_dir, "ssl")
 
-# These directories do not need to be writable for unifiedpush-server
+# These directories do not need to be writable for aerobase-group
 [
   nginx_dir,
   nginx_conf_dir,
