@@ -63,6 +63,13 @@
                   Impersonate="no"
                   Return="ignore" />
 				  
+	<CustomAction Id="InstallCRedistributable"
+                  Directory="INSTALLLOCATION"
+                  ExeCommand="powershell -Command &quot;$(var.ProjectLocationDir)\embedded\apps\mscplus\vcredist_x64.exe /q&quot;"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore" />
+				  
     <Binary Id="CustomActionFastMsiDLL"
             SourceFile="CustomActionFastMsi.CA.dll" />
 
@@ -76,6 +83,7 @@
     <InstallExecuteSequence>
       <Custom Action="FastUnzip" After="InstallFiles">NOT Installed</Custom>
 	  <Custom Action="UpdateInstallationPath" After="FastUnzip">NOT Installed</Custom>
+	  <Custom Action="InstallCRedistributable" After="UpdateInstallationPath">NOT Installed</Custom>
       <Custom Action="Cleanup" After="RemoveFiles">REMOVE~="ALL"</Custom>
     </InstallExecuteSequence>
 

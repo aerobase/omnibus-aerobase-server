@@ -14,19 +14,17 @@
 # limitations under the License.
 #
 
-name "winsw"
-default_version "2.1.2"
+name "mscplus"
+default_version "2013"
 license :project_license
 
-version "2.1.2" do
-  source md5: "1f41775fcf14aee2085c5fca5cd99d81"
+version "2013" do
+  source md5: "840fd00248b026d49b82b18a577f862c"
 end
 
-source url: "https://github.com/kohsuke/winsw/releases/download/winsw-v#{version}/WinSW.NET4.exe"
-
-relative_path "winsw"
+source url: "https://github.com/aerobase/microsoft-c-redistributable/releases/download/#{version}/microsoft-c++-redistributable-#{version}_x64.tar.gz"
 
 build do
-  command "mkdir -p #{install_dir}/embedded/apps/winsw"
-  copy "./WinSW.NET4.exe", "#{install_dir}/embedded/apps/winsw/aerobasesw.exe"
+  mkdir "#{install_dir}/embedded/apps/mscplus"
+  copy "./vcredist_x64.exe", "#{install_dir}/embedded/apps/mscplus/vcredist_x64.exe"
 end
