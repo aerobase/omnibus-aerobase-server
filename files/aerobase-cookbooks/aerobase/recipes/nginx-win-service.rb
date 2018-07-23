@@ -53,7 +53,7 @@ end
 
 # Stop service before we copy exe files
 execute "stop nginx service" do
-  command "#{nginx_dir}/aerobasesw.exe stop"
+  command "#{nginx_dir}/aerobasesw.exe uninstall"
   not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
 end
 
@@ -81,7 +81,6 @@ end
 
 execute "create nginx service" do
   command "#{nginx_dir}/aerobasesw.exe install"
-  not_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe restart") }
 end
 
 execute "restart nginx service" do
