@@ -114,7 +114,7 @@ template "#{server_dir}/bin/service.bat" do
   group aerobase_group
   mode 0755
   source "wildfly-service.bat.erb"
-  variables(unifiedpush_vars)
+  variables(unifiedpush_vars.merge(global_vars))
   only_if { os_helper.is_windows? }
 end
 

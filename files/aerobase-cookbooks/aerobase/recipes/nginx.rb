@@ -81,13 +81,13 @@ portal_mode = node['unifiedpush']['global']['portal_mode']
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
                :aerobase_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
-			   :subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
+	       :subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
                :aerobase_http_configd => nginx_confd_dir,
-	           :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
-			   :install_dir => install_dir,
+	       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+	       :install_dir => install_dir,
       	       :html_dir => nginx_html_dir,
                :portal_mode => portal_mode,
-			   :windows => os_helper.is_windows?
+	       :windows => os_helper.is_windows?
              })
 
 if nginx_vars['listen_https'].nil?

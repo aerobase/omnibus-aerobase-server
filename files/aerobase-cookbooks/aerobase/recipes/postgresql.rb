@@ -28,7 +28,8 @@ postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
 postgresql_user = account_helper.postgresql_user
 postgresql_password = account_helper.postgresql_password
 postgresql_group = account_helper.postgresql_group
-aerobase_group = account_helper.aerobase_group
+
+service_label = node['unifiedpush']['global']['srv_label']
 
 account "Postgresql user and group" do
   username postgresql_user
@@ -137,18 +138,18 @@ template File.join(postgresql_data_dir, "pg_ident.conf") do
 end
 
 if os_helper.is_windows?
-  service 'Aerobase PostgreSQL' do
+  service "#{service_label} PostgreSQL" do
     action :stop
   end
   
-  windows_service 'Aerobase PostgreSQL' do
+  windows_service "#{service_label} PostgreSQL" do
     action :create
-    binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"Aerobase PostgreSQL\" -D \"#{postgresql_data_dir}\" -w"
+    binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"#{service_label} PostgreSQL\" -D \"#{postgresql_data_dir}\" -w"
     startup_type :automatic
-    description "Aerobase PostgreSQL Instance"
+    description "#{service_label} PostgreSQL Instance"
   end
 
-  service 'Aerobase PostgreSQL' do
+  service "#{service_label} PostgreSQL" do
     action :restart
   end
 else

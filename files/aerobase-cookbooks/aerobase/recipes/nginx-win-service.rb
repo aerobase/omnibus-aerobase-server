@@ -25,11 +25,12 @@ web_server_group = account_helper.web_server_group
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_html_dir = File.join(nginx_dir, "www/html")
-
+srv_label = node['unifiedpush']['gloabl']['srv_label']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
-               :nginx_dir => nginx_dir
+               :nginx_dir => nginx_dir,
+	       :srv_label => srv_label
              })
 			 
 directory nginx_dir do
@@ -46,7 +47,7 @@ end
 
 ruby_block 'copy_nginx_index_html' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/html/.", "#{nginx_html_dir}"
+    FileUtils.cp_r "#{install_dir}/embedded/html/.", "#{nginx_html_dir}"
   end
   action :run
 end
@@ -63,7 +64,7 @@ end
 
 ruby_block 'copy_nginx_winsw' do
   block do
-	FileUtils.cp "#{install_dir}/embedded/apps/winsw/aerobasesw.exe", "#{nginx_dir}"
+    FileUtils.cp "#{install_dir}/embedded/apps/winsw/aerobasesw.exe", "#{nginx_dir}"
   end
   action :run
 end
@@ -78,7 +79,7 @@ end
 
 ruby_block 'copy_nginx_exe' do
   block do
-	FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
+    FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
   end
   action :run
 end
