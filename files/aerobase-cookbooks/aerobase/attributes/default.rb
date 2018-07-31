@@ -32,7 +32,6 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
-# Windows services labeling only.
 default['unifiedpush']['gloabl']['srv_label'] = "Aerobase"
 
 ####
