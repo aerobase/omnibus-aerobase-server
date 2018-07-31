@@ -125,11 +125,13 @@ default['unifiedpush']['keycloak-server']['ha'] = false
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
 default['unifiedpush']['keycloak-server']['server_https'] = false
 default['unifiedpush']['keycloak-server']['context_root'] = "auth"
-
+# Database properties
 default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_minpoll_size'] = "5"
 default['unifiedpush']['keycloak-server']['db_maxpoll_size'] = "15"
+# Additional realm json files array. e.g ['filepath', 'filepath']
+default['unifiedpush']['keycloak-server']['realm_files'] = []
 
 ###
 # PostgreSQL
