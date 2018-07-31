@@ -51,10 +51,14 @@ ruby_block 'copy_nginx_index_html' do
   action :run
 end
 
-# Stop service before we copy exe files
+# Stop service first
 execute "stop nginx service" do
+  command "echo 'Stoping nginx service ...'"
+  only_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe stop") }
+end
+
+execute "uninstall nginx service" do
   command "#{nginx_dir}/aerobasesw.exe uninstall"
-  not_if { cmd_helper.failure("#{nginx_dir}/aerobasesw.exe stop") }
 end
 
 ruby_block 'copy_nginx_winsw' do
@@ -79,7 +83,7 @@ ruby_block 'copy_nginx_exe' do
   action :run
 end
 
-execute "create nginx service" do
+execute "install nginx service" do
   command "#{nginx_dir}/aerobasesw.exe install"
 end
 
