@@ -16,7 +16,7 @@
 - [NGINX](settings/nginx.md)
 - [Database](settings/database.md)
 - [Backups](settings/backups.md)
-- [OAuth2](settings/OAuth2.md)
+- [OAuth2](settings/oauth2.md)
 - [Logs](settings/logs.md)
 - [Only start unifiedpush-ctl services after a given filesystem is mounted](settings/configuration.md#)
 
