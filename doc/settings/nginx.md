@@ -34,7 +34,7 @@ If you need to use an HTTPS port other than the default (443), just specify it a
 
 In addition proxy-https configuration should be changed to wildfly-standalone-full.xml
 
-    # vi /opt/unifiedpush/embedded/cookbooks/unifiedpush/templates/default/wildfly-standalone-full.xml:
+    # vi /opt/aerobase/embedded/cookbooks/unifiedpush/templates/default/wildfly-standalone-full.xml:
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
         ...
         <socket-binding name="proxy-https" port="2443"/>

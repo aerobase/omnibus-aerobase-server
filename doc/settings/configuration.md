@@ -2,7 +2,7 @@
 
 Aerobase Server is configured by setting relevant options in
 `/etc/aerobase/aerobase.rb`. For a complete list of available options, visit the
-[unifiedpush.rb.template](https://github.com/C-B4/omnibus-unifiedpush-server/blob/master/files/unifiedpush-config-template/unifiedpush.rb.template).
+[aerobase.rb.template](https://github.com/Aerobase/omnibus-unifiedpush-server/blob/master/config/templates/aerobase-config-template/aerobase.rb.template.erb).
 
 
 ### Configuring the external URL for Aerobase
@@ -14,6 +14,20 @@ it needs to know the URL under which it is reached by your users, e.g.
 
 ```ruby
 external_url "http://aerobase.example.com"
+```
+
+Run `sudo aerobase-ctl reconfigure` for the change to take effect.
+
+### Configuring Aerobase services (Windows Only) to your branding name
+_**Warning**_
+Renaming services after first installation is not supported. 
+You must uninstall previous services (Aerobase *) before renaming.
+
+In order for Aerobase to install service names as your company label, Add or edit the following line in
+`/etc/aerobase/aerobase.rb`:
+
+```ruby
+global['srv_label'] = "YOURCOMPNAME"
 ```
 
 Run `sudo aerobase-ctl reconfigure` for the change to take effect.
@@ -39,14 +53,14 @@ Any configuration that is set in `/etc/aerobase/aerobase.rb` after `from_file` i
 ### Storing Documents data in an alternative directory
 
 By default, Aerobase stores documents data under
-`/var/opt/unifiedpush/unifiedpush-server/documents/`: uploads are stored in
-`/var/opt/unifiedpush/unifiedpush-server/documents/`.  You can change the location of
+`/var/opt/aerobase/unifiedpush-server/documents/`: uploads are stored in
+`/var/opt/aerobase/unifiedpush-server/documents/`.  You can change the location of
 the above directories by editing the following lines to
 `/etc/aerobase/aerobase.rb`.
 
 ```ruby
-unifiedpush_server['documents_directory'] = "/var/opt/unifiedpush/unifiedpush-server/documents"
-unifiedpush_server['uploads_directory'] = "/var/opt/unifiedpush/unifiedpush-server/uploads"
+unifiedpush_server['documents_directory'] = "/var/opt/aerobase/unifiedpush-server/documents"
+unifiedpush_server['uploads_directory'] = "/var/opt/aerobase/unifiedpush-server/uploads"
 ```
 
 Note that the target directory and any of its subpaths must not be a symlink.
@@ -55,15 +69,15 @@ Run `sudo aerobase-ctl reconfigure` for the change to take effect.
 
 ### Changing the name of the Aerobase user / group
 
-By default, Aerobase uses the user name `unifiedpush` for ownership of the Aerobase data itself.
+By default, Aerobase uses the user name `aerobase` for ownership of the Aerobase data itself.
 
 We do not recommend changing the user/group of an existing installation because it can cause unpredictable side-effects.
 If you still want to do change the user and group, you can do so by adding the following lines to
 `/etc/aerobase/aerobase.rb`.
 
 ```ruby
-user['username'] = "unifiedpush"
-user['group'] = "unifiedpush"
+user['username'] = "aerobase"
+user['group'] = "aerobase"
 ```
 
 Run `sudo aerobase-ctl reconfigure` for the change to take effect.
@@ -94,8 +108,8 @@ from starting before a given filesystem is mounted, add the following to
 `/etc/aerobase/aerobase.rb`:
 
 ```ruby
-# wait for /var/opt/unifiedpush to be mounted
-high_availability['mountpoint'] = '/var/opt/unifiedpush'
+# wait for /var/opt/aerobase to be mounted
+high_availability['mountpoint'] = '/var/opt/aerobase'
 ```
 
 Run `sudo aerobase-ctl reconfigure` for the change to take effect.
