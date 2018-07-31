@@ -34,10 +34,11 @@ os_helper = OsHelper.new(node)
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
+service_label = node['unifiedpush']['gloabl']['srv_label']
 
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat stop /name Aerobase" do
+  execute "#{server_dir}/bin/service.bat stop /name #{service_label}" do
   only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
 end
@@ -94,7 +95,7 @@ if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat install /startup /config standalone-full-ha.xml" do
   end
 
-  execute "#{server_dir}/bin/service.bat restart /name Aerobase" do
+  execute "#{server_dir}/bin/service.bat restart /name #{service_label}" do
   end
 else
   component_runit_service "unifiedpush-server" do
