@@ -1,4 +1,4 @@
-# Omnibus Unifiedpush documentation
+# Omnibus Aerobase documentation
 
 ## Installation
 
@@ -25,7 +25,7 @@
 
 ## Troubleshooting
 
-- [Unifiedpush is unreachable in my browser](common_installation_problems/README.md#unifiedpush-is-unreachable-in-my-browser).
+- [Aerobase is unreachable in my browser](common_installation_problems/README.md#unifiedpush-is-unreachable-in-my-browser).
 - ['pg_dump: aborting because of server version mismatch'](settings/database.md#using-a-non-packaged-postgresql-database-management-server)
 
 ## Omnibus Unifiedpus developer documentation

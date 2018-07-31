@@ -2,23 +2,23 @@
 ## Enable HTTPS
 _**Warning**_
 
-The Nginx config will tell browsers and clients to only communicate with your Unifiedpush instance over a secure connection for the next 24 months. By enabling HTTPS you'll need to provide a secure connection to your instance for at least the next 24 months.
-By default, Aerobase does not use HTTPS. If you want to enable HTTPS for aerobase.example.com, add the following statement to /etc/unifiedpush/unifiedpush.rb:
+The Nginx config will tell browsers and clients to only communicate with your Aerobase instance over a secure connection for the next 24 months. By enabling HTTPS you'll need to provide a secure connection to your instance for at least the next 24 months.
+By default, Aerobase does not use HTTPS. If you want to enable HTTPS for aerobase.example.com, add the following statement to /etc/aerobase/aerobase.rb:
 
     # note the 'https' below
     external_url "https://aerobase.example.com"
 
-Because the hostname in our example is 'aerobase.example.com', aerobase will look for key and certificate files called /etc/unifiedpush/ssl/aerobase.example.com.key and /etc/unifiedpush/ssl/aerobase.example.com.crt, respectively. Create the /etc/unifiedpush/ssl directory and copy your key and certificate there.
+Because the hostname in our example is 'aerobase.example.com', aerobase will look for key and certificate files called /etc/aerobase/ssl/aerobase.example.com.key and /etc/aerobase/ssl/aerobase.example.com.crt, respectively. Create the /etc/aerobase/ssl directory and copy your key and certificate there.
 
-    sudo mkdir -p /etc/unifiedpush/ssl
-    sudo chmod 700 /etc/unifiedpush/ssl
-    sudo cp aerobase.example.com.key aerobase.example.com.crt /etc/unifiedpush/ssl/
+    sudo mkdir -p /etc/aerobase/ssl
+    sudo chmod 700 /etc/aerobase/ssl
+    sudo cp aerobase.example.com.key aerobase.example.com.crt /etc/aerobase/ssl/
 
 For self-signed certificate, we can create the SSL key and certificate files in one motion by typing:
 
-    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/unifiedpush/ssl/aerobase.example.com.key -out /etc/unifiedpush/ssl/aerobase.example.com.crt
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/aerobase/ssl/aerobase.example.com.key -out /etc/aerobase/ssl/aerobase.example.com.crt
 
-Now run `sudo unifiedpush-ctl reconfigure`. When the reconfigure finishes your Unifiedpus instance should be reachable at https://aerobase.example.com.
+Now run `sudo aerobase-ctl reconfigure`. When the reconfigure finishes your Unifiedpus instance should be reachable at https://aerobase.example.com.
 
 ## Redirect HTTP requests to HTTPS
 
@@ -41,14 +41,14 @@ In addition proxy-https configuration should be changed to wildfly-standalone-fu
         ...
     </socket-binding-group>
     
-To set the location of ssl certificates create /etc/unifiedpush/ssl directory, place the .crt and .key files in the directory and specify the following configuration:
+To set the location of ssl certificates create /etc/aerobase/ssl directory, place the .crt and .key files in the directory and specify the following configuration:
 
-    nginx['ssl_certificate'] = "/etc/unifiedpush/ssl/aerobase.example.crt"
-    nginx['ssl_certificate_key'] = "/etc/unifiedpush/ssl/aerobase.example.com.key"
+    nginx['ssl_certificate'] = "/etc/aerobase/ssl/aerobase.example.crt"
+    nginx['ssl_certificate_key'] = "/etc/aerobase/ssl/aerobase.example.com.key"
 
 ## Setting the NGINX listen address or addresses
 
-By default NGINX will accept incoming connections on all local IPv4 addresses. You can change the list of addresses in /etc/unifiedpush/unifiedpush.rb.
+By default NGINX will accept incoming connections on all local IPv4 addresses. You can change the list of addresses in /etc/aerobase/aerobase.rb.
 
     nginx['listen_addresses'] = ["0.0.0.0", "[::]"] # listen on all IPv4 and IPv6 addresses
 
@@ -69,7 +69,7 @@ will have to perform the following steps:
 
 1. **Disable bundled Nginx**
 
-    In `/etc/unifiedpush/unifiedpush.rb` set:
+    In `/etc/aerobase/aerobase.rb` set:
 
     ```ruby
     nginx['enable'] = false
