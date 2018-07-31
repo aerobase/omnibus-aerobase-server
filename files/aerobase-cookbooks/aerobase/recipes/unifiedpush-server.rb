@@ -23,7 +23,6 @@ install_dir = node['package']['install-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
-server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
 server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
@@ -71,9 +70,9 @@ directory "#{server_dir}/themes" do
 end
 
 # Copy themes
-ruby_block 'copy_wildfly_sources' do
+ruby_block 'copy_theme_sources' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/apps/themes/.", "#{server_dir}/themes"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/themes/.", "#{server_dir}/themes"
   end
   action :run
 end
@@ -106,4 +105,3 @@ else
     retries 20
   end
 end
-
