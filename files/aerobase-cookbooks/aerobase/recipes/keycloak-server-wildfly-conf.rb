@@ -32,4 +32,15 @@ template "#{server_dir}/standalone/configuration/keycloak-server-ups-realm.json"
   variables(keycloak_vars.merge(global_vars))
 end
 
+# install default-keycloak-subsys-config.cli to cli directory
+# update default-keycloak-subsys-config.cli.erb on KC version upgrade
+# keycloak-overlay-X-X-X.Final/modules/system/layers/keycloak/org/keycloak/keycloak-wildfly-server-subsystem/main/keycloak-wildfly-server-subsystem-3.4.3.Final.jar
+template "#{server_dir}/cli/default-keycloak-subsys-config.cli" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "keycloak-subsys-config.cli.erb"
+  variables(keycloak_vars.merge(global_vars))
+end
+
 include_recipe "aerobase::keycloak-embeded-wildfly-conf"

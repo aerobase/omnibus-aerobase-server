@@ -126,6 +126,7 @@ default['unifiedpush']['keycloak-server']['ha'] = false
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
 default['unifiedpush']['keycloak-server']['server_https'] = false
 default['unifiedpush']['keycloak-server']['context_root'] = "auth"
+default['unifiedpush']['keycloak-server']['theme_cache'] = true
 # Database properties
 default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
