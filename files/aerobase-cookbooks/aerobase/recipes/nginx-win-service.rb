@@ -60,6 +60,7 @@ end
 
 execute "uninstall nginx service" do
   command "#{nginx_dir}/aerobasesw.exe uninstall"
+  only_if {File.exists?("#{nginx_dir}/aerobasesw.exe") }
 end
 
 ruby_block 'copy_nginx_winsw' do
