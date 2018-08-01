@@ -25,13 +25,18 @@ web_server_group = account_helper.web_server_group
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_html_dir = File.join(nginx_dir, "www/html")
-srv_label = node['unifiedpush']['gloabl']['srv_label']
 
-# Include the config file for unifiedpush-server in nginx.conf later
+global_vars = node['unifiedpush']['global'].to_hash
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
                :nginx_dir => nginx_dir,
-	       :srv_label => srv_label
              })
+all_vars = nginx_vars.merge(global_vars)
+
+# Stop service first
+execute "stop nginx service" do
+  command "echo 'Stoping nginx service ...'"
+  only_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe stop") }
+end
 			 
 directory nginx_dir do
   rights :full_control, web_server_group, :applies_to_children => true
@@ -52,15 +57,9 @@ ruby_block 'copy_nginx_index_html' do
   action :run
 end
 
-# Stop service first
-execute "stop nginx service" do
-  command "echo 'Stoping nginx service ...'"
-  only_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe stop") }
-end
-
 execute "uninstall nginx service" do
   command "#{nginx_dir}/aerobasesw.exe uninstall"
-  only_if {File.exists?("#{nginx_dir}/aerobasesw.exe") }
+  only_if { ::File.exist? "#{nginx_dir}/aerobasesw.exe" }
 end
 
 ruby_block 'copy_nginx_winsw' do
@@ -75,7 +74,7 @@ template "#{nginx_dir}/aerobasesw.xml" do
   owner web_server_user
   group web_server_group
   mode "0644"
-  variables nginx_vars
+  variables all_vars
 end
 
 ruby_block 'copy_nginx_exe' do
