@@ -37,6 +37,12 @@ execute "stop nginx service" do
   command "echo 'Stoping nginx service ...'"
   only_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe stop") }
 end
+
+ruby_block "Waiting 5 seconds for nginx service to stop ..." do
+  block do
+    sleep 5
+  end
+end
 			 
 directory nginx_dir do
   rights :full_control, web_server_group, :applies_to_children => true

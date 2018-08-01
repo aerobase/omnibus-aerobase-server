@@ -32,7 +32,7 @@ unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 
 include_recipe "aerobase::postgresql-module-wildfly-conf"
 
-ruby_block 'copy_wildfly_sources' do
+ruby_block 'copy_keycloak_sources' do
   block do
 	FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/.", "#{server_dir}"
   end
