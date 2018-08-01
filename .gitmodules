@@ -54,3 +54,6 @@
 	path = files/aerobase-cookbooks/systemd
 	url = https://github.com/nathwill/chef-systemd.git
 	branch = v2.1.3
+[submodule "chef_handler"]
+	path = files/aerobase-cookbooks/chef_handler
+	url = https://github.com/chef-boneyard/chef_handler.git
