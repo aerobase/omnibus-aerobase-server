@@ -63,9 +63,3 @@
 [submodule "packagecloud"]
 	path = files/aerobase-cookbooks/packagecloud
 	url = https://github.com/computology/packagecloud-cookbook.git
-[submodule "runit"]
-	path = files/aerobase-cookbooks/files/aerobase-cookbooks/runit
-	url = https://github.com/chef-cookbooks/runit.git
-[submodule "yum-epel"]
-	path = files/aerobase-cookbooks/files/aerobase-cookbooks/yum-epel
-	url = https://github.com/chef-cookbooks/yum-epel.git
