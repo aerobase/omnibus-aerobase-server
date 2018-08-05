@@ -14,17 +14,69 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-add_command 'props', 'Update default aerobase properties', 2 do |cmd_name, props|
+def is_numeric?(s)
+  begin
+    Float(s)
+  rescue
+    false # not numeric
+  else
+    true # numeric
+  end
+end
+
+def is_boolean?(s)
+  if s == 'true' || s == 'false'
+    return true
+  else
+    return false
+  end
+end
+
+add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
   
   # Default location of install-dir is /opt/aerobase/. This path is set during build time.
   # DO NOT change this value unless you are building your own Aerobase packages
   if !::File.exists? "#{etc_path}/aerobase.rb" then
-    log 'It looks like aerobase has not been installed yet; skipping the update '\
-      'script.'
-    exit! 0
+    abort('It looks like aerobase has not been installed yet; skipping the update '\
+      'script.')
   end
   
-  # log "Using aerobase config from #{etc_path}/aerobase.rb, Applying #{props}"
+  if props.nil? 
+    abort('Missing input properties')
+  end	
+  
+  tokens = props.split(";;")
+  if !tokens.any?
+    abort("Input #{tokens} is missing required properties")
+  end	
+  
+  # example=".*(unifiedpush_server\\['db_sslrootcert'\\]).*"
 
+  File.readlines('C:/Aerobase/Configuration/aerobase.rb').each do |line|
+    match = false
+    tokens.each { |token| 
+	  prop = token.split("=")
+	  if !prop.any? || prop.length < 2
+        abort("Property #{token} requires left hand and right hand elements!")
+      end	
+	  # Convert token to regex expression
+	  regex = ".*(" + prop[0].sub(".", "['") + "']).*"
+	  regex = regex.sub("[", "\\[").sub("]", "\\]")
+	  part = line[/#{regex}/,1]
+	  
+	  if part
+	    # Evaluate boolean or numeric values 
+		if is_boolean?(prop[1]) || is_numeric?(prop[1])
+  	      puts part + "=" + prop[1]
+		else
+		  puts part + "=\"" + prop[1] + "\""
+		end
+		match = true
+	  end
+	}
+	if !match
+	  puts line
+	end 
+  end
 end
 
