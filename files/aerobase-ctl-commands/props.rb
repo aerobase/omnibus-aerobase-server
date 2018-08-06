@@ -14,6 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# Usage example:  aerobase-ctl.bat prop "unifiedpush_server.db_sslrootcert=TEST;;unifiedpush_server.db_sslmode=111"
+# Output: unifiedpush_se+rver['db_sslrootcert']="TEST"
+# Output: unifiedpush_server['db_sslmode']=111
+
 def is_numeric?(s)
   begin
     Float(s)
@@ -50,33 +55,50 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
     abort("Input #{tokens} is missing required properties")
   end	
   
-  # example=".*(unifiedpush_server\\['db_sslrootcert'\\]).*"
+  # regexExample = ".*(unifiedpush_server\\['db_sslrootcert'\\]).*"
 
-  File.readlines('C:/Aerobase/Configuration/aerobase.rb').each do |line|
-    match = false
+  conf = File.open("#{etc_path}/aerobase.rb", File::RDWR)
+  lines = conf.readlines
+  conf.seek(0)
+  
+  lines.each do |line|
+    match=false
+	
     tokens.each { |token| 
 	  prop = token.split("=")
 	  if !prop.any? || prop.length < 2
         abort("Property #{token} requires left hand and right hand elements!")
       end	
+	  
+	  # For single level prop use space as equality. 
+	  # nonly 'external_url' should be declared in a single level.
+	  equality=" "
+	  
 	  # Convert token to regex expression
-	  regex = ".*(" + prop[0].sub(".", "['") + "']).*"
-	  regex = regex.sub("[", "\\[").sub("]", "\\]")
+	  if prop[0].include? "."
+	    # Case for two levels props, e.g 'unifiedpush_server.db_sslrootcert'
+	    prop[0] = prop[0].sub(".", "\\['") + "'\\]"
+		equality = " = "
+	  end
+	  
+	  # Wrap property key as regex $
+	  regex = ".*(" + prop[0] + ").*"
+	  
+	  # Extract regex $1
 	  part = line[/#{regex}/,1]
 	  
-	  if part
+	  if !part.nil? && !part.empty?
 	    # Evaluate boolean or numeric values 
 		if is_boolean?(prop[1]) || is_numeric?(prop[1])
-  	      puts part + "=" + prop[1]
+  	      conf.puts part + equality + prop[1]
 		else
-		  puts part + "=\"" + prop[1] + "\""
+		  conf.puts part + equality + "\"" + prop[1] + "\""
 		end
 		match = true
 	  end
 	}
 	if !match
-	  puts line
+	  conf.puts line
 	end 
   end
 end
-
