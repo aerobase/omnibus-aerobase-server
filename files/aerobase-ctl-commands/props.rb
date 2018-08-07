@@ -89,8 +89,8 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
 	  part = line[/#{regex}/,1]
 	  
 	  if !part.nil? && !part.empty?
-	    # Evaluate boolean or numeric values 
-		if is_boolean?(prop[1]) || is_numeric?(prop[1])
+	    # Evaluate boolean, numeric or array values 
+		if is_boolean?(prop[1]) || is_numeric?(prop[1]) || prop[1].start_with?("[")
   	      conf.puts part + equality + prop[1]
 		else
 		  conf.puts part + equality + "\"" + prop[1] + "\""
