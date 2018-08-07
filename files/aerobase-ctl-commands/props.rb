@@ -55,8 +55,9 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
     abort("Input #{tokens} is missing required properties")
   end	
   
-  # regexExample = ".*(unifiedpush_server\\['db_sslrootcert'\\]).*"
-
+  # Backup config file
+  FileUtils.cp("#{etc_path}/aerobase.rb", "#{etc_path}/aerobase.rb-" + Time.now.strftime("%Y-%m-%d-%H%M%S"))
+   
   conf = File.open("#{etc_path}/aerobase.rb", File::RDWR)
   lines = conf.readlines
   conf.seek(0)
