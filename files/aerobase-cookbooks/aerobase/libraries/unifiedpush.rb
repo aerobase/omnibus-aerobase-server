@@ -109,7 +109,11 @@ module Unifiedpush
       # unifiedpush.
 	  
 	  # Use either mssql or postgresql props
-	  db_adapter =  node['unifiedpush']['unifiedpush-server']['db_adapter']
+	  db_adapter =  Unifiedpush['unifiedpush_server']['db_adapter']
+	  if db_adapter.nil?
+	     # Use default if no override was specified
+	     db_adapter =  node['unifiedpush']['unifiedpush-server']['db_adapter']
+	  end
       [
         # %w{unifiedpush_server db_username} corresponds to
         # Unifiedpush['unifiedpush_server']['db_username'], etc.

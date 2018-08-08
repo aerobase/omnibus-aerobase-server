@@ -55,4 +55,3 @@ ERR
 end
   
 include_recipe "aerobase::mssql_user_and_db"
-#include_recipe "aerobase::mssql_schema" 

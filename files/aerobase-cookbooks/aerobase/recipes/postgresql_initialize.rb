@@ -55,4 +55,3 @@ ERR
 end
   
 include_recipe "aerobase::postgresql_user_and_db"
-include_recipe "aerobase::postgresql_schema" 

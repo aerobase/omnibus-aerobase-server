@@ -100,6 +100,7 @@ if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'mssql'
   include_recipe "aerobase::mssql_initialize"
 end
 
+include_recipe "aerobase::database_schema"
 include_recipe "aerobase::web-server"
 
 # Configure Services

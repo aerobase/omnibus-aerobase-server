@@ -81,7 +81,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"
-## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_user, listen_address, port]
+## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_ups_user, listen_address, port]
 ## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_ups_user, listen_address, port
 # unifiedpush_server['db_username'] = "aerobase_server"
 # unifiedpush_server['db_password'] = nil
@@ -104,7 +104,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # keycloak_server['cache_owners'] = 1
 # keycloak_server['theme_cache'] = true
 # keycloak_server['db_database'] = "keycloak_server"
-## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_user, listen_address, port]
+## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_kc_user, listen_address, port]
 ## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_kc_user, listen_address, port
 # keycloak_server['db_username'] = "keycloak_server"
 # keycloak_server['db_password'] = nil
@@ -164,6 +164,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # mssql['password'] = "sa"
 # mssql['logon'] = true
 # mssql['azure_logon'] = false 
+# mssql['instance'] = nil
 
 ###
 # Apache Cassandra 
