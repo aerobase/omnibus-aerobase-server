@@ -28,7 +28,6 @@ aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
-unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 
 include_recipe "aerobase::postgresql-module-wildfly-conf"
 
@@ -44,7 +43,7 @@ template "#{server_dir}/cli/keycloak-server-wildfly.cli" do
   group aerobase_group
   mode 0755
   source "keycloak-server-wildfly-cli.erb"
-  variables(unifiedpush_vars.merge(keycloak_vars).merge({
+  variables(keycloak_vars.merge({
       :server_dir => "#{server_dir}"
     }
   ))

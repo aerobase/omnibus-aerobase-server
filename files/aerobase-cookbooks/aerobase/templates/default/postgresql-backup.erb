@@ -13,7 +13,7 @@ HOSTNAME=<%= node['unifiedpush']['unifiedpush-server']['db_host'] %>
 PORTNUM=<%= node['unifiedpush']['unifiedpush-server']['db_port'] %>
 
 # Optional username to connect to database as.  Will default to "postgres" if none specified.
-USERNAME=<%= node['unifiedpush']['postgresql']['sql_user'] %>
+USERNAME=<%= node['unifiedpush']['postgresql']['sql_ups_user'] %>
  
 # This dir will be created if it doesn't exist.  This must be writable by the user the script is
 # running as.
