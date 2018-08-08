@@ -16,26 +16,26 @@
 #
 
 account_helper = AccountHelper.new(node)
-postgresql_user = account_helper.postgresql_user
-postgresql_password = account_helper.postgresql_password
+mssql_user = account_helper.mssql_user
+mssql_password = account_helper.mssql_password
 
 # NOTE: These recipes are written idempotently, but require a running
-# PostgreSQL service.  They should run each time (on the appropriate
+# MSSQL service.  They should run each time (on the appropriate
 # backend machine, of course), because they also handle schema
 # upgrades for new releases of AeroBase.  As a result, we can't
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
-if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
-  ruby_block "wait for postgresql to start" do
+if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'mssql'
+  ruby_block "wait for mssql to start" do
     block do
-      pg_helper = PgHelper.new(node)
+      mssql_helper = MsSQLHelper.new(node)
       connectable = false
       2.times do |i|
         # Note that we have to include the port even for a local pipe, because the port number
         # is included in the pipe default.
 		
-        if !pg_helper.psql_cmd(["-d \"postgres\"", "-c \"SELECT * FROM pg_database\" -t -A"], postgresql_user, postgresql_password)
-          Chef::Log.fatal("Could not connect to database, retrying in 10 seconds.")
+        if !mssql_helper.mssql_exec(["\"SELECT (1+1)\""])
+          Chef::Log.fatal("Could not connect mssql database, retrying in 10 seconds...")
           sleep 10
         else
           connectable = true
@@ -45,8 +45,8 @@ if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
 
       unless connectable
         Chef::Log.fatal <<-ERR
-Could not connect to the postgresql database.
-Please check /var/log/unifiedpush/posgresql/current for more information.
+Could not connect to the msswl database.
+Please check your conneciton properties and verify host is avaialble.
 ERR
         exit!(1)
       end
@@ -54,5 +54,5 @@ ERR
   end
 end
   
-include_recipe "aerobase::postgresql_user_and_db"
-include_recipe "aerobase::postgresql_schema" 
+include_recipe "aerobase::mssql_user_and_db"
+#include_recipe "aerobase::mssql_schema" 

@@ -67,7 +67,7 @@ listen_addresses = '<%= node['unifiedpush']['postgresql']['listen_address'] %>'	
 port = <%= node['unifiedpush']['postgresql']['port'] %>				# (change requires restart)
 max_connections = <%= node['unifiedpush']['postgresql']['max_connections'] %>			# (change requires restart)
 #superuser_reserved_connections = 3	# (change requires restart)
-unix_socket_directories = '<%= node['unifiedpush']['postgresql']['unix_socket_directory'] %>' # comma-separated list of directories
+unix_socket_directories = '<%= node['unifiedpush']['postgresql']['server'] %>' # comma-separated list of directories
 					# (change requires restart)
 #unix_socket_group = ''			# (change requires restart)
 #unix_socket_permissions = 0777		# begin with 0 to use octal notation

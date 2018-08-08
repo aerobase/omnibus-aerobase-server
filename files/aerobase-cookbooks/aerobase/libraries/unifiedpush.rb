@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015
+# Copyright:: Copyright (c) 2018, Aerobase Inc
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,6 +41,7 @@ module Unifiedpush
   cassandra Mash.new
   cassandra_config Mash.new
   postgresql Mash.new
+  mssql Mash.new
   unifiedpush_server Mash.new
   keycloak_server Mash.new
   nginx Mash.new
@@ -102,16 +103,22 @@ module Unifiedpush
       end
     end
 
-    def parse_postgresql_settings
+    def parse_database_settings
       # If the user wants to run the internal Postgres service using an alternative
       # DB username, host or port, then those settings should also be applied to
       # unifiedpush.
+	  
+	  # Use either mssql or postgresql props
+	  db_adapter =  node['unifiedpush']['unifiedpush-server']['db_adapter']
       [
         # %w{unifiedpush_server db_username} corresponds to
         # Unifiedpush['unifiedpush_server']['db_username'], etc.
-        [%w{unifiedpush_server db_username}, %w{postgresql sql_user}],
-        [%w{unifiedpush_server db_host}, %w{postgresql listen_address}],
-        [%w{unifiedpush_server db_port}, %w{postgresql port}]
+        [%w{unifiedpush_server db_username}, %W{#{db_adapter} sql_ups_user}],
+        [%w{unifiedpush_server db_host}, %W{#{db_adapter} listen_address}],
+        [%w{unifiedpush_server db_port}, %W{#{db_adapter} port}],
+		[%w{keycloak_server db_username}, %W{#{db_adapter} sql_ks_user}],
+        [%w{keycloak_server db_host}, %W{#{db_adapter} listen_address}],
+        [%w{keycloak_server db_port}, %W{#{db_adapter} port}]
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
           # If the user explicitly sets a value for e.g.
@@ -119,7 +126,8 @@ module Unifiedpush
           # that.
           next
         end
-
+		puts right.first
+		puts right.last
         better_value_from_unifiedpush_rb = Unifiedpush[right.first][right.last]
         default_from_attributes = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
         Unifiedpush[left.first][left.last] = better_value_from_unifiedpush_rb || default_from_attributes
@@ -200,6 +208,7 @@ module Unifiedpush
         "logging",
         "logrotate",
         "postgresql",
+		"mssql",
         "external_url"
       ].each do |key|
         rkey = key.gsub('_', '-')
@@ -213,7 +222,7 @@ module Unifiedpush
     def generate_config(node_name)
       # generate_secrets(node_name)
       parse_external_url
-      parse_postgresql_settings
+      parse_database_settings
       parse_cassandra_settings
       parse_nginx_listen_address
       parse_nginx_listen_ports

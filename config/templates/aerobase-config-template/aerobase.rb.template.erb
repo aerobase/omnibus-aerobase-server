@@ -81,14 +81,14 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['db_adapter'] = "postgresql"
 # unifiedpush_server['db_encoding'] = "unicode"
 # unifiedpush_server['db_database'] = "unifiedpush_server"
-# unifiedpush_server['db_pool'] = 10
-## db_username, db_host, db_port oveeridden by PostgreSQL properties [sql_user, listen_address, port]
-## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql sql_user, listen_address, port
+## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_user, listen_address, port]
+## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_ups_user, listen_address, port
 # unifiedpush_server['db_username'] = "aerobase_server"
 # unifiedpush_server['db_password'] = nil
-## Postgresql host over TCP connection, java jdbc does not support unix socket.
+## Database host over TCP connection, java jdbc does not support unix socket.
 # unifiedpush_server['db_host'] = "localhost"
 # unifiedpush_server['db_port'] = 5432
+# unifiedpush_server['db_pool'] = 10
 # unifiedpush_server['db_socket'] = nil
 # unifiedpush_server['db_sslmode'] = nil
 # unifiedpush_server['db_sslrootcert'] = nil
@@ -101,24 +101,30 @@ external_url 'GENERATED_EXTERNAL_URL'
 # When keycloak-server is disabled, server_host should point to external URL.
 # keycloak_server['server_host'] = node['fqdn']
 # keycloak_server['server_https'] = false
+# keycloak_server['cache_owners'] = 1
 # keycloak_server['theme_cache'] = true
-# keycloak_server['db_username'] = "keycloak_server"
 # keycloak_server['db_database'] = "keycloak_server"
-# keycloak_server['db_maxpoll_size'] = "15"
+## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_user, listen_address, port]
+## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_kc_user, listen_address, port
+# keycloak_server['db_username'] = "keycloak_server"
+# keycloak_server['db_password'] = nil
+# keycloak_server['db_host'] = "localhost"
+# keycloak_server['db_port'] = 5432
+# keycloak_server['db_pool'] = "10"
 # keycloak_server['context_root'] = "auth"
 ## Additional realm files array. e.g ['filepath', 'filepath']
 # keycloak_server['realm_files'] = []
 
 ###
-# PostgreSQL - Disabled for non unix OS
+# PostgreSQL - Default database
 ###
-# postgresql['enable'] = "true"
+# postgresql['enable'] = true
 # postgresql['ha'] = false
 # postgresql['dir'] = "#{node['package']['runtime-dir']}/postgresql"
 # postgresql['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
 # postgresql['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
 ## Unix socket directory is supported only for linux.
-# postgresql['unix_socket_directory'] = "localhost"
+# postgresql['server'] = "localhost"
 # postgresql['username'] = "aerobase-sql"
 ## Used only under windows os
 # postgresql['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
@@ -130,7 +136,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
 # postgresql['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
 # postgresql['bin_dir'] = "#{node['package']['install-dir']}/embedded/bin"
-# postgresql['sql_user'] = "aerobase_server"
+# postgresql['sql_ups_user'] = "aerobase_server"
+# postgresql['sql_kc_user'] = "keycloak_server"
 # postgresql['port'] = 5432
 # postgresql['listen_address'] = 'localhost'
 # postgresql['max_connections'] = 200
@@ -146,6 +153,17 @@ external_url 'GENERATED_EXTERNAL_URL'
 # postgresql['checkpoint_timeout'] = "5min"
 # postgresql['checkpoint_completion_target'] = 0.9
 # postgresql['checkpoint_warning'] = "30s"
+
+###
+# MSSQL - Installation is not supported, only jdbc/odbc usage.
+# Since we don't install mssql, username/password referrer db and not os.
+###
+# mssql['server'] = "localhost"
+# mssql['port'] = 1433
+# mssql['username'] = "sa"
+mssql['password'] = "sa"
+# mssql['logon'] = true
+# mssql['azure_logon'] = false 
 
 ###
 # Apache Cassandra 

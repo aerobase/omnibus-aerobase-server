@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015
+# Copyright:: Copyright (c) 2018, Aerobase Inc
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -94,6 +94,10 @@ end
 # Schama must be configured before unifiedpush-server is started.
 if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
   include_recipe "aerobase::postgresql_initialize"
+end
+
+if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'mssql'
+  include_recipe "aerobase::mssql_initialize"
 end
 
 include_recipe "aerobase::web-server"

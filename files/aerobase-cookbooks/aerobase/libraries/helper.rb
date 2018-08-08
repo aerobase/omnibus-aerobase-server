@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015
+# Copyright:: Copyright (c) 2018, Aerobase Inc
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,11 +68,6 @@ class PgHelper
     @node = node
   end
 
-  def is_running?
-    omnibus_helper = OmnibusHelper.new(node)
-    omnibus_helper.service_up?("postgresql")
-  end
-
   def database_exists?(db_name, user = nil, password = nil)
     if OsHelper.new(node).is_windows?
 	  grep_cmd = "findstr"
@@ -126,9 +121,77 @@ class PgHelper
   end
 
   def pg_host
-    node['unifiedpush']['postgresql']['unix_socket_directory']
+    node['unifiedpush']['postgresql']['server']
   end
 
+end
+
+class MsSQLHelper
+  include ShellOutHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+
+  def database_exists?(db_name, user = nil, password = nil)
+    mssql_exec(["\"SELECT name FROM master.dbo.sysdatabases WHERE name = '#{db_name}'\"", "|findstr \"#{db_name}\""])
+  end
+
+  def user_exists?(db_user, user = nil, password = nil)
+    mssql_exec(["\"SELECT name FROM [sys].[server_principals] WHERE  name = '#{db_user}'\"", "|findstr \"#{db_user}\""])
+  end
+
+  def mssql_exec(cmd_list, user = nil, password = nil)
+    cmd = mssql_cmd(cmd_list)	
+    success?(cmd, user, password)
+  end
+  
+  def mssql_cmd(cmd_list)
+    install_dir = node['package']['install-dir']
+	cmd = []
+	
+	cmd << "sqlcmd -b"
+	
+    cmd << "-S #{mssql_server}"
+	if mssql_logon
+	  cmd << "-U #{mssql_user} -P #{mssql_password}"
+	else
+      cmd << "-E"
+	end
+    if mssql_azure_logon
+	  cmd << "-G"
+	end
+
+	cmd << "-Q"
+    cmd << cmd_list.join(" ")
+    cmd = cmd.join(" ")	
+	cmd
+  end 
+
+  def mssql_logon
+    node['unifiedpush']['mssql']['logon']
+  end
+  
+  def mssql_azure_logon
+    node['unifiedpush']['mssql']['azure_logon']
+  end
+  
+  def mssql_user
+    node['unifiedpush']['mssql']['username']
+  end
+
+  def mssql_password
+    node['unifiedpush']['mssql']['password']
+  end
+  
+  def mssql_port
+    node['unifiedpush']['mssql']['port']
+  end
+
+  def mssql_server
+    node['unifiedpush']['mssql']['server']
+  end
 end
 
 class SecretsHelper

@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015
+# Copyright:: Copyright (c) 2018, Aerobase Inc
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -106,13 +106,13 @@ default['unifiedpush']['unifiedpush-server']['cas_consistencylevel'] = "LOCAL_ON
 default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
 default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"
-default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
-# db_username, db_host, db_port oveeride PostgreSQL properties [sql_user, listen_address, port]
+# db_username, db_host, db_port oveeride PostgreSQL properties [sql_ups_user, listen_address, port]
 default['unifiedpush']['unifiedpush-server']['db_username'] = "aerobase_server"
 default['unifiedpush']['unifiedpush-server']['db_password'] = nil
 # Postgresql host over TCP connection, java jdbc does not support unix socket.
 default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
 default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
+default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
@@ -126,12 +126,16 @@ default['unifiedpush']['keycloak-server']['ha'] = false
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
 default['unifiedpush']['keycloak-server']['server_https'] = false
 default['unifiedpush']['keycloak-server']['context_root'] = "auth"
+default['unifiedpush']['keycloak-server']['cache_owners'] = 1
 default['unifiedpush']['keycloak-server']['theme_cache'] = true
 # Database properties
-default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
+# db_username, db_host, db_port oveeride PostgreSQL properties [sql_kc_user, listen_address, port]
 default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
-default['unifiedpush']['keycloak-server']['db_minpoll_size'] = "5"
-default['unifiedpush']['keycloak-server']['db_maxpoll_size'] = "15"
+default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
+default['unifiedpush']['keycloak-server']['db_password'] = nil
+default['unifiedpush']['keycloak-server']['db_host'] = "localhost"
+default['unifiedpush']['keycloak-server']['db_port'] = 5432
+default['unifiedpush']['keycloak-server']['db_pool'] = "10"
 # Additional realm json files array. e.g ['filepath', 'filepath']
 default['unifiedpush']['keycloak-server']['realm_files'] = []
 
@@ -146,7 +150,7 @@ default['unifiedpush']['postgresql']['log_directory'] = "#{node['package']['logs
 default['unifiedpush']['postgresql']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
 # Unix socket directory is supported only for linux.
-default['unifiedpush']['postgresql']['unix_socket_directory'] = "localhost"
+default['unifiedpush']['postgresql']['server'] = "localhost"
 default['unifiedpush']['postgresql']['username'] = "aerobase-sql"
 # Used only under windows os
 default['unifiedpush']['postgresql']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
@@ -158,7 +162,8 @@ default['unifiedpush']['postgresql']['home'] = "#{node['package']['runtime-dir']
 # defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
 default['unifiedpush']['postgresql']['bin_dir'] = "#{node['package']['install-dir']}/embedded/bin"
-default['unifiedpush']['postgresql']['sql_user'] = "aerobase_server"
+default['unifiedpush']['postgresql']['sql_ups_user'] = "aerobase_server"
+default['unifiedpush']['postgresql']['sql_kc_user'] = "keycloak_server"
 default['unifiedpush']['postgresql']['port'] = 5432
 default['unifiedpush']['postgresql']['listen_address'] = 'localhost'
 default['unifiedpush']['postgresql']['max_connections'] = 200
@@ -186,6 +191,16 @@ default['unifiedpush']['postgresql']['max_wal_size'] = "1GB"
 default['unifiedpush']['postgresql']['checkpoint_timeout'] = "5min"
 default['unifiedpush']['postgresql']['checkpoint_completion_target'] = 0.9
 default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
+
+###
+# MSSQL - Installation is not supported, only jdbc/odbc usage.
+###
+default['unifiedpush']['mssql']['server'] = "localhost"
+default['unifiedpush']['mssql']['port'] = 1433
+default['unifiedpush']['mssql']['username'] = "sa"
+default['unifiedpush']['mssql']['password'] = "sa"
+default['unifiedpush']['mssql']['logon'] = true
+default['unifiedpush']['mssql']['azure_logon'] = false 
 
 ###
 # Apache Cassandra

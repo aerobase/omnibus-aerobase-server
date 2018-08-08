@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2015.
+# Copyright:: Copyright (c) 2018, Aerobase Inc
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,6 +58,14 @@ class AccountHelper
     node['unifiedpush']['user']['group']
   end
   
+  def mssql_user
+    node['unifiedpush']['mssql']['username']
+  end
+  
+  def mssql_password
+    node['unifiedpush']['mssql']['password']
+  end
+  
   def cassandra_user
     node['unifiedpush']['cassandra']['user']
   end
@@ -92,4 +100,3 @@ class AccountHelper
       )
   end
 end
-
