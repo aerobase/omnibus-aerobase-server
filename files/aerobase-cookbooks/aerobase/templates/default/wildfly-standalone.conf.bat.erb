@@ -75,12 +75,10 @@ rem set "SECMGR=true"
 rem # Uncomment this out to control garbage collection logging
 rem set "GC_LOG=true"
 
-# Load Application properties from a local file.
+rem # Load Application properties from a local file.
 set "JAVA_OPTS=%JAVA_OPTS% -Daerobase.config.dir=/<%= @dir %>/etc/"
 
-# Cluster configuration - Set private address to required subnet
+rem # Cluster configuration - Set private address to required subnet
 set "JAVA_OPTS=%JAVA_OPTS% -Djboss.bind.address.private=<%= @server_address %>"
-
-LAUNCH_JBOSS_IN_BACKGROUND=1
 
 :JAVA_OPTS_SET
