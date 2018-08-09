@@ -48,7 +48,7 @@ if database_adapter == "mssql"
   jdbc_type = "sqlserver"
   jdbc_instance = "\\#{mssql_instance}"
   jdbc_properties = mssql_login ? ";user=#{database_username};password=#{database_username};" : ";integratedSecurity=true;"
-  jdbc_hbm_dialect = "org.hibernate.dialect.SQLServerDialect"
+  jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect"
   jdbc_database = ";databaseName=#{database_name}"
 end
 
