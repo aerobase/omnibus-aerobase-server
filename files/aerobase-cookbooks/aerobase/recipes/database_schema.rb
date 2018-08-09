@@ -18,15 +18,19 @@
 install_dir = node['package']['install-dir']
 
 account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
+mssql_helper = MsSQLHelper.new(node)
+pgsql_helper = PgHelper.new(node)
+
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
-os_helper = OsHelper.new(node)
 
+database_host = node['unifiedpush']['unifiedpush-server']['db_host']
+database_port = node['unifiedpush']['unifiedpush-server']['db_port']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 database_username = node['unifiedpush']['unifiedpush-server']['db_username']
 database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
-mssql_instance = node['unifiedpush']['mssql']['instance']
-mssql_login = node['unifiedpush']['mssql']['logon']
+
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 
@@ -38,18 +42,14 @@ else
   command = "./init-unifiedpush-db.sh --config-path=#{install_dir}/#{tmp_dir}"
 end 
 
-jdbc_type = database_adapter
-jdbc_instance = ""
-jdbc_properties = ""
-jdbc_hbm_dialect = "org.hibernate.dialect.PostgreSQL95Dialect"
-jdbc_database = "/#{database_name}"
+if database_adapter == "postgresql"
+  jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
+  jdbc_hbm_dialect = "org.hibernate.dialect.PostgreSQL95Dialect"
+end  
 
 if database_adapter == "mssql"
-  jdbc_type = "sqlserver"
-  jdbc_instance = "\\#{mssql_instance}"
-  jdbc_properties = mssql_login ? ";user=#{database_username};password=#{database_username};" : ";integratedSecurity=true;"
-  jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect"
-  jdbc_database = ";databaseName=#{database_name}"
+  jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_username)
+  jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
 end
 
 directory "#{install_dir}/#{tmp_dir}" do
@@ -66,10 +66,7 @@ template "#{install_dir}/#{tmp_dir}/db.properties" do
   group aerobase_group
   mode "0644"
   variables(unifiedpush_vars.merge({
-      :jdbc_type => jdbc_type,
-	  :jdbc_instance => jdbc_instance, 
-	  :jdbc_database => jdbc_database,
-	  :jdbc_properties => jdbc_properties
+      :jdbc_url => jdbc_url
     }
   ))
 end

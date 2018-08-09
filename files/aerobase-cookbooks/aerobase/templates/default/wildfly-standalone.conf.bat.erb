@@ -79,7 +79,7 @@ rem set "GC_LOG=true"
 set "JAVA_OPTS=%JAVA_OPTS% -Daerobase.config.dir=<%= @dir %>/etc/"
 
 # Cluster configuration - Set private address to required subnet
-set "JAVA_OPTS=%JAVA_OPTS% -Djboss.bind.address.private=<%= @server_address %>"
+set "JAVA_OPTS=%JAVA_OPTS% -Djboss.bind.address.private=/<%= @server_address %>"
 
 LAUNCH_JBOSS_IN_BACKGROUND=1
 

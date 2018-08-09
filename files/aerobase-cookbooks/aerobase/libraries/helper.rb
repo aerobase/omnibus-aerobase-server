@@ -111,6 +111,11 @@ class PgHelper
 	
     success?(cmd, user, password)
   end
+  
+  def psql_jdbc_url(db_host, db_port, db_database)
+    url = "jdbc:postgresql://#{db_host}:#{db_port}/#{db_database}"
+	url
+  end
 
   def pg_user
     node['unifiedpush']['postgresql']['username']
@@ -168,6 +173,13 @@ class MsSQLHelper
     cmd = cmd.join(" ")	
 	cmd
   end 
+  
+  def mssql_jdbc_url(db_host, db_port, db_database, db_username, db_password)
+    login = mssql_login ? "user=#{db_username};password=#{db_username};" : "integratedSecurity=true;"
+	instance = mssql_instance.nil? ? "" : "\\#{mssql_instance}" 
+    url = "jdbc:sqlserver://#{db_host}#{instance}:#{db_port};databaseName=#{db_database};#{login}"
+	url
+  end
 
   def mssql_logon
     node['unifiedpush']['mssql']['logon']
@@ -191,6 +203,14 @@ class MsSQLHelper
 
   def mssql_server
     node['unifiedpush']['mssql']['server']
+  end
+  
+  def mssql_login
+    node['unifiedpush']['mssql']['logon']
+  end
+  
+  def mssql_instance
+    node['unifiedpush']['mssql']['instance']
   end
 end
 

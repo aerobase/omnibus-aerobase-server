@@ -26,14 +26,23 @@ server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
+mssql_helper = MsSQLHelper.new(node)
+pgsql_helper = PgHelper.new(node)
+os_helper = OsHelper.new(node)
+
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 aerobase_password = account_helper.aerobase_password
-os_helper = OsHelper.new(node)
 
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
+
+database_host = node['unifiedpush']['unifiedpush-server']['db_host']
+database_port = node['unifiedpush']['unifiedpush-server']['db_port']
+database_name = node['unifiedpush']['unifiedpush-server']['db_database']
+database_username = node['unifiedpush']['unifiedpush-server']['db_username']
+database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
 
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
@@ -53,6 +62,16 @@ include_recipe "aerobase::wildfly-server"
 include_recipe "aerobase::unifiedpush-server-wildfly-conf"
 include_recipe "aerobase::keycloak-server"
 
+if database_adapter == "postgresql"
+  jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
+  jdbc_hbm_dialect = "org.hibernate.dialect.PostgreSQL95Dialect"
+end 
+
+if database_adapter == "mssql"
+  jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_username)
+  jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
+end
+
 template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"
   owner aerobase_user
@@ -66,7 +85,21 @@ template "#{server_etc_dir}/db.properties" do
   owner aerobase_user
   group aerobase_group
   mode "0644"
-  variables(all_vars)
+  variables(unifiedpush_vars.merge({
+      :jdbc_url => jdbc_url
+    }
+  ))
+end
+
+template "#{server_etc_dir}/hibernate.properties" do
+  source "unifiedpush-server-hibernate.properties.erb"
+  owner aerobase_user
+  group aerobase_group
+  mode "0644"
+  variables(unifiedpush_vars.merge({
+      :jdbc_hbm_dialect => jdbc_hbm_dialect
+    }
+  ))
 end
 
 # create themes dir

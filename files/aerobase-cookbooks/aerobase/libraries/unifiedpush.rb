@@ -130,8 +130,7 @@ module Unifiedpush
           # that.
           next
         end
-		puts right.first
-		puts right.last
+		
         better_value_from_unifiedpush_rb = Unifiedpush[right.first][right.last]
         default_from_attributes = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
         Unifiedpush[left.first][left.last] = better_value_from_unifiedpush_rb || default_from_attributes
