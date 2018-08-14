@@ -26,10 +26,12 @@ aerobase_group = account_helper.aerobase_group
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 cli_dir = "#{server_dir}/cli"
+mssql_dir = "#{server_dir}/bin/mssql"
 
 # These directories do not need to be writable for unifiedpush-server
 [
-  cli_dir
+  cli_dir,
+  mssql_dir
 ].each do |dir_name|
   directory dir_name do
     owner aerobase_user
@@ -142,4 +144,13 @@ end
 # Link apps
 link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
   to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
+end
+
+# Copy MSSQL jdbc driver
+ruby_block 'copy_mssql_jdbc_driver' do
+  block do
+    FileUtils.cp_r "#{install_dir}/embedded/apps/mssql/.", "#{server_dir}/bin/mssql"
+  end
+  action :run
+  only_if { os_helper.is_windows? }
 end
