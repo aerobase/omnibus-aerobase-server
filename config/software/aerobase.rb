@@ -26,6 +26,7 @@ dependency "aerobase-config-template"
 dependency "aerobase-cookbooks"
 dependency "mscplus"
 dependency "winsw"
+dependency "mssql-jdbc"
 
 # KC server and themes must be added after cookbooks
 if windows?
