@@ -23,7 +23,7 @@ end
 
 source url: "https://github.com/aerobase/mssql-jdbc/releases/download/v#{version}/sqljdbc_#{version}.0_enu.tar.gz"
 
-relative_path "sqljdbc_#{version}.0_enu/sqljdbc_6.4/enu/auth/x64"
+relative_path "sqljdbc_6.4/enu/auth/x64"
 
 build do
   command "mkdir -p #{install_dir}/embedded/apps/mssql"
