@@ -3,7 +3,7 @@
 # Perform necessary unifiedpush setup steps
 # after package is installed.
 #
-DEST_DIR=<%= install_dir %>
+DEST_DIR=/opt/aerobase
 EXTERNAL_URL="http://aerobase.example.com"
 
 notify()
