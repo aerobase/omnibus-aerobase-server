@@ -1,9 +1,9 @@
 #!/bin/sh
-# unifiedpush-server pre-install script
+# aerobase pre-install script
 
 DEST_DIR=<%= install_dir %>
 
-skip_migrations_file=/etc/unifiedpush/skip-auto-migrations
+skip_migrations_file=/etc/aerobase/skip-auto-migrations
 
 main() {
   if [ -e "${skip_migrations_file}" ] ; then
@@ -12,8 +12,8 @@ main() {
   fi
 
   if [ -d ${DEST_DIR}/service/unifiedpush-server ] ; then
-    notify "TODO - Backing up Unifiedpush Server SQL database (excluding configuration, uploads)"
-    #if ! ${DEST_DIR}/bin/unifiedpush-backup.sh ; then
+    notify "TODO - Backing up Aerobase Server SQL database (excluding configuration, uploads)"
+    #if ! ${DEST_DIR}/bin/aerobase-backup.sh ; then
     #  notify
     #  notify "Backup failed! If you want to skip this backup, run the following command and"
     #  notify "try again:"
