@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-# Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
+# Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages
 
 install_dir = node['package']['install-dir']

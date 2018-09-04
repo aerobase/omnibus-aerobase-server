@@ -51,7 +51,7 @@ component_runit_service "logrotate" do
 end
 
 if node['unifiedpush']['bootstrap']['enable']
-  execute "/opt/unifiedpush/bin/unifiedpush-ctl start logrotate" do
+  execute "/opt/aerobase/bin/aerobase-ctl start logrotate" do
     retries 20
   end
 end

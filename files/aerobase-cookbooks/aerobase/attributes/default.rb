@@ -73,7 +73,7 @@ default['unifiedpush']['unifiedpush-server']['environment'] = 'production'
 default['unifiedpush']['unifiedpush-server']['env'] = {
   'SIDEKIQ_MEMORY_KILLER_MAX_RSS' => '1000000',
   # PATH to set on the environment
-  # defaults to /opt/unifiedpush/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
+  # defaults to /opt/aerobase/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"
 }
 default['unifiedpush']['unifiedpush-server']['documents_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/documents"
@@ -160,7 +160,7 @@ default['unifiedpush']['postgresql']['gid'] = nil
 default['unifiedpush']['postgresql']['shell'] = "/bin/sh"
 default['unifiedpush']['postgresql']['home'] = "#{node['package']['runtime-dir']}/postgresql"
 # Postgres User's Environment Path
-# defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
+# defaults to /opt/aerobase/embedded/bin:/opt/aerobase/bin/$PATH. The install-dir path is set at build time
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
 default['unifiedpush']['postgresql']['bin_dir'] = "#{node['package']['install-dir']}/embedded/bin"
 default['unifiedpush']['postgresql']['sql_ups_user'] = "aerobase_server"

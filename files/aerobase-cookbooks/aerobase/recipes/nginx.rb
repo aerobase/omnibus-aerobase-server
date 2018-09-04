@@ -185,7 +185,7 @@ else
     package "unifiedpush"
   end
 
-  execute "/opt/unifiedpush/bin/unifiedpush-ctl restart nginx" do
+  execute "/opt/aerobase/bin/aerobase-ctl restart nginx" do
     retries 20
   end
 end

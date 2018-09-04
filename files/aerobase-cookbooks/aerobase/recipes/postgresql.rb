@@ -37,7 +37,7 @@ account "Postgresql user and group" do
 	password postgresql_password
   end 
   uid node['unifiedpush']['postgresql']['uid']
-  ugid postgresql_user
+  ugid postgresql_group
   groupname postgresql_group
   group_members postgresql_user
   gid node['unifiedpush']['postgresql']['gid']

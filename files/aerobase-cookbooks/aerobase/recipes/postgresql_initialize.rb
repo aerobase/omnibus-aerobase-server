@@ -46,7 +46,7 @@ if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
       unless connectable
         Chef::Log.fatal <<-ERR
 Could not connect to the postgresql database.
-Please check /var/log/unifiedpush/posgresql/current for more information.
+Please check /var/log/aerobase/posgresql/current for more information.
 ERR
         exit!(1)
       end

@@ -24,21 +24,21 @@ define :sysctl, value: nil do
     recursive true
   end
 
-  file "/opt/unifiedpush/embedded/etc/90-omnibus-unifiedpush.conf" do
+  file "/opt/aerobase/embedded/etc/90-omnibus-aerobase.conf" do
     action :touch
   end
 
   bash "add #{param} settings" do
     user "root"
     code <<-EOF
-      echo '#{param} = #{value}' >> /opt/unifiedpush/embedded/etc/90-omnibus-unifiedpush.conf
+      echo '#{param} = #{value}' >> /opt/aerobase/embedded/etc/90-omnibus-aerobase.conf
     EOF
     notifies :run, 'execute[sysctl]', :immediately
     not_if "sysctl -n #{param} | grep -q -x #{value}"
   end
 
-  link "/opt/unifiedpush/embedded/etc/90-omnibus-unifiedpush.conf" do
-    to "/etc/sysctl.d/90-omnibus-unifiedpush.conf"
+  link "/opt/aerobase/embedded/etc/90-omnibus-aerobase.conf" do
+    to "/etc/sysctl.d/90-omnibus-aerobase.conf"
   end
 
   # Load the settings right away

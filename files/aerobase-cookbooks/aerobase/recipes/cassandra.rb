@@ -73,7 +73,7 @@ end
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
 if node['unifiedpush']['cassandra']['enable']
-  execute "/opt/unifiedpush/bin/unifiedpush-ctl start cassandra" do
+  execute "/opt/aerobase/bin/aerobase-ctl start cassandra" do
     retries 20
   end
 
@@ -100,7 +100,7 @@ if node['unifiedpush']['cassandra']['enable']
       unless connectable
         Chef::Log.fatal <<-ERR
 Could not connect to the cassandra database.
-Please check /var/log/unifiedpush/cassandra/current for more information.
+Please check /var/log/aerobase/cassandra/current for more information.
 ERR
         exit!(1)
       end
