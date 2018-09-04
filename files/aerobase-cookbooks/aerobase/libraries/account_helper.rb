@@ -79,7 +79,7 @@ class AccountHelper
         #{aerobase_user}
         #{web_server_user}
         #{postgresql_user}
-		#{cassandra_user}
+	#{cassandra_user}
       )
   end
 
@@ -87,8 +87,8 @@ class AccountHelper
     %W(
         #{aerobase_group}
         #{web_server_group}
-        #{postgresql_user}
-		#{cassandra_group}
+        #{postgresql_group}
+	#{cassandra_group}
       )
   end
   
@@ -96,7 +96,7 @@ class AccountHelper
     %W(
         #{aerobase_password}
         #{postgresql_password}
-		#{web_server_password}
+	#{web_server_password}
       )
   end
 end

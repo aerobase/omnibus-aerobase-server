@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright:: Copyright (c) 2012 C-B4, Inc.
+# Copyright:: Copyright (c) 2018 Aerobase, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,13 +18,13 @@
 
 # Ensure the calling environment (disapproval look Bundler) does not infect our
 # Ruby environment if aerobase-ctl is called from a Ruby script.
-for ruby_env_var in RUBYOPT \\
-                    BUNDLE_BIN_PATH \\
-                    BUNDLE_GEMFILE \\
-                    GEM_PATH \\
+for ruby_env_var in RUBYOPT \
+                    BUNDLE_BIN_PATH \
+                    BUNDLE_GEMFILE \
+                    GEM_PATH \
                     GEM_HOME
 do
   unset $ruby_env_var
 done
 
-<%= install_dir %>/embedded/bin/omnibus-ctl aerobase #{install_dir}/embedded/service/omnibus-ctl $@
+<%= install_dir %>/embedded/bin/omnibus-ctl aerobase <%= install_dir %>/embedded/service/omnibus-ctl $@

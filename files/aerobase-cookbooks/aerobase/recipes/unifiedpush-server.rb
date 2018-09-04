@@ -124,10 +124,11 @@ directory server_dir do
   mode "0775"
 end
 
-directory server_dir do
-  rights :read, aerobase_group, :applies_to_children => true
-  rights :full_control, aerobase_user,  :applies_to_children => true
-  only_if { os_helper.is_windows? }
+if os_helper.is_windows?
+  directory server_dir do
+    rights :read, aerobase_group, :applies_to_children => true
+    rights :full_control, aerobase_user,  :applies_to_children => true
+  end
 end
 
 if os_helper.is_windows?

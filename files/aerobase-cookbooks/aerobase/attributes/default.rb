@@ -18,7 +18,7 @@
 ###
 # Set a project-name for the enterprise-chef-common cookbook
 ###
-default['enterprise']['name'] = "aerobase"
+default['enterprise']['name'] = "unifiedpush"
 default['unifiedpush']['install_path'] = "#{node['package']['install-dir']}"
 
 ####
@@ -32,10 +32,11 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
+# Windows Services prefix
 default['unifiedpush']['gloabl']['srv_label'] = "Aerobase"
 
 ####
-## The Aerobase User that services run as
+## Global user managment options
 ####
 # The Aerobase User that services run as
 default['unifiedpush']['user']['username'] = "aerobase"
