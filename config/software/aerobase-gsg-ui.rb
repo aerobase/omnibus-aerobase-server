@@ -16,8 +16,7 @@
 
 name "aerobase-gsg-ui"
 default_version "master"
-
-dependency "rsync"
+license :project_license
 
 source git: "https://github.com/aerobase/aerobase-gsg-ui.git"
 
@@ -25,11 +24,14 @@ relative_path "aerobase-gsg-ui"
 build_dir = "#{project_dir}"
 
 build do
-  command "npm install"
-
-  command "npm run build"
+  if windows?
+    command "mvn install"
+  else
+    command "npm install"
+    command "npm run build"
+  end
 
   # Copy dist to package dir.
-  command "mkdir -p #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./dist/ #{install_dir}/embedded/apps/unifiedpush-server/aerobase-gsg-ui/"
+  command "mkdir -p #{install_dir}/embedded/apps/aerobase-gsg-ui"
+  sync "./dist/", "#{install_dir}/embedded/apps/aerobase-gsg-ui"
 end

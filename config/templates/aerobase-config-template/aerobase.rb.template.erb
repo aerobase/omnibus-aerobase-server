@@ -1,0 +1,238 @@
+# Url on which aerobase will be reachable.
+external_url 'GENERATED_EXTERNAL_URL'
+
+# Note: configuration settings below are optional.
+## Uncomment and change the value.
+#############################
+# aerobase.rb configuration #
+#############################
+
+####
+# The Aerobase User that services run as
+####
+## The username for the aerobase services user
+# user['username'] = "aerobase"
+# user['group'] = "aerobase-group"
+## Used only under windows os
+# user['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
+# user['uid'] = nil
+# user['gid'] = nil
+## The shell for the aerobase services user
+# user['shell'] = "/bin/sh"
+## The home directory for the aerobase services user
+# user['home'] = "#{node['package']['runtime-dir']}"
+
+####
+# Global (Cross component) configuration
+###
+# global['contactpoints'] = node['fqdn']
+# global['backup_path'] = "#{node['package']['runtime-dir']}/backups"
+# global['portal_mode'] = false
+## Windows services labeling only.
+# global['srv_label'] = "Aerobase"
+
+####
+# Java installation options, this package is not embeded.
+# When enabled, external java package will be installed.
+# This option requires python installation in your path.
+####
+# java['install_java'] = false
+# java['jdk_version'] = '8'
+# java['install_flavor'] = 'openjdk'
+# java['set_default'] = true
+
+####
+# Unifiedpush Applicaiton Server 
+####
+# unifiedpush_server['enable'] = true
+# unifiedpush_server['ha'] = false
+# unifiedpush_server['dir'] = "#{node['package']['runtime-dir']}/unifiedpush-server"
+# unifiedpush_server['log_directory'] = "#{node['package']['logs-dir']}/unifiedpush-server"
+# unifiedpush_server['environment'] = 'production'
+#
+# unifiedpush_server['documents_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/documents"
+# unifiedpush_server['uploads_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/uploads"
+## Max JSON size in KB
+# unifiedpush_server['documents_json_limit'] = 4
+## By default server_host is extracted from external URL
+# unifiedpush_server['server_host'] = node['fqdn']
+## Internal network bind address. If the node has a default route, this is the IPV4 address for the interface.
+# unifiedpush_server['server_address'] = node['ipaddress']
+# unifiedpush_server['server_contactpoints'] = node['fqdn']
+# unifiedpush_server['server_port'] = 80
+# unifiedpush_server['server_https'] = false
+# unifiedpush_server['time_zone'] = nil
+# unifiedpush_server['cache_owners'] = 1
+# unifiedpush_server['java_xmx'] = "1g"
+## OAuth2 Configureation, webapp_host is used as web applications root-url.
+# unifiedpush_server['webapp_host'] = node['fqdn']
+# unifiedpush_server['oauth2_enabled'] = true
+## Realm name used for aerobase authentication. When running in portal mode, 'maser' realm must be used.
+# unifiedpush_server['oauth2_realm'] = 'aerobase'
+# unifiedpush_server['oauth2_admin_user'] = "admin"
+# unifiedpush_server['oauth2_admin_pass'] = "password"
+# unifiedpush_server['oauth2_subdomain_seperator'] = "."
+## Cassandra connection params
+# unifiedpush_server['cas_contactpoints'] = node['fqdn']
+# unifiedpush_server['cas_port'] = "9042"
+# unifiedpush_server['cas_keyspace'] = "unifiedpush_server"
+# unifiedpush_server['cas_consistencylevel'] = "QUORUM"
+## Database connection params
+# unifiedpush_server['db_adapter'] = "postgresql"
+# unifiedpush_server['db_encoding'] = "unicode"
+# unifiedpush_server['db_database'] = "unifiedpush_server"
+## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_ups_user, listen_address, port]
+## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_ups_user, listen_address, port
+# unifiedpush_server['db_username'] = "aerobase_server"
+# unifiedpush_server['db_password'] = nil
+## Database host over TCP connection, java jdbc does not support unix socket.
+# unifiedpush_server['db_host'] = "localhost"
+# unifiedpush_server['db_port'] = 5432
+# unifiedpush_server['db_pool'] = 10
+# unifiedpush_server['db_socket'] = nil
+# unifiedpush_server['db_sslmode'] = nil
+# unifiedpush_server['db_sslrootcert'] = nil
+
+####
+# Keycloak Server app
+####
+# keycloak_server['enable'] = true
+# keycloak_server['ha'] = false
+# When keycloak-server is disabled, server_host should point to external URL.
+# keycloak_server['server_host'] = node['fqdn']
+# keycloak_server['server_https'] = false
+# keycloak_server['cache_owners'] = 1
+# keycloak_server['theme_cache'] = true
+# keycloak_server['db_database'] = "keycloak_server"
+## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_kc_user, listen_address, port]
+## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_kc_user, listen_address, port
+# keycloak_server['db_username'] = "keycloak_server"
+# keycloak_server['db_password'] = nil
+# keycloak_server['db_host'] = "localhost"
+# keycloak_server['db_port'] = 5432
+# keycloak_server['db_pool'] = "10"
+# keycloak_server['context_root'] = "auth"
+## Additional realm files array. e.g ['filepath', 'filepath']
+# keycloak_server['realm_files'] = []
+
+###
+# PostgreSQL - Default database
+###
+# postgresql['enable'] = true
+# postgresql['ha'] = false
+# postgresql['dir'] = "#{node['package']['runtime-dir']}/postgresql"
+# postgresql['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
+# postgresql['log_directory'] = "#{node['package']['logs-dir']}/postgresql"
+## Unix socket directory is supported only for linux.
+# postgresql['server'] = "localhost"
+# postgresql['username'] = "aerobase-sql"
+## Used only under windows os
+# postgresql['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
+# postgresql['uid'] = nil
+# postgresql['gid'] = nil
+# postgresql['shell'] = "/bin/sh"
+# postgresql['home'] = "#{node['package']['runtime-dir']}/postgresql"
+## Postgres User's Environment Path
+## defaults to /opt/unifiedpush/embedded/bin:/opt/unifiedpush/bin/$PATH. The install-dir path is set at build time
+# postgresql['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
+# postgresql['bin_dir'] = "#{node['package']['install-dir']}/embedded/bin"
+# postgresql['sql_ups_user'] = "aerobase_server"
+# postgresql['sql_kc_user'] = "keycloak_server"
+# postgresql['port'] = 5432
+# postgresql['listen_address'] = 'localhost'
+# postgresql['max_connections'] = 200
+# postgresql['md5_auth_cidr_addresses'] = []
+# postgresql['trust_auth_cidr_addresses'] = ['localhost', '127.0.0.1/32','::1/128']
+# postgresql['shmmax'] = kernel['machine'] =~ /x86_64/ ? 17179869184 : 4294967295
+# postgresql['shmall'] = kernel['machine'] =~ /x86_64/ ? 4194304 : 1048575
+# postgresql['shared_buffers'] = "2048MB"
+#
+# postgresql['work_mem'] = "8MB"
+# postgresql['effective_cache_size'] = "#{(node['memory']['total'].to_i / 2) / (1024)}MB"
+# postgresql['max_wal_size'] = "1GB"
+# postgresql['checkpoint_timeout'] = "5min"
+# postgresql['checkpoint_completion_target'] = 0.9
+# postgresql['checkpoint_warning'] = "30s"
+
+###
+# MSSQL - Installation is not supported, only jdbc/odbc usage.
+# Since we don't install mssql, username/password referrer db and not os.
+###
+# mssql['server'] = "localhost"
+# mssql['port'] = 1433
+# mssql['username'] = "sa"
+# mssql['password'] = "sa"
+# mssql['logon'] = true
+# mssql['azure_logon'] = false 
+# mssql['instance'] = nil
+
+###
+# Apache Cassandra 
+###
+# cassandra['enable'] = false
+# cassandra['schedule_repairs'] = false
+# cassandra['user'] = 'aerobase-cas'
+# cassandra['root_dir'] = '{node['package']['runtime-dir']}/cassandra/data'
+# cassandra['seeds'] = node['fqdn']
+# cassandra['max_heap_size'] = '1G'
+# cassandra['heap_new_size'] = '200M'
+# cassandra['heap_dump_dir'] = '{node['package']['runtime-dir']}/cassandra/data'
+# cassandra['replication_factor'] = 2
+## Cluster config options
+# cassandra_config['cluster_name'] = 'aerobase-cluster'
+# cassandra_config['endpoint_snitch'] = 'SimpleSnitch'
+
+####
+# Web server
+####
+## see: https://github.com/aerobase/omnibus-unifiedpush-server/blob/master/doc/settings/nginx.md#using-a-non-bundled-web-server
+## When bundled nginx is disabled we need to add the external webserver user to the Aerobase webserver group.
+# web_server['username'] = 'aerobase-www'
+# web_server['password'] = '$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/'
+# web_server['uid'] = nil
+# web_server['gid'] = nil
+# web_server['shell'] = '/bin/false'
+# web_server['home'] = '{node['package']['runtime-dir']}/nginx'
+# web_server['external_users'] = []
+
+####
+#NGINX
+####
+# nginx['enable'] = true
+# nginx['ha'] = false
+# nginx['dir'] = "#{node['package']['runtime-dir']}/nginx"
+# nginx['log_directory'] = "#{node['package']['logs-dir']}/nginx"
+# nginx['worker_processes'] = node['cpu']['total'].to_i
+# nginx['worker_connections'] = 10240
+## If you’re serving locally stored static files, sendfile is totally essential to speed your Web server. 
+## But if you use Nginx as a reverse proxy to serve pages from an application server, you can deactivate it.
+# nginx['sendfile'] = 'off'
+# nginx['tcp_nopush'] = 'on'
+# nginx['tcp_nodelay'] = 'on'
+# nginx['proxy_buffer_size'] = '8k'
+# nginx['proxy_buffers'] = '32 16k'
+# nginx['proxy_busy_buffers_size'] = '32k'
+# nginx['server_names_hash_bucket_size'] = "64"
+# nginx['gzip'] = "on"
+# nginx['gzip_http_version'] = "1.0"
+# nginx['gzip_comp_level'] = "2"
+# nginx['gzip_proxied'] = "any"
+# nginx['gzip_types'] = [ "text/plain", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript", "application/json" ]
+# nginx['keepalive_timeout'] = 65
+# nginx['client_max_body_size'] = '250m'
+# nginx['cache_max_size'] = '5000m'
+# nginx['redirect_http_to_https'] = false
+# nginx['redirect_http_to_https_port'] = 80
+# nginx['ssl_certificate'] = "#{node['package']['config-dir']}/ssl/#{node['fqdn']}.crt"
+# nginx['ssl_certificate_key'] = "#{node['package']['config-dir']}/ssl/#{node['fqdn']}.key"
+# nginx['ssl_ciphers'] = "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4"
+# nginx['ssl_prefer_server_ciphers'] = "on"
+# nginx['ssl_protocols'] = "TLSv1 TLSv1.1 TLSv1.2" # recommended by https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
+# nginx['ssl_session_cache'] = "builtin:1000  shared:SSL:10m" # recommended in http://nginx.org/en/docs/http/ngx_http_ssl_module.html
+# nginx['ssl_session_timeout'] = "5m" # default according to http://nginx.org/en/docs/http/ngx_http_ssl_module.html
+# nginx['ssl_dhparam'] = nil # Path to dhparam.pem
+# nginx['listen_addresses'] = ['*']
+# nginx['listen_port'] = nil # override only if you have a reverse proxy
+# nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP
+# nginx['custom_aerobase_config'] = nil
+# nginx['custom_nginx_config'] = nil

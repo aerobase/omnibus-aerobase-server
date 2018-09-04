@@ -1,0 +1,53 @@
+# This file is managed by aerobase-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/aerobase/aerobase.rb
+# and run `sudo aerobase-ctl reconfigure`.
+
+<% if @windows %>
+worker_processes 1;
+<% else %>
+user <%= node['unifiedpush']['web-server']['username'] %> <%= node['unifiedpush']['user']['group']%>;
+worker_processes <%= @worker_processes %>;
+<% end %>
+error_log stderr;
+pid nginx.pid;
+
+daemon off;
+
+events {
+  worker_connections <%= @worker_connections %>;
+}
+
+http {
+  sendfile <%= @sendfile %>;
+  tcp_nopush <%= @tcp_nopush %>;
+  tcp_nodelay <%= @tcp_nodelay %>;
+
+  keepalive_timeout <%= @keepalive_timeout %>;
+
+  gzip <%= @gzip %>;
+  gzip_http_version <%= @gzip_http_version %>;
+  gzip_comp_level <%= @gzip_comp_level %>;
+  gzip_proxied <%= @gzip_proxied %>;
+  gzip_types <%= @gzip_types.join(' ') %>;
+
+  ## proxy to any other HTTP server can buffer upto 512K (32*16) of data
+  ## proxy_buffer_size - Used only for HEAD data
+  proxy_buffer_size <%= @proxy_buffer_size %>;
+  proxy_buffers <%= @proxy_buffers %>;
+  proxy_busy_buffers_size <%= @proxy_busy_buffers_size %>;
+ 
+  # Controls the maximum length of a virtual host entry (ie the length of the domain name).
+  server_names_hash_bucket_size <%= @server_names_hash_bucket_size %>; 
+
+  include <%= @install_dir %>/embedded/conf/mime.types;
+
+  <% if @aerobase_http_conf %>
+  include <%= @aerobase_http_conf %>;
+  <% end %>
+  <% if @subdomains_http_conf %>
+  include <%= @subdomains_http_conf %>;
+  <% end %>
+  include <%= @aerobase_http_configd %>/*.conf;
+
+  <%= @custom_nginx_config %>
+}

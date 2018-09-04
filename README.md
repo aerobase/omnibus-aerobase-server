@@ -10,6 +10,7 @@ Download Binaries
 ------------
 Please follow the steps on the [installation page](https://aerobase.atlassian.net/wiki/spaces/ARB/pages)
 
+
 Preperation 
 ------------
 only when runing under non root user.
@@ -20,9 +21,27 @@ sudo chown USER:USER /opt/unifiedpush
 sudo chown USER:USER /var/cache/omnibus
 ```
 
+Windows Builds
+--------------
+Required packages:
+- [omnibus-toolchain](https://github.com/aerobase/omnibus-toolchain)
+- [WiX Toolset v3.11](http://wixtoolset.org/releases/)
+- [Windows Kits 10](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
+- [7zip](https://www.7-zip.org/download.html)
+- Install .net 3.5 and .net 4+
+- Install [Visual C++ Redistributable 2013](https://www.microsoft.com/en-us/download/confirmation.aspx?id=40784)
+- Create Directory C:\omnibus-ruby
+
+Any OS
+--------------
+Required packages:
+- Java OpenJDK
+- NodeJS
+- Apache Maven 3.5+
+
 Installation
 ------------
-You must have a sane Ruby 1.9+ environment with Bundler installed. Ensure all
+You must have a sane Ruby 2.4+ environment with Bundler installed. Ensure all
 the required gems are installed:
 
 ```shell
@@ -42,7 +61,7 @@ Usage
 You create a platform-specific package using the `build project` command:
 
 ```shell
-$ bin/omnibus build unifiedpush-server
+$ bundle exec omnibus build aerobase
 ```
 
 The platform/architecture type of the package created will match the platform
@@ -56,7 +75,7 @@ You can clean up all temporary files generated during the build process with
 the `clean` command:
 
 ```shell
-$ bin/omnibus clean unifiedpush-server
+$ bundle exec omnibus clean aerobase
 ```
 
 Adding the `--purge` purge option removes __ALL__ files generated during the
@@ -64,7 +83,7 @@ build including the project install directory (`/opt/unifiedpush-server`) and
 the package cache directory (`/var/cache/omnibus/pkg`):
 
 ```shell
-$ bin/omnibus clean unifiedpush-server --purge
+$ bundle exec omnibus clean aerobase --purge
 ```
 
 ### Publish

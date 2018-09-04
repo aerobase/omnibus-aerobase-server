@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Perform necessary aerobase removal steps
+# after package is uninstalled.
+#
+
+echo "aerobase has been uninstalled!"
+
+exit 0

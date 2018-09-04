@@ -1,0 +1,64 @@
+# This file is managed by aerobase-ctl. Manual changes will be
+# erased! To change the contents below, edit /etc/aerobase/aerobase.rb
+# and run `sudo aerobase-ctl reconfigure`.
+
+## Unifiedpush
+##
+## Lines starting with two hashes (##) are comments with information.
+## Lines starting with one hash (#) are configuration parameters that can be uncommented.
+###################################
+##         configuration         ##
+###################################
+
+<% if @https && @redirect_http_to_https %>
+## Redirects all HTTP traffic to the HTTPS host
+server {
+<% @listen_addresses.each do |listen_address| %>
+  listen <%= listen_address %>:<%= @redirect_http_to_https_port %>;
+<% end %>
+  server_name <%= @fqdn %>;
+  server_tokens off; ## Don't show the nginx version number, a security best practice
+  return 301 https://<%= @fqdn %>:<%= @port %>$request_uri;
+  access_log  <%= @log_directory %>/unifiedpush_access.log;
+  error_log   <%= @log_directory %>/unifiedpush_error.log;
+}
+<% end %>
+
+server {
+<% @listen_addresses.each do |listen_address| %>
+  listen <%= listen_address %>:<%= @listen_port %><% if @https %> ssl<% end %>;
+<% end %>
+  server_name <%= @fqdn %>;
+  server_tokens off; ## Don't show the nginx version number, a security best practice
+
+  ## Increase this if you want to upload large attachments
+  ## Or if you want to accept large git objects over http
+  client_max_body_size <%= @client_max_body_size %>;
+
+  <% if @https %>
+  ## Strong SSL Security
+  ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
+  ssl on;
+  ssl_certificate <%= @ssl_certificate %>;
+  ssl_certificate_key <%= @ssl_certificate_key %>;
+
+  # Unifiedpush needs backwards compatible ciphers to retain compatibility with Java IDEs
+  ssl_ciphers '<%= @ssl_ciphers %>';
+  ssl_protocols  <%= @ssl_protocols %>;
+  ssl_prefer_server_ciphers <%= @ssl_prefer_server_ciphers %>;
+  ssl_session_cache  <%= @ssl_session_cache %>;
+  ssl_session_timeout  <%= @ssl_session_timeout %>;
+
+  <% if @ssl_dhparam %>
+  ssl_dhparam <%= @ssl_dhparam %>;
+  <% end %>
+  <% end %>
+
+  ## Individual nginx logs for this unifiedpush vhost
+  access_log  <%= @log_directory %>/unifiedpush_access.log;
+  error_log   <%= @log_directory %>/unifiedpush_error.log;
+
+  <%= @custom_aerobase_config %>
+  
+  include aerobase-locations.import;
+}

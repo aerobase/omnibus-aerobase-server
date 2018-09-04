@@ -1,3 +1,0 @@
-#!/bin/sh
-exec 2>&1
-exec chpst -P -U <%= node['unifiedpush']['postgresql']['username'] %> -u <%= node['unifiedpush']['postgresql']['username'] %> /opt/unifiedpush/embedded/bin/postgres -D <%= File.join(node['unifiedpush']['postgresql']['dir'], "data") %>

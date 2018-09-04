@@ -1,0 +1,7 @@
+@ECHO OFF
+IF NOT "%~f0" == "~f0" GOTO :WinNT
+@"<%= install_dir %>\embedded\bin\omnibus-ctl" "Aerobase" "C:/Aerobase/Aerobase/embedded/service/omnibus-ctl" %1 %2 %3 %4 %5 %6 %7 %8 %9
+GOTO :EOF
+:WinNT
+@"<%= install_dir %>\embedded\bin\omnibus-ctl" "Aerobase" "C:/Aerobase/Aerobase/embedded/service/omnibus-ctl" %*
+

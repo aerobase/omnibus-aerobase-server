@@ -1,4 +1,4 @@
-# Omnibus Unifiedpush documentation
+# Omnibus Aerobase documentation
 
 ## Installation
 
@@ -16,6 +16,7 @@
 - [NGINX](settings/nginx.md)
 - [Database](settings/database.md)
 - [Backups](settings/backups.md)
+- [OAuth2](settings/oauth2.md)
 - [Logs](settings/logs.md)
 - [Only start unifiedpush-ctl services after a given filesystem is mounted](settings/configuration.md#)
 
@@ -25,7 +26,7 @@
 
 ## Troubleshooting
 
-- [Unifiedpush is unreachable in my browser](common_installation_problems/README.md#unifiedpush-is-unreachable-in-my-browser).
+- [Aerobase is unreachable in my browser](common_installation_problems/README.md#unifiedpush-is-unreachable-in-my-browser).
 - ['pg_dump: aborting because of server version mismatch'](settings/database.md#using-a-non-packaged-postgresql-database-management-server)
 
 ## Omnibus Unifiedpus developer documentation

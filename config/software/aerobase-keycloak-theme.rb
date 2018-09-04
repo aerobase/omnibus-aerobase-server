@@ -15,8 +15,7 @@
 #
 
 name "aerobase-keycloak-theme"
-
-dependency "rsync"
+license :project_license
 
 skip_transitive_dependency_licensing true
 default_version "master"
@@ -26,10 +25,6 @@ relative_path "aerobase-keycloak-theme"
 build_dir = "#{project_dir}"
 
 build do
-  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase"
-  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase-cloud"
-  command "mkdir -p #{install_dir}/embedded/apps/themes/aerobase-bootstrap"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./aerobase/* #{install_dir}/embedded/apps/themes/aerobase"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./aerobase-cloud/* #{install_dir}/embedded/apps/themes/aerobase-cloud"
-  command "#{install_dir}/embedded/bin/rsync --exclude='**/.git*' --delete -a ./aerobase-bootstrap/* #{install_dir}/embedded/apps/themes/aerobase-bootstrap"
+  command "mkdir -p #{install_dir}/embedded/apps/themes"
+  sync "./", "#{install_dir}/embedded/apps/themes"
 end

@@ -1,0 +1,110 @@
+#!/bin/sh
+#
+# Perform necessary unifiedpush setup steps
+# after package is installed.
+#
+DEST_DIR=/opt/aerobase
+EXTERNAL_URL="http://aerobase.example.com"
+
+notify()
+{
+  echo "unifiedpush: $1"
+}
+
+create_config_template()
+{
+  # Create a minimal aerobase.rb template if /etc/aerobase/aerobase.rb does not exist.
+  if ! [ -e /etc/aerobase/aerobase.rb ] ; then
+    mkdir -p /etc/aerobase
+    cp "${DEST_DIR}/etc/aerobase.rb.template" /etc/aerobase/aerobase.rb
+    sed -i 's!GENERATED_EXTERNAL_URL!'$EXTERNAL_URL'!g' /etc/aerobase/aerobase.rb
+    chmod 600 /etc/aerobase/aerobase.rb
+  else
+    EXTERNAL_URL=$(awk '/^external_url/ { print $2 }' /etc/aerobase/aerobase.rb | tr -d "'\"")
+  fi
+}
+
+fix_directory_permissions()
+{
+  if [ -x /usr/bin/dpkg-query ] ; then
+    # We are in the land of .deb packages. We should fix package directory owners
+    # because of the faulty 7.2.0 / 7.2.1 .deb packages.
+    /usr/bin/dpkg-query -L aerobase 2>/dev/null | while read f ; do
+    if [ -d "$f" ] ; then
+      # This directory may have been created when installing omnibus-unifiedpush-server
+      # 7.2.0 / 7.2.1, so it could have the wrong owner.
+      chown root:root "$f"
+    fi
+  done
+fi
+}
+
+print_welcome()
+{
+  notify "Thank you for installing Aerobase!"
+  notify "To configure and start unifiedpush, RUN THE FOLLOWING COMMAND:"
+  echo ""
+  echo "sudo aerobase-ctl reconfigure"
+  echo ""
+  notify "Aerobase should be reachable at ${EXTERNAL_URL}"
+  notify "Otherwise configure unifiedpush for your system by editing /etc/aerobase/aerobase.rb file"
+  notify "And running reconfigure again."
+  notify
+  notify "For a comprehensive list of configuration options please see the unifiedpush readme"
+  notify "https://github.com/Aerobase/unifiedpush-server/blob/master/README.md"
+  notify
+}
+
+check_if_ec2()
+{
+  if [ -f /sys/hypervisor/uuid ] && [ `head -c 3 /sys/hypervisor/uuid` = 'ec2' ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+get_fqdn_from_hostname()
+{
+  # Try collecting fqdn if it is set correctly
+  fqdn=$(/bin/hostname -f)
+  if [ -n "${fqdn}" ]; then
+    EXTERNAL_URL="http://${fqdn}"
+  fi
+}
+
+get_ec2_hostname()
+{
+  # Try collecting fqdn if it is set correctly
+  fqdn=$(/opt/aerobase/embedded/bin/curl -s http://169.254.169.254/latest/meta-data/public-hostname)
+  if [ -n "${fqdn}" ]; then
+    EXTERNAL_URL="http://${fqdn}"
+  fi
+}
+
+if [ -n "${GITLAB_DEBUG}" ] ; then
+  notify "debug: arguments: $@"
+fi
+
+check_if_ec2
+if [ $? -eq 0 ]  ; then
+  get_ec2_hostname
+else
+  get_fqdn_from_hostname
+fi
+
+ln -sf ${DEST_DIR}/bin/aerobase-ctl /usr/bin || error_exit "Cannot link aerobase-ctl in /usr/bin"
+create_config_template
+fix_directory_permissions
+print_welcome
+
+case "$1" in
+  configure)
+    # Looks like a DEB install. We don't know if it is a fresh install or an
+    # upgrade.
+    ${DEST_DIR}/bin/aerobase-ctl upgrade
+    ;;
+  *)
+    # No op.
+    ;;
+esac

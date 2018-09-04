@@ -1,0 +1,4 @@
+#!/bin/sh
+exec 2>&1
+cd <%= node['unifiedpush']['nginx']['dir'] %>
+exec chpst -P /opt/aerobase/embedded/sbin/nginx -p <%= node['unifiedpush']['nginx']['dir'] %>
