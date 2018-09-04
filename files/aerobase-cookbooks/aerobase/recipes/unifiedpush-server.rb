@@ -130,6 +130,11 @@ if os_helper.is_windows?
     rights :read, aerobase_group, :applies_to_children => true
     rights :full_control, aerobase_user,  :applies_to_children => true
   end
+else
+  execute "chown-server_dir" do
+    command "chown -R #{aerobase_user}:#{aerobase_group} #{server_dir}"
+    action :run
+  end
 end
 
 if os_helper.is_windows?
