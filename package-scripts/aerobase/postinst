@@ -93,7 +93,7 @@ else
   get_fqdn_from_hostname
 fi
 
-${DEST_DIR}/embedded/bin/symlink_ctl_cmds ${DEST_DIR}
+ln -sf ${DEST_DIR}/bin/aerobase-ctl /usr/bin || error_exit "Cannot link aerobase-ctl in /usr/bin"
 create_config_template
 fix_directory_permissions
 print_welcome
