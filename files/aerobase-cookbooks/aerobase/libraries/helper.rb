@@ -19,11 +19,11 @@ require 'mixlib/shellout'
 
 module ShellOutHelper
   def do_shell_out(cmd, user = nil, password = nil, cwd = nil)
-	if OsHelper.new(node).is_windows?
+    if OsHelper.new(node).is_windows?
       o = Mixlib::ShellOut.new(cmd, :user=>user, :password=>password, :cwd=>cwd)
-	else
-	  o = Mixlib::ShellOut.new(cmd, :user=>user, :cwd=>cwd)
-	end 
+    else
+      o = Mixlib::ShellOut.new(cmd, :user=>user, :cwd=>cwd)
+    end 
     o.run_command
     o
   rescue Errno::EACCES
@@ -70,10 +70,10 @@ class PgHelper
 
   def database_exists?(db_name, user = nil, password = nil)
     if OsHelper.new(node).is_windows?
-	  grep_cmd = "findstr"
-	else
-	  grep_cmd = "grep -x"
-	end
+      grep_cmd = "findstr"
+    else
+      grep_cmd = "grep -x"
+    end
     psql_cmd(["-d \"postgres\"",
               "-c \"select datname from pg_database\" -A",
               "|#{grep_cmd} #{db_name}"], user, password)
@@ -81,10 +81,10 @@ class PgHelper
 
   def user_exists?(db_user, user = nil, password = nil)
     if OsHelper.new(node).is_windows?
-	  grep_cmd = "findstr"
-	else
-	  grep_cmd = "grep -x"
-	end
+      grep_cmd = "findstr"
+    else
+      grep_cmd = "grep -x"
+    end
     psql_cmd(["-d \"postgres\"",
               "-c \"select usename from pg_user\" -A",
               "|#{grep_cmd} \"#{db_user}\""], user, password)
@@ -92,29 +92,34 @@ class PgHelper
 
   def psql_cmd(cmd_list, user = nil, password = nil)
     install_dir = node['package']['install-dir']
-	cmd = []
-	if OsHelper.new(node).not_windows?
-	  cmd << "#{install_dir}/embedded/bin/chpst"
-	  cmd << "-u #{pg_user}"
-	  cmd << "#{install_dir}/embedded/bin/psql"
-	else
-	  cmd << "\"#{install_dir}/embedded/bin/psql\""
-	end
+    cmd = []
+    if OsHelper.new(node).not_windows?
+      cmd << "#{install_dir}/embedded/bin/chpst"
+      cmd << "-u #{pg_user}"
+      cmd << "#{install_dir}/embedded/bin/psql"
+    else
+      cmd << "\"#{install_dir}/embedded/bin/psql\""
+    end
 
     cmd << "-h #{pg_host}"
-	unless user.nil?
-	  cmd << "-U #{user}"
-	end
+    unless user.nil?
+      cmd << "-U #{user}"
+    end
     cmd << "--port #{pg_port}"
     cmd << cmd_list.join(" ")
     cmd = cmd.join(" ")
-	
-    success?(cmd, user, password)
+
+    if OsHelper.new(node).is_windows?
+      success?(cmd, user, password)
+    else 
+      # Linux based dist is executed using chpst (root user)
+      success?(cmd)
+    end 
   end
   
   def psql_jdbc_url(db_host, db_port, db_database)
     url = "jdbc:postgresql://#{db_host}:#{db_port}/#{db_database}"
-	url
+    url
   end
 
   def pg_user
@@ -154,31 +159,31 @@ class MsSQLHelper
   
   def mssql_cmd(cmd_list)
     install_dir = node['package']['install-dir']
-	cmd = []
+    cmd = []
 	
-	cmd << "sqlcmd -b"
+    cmd << "sqlcmd -b"
 	
     cmd << "-S #{mssql_server}"
-	if mssql_logon
-	  cmd << "-U #{mssql_user} -P #{mssql_password}"
-	else
+    if mssql_logon
+      cmd << "-U #{mssql_user} -P #{mssql_password}"
+    else
       cmd << "-E"
-	end
+    end
     if mssql_azure_logon
-	  cmd << "-G"
-	end
+      cmd << "-G"
+    end
 
-	cmd << "-Q"
+    cmd << "-Q"
     cmd << cmd_list.join(" ")
     cmd = cmd.join(" ")	
-	cmd
+    cmd
   end 
   
   def mssql_jdbc_url(db_host, db_port, db_database, db_username, db_password)
     login = mssql_login ? "user=#{db_username};password=#{db_username};" : "integratedSecurity=true;"
-	instance = mssql_instance.nil? ? "" : "\\#{mssql_instance}" 
+      instance = mssql_instance.nil? ? "" : "\\#{mssql_instance}" 
     url = "jdbc:sqlserver://#{db_host}#{instance}:#{db_port};databaseName=#{db_database};#{login}"
-	url
+    url
   end
 
   def mssql_logon
