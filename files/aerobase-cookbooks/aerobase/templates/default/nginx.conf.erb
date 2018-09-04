@@ -5,7 +5,7 @@
 <% if @windows %>
 worker_processes 1;
 <% else %>
-user <%= node['unifiedpush']['web-server']['username'] %> <%= node['unifiedpush']['web-server']['group']%>;
+user <%= node['unifiedpush']['web-server']['username'] %> <%= node['unifiedpush']['user']['group']%>;
 worker_processes <%= @worker_processes %>;
 <% end %>
 error_log stderr;

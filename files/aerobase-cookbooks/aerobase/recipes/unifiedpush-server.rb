@@ -121,6 +121,7 @@ end
 directory server_dir do
   owner aerobase_user
   group aerobase_group
+  recursive true
   mode "0775"
 end
 
