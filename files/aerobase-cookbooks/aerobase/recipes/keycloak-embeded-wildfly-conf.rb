@@ -64,6 +64,9 @@ ruby_block 'copy_keycloak_sources' do
   action :run
 end
 
+# install keycloak-server-wildfly-cli.erb to cli directory
+# update keycloak-server-wildfly-cli.erb on KC version upgrade
+# source template 'keycloak-overlay-X.X.X.Final/bin/keycloak-install-ha.cli'
 template "#{server_dir}/cli/keycloak-server-wildfly.cli" do
   owner aerobase_user
   group aerobase_group
