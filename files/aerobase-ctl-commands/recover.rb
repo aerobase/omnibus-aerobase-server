@@ -14,11 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-install_dir = node['package']['install-dir']
-cmd_helper = CmdHelper.new(node)
 
-powershell_script "set-java-home" do
-  code "#{install_dir}/embedded/bin/find-java.ps1 -SetSystem"
-  flags "-NonInteractive"
-  ignore_failure true
+# Usage example:  aerobase-ctl.bat recover master_password"
+
+add_command 'recover', 'Add keycloak master realm admin user', 2 do |cmd_name, props|
+  
+  # Default location of install-dir is /opt/aerobase/. This path is set during build time.
+  # DO NOT change this value unless you are building your own Aerobase packages
+  if !::File.exists? "#{etc_path}/aerobase.rb" then
+    abort('It looks like aerobase has not been installed yet; skipping the update '\
+      'script.')
+  end
+  
+  if props.nil? 
+    abort('Missing input password, Usage example: aerobase-ctl recover master_password')
+  end	
 end

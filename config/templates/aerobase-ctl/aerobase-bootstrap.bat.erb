@@ -35,7 +35,7 @@ set HOST_NAME="%COMPUTERNAME%.%USERDNSDOMAIN%"
 set HOST_NAME="%COMPUTERNAME%"
 
 @powershell -Command "(gc %AEROBASE_HOME%\Configuration\aerobase.rb) -replace 'GENERATED_EXTERNAL_URL', 'http://%HOST_NAME%' | Out-File %AEROBASE_HOME%\Configuration\aerobase.rb -Encoding default"
-
+@powershell -Command "%AEROBASE_HOME%\Aerobase\embedded\bin\find-java.ps1 -SetSystem" > NUL 2>&1
 GOTO End1
 
 :No1
