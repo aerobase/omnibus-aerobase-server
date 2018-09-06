@@ -78,6 +78,10 @@ if node['unifiedpush']['java']['install_java']
   include_recipe 'java'
 end
 
+if os_helper.is_windows?
+  include_recipe "aerobase::java-home"
+end 
+
 # First setup datastore configuraitons (postgres, cassandra), if required. 
 [
   "postgresql",

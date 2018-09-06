@@ -28,8 +28,13 @@ build do
       mode: 0755, 
 	  vars: {install_dir: "#{install_dir}"}
 	  
-	  erb source: "aerobase-bootstrap.bat.erb",
+    erb source: "aerobase-bootstrap.bat.erb",
       dest: "#{install_dir}/bin/aerobase-bootstrap.bat",
+      mode: 0755
+
+    # Source file copied from https://gist.github.com/se35710/43693e679701387d722206eff1e85f5f
+    erb source: "aerobase-find-java.ps1.erb",
+      dest: "#{install_dir}/embedded/bin/find-java.ps1",
       mode: 0755
   else
     erb source: "aerobase-ctl.erb",
