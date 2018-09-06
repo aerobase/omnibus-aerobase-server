@@ -18,7 +18,7 @@ install_dir = node['package']['install-dir']
 cmd_helper = CmdHelper.new(node)
 
 powershell_script "set-java-home" do
-  code "#{install_dir}/embedded/bin/find-java.ps1 -SetSystem"
+  code "#{install_dir}/embedded/bin/find-java.ps1 -SetSystem -SetSession"
   flags "-NonInteractive"
   ignore_failure true
 end
