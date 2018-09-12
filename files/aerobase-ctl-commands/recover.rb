@@ -38,5 +38,8 @@ add_command 'recover', 'Add keycloak master realm admin user', 2 do |cmd_name, p
   status = run_chef("#{base_path}/embedded/cookbooks/add-keycloak-user.json", "-l fatal -F null -o recipe[aerobase::add-keycloak-user]")
   File.delete("#{base_path}/embedded/cookbooks/add-keycloak-user.json")
   
+  puts ""
+  puts "admin user was added to master realm, restart your server to apply changes"
+  
   exit! status.success? ? 0 : 1  
 end
