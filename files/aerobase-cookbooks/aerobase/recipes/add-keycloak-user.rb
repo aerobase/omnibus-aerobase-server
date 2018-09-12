@@ -15,14 +15,20 @@
 # limitations under the License.
 #
 install_dir = node['package']['install-dir']
+server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+
 os_helper = OsHelper.new(node)
+cmd_helper = CmdHelper.new(node)
+
+password = node['keycloak_admin_password']
+user = node['keycloak_admin_user']
+realm = node['keycloak_admin_realm']
+
+file_name = "add-user-keycloak.sh"
 
 if os_helper.is_windows?
-  powershell_script "set-java-home" do
-    code "#{install_dir}/embedded/bin/find-java.ps1 -SetSystem"
-    flags "-NonInteractive"
-    ignore_failure true
-  end
-else
-  puts "Command not supported for your platform. exiting..."
+  file_name = "add-user-keycloak.bat"
+end
+
+execute "#{server_dir}/bin/#{file_name} -r #{realm} -u #{user} -p #{password}" do
 end

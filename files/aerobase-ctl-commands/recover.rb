@@ -28,5 +28,15 @@ add_command 'recover', 'Add keycloak master realm admin user', 2 do |cmd_name, p
   
   if props.nil? 
     abort('Missing input password, Usage example: aerobase-ctl recover master_password')
-  end	
+  end
+  
+  conf = File.open("#{base_path}/embedded/cookbooks/add-keycloak-user.json", "w")
+  conf.puts "{ \"keycloak_admin_password\": \"#{props}\",  \"keycloak_admin_user\": \"admin\", \"keycloak_admin_realm\": \"master\" }"
+  conf.close
+  
+  # /add-keycloak-user.json run list will be overridden by -o f run_list 
+  status = run_chef("#{base_path}/embedded/cookbooks/add-keycloak-user.json", "-l fatal -F null -o recipe[aerobase::add-keycloak-user]")
+  File.delete("#{base_path}/embedded/cookbooks/add-keycloak-user.json")
+  
+  exit! status.success? ? 0 : 1  
 end
