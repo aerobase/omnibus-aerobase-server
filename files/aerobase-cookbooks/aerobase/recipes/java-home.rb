@@ -16,9 +16,14 @@
 #
 install_dir = node['package']['install-dir']
 cmd_helper = CmdHelper.new(node)
+os_helper = OsHelper.new(node)
 
-powershell_script "set-java-home" do
-  code "#{install_dir}/embedded/bin/find-java.ps1 -SetSystem"
-  flags "-NonInteractive"
-  ignore_failure true
+if os_helper.is_windows?
+  powershell_script "set-java-home" do
+    code "#{install_dir}/embedded/bin/find-java.ps1 -SetSystem"
+    flags "-NonInteractive"
+    ignore_failure true
+  end
+else
+  puts "Command not supported for your platform. exiting..."
 end
