@@ -60,9 +60,9 @@ By default NGINX will listen on the port specified in external_url or implicitly
 ## Using a non-bundled web-server
 
 By default, Aerobase is installed with bundled Nginx.
-Aerobase allows webserver access through user `unifiedpush-www` which resides
+Aerobase allows webserver access through user `aerobase-www` which resides
 in the group with the same name. To allow an external webserver access to
-Aerobase, external webserver user needs to be added `unifiedpush-www` group.
+Aerobase, external webserver user needs to be added `aerobase-www` group.
 
 To use another web server like Apache or an existing Nginx installation you
 will have to perform the following steps:
@@ -74,3 +74,26 @@ will have to perform the following steps:
     ```ruby
     nginx['enable'] = false
     ```
+
+## Addiing additional NGINX Server Blocks
+By default, Aerobase http config block contains an include directive which tells NGINX where additional website configuration files are located.
+If you installed from the official Aerobase repository, this line will say include /var/opt/aerobase/nginx/conf.d/*.conf; as it does in the http block below. 
+Each website you host with NGINX should have its own configuration file in /var/opt/aerobase/nginx/conf.d/.
+```bash
+http {
+    ...
+    ...
+    ...
+
+    include /var/opt/aerobase/nginx/conf.d/*.conf;
+}
+```
+
+## Addiing additional Location Blocks to Aerobase Server
+The location setting lets you configure how NGINX will respond to requests for resources within the server.
+You can pugin additional locations file to aerobase server by setting a value to custom_aerobase_config in /etc/aerobase/aerobase.rb; as it does in the server block below.
+
+```ruby
+nginx['custom_aerobase_config'] = "include /var/opt/aerobase/nginx/conf.d/additional-location.import;"
+```
+Now run `sudo aerobase-ctl reconfigure`.
