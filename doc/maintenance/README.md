@@ -33,7 +33,7 @@ following commands.
 sudo aerobase-ctl start
 
 # Stop all Aerobase components
-sudo unifiedpush-ctl stop
+sudo aerobase-ctl stop
 
 # Restart all Aerobase components
 sudo aerobase-ctl restart

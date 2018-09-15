@@ -1,4 +1,4 @@
-Unifiedpush Server Omnibus
+Aerobase Server Omnibus
 ==================================
 This project creates full-stack platform-specific packages for the Aerobase Server.
 

@@ -18,7 +18,7 @@ For self-signed certificate, we can create the SSL key and certificate files in 
 
     sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/aerobase/ssl/aerobase.example.com.key -out /etc/aerobase/ssl/aerobase.example.com.crt
 
-Now run `sudo aerobase-ctl reconfigure`. When the reconfigure finishes your Unifiedpus instance should be reachable at https://aerobase.example.com.
+Now run `sudo aerobase-ctl reconfigure`. When the reconfigure finishes your Aerobase instance should be reachable at https://aerobase.example.com.
 
 ## Redirect HTTP requests to HTTPS
 
