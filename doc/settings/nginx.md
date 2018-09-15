@@ -75,7 +75,7 @@ will have to perform the following steps:
     nginx['enable'] = false
     ```
 
-## Addiing additional NGINX Server Blocks
+## Adding additional NGINX Server Blocks
 By default, Aerobase http config block contains an include directive which tells NGINX where additional website configuration files are located.
 If you installed from the official Aerobase repository, this line will say include /var/opt/aerobase/nginx/conf.d/*.conf; as it does in the http block below. 
 Each website you host with NGINX should have its own configuration file in /var/opt/aerobase/nginx/conf.d/.
@@ -89,7 +89,7 @@ http {
 }
 ```
 
-## Addiing additional Location Blocks to Aerobase Server
+## Adding additional Location Blocks to Aerobase Server
 The location setting lets you configure how NGINX will respond to requests for resources within the server.
 You can pugin additional locations file to aerobase server by setting a value to custom_aerobase_config in /etc/aerobase/aerobase.rb; as it does in the server block below.
 
