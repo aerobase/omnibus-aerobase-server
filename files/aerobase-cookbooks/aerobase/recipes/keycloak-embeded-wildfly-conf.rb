@@ -37,8 +37,11 @@ database_name = node['unifiedpush']['keycloak-server']['db_database']
 database_username = node['unifiedpush']['keycloak-server']['db_username']
 database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
 
+# Always include modules since they are statically referenced from war file.
+include_recipe "aerobase::postgresql-module-wildfly-conf"
+include_recipe "aerobase::mssql-module-wildfly-conf"
+
 if database_adapter == 'postgresql'
-  include_recipe "aerobase::postgresql-module-wildfly-conf"
   jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
   jdbc_hbm_dialect = "org.hibernate.dialect.PostgreSQL95Dialect"
   jdbc_driver_name = "postgresql"
@@ -47,7 +50,6 @@ if database_adapter == 'postgresql'
 end
 
 if database_adapter == 'mssql'
-  include_recipe "aerobase::mssql-module-wildfly-conf"
   jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_username)
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect"
   jdbc_driver_name = "sqlserver"

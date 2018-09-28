@@ -28,4 +28,6 @@ relative_path "sqljdbc_6.4/enu/auth/x64"
 build do
   command "mkdir -p #{install_dir}/embedded/apps/mssql"
   sync "./", "#{install_dir}/embedded/apps/mssql"
+  copy "../../mssql-jdbc-6.4.0.jre8.jar", "#{install_dir}/embedded/apps/mssql"
+  
 end
