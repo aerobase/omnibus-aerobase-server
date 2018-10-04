@@ -1,6 +1,7 @@
 embed-server --server-config=standalone-full-ha.xml
 /subsystem=datasources/data-source=KeycloakDS/:add(connection-url="<%= @jdbc_url %>",jta=false,driver-name=<%= @jdbc_driver_name %>,jndi-name=java:jboss/datasources/KeycloakDS,password=keycloak_server,user-name=<%= @db_username %>,use-java-context=true,min-pool-size=5,max-pool-size=<%= @db_pool %>,validate-on-match=false,background-validation=false,background-validation-millis=1)
 /subsystem=datasources/jdbc-driver=<%= @jdbc_driver_name %>:add(driver-name=<%= @jdbc_driver_name %>,driver-module-name=<%= @jdbc_driver_module_name %>,driver-xa-datasource-class-name=<%= @jdbc_driver_class_name %>)
+/subsystem=infinispan/cache-container=keycloak:add()
 /subsystem=infinispan/cache-container=keycloak/transport=TRANSPORT:add(lock-timeout=60000)
 /subsystem=infinispan/cache-container=keycloak/local-cache=realms:add()
 /subsystem=infinispan/cache-container=keycloak/local-cache=realms/memory=object:add(size=10000)
