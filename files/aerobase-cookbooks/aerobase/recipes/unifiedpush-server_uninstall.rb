@@ -41,5 +41,6 @@ end
 
 if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat uninstall /name #{global_vars['srv_label']}" do
+    ignore_failure true
   end
 end

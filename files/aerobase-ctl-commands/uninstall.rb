@@ -32,7 +32,7 @@ add_command 'uninstall', 'Run uninstall script', 2 do |cmd_name, props|
   end	
     
   conf = File.open("#{base_path}/embedded/cookbooks/uninstall.json", "w")
-  conf.puts "{ \"destructive\": \"#{destructive}\" }"
+  conf.puts "{ \"destructive\": #{destructive} }"
   conf.close
   
   status = run_chef("#{base_path}/embedded/cookbooks/uninstall.json", "-l fatal -F null -o recipe[aerobase::uninstall]")
