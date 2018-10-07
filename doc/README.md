@@ -28,6 +28,7 @@
 
 - [Aerobase is unreachable in my browser](common_installation_problems/README.md#unifiedpush-is-unreachable-in-my-browser).
 - ['pg_dump: aborting because of server version mismatch'](settings/database.md#using-a-non-packaged-postgresql-database-management-server)
+- [Slow server startup on Windows Server](common_installation_problems/README.md)
 
 ## Omnibus Aerobase developer documentation
 
