@@ -81,8 +81,8 @@ module Unifiedpush
 	  info("Installing according to external_url -> " + uri.host)
 	  
       Unifiedpush['global']['fqdn'] = external_url.to_s
+      Unifiedpush['global']['server_port'] = uri.port
       Unifiedpush['unifiedpush_server']['server_host'] = uri.host
-      Unifiedpush['unifiedpush_server']['server_port'] = uri.port
       Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host)
       
 	  config_dir = node['package']['config-dir']
@@ -182,7 +182,7 @@ module Unifiedpush
 
     def parse_nginx_listen_ports
       [
-        [%w{nginx listen_port}, %w{unifiedpush_server server_port}],
+        [%w{nginx listen_port}, %w{global server_port}],
 
       ].each do |left, right|
         if !Unifiedpush[left.first][left.last].nil?

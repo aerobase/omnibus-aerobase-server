@@ -79,7 +79,7 @@ fi
 # GC_LOG="true"
 
 # Load Application properties from a local file.
-JAVA_OPTS="$JAVA_OPTS -Daerobase.config.dir=<%= @dir %>/etc/"
+JAVA_OPTS="$JAVA_OPTS -Daerobase.config.dir=<%= @dir %>/etc/ -Djboss.http.port=<%= @server_port %>"
 
 # Cluster configuration - Set private address to required subnet
 JAVA_OPTS="$JAVA_OPTS -Djboss.bind.address.private=<%= @server_address %> -Dspring.profiles.active=default<% if @cassandra_enabled %>,realtimedb<% end %>"

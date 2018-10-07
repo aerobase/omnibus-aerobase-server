@@ -32,6 +32,7 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
+default['unifiedpush']['global']['server_port'] = 80
 # Windows Services prefix
 default['unifiedpush']['gloabl']['srv_label'] = "Aerobase"
 
@@ -85,7 +86,7 @@ default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
 # Internal network bind address. If the node has a default route, this is the IPV4 address for the interface. 
 default['unifiedpush']['unifiedpush-server']['server_address'] = node['ipaddress']
 default['unifiedpush']['unifiedpush-server']['server_contactpoints'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['server_port'] = 80
+default['unifiedpush']['unifiedpush-server']['server_port'] = 8080
 default['unifiedpush']['unifiedpush-server']['server_https'] = false
 default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
 default['unifiedpush']['unifiedpush-server']['cache_owners'] = 1

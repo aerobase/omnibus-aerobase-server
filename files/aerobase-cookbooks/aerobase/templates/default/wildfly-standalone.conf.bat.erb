@@ -76,7 +76,7 @@ rem # Uncomment this out to control garbage collection logging
 rem set "GC_LOG=true"
 
 rem # Load Application properties from a local file.
-set "JAVA_OPTS=%JAVA_OPTS% -Daerobase.config.dir=/<%= @dir %>/etc/"
+set "JAVA_OPTS=%JAVA_OPTS% -Daerobase.config.dir=/<%= @dir %>/etc/ -Djboss.http.port=<%= @server_port %>"
 
 rem # Cluster configuration - Set private address to required subnet
 set "JAVA_OPTS=%JAVA_OPTS% -Djboss.bind.address.private=<%= @server_address %> -Djava.library.path=<%= @dir %>/bin/mssql"

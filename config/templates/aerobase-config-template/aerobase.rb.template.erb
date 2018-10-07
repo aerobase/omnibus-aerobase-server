@@ -28,6 +28,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 # global['contactpoints'] = node['fqdn']
 # global['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 # global['portal_mode'] = false
+# global['server_port'] = 80
+
 ## Windows services labeling only.
 # global['srv_label'] = "Aerobase"
 
@@ -59,7 +61,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## Internal network bind address. If the node has a default route, this is the IPV4 address for the interface.
 # unifiedpush_server['server_address'] = node['ipaddress']
 # unifiedpush_server['server_contactpoints'] = node['fqdn']
-# unifiedpush_server['server_port'] = 80
+# unifiedpush_server['server_port'] = 8080
 # unifiedpush_server['server_https'] = false
 # unifiedpush_server['time_zone'] = nil
 # unifiedpush_server['cache_owners'] = 1
