@@ -15,7 +15,7 @@
 #
 
 name "unifiedpush-admin-ui"
-default_version "kc45"
+default_version "master"
 license :project_license
 
 dependency "ruby"
