@@ -75,6 +75,7 @@ subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
 unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
+unifiedpush_server_port = node['unifiedpush']['unifiedpush-server']['server_port']
 keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 portal_mode = node['unifiedpush']['global']['portal_mode']
 
@@ -84,6 +85,7 @@ nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
 	       :subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
                :aerobase_http_configd => nginx_confd_dir,
 	       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
+	       :unifiedpush_server_port, => unifiedpush_server_port,
 	       :install_dir => install_dir,
       	       :html_dir => nginx_html_dir,
                :portal_mode => portal_mode,
