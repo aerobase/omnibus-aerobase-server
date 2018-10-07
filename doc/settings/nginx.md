@@ -75,8 +75,22 @@ will have to perform the following steps:
     nginx['enable'] = false
     ```
 
-## Adding additional NGINX Server Blocks
+## Adding additional Directives to nginx config
+By default, Aerobase config file contains global nginx directives, e.g: worker_processes, events, etc.
+You can pugin additional directives to aerobase server by setting a value to custom_nginx_config in /etc/aerobase/aerobase.rb; as it does in the server block below.
+
+```ruby
+nginx['custom_nginx_config'] = "include /var/opt/aerobase/nginx/conf.d/additional-nginx-directives.import;"
+```
+
+## Adding additional Directives to Http Blocks
+### Option 1
 By default, Aerobase http config block contains an include directive which tells NGINX where additional website configuration files are located.
+You can pugin additional Directives to aerobase Http by setting a value to custom_http_config in /etc/aerobase/aerobase.rb; as it does in the server block below.
+```ruby
+nginx['custom_http_config'] = "include /var/opt/aerobase/nginx/conf.d/additional-http-directives.import;"
+```
+### Option 2
 If you installed from the official Aerobase repository, this line will say include /var/opt/aerobase/nginx/conf.d/*.conf; as it does in the http block below. 
 Each website you host with NGINX should have its own configuration file in /var/opt/aerobase/nginx/conf.d/.
 ```bash

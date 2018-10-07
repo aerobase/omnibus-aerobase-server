@@ -17,6 +17,8 @@ events {
   worker_connections <%= @worker_connections %>;
 }
 
+<%= @custom_nginx_config %>
+
 http {
   sendfile <%= @sendfile %>;
   tcp_nopush <%= @tcp_nopush %>;
@@ -41,6 +43,7 @@ http {
 
   include <%= @install_dir %>/embedded/conf/mime.types;
 
+  <%= @custom_http_config %>
   <% if @aerobase_http_conf %>
   include <%= @aerobase_http_conf %>;
   <% end %>
@@ -48,6 +51,4 @@ http {
   include <%= @subdomains_http_conf %>;
   <% end %>
   include <%= @aerobase_http_configd %>/*.conf;
-
-  <%= @custom_nginx_config %>
 }
