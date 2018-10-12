@@ -94,8 +94,9 @@ class PgHelper
     install_dir = node['package']['install-dir']
     cmd = []
     if OsHelper.new(node).not_windows?
-      cmd << "#{install_dir}/embedded/bin/chpst"
-      cmd << "-u #{pg_user}"
+      unless password.nil?
+        cmd << "PGPASSWORD=#{password}"
+      end
       cmd << "#{install_dir}/embedded/bin/psql"
     else
       cmd << "\"#{install_dir}/embedded/bin/psql\""
