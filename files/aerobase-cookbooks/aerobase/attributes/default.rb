@@ -154,7 +154,7 @@ default['unifiedpush']['postgresql']['log_rotation']['num_to_keep'] = 10
 # Unix socket directory is supported only for linux.
 default['unifiedpush']['postgresql']['server'] = "localhost"
 default['unifiedpush']['postgresql']['username'] = "aerobase-sql"
-# Used only under windows os
+# Used only when pointing to external database or under windows
 default['unifiedpush']['postgresql']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['postgresql']['uid'] = nil
 default['unifiedpush']['postgresql']['gid'] = nil

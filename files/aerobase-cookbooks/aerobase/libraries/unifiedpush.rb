@@ -118,10 +118,10 @@ module Unifiedpush
         # %w{unifiedpush_server db_username} corresponds to
         # Unifiedpush['unifiedpush_server']['db_username'], etc.
         [%w{unifiedpush_server db_username}, %W{#{db_adapter} sql_ups_user}],
-        [%w{unifiedpush_server db_host}, %W{#{db_adapter} listen_address}],
+        [%w{unifiedpush_server db_host}, %W{#{db_adapter} server}],
         [%w{unifiedpush_server db_port}, %W{#{db_adapter} port}],
-		[%w{keycloak_server db_username}, %W{#{db_adapter} sql_ks_user}],
-        [%w{keycloak_server db_host}, %W{#{db_adapter} listen_address}],
+        [%w{keycloak_server db_username}, %W{#{db_adapter} sql_ks_user}],
+        [%w{keycloak_server db_host}, %W{#{db_adapter} server}],
         [%w{keycloak_server db_port}, %W{#{db_adapter} port}]
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
