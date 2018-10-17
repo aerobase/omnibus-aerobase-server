@@ -78,14 +78,26 @@ module Unifiedpush
         raise "Aerobase external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
       end
 
-	  info("Installing according to external_url -> " + uri.host)
+      info("Installing according to external_url -> " + uri.host)
 	  
       Unifiedpush['global']['fqdn'] = external_url.to_s
       Unifiedpush['global']['server_port'] = uri.port
-      Unifiedpush['unifiedpush_server']['server_host'] = uri.host
+
+      [
+        # %w{unifiedpush_server server_host} corresponds to
+        # Unifiedpush['unifiedpush_server']['server_host'], etc.
+        [%w{unifiedpush_server server_host}, %W{#{uri.host}}],
+        [%w{keycloak_server server_host}, %W{#{uri.host}}]
+      ].each do |left, right|
+        if Unifiedpush[left.first][left.last].nil?
+          # Only If the user does not explicitly sets a value for e.g.
+          Unifiedpush[left.first][left.last] = right.first
+        end
+      end
+
       Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host)
       
-	  config_dir = node['package']['config-dir']
+      config_dir = node['package']['config-dir']
 	  
       case uri.scheme
       when "http"
@@ -108,12 +120,12 @@ module Unifiedpush
       # DB username, host or port, then those settings should also be applied to
       # unifiedpush.
 	  
-	  # Use either mssql or postgresql props
-	  db_adapter =  Unifiedpush['unifiedpush_server']['db_adapter']
-	  if db_adapter.nil?
-	     # Use default if no override was specified
-	     db_adapter =  node['unifiedpush']['unifiedpush-server']['db_adapter']
-	  end
+      # Use either mssql or postgresql props
+      db_adapter =  Unifiedpush['unifiedpush_server']['db_adapter']
+      if db_adapter.nil?
+        # Use default if no override was specified
+        db_adapter =  node['unifiedpush']['unifiedpush-server']['db_adapter']
+      end
       [
         # %w{unifiedpush_server db_username} corresponds to
         # Unifiedpush['unifiedpush_server']['db_username'], etc.
