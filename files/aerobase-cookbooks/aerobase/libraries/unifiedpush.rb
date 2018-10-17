@@ -100,9 +100,9 @@ module Unifiedpush
         # %w{unifiedpush_server server_host} corresponds to
         # Unifiedpush['unifiedpush_server']['server_host'], etc.
         [%w{unifiedpush_server server_host}, %W{#{uri.host}}],
-        [%w{unifiedpush_server server_https}, %W{#{server_https}}],
+        [%w{unifiedpush_server server_https}, [server_https]],
         [%w{keycloak_server server_host}, %W{#{uri.host}}],
-        [%w{keycloak_server server_https}, %W{#{server_https}}]
+        [%w{keycloak_server server_https}, [server_https]]
       ].each do |left, right|
         if Unifiedpush[left.first][left.last].nil?
           # Only If the user does not explicitly sets a value for e.g.
