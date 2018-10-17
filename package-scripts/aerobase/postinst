@@ -31,7 +31,7 @@ fix_directory_permissions()
     # because of the faulty 7.2.0 / 7.2.1 .deb packages.
     /usr/bin/dpkg-query -L aerobase 2>/dev/null | while read f ; do
     if [ -d "$f" ] ; then
-      # This directory may have been created when installing omnibus-unifiedpush-server
+      # This directory may have been created when installing omnibus-aerobase-server
       # 7.2.0 / 7.2.1, so it could have the wrong owner.
       chown root:root "$f"
     fi

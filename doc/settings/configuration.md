@@ -2,7 +2,7 @@
 
 Aerobase Server is configured by setting relevant options in
 `/etc/aerobase/aerobase.rb`. For a complete list of available options, visit the
-[aerobase.rb.template](https://github.com/Aerobase/omnibus-unifiedpush-server/blob/master/config/templates/aerobase-config-template/aerobase.rb.template.erb).
+[aerobase.rb.template](https://github.com/Aerobase/omnibus-aerobase-server/blob/master/config/templates/aerobase-config-template/aerobase.rb.template.erb).
 
 
 ### Configuring the external URL for Aerobase
