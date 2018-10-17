@@ -83,11 +83,26 @@ module Unifiedpush
       Unifiedpush['global']['fqdn'] = external_url.to_s
       Unifiedpush['global']['server_port'] = uri.port
 
+      config_dir = node['package']['config-dir']
+
+      case uri.scheme
+      when "http"
+        server_https = false
+      when "https"
+        server_https = true
+        Unifiedpush['nginx']['ssl_certificate'] ||= "#{config_dir}/ssl/#{uri.host}.crt"
+        Unifiedpush['nginx']['ssl_certificate_key'] ||= "#{config_dir}/ssl/#{uri.host}.key"
+      else
+        raise "Unsupported external URL scheme: #{uri.scheme}"
+      end
+
       [
         # %w{unifiedpush_server server_host} corresponds to
         # Unifiedpush['unifiedpush_server']['server_host'], etc.
         [%w{unifiedpush_server server_host}, %W{#{uri.host}}],
-        [%w{keycloak_server server_host}, %W{#{uri.host}}]
+        [%w{unifiedpush_server server_https}, %W{#{server_https}}],
+        [%w{keycloak_server server_host}, %W{#{uri.host}}],
+        [%w{keycloak_server server_https}, %W{#{server_https}}]
       ].each do |left, right|
         if Unifiedpush[left.first][left.last].nil?
           # Only If the user does not explicitly sets a value for e.g.
@@ -96,19 +111,6 @@ module Unifiedpush
       end
 
       Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host)
-      
-      config_dir = node['package']['config-dir']
-	  
-      case uri.scheme
-      when "http"
-        Unifiedpush['unifiedpush_server']['server_https'] = false
-      when "https"
-        Unifiedpush['unifiedpush_server']['server_https'] = true
-        Unifiedpush['nginx']['ssl_certificate'] ||= "#{config_dir}/ssl/#{uri.host}.crt"
-        Unifiedpush['nginx']['ssl_certificate_key'] ||= "#{config_dir}/ssl/#{uri.host}.key"
-      else
-        raise "Unsupported external URL scheme: #{uri.scheme}"
-      end
 
       unless ["", "/"].include?(uri.path)
         raise "Unsupported external URL path: #{uri.path}"
@@ -194,8 +196,7 @@ module Unifiedpush
 
     def parse_nginx_listen_ports
       [
-        [%w{nginx listen_port}, %w{global server_port}],
-
+        [%w{nginx listen_port}, %w{global server_port}]
       ].each do |left, right|
         if !Unifiedpush[left.first][left.last].nil?
           next
