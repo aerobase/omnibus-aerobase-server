@@ -52,7 +52,7 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
   
   tokens = props.split(";;")
   if !tokens.any?
-    abort("Input #{tokens} is missing required properties")
+    abort("Input #{tokens} is missing required properties") 
   end	
   
   # Backup config file
@@ -60,16 +60,24 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
    
   conf = File.open("#{etc_path}/aerobase.rb", File::RDWR)
   lines = conf.readlines
-  conf.seek(0)
+  conf.close
+
+  # Reopen file to clear previous content
+  conf = File.open("#{etc_path}/aerobase.rb", 'w')
+
+  # Validate Tokens
+  tokens.each { |token| 
+	prop = token.split("=")
+	if !prop.any? || prop.length < 2
+      abort("Property #{token} requires left hand and right hand elements!")
+    end
+  }
   
   lines.each do |line|
     match=false
 	
     tokens.each { |token| 
 	  prop = token.split("=")
-	  if !prop.any? || prop.length < 2
-        abort("Property #{token} requires left hand and right hand elements!")
-      end	
 	  
 	  # For single level prop use space as equality. 
 	  # nonly 'external_url' should be declared in a single level.
@@ -102,4 +110,5 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
 	  conf.puts line
 	end 
   end
+  conf.close
 end
