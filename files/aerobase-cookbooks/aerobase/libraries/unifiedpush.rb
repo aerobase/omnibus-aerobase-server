@@ -254,7 +254,7 @@ class JavaHelper
   def initialize(node)
     @node = node
       node['unifiedpush']['java'].each do |key, value|
-        node.set['java'][key] = value
+        node.override['java'][key] = value
       end
   end
 end
@@ -277,11 +277,11 @@ class CassandraHelper
   def initialize(node)
     @node = node
       node['unifiedpush']['cassandra'].each do |key, value|
-        node.set['cassandra'][key] = value
+        node.override['cassandra'][key] = value
       end
 
       node['unifiedpush']['cassandra-config'].each do |key, value|
-        node.set['cassandra']['config'][key] = value
+        node.override['cassandra']['config'][key] = value
       end
   end
 end

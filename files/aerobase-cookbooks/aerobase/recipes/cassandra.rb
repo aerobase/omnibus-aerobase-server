@@ -107,6 +107,6 @@ ERR
     end
   end
 
-  include_recipe 'unifiedpush::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
-  include_recipe 'unifiedpush::cassandra_maintenance' if node['unifiedpush']['cassandra']['enable']
+  include_recipe 'aerobase::cassandra_keyspace' if node['unifiedpush']['cassandra']['enable']
+  include_recipe 'aerobase::cassandra_maintenance' if node['unifiedpush']['cassandra']['enable']
 end
