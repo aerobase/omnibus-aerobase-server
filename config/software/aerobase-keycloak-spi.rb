@@ -1,5 +1,4 @@
-#
-# Copyright:: Copyright (c) 2018, Aerobase Inc
+# Copyright:: Copyright (c) 2015.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +14,19 @@
 # limitations under the License.
 #
 
-runit_service "nginx" do
-  action :disable
-end
+name "aerobase-keycloak-spi"
+default_version "master"
+skip_transitive_dependency_licensing true
 
+source git: "https://github.com/aerobase/aerobase-keycloak-spi.git"
+
+relative_path "aerobase-keycloak-spi"
+build_dir = "#{project_dir}"
+
+build do
+  command "mvn clean install -DskipTests"
+
+    # Copy dist to package dir.
+  command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-spi"
+  copy "./target/aerobase-keycloak-spi.jar", "#{install_dir}/embedded/apps/aerobase-keycloak-spi"
+end

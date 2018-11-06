@@ -123,6 +123,8 @@ default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
 # Keycloak Server app
 ####
 default['unifiedpush']['keycloak-server']['enable'] = true
+# Install additional aerobase spi services
+default['unifiedpush']['keycloak-server']['aerobase_spi'] = false
 default['unifiedpush']['keycloak-server']['ha'] = false
 # When keycloak-server is disabled, server_host should point to external URL.
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']

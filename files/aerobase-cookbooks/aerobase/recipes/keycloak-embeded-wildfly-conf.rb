@@ -103,3 +103,12 @@ end
 execute 'KC datasource and config cli script' do
   command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/keycloak-server-ups-realms.cli"
 end
+
+# Copy themes
+ruby_block 'copy_aerobase_keycloak_spi' do
+  block do
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-spi/.", "#{server_dir}/standalone/deployments/"
+  end
+  only_if { node['unifiedpush']['keycloak-server']['aerobase_spi'] }
+end
+
