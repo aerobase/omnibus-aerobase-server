@@ -125,6 +125,8 @@ default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
 default['unifiedpush']['keycloak-server']['enable'] = true
 # Install additional aerobase spi services
 default['unifiedpush']['keycloak-server']['aerobase_spi'] = false
+# private_themes will filter aerobase themes and realm private themes
+default['unifiedpush']['keycloak-server']['private_themes'] = false
 default['unifiedpush']['keycloak-server']['ha'] = false
 # When keycloak-server is disabled, server_host should point to external URL.
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
