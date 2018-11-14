@@ -87,7 +87,10 @@ template "#{server_dir}/cli/keycloak-server-ups-realms.cli" do
   group aerobase_group
   mode 0755
   source "keycloak-server-ups-realms-cli.erb"
-  variables({:server_dir => "#{server_dir}"})
+  variables(keycloak_vars.merge({
+      :server_dir => "#{server_dir}"
+    }
+  ))
 end
 
 if os_helper.is_windows?
