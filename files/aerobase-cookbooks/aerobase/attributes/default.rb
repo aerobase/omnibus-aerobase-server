@@ -266,6 +266,7 @@ default['unifiedpush']['nginx']['worker_connections'] = 10240
 default['unifiedpush']['nginx']['sendfile'] = 'off'
 default['unifiedpush']['nginx']['tcp_nopush'] = 'on'
 default['unifiedpush']['nginx']['tcp_nodelay'] = 'on'
+default['unifiedpush']['nginx']['proxy_cache'] = false
 default['unifiedpush']['nginx']['proxy_buffer_size'] = '8k'
 default['unifiedpush']['nginx']['proxy_buffers'] = '32 16k'
 default['unifiedpush']['nginx']['proxy_busy_buffers_size'] = '32k'

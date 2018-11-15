@@ -44,6 +44,9 @@ http {
   include <%= @install_dir %>/embedded/conf/mime.types;
 
   <%= @custom_http_config %>
+  <% if @proxy_cache %>
+  include <%= @aerobase_cache_conf %>;
+  <% end %>
   <% if @aerobase_http_conf %>
   include <%= @aerobase_http_conf %>;
   <% end %>

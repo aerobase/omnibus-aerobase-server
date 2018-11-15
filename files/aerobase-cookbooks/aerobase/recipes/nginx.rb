@@ -29,6 +29,7 @@ nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_confd_dir = File.join(nginx_dir, "conf.d")
 nginx_html_dir = File.join(nginx_dir, "www/html")
+nginx_cache_dir = File.join(nginx_dir, "cache")
 nginx_ups_html_dir = File.join(nginx_html_dir, "unifiedpush-server")
 nginx_gsg_html_dir = File.join(nginx_html_dir, "getting-started")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
@@ -40,6 +41,7 @@ nginx_ssl_dir = File.join(config_dir, "ssl")
   nginx_conf_dir,
   nginx_confd_dir,
   nginx_html_dir,
+  nginx_cache_dir,
   nginx_ups_html_dir,
   nginx_gsg_html_dir,
   nginx_log_dir,
@@ -68,6 +70,7 @@ nginx_config = File.join(nginx_conf_dir, "nginx.conf")
 nginx_aerobase_js = File.join(nginx_html_dir, "aerobase.js")
 
 aerobase_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
+aerobase_cache_conf = File.join(nginx_conf_dir, "aerobase-proxy-cache.conf")
 aerobase_locations_import = File.join(nginx_conf_dir, "aerobase-locations.import")
 aerobase_sub_module_import = File.join(nginx_conf_dir, "aerobase-sub-module.import")
 subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
@@ -84,10 +87,12 @@ nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
                :aerobase_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
 	       :subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
                :aerobase_http_configd => nginx_confd_dir,
+	       :aerobase_cache_conf => aerobase_cache_conf,
 	       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
 	       :unifiedpush_server_port => unifiedpush_server_port,
 	       :install_dir => install_dir,
       	       :html_dir => nginx_html_dir,
+	       :cache_dir => nginx_cache_dir,
                :portal_mode => portal_mode,
 	       :windows => os_helper.is_windows?
              })
@@ -100,6 +105,15 @@ end
 
 template aerobase_http_conf do
   source "nginx-aerobase-http.conf.erb"
+  owner web_server_user
+  group web_server_group
+  mode "0644"
+  variables nginx_vars
+  action nginx_server_enabled ? :create : :delete
+end
+
+template aerobase_cache_conf do
+  source "aerobase-proxy-cache.conf.erb"
   owner web_server_user
   group web_server_group
   mode "0644"
