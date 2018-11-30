@@ -15,7 +15,7 @@ run: unifiedpush-server: (pid 6519) 6036s; run: log: (pid 26380) 182248s
 
 ### Tail process logs
 
-See [doc/settings/logs.md.](doc/settings/logs.md)
+See [doc/settings/logs.md.](../settings/logs.md)
 
 ### Starting and stopping
 
