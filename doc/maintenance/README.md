@@ -21,7 +21,7 @@ See [doc/settings/logs.md.](../settings/logs.md)
 
 After Aerobase is installed and configured, your server will have a Runit
 service directory (`runsvdir`) process running that gets started at boot via
-`/etc/inittab` or the `/etc/init/unifiedpush-server.conf` Upstart resource.  You
+`/etc/inittab` or the `/etc/init/unifiedpush-server.conf | /etc/systemd/system/unifiedpush-runsvdir-start.service` Upstart resource.  You
 should not have to deal with the `runsvdir` process directly; you can use the
 `aerobase-ctl` front-end instead.
 
