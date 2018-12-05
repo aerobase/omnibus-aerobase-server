@@ -113,7 +113,7 @@ template aerobase_http_conf do
 end
 
 template aerobase_cache_conf do
-  source "aerobase-proxy-cache.conf.erb"
+  source "nginx-aerobase-proxy-cache.conf.erb"
   owner web_server_user
   group web_server_group
   mode "0644"
