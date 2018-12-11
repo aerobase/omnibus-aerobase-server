@@ -178,6 +178,17 @@ function java_from_registry([Switch]$wow = $false) {
     return $javas
 }
 
+
+function java_from_aerobase {
+    Write-Verbose "Searching for ""java.exe"" in Aerobase Home"
+	$path = "$PSScriptRoot\..\openjdk\jre\bin\"
+	If (Test-Path "$path\java.exe") {
+		Write-Verbose "Checking for Java in ""$path"""
+        return $(java_properties "$path\java.exe")
+    }
+    Write-Verbose "No Java found in PATH"
+}
+
 function sort_javas([Array]$javas) {
     return [Array]@( $javas | Sort-Object -Property "java.version", @{Expression={ if ($_."custom.vendor" -eq "Oracle") { 1 } elseif ($_."custom.vendor" -eq "OpenJDK") { 2 } elseif ($_."custom.vendor" -eq "IBM") { 3 } else { 4 }}; Ascending=$true }, "com.ibm.oti.jcl.build" -Descending )
 }
@@ -228,7 +239,7 @@ function set_environment([String]$target, [String]$javahome, [String]$jrehome) {
 }
 
 $javas = [Array]@()
-:find_java foreach ($iex in @( 'java_from_path', 'java_from_env "JRE_HOME"', 'java_from_env "JAVA_HOME"', 'java_from_registry', 'java_from_registry -wow', 'java_from_full_path' )) {
+:find_java foreach ($iex in @( 'java_from_path', 'java_from_env "JRE_HOME"', 'java_from_env "JAVA_HOME"', 'java_from_registry', 'java_from_registry -wow', 'java_from_full_path', 'java_from_aerobase' )) {
     $javas += [Array]@( Invoke-Expression $iex )
     $javas = @( select_architecture $javas $Architecture )
     $javas = @( select_package $javas $Package )
