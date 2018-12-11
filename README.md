@@ -51,6 +51,11 @@ gem install bundler
 ```
 
 ```shell
+# Windows Only
+$ load-omnibus-toolchain.bat
+```
+
+```shell
 $ bundle install --without development --binstubs
 ```
 
