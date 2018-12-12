@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/aerobase/omnibus-software.git
-  revision: 29d92757d05cef23f8745545cdf2e5b906d733dd
+  revision: 6452bb8757484599fd8147112ab9e5bd96665f70
   branch: master
   specs:
-    omnibus-software (4.0.0)
+    omnibus-software (4.2.0)
       chef-sugar (>= 3.4.0)
       omnibus (>= 5.6.1)
 
