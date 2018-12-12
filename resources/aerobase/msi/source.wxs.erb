@@ -113,6 +113,15 @@
                              Name="PATH" Action="set" Part="last" System="yes" Value="[PROJECTLOCATIONBIN]" />
               </Component>
             </Directory>
+			<Directory Id="PROJECTLOCATIONSBIN" Name="embedded" >
+              <Component Id="AerobasePathSbin" Guid="{ccab34f4-151e-4f86-84f8-53c1269a582f}" >
+				<!-- Ruby mixlib shellout ignore first path line. -->
+				<!-- We add aerobase path twice to overcome this.  -->
+				<!-- TODO - A better workaround would fix path in helper.rb->ShellOutHelper -->
+				<Environment Id="AerobasePathEnvironmentSbin"
+                             Name="PATH" Action="set" Part="first" System="yes" Value="[PROJECTLOCATIONSBIN]sbin" />
+              </Component>
+            </Directory>
           </Directory>
 		  <Directory Id="PROJECTDATA" Name="Data" >
             <Component Id="DataLocationPermissions" Guid="{986f0f71-d3d4-438c-b7fc-fd7c6f5be256}" >
@@ -137,6 +146,7 @@
       <ComponentRef Id="ProjectLocationPermissions" />
 	  <ComponentRef Id="DataLocationPermissions" />
       <ComponentRef Id="AerobasePath" />
+	  <ComponentRef Id="AerobasePathSbin" />
     </Feature>
 
     <!--
