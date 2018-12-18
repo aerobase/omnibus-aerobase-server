@@ -20,6 +20,39 @@
       proxy_pass https://www.google-analytics.com<% if @set_real_ip_from %><%= '$uri$is_args$args&uip=$remote_addr' %><% end %>;
   }
 
+  # Serve static theme resource with/without cacheing.
+  location ~* ^/auth/.+\.(?:css|cur|js|jpe?g|gif|htc|ico|png|html|xml|otf|ttf|eot|woff|woff2|svg)$ {
+    ## If you use HTTPS make sure you disable gzip compression
+    ## to be safe against BREACH attack.
+    <%= 'gzip off;' if @https %>
+
+    ## Some requests take more than 30 seconds.
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+    proxy_redirect          off;
+
+    proxy_set_header    Host                $http_host;
+    proxy_set_header    X-Real-IP           $remote_addr;
+    <% if @https %>
+    proxy_set_header    X-Forwarded-Ssl     on;
+    <% end %>
+    proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+    proxy_set_header    X-Forwarded-Proto   $scheme;
+    proxy_set_header    X-Frame-Options     SAMEORIGIN;
+    <% if @proxy_cache %>
+    proxy_cache aerobase_cache;
+    proxy_cache_revalidate on;
+    proxy_cache_valid      200  <%= @cache_expires %>;
+    proxy_cache_use_stale error timeout updating http_500 http_502
+                       http_503 http_504;
+    proxy_cache_background_update on;
+    proxy_cache_lock on;
+    add_header X-Cache-Status $upstream_cache_status;
+    <% end %>
+    proxy_pass http://127.0.0.1:<%= @unifiedpush_server_port %>;
+    expires 48h;
+  }
+
   location / {
     ## Serve static files from defined root folder.
     root <%= @html_dir %>;
@@ -48,7 +81,6 @@
     proxy_set_header    X-Frame-Options     SAMEORIGIN;
 
     proxy_pass http://127.0.0.1:<%= @unifiedpush_server_port %>;
-    expires 0;
   }
 
   error_page  404              /404.html;

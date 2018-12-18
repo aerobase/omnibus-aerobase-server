@@ -214,7 +214,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # nginx['sendfile'] = 'off'
 # nginx['tcp_nopush'] = 'on'
 # nginx['tcp_nodelay'] = 'on'
-# nginx['proxy_cache'] = false
 # nginx['proxy_buffer_size'] = '8k'
 # nginx['proxy_buffers'] = '32 16k'
 # nginx['proxy_busy_buffers_size'] = '32k'
@@ -226,7 +225,9 @@ external_url 'GENERATED_EXTERNAL_URL'
 # nginx['gzip_types'] = [ "text/plain", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript", "application/json" ]
 # nginx['keepalive_timeout'] = 65
 # nginx['client_max_body_size'] = '250m'
-# nginx['cache_max_size'] = '5000m'
+# nginx['proxy_cache'] = false
+# nginx['cache_max_size'] = '10g'
+# nginx['cache_expires'] = '48h'
 # nginx['redirect_http_to_https'] = false
 # nginx['redirect_http_to_https_port'] = 80
 # nginx['ssl_certificate'] = "#{node['package']['config-dir']}/ssl/#{node['fqdn']}.crt"
