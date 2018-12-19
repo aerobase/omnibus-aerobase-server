@@ -15,7 +15,7 @@
 #
 
 name "unifiedpush-server"
-default_version "v2.1.0"
+default_version "v2.1.1"
 license :project_license
 
 dependency "ruby"

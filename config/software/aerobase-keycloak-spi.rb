@@ -15,7 +15,7 @@
 #
 
 name "aerobase-keycloak-spi"
-default_version "v2.1.0"
+default_version "v2.1.1"
 skip_transitive_dependency_licensing true
 
 source git: "https://github.com/aerobase/aerobase-keycloak-spi.git"
