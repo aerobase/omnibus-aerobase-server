@@ -1,2 +1,4 @@
 embed-server --server-config=standalone-full-ha.xml
 /system-property=aerogear.config.oauth2.keycloak.url:add(value=http<% if @server_https %>s<% end %>://<%= @server_host %>/<%= @context_root %>)
+/system-property=jboss.as.management.blocking.timeout:add(value=<%= @start_timeout %>)
+/subsystem=transactions/:write-attribute(name=default-timeout,value=<%= @start_timeout %>)

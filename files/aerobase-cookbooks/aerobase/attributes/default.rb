@@ -134,6 +134,7 @@ default['unifiedpush']['keycloak-server']['server_https'] = false
 default['unifiedpush']['keycloak-server']['context_root'] = "auth"
 default['unifiedpush']['keycloak-server']['cache_owners'] = 1
 default['unifiedpush']['keycloak-server']['theme_cache'] = true
+default['unifiedpush']['keycloak-server']['start_timeout'] = "600"
 # Database properties
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_kc_user, listen_address, port]
 default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
