@@ -59,6 +59,9 @@ server {
   error_log   <%= @log_directory %>/unifiedpush_error.log;
 
   <%= @custom_aerobase_config %>
-  
+  <% if @portal_mode %>
+  # Protect access to aerobase apps outside of iframe context
+  include aerobase-sub-module.import;
+  <% end %> 
   include aerobase-locations.import;
 }
