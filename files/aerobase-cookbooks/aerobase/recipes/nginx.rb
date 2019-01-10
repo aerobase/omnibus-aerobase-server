@@ -18,7 +18,6 @@
 os_helper = OsHelper.new(node)
 account_helper = AccountHelper.new(node)
 omnibus_helper = OmnibusHelper.new(node)
-domain_helper = DomainHelper.new(node)
 
 web_server_user = account_helper.web_server_user
 web_server_group = account_helper.web_server_group
@@ -74,6 +73,7 @@ aerobase_cache_conf = File.join(nginx_conf_dir, "aerobase-proxy-cache.conf")
 aerobase_locations_import = File.join(nginx_conf_dir, "aerobase-locations.import")
 aerobase_sub_module_import = File.join(nginx_conf_dir, "aerobase-sub-module.import")
 subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
+subdomains_http_service-conf = File.join(nginx_html_dir, "mobile-services.json")
 
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
@@ -81,6 +81,7 @@ unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
 unifiedpush_server_port = node['unifiedpush']['unifiedpush-server']['server_port']
 keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 portal_mode = node['unifiedpush']['global']['portal_mode']
+top_domain = node['unifiedpush']['global']['top_domain']
 
 # Include the config file for unifiedpush-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
@@ -94,6 +95,7 @@ nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
       	       :html_dir => nginx_html_dir,
 	       :cache_dir => nginx_cache_dir,
                :portal_mode => portal_mode,
+	       :top_domain => top_domain,
 	       :windows => os_helper.is_windows?
              })
 
@@ -144,6 +146,15 @@ end
 
 template subdomains_http_conf do
   source "nginx-subdomains-http.conf.erb"
+  owner web_server_user
+  group web_server_group
+  mode "0644"
+  variables nginx_vars
+  action nginx_server_enabled ? :create : :delete
+end
+
+template subdomains_http_service-conf do
+  source "nginx-subdomains-service-config.erb"
   owner web_server_user
   group web_server_group
   mode "0644"

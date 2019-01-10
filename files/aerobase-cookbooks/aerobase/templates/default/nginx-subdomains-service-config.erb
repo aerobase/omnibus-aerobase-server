@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "namespace": "TEMPLATE-realm-config",
+  "clientId": "TEMPLATE-client",
+  "services": [
+    {
+      "id": "aerobase",
+      "name": "aerobase",
+      "type": "keycloak",
+      "url": "https://TEMPLATE.<%= @top_domain %>/auth/",
+      "config": {
+        "authServerUrl": "https://TEMPLATE.<%= @top_domain %>/auth",
+        "realm": "TEMPLATE",
+        "resource": "TEMPLATE-client",
+        "ssl-required": "external",
+        "public-client": true,
+        "url": "https://TEMPLATE.<%= @top_domain %>/auth"
+      }
+    }
+  ]
+}
+~ 

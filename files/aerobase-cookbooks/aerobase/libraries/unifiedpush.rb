@@ -81,6 +81,7 @@ module Unifiedpush
       info("Installing according to external_url -> " + uri.host)
 	  
       Unifiedpush['global']['fqdn'] = external_url.to_s
+      Unifiedpush['global']['top_domain'] = DomainHelper.new(node).parse_domain(uri.host)
       Unifiedpush['global']['server_port'] = uri.port
 
       config_dir = node['package']['config-dir']
@@ -110,7 +111,7 @@ module Unifiedpush
         end
       end
 
-      Unifiedpush['unifiedpush_server']['webapp_host'] = DomainHelper.new(node).parse_domain(uri.host)
+      Unifiedpush['unifiedpush_server']['webapp_host'] = Unifiedpush['global']['top_domain']
 
       unless ["", "/"].include?(uri.path)
         raise "Unsupported external URL path: #{uri.path}"

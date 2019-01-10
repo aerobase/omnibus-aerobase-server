@@ -3,7 +3,7 @@ server {
   listen <%= listen_address %>:<%= @listen_port %><% if @https %> ssl<% end %>;
 <% end %>
 
-  server_name  *.<%= @fqdn %>;
+  server_name  ~^(?<subd>.+)\.<%= @top_domain.sub!(".", "\.") %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
   resolver 8.8.8.8;
 
@@ -29,6 +29,15 @@ server {
   ssl_dhparam <%= @ssl_dhparam %>;
   <% end %>
   <% end %>
+
+  location /mobile-services.json {
+    sub_filter 'TEMPLATE' $subd;
+    sub_filter_once on;
+
+    ## Serve static files from defined root folder.
+    root <%= @html_dir %>;
+    try_files $uri mobile-services.json;
+  }
 
   include aerobase-locations.import;
 }
