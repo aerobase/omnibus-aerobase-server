@@ -3,7 +3,7 @@ server {
   listen <%= listen_address %>:<%= @listen_port %><% if @https %> ssl<% end %>;
 <% end %>
 
-  server_name  ~^(?<subd>.+)\.<%= @top_domain.sub!(".", "\.") %>;
+  server_name  ~^(?<subd>.+)\.<%= @top_domain.dup.gsub!(".", "\.") %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
   resolver 8.8.8.8;
 
