@@ -1,0 +1,16 @@
+version: '3'
+services:
+  aerobase:
+    build: .
+    ports:
+      - "443:443"
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /etc/aerobase/ssl:/etc/aerobase/ssl
+    tmpfs:
+      - /run
+      - /run/lock
+    privileged: true
+    hostname: ${HOST}
