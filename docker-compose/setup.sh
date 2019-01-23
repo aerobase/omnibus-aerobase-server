@@ -43,8 +43,8 @@ main(){
 }
 
 # Defaults
-AEROBASE_VERSION="2.1.0-1"
-KEYCLOAK_VERSION="2.1.0-1"
+AEROBASE_VERSION="2.2.0-1"
+KEYCLOAK_VERSION="2.2.0-1"
 
 while [ -n "$1" ]; do
     v="${1#*=}"
