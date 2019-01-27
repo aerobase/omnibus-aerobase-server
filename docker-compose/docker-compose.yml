@@ -9,6 +9,7 @@ services:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /etc/aerobase/ssl:/etc/aerobase/ssl
+      - /var/opt/aerobase/unifiedpush-server/themes/:/var/opt/aerobase/unifiedpush-server/themes/
     tmpfs:
       - /run
       - /run/lock
