@@ -135,6 +135,10 @@
                 <Permission User="[WIX_ACCOUNT_USERS]" GenericRead="yes" GenericExecute="yes"/>
               </CreateFolder>
             </Component>
+			<Directory Id="NGINX" Name="nginx" >
+			    <Directory Id="NGINXCONFD" Name="conf.d" >
+				</Directory>
+			</Directory>
 		  </Directory>
         </Directory>
       </Directory>
