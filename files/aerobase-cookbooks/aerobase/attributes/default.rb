@@ -34,7 +34,7 @@ default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-di
 default['unifiedpush']['global']['portal_mode'] = false
 default['unifiedpush']['global']['server_port'] = 80
 # Windows Services prefix
-default['unifiedpush']['gloabl']['srv_label'] = "Aerobase"
+default['unifiedpush']['global']['srv_label'] = "Aerobase"
 
 ####
 ## Global user managment options
