@@ -49,6 +49,13 @@
                  Sequence="execute"
                  Before="FastUnzip" />
 
+	<CustomAction Id="DefenderExcludeAerobaseHome"
+                  Directory="INSTALLLOCATION"
+                  ExeCommand="powershell -Command &quot;Add-MpPreference -ExclusionPath '[INSTALLLOCATION]'&quot;"
+                  Execute="deferred"
+                  Impersonate="no"
+                  Return="ignore" />
+				  
     <CustomAction Id="FastUnzip"
                   BinaryKey="CustomActionFastMsiDLL"
                   DllEntry="FastUnzip"
@@ -81,6 +88,7 @@
                   Return="ignore" />
 
     <InstallExecuteSequence>
+	  <Custom Action="DefenderExcludeAerobaseHome" Before="FastUnzip">NOT Installed</Custom>
       <Custom Action="FastUnzip" After="InstallFiles">NOT Installed</Custom>
 	  <Custom Action="UpdateInstallationPath" After="FastUnzip">NOT Installed</Custom>
 	  <Custom Action="InstallCRedistributable" After="UpdateInstallationPath">NOT Installed</Custom>
@@ -136,8 +144,14 @@
               </CreateFolder>
             </Component>
 			<Directory Id="NGINX" Name="nginx" >
-			    <Directory Id="NGINXCONFD" Name="conf.d" >
-				</Directory>
+			  <Component Id="NginxLocation" Guid="{f89e55ed-818d-475e-90f1-19b7d938bbe1}">
+			    <CreateFolder />
+			  </Component>
+			  <Directory Id="NGINXCONFD" Name="conf.d" >
+				<Component Id="NginxConfdLocation" Guid="{cb2ea8b4-9436-4315-99fb-a1552bd651e1}">
+				  <CreateFolder />
+				</Component>
+			  </Directory>
 			</Directory>
 		  </Directory>
         </Directory>
@@ -149,6 +163,8 @@
       <ComponentGroupRef Id="ProjectDir" />
       <ComponentRef Id="ProjectLocationPermissions" />
 	  <ComponentRef Id="DataLocationPermissions" />
+	  <ComponentRef Id="NginxLocation" />
+	  <ComponentRef Id="NginxConfdLocation" />
       <ComponentRef Id="AerobasePath" />
 	  <ComponentRef Id="AerobasePathSbin" />
     </Feature>
@@ -158,7 +174,7 @@
     -->
     <Icon Id="oc.ico" SourceFile="Resources\assets\oc_16x16.ico"/>
     <Property Id="ARPPRODUCTICON" Value="oc.ico" />
-    <Property Id="ARPHELPLINK" Value="http://www.aerobase.org/community" />
+    <Property Id="ARPHELPLINK" Value="https://aerobase.io/iam" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
 
     <UIRef Id="OmnibusToolchainUI_InstallDir"/>
