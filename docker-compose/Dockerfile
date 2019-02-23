@@ -48,7 +48,7 @@ RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/keycloak-server-2.2.0-
 RUN rpm -i /tmp/aerobase-2.2.0-1.el7.x86_64.rpm
 RUN rpm -i /tmp/keycloak-server-2.2.0-1.el7.x86_64.rpm
 
-COPY /setup.sh /tmp/setup.sh
+COPY /setup.sh /root/setup.sh
 
 # Standard SSH port
 EXPOSE 22 80 443

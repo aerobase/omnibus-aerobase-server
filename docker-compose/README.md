@@ -14,7 +14,7 @@ export HOST=test.aerobase.org; docker-compose up --build -d
 ```
 ### Configure aerobase image according to your host name
 ```
-docker-compose exec -T --privileged --index=1 aerobase /bin/bash -c "/tmp/setup.sh"
+docker-compose exec -T --privileged --index=1 aerobase /bin/bash -c "/root/setup.sh"
 ```
 ### Update your hosts file according to selected $HOST
 ```
