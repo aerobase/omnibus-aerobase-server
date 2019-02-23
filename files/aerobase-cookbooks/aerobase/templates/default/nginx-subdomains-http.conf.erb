@@ -38,6 +38,16 @@ server {
     ## Serve static files from defined root folder.
     root <%= @html_dir %>;
     try_files $uri mobile-services.json;
+    }
+
+  location = /aerobase.json {
+    sub_filter 'TEMPLATE' '$subd';
+    sub_filter_once off;
+    sub_filter_types *;
+
+    ## Serve static files from defined root folder.
+    root <%= @html_dir %>;
+    try_files $uri aerobase.json;
   }
 
   include aerobase-locations.import;

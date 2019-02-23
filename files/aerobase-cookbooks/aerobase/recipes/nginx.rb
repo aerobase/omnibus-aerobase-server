@@ -74,6 +74,7 @@ aerobase_locations_import = File.join(nginx_conf_dir, "aerobase-locations.import
 aerobase_sub_module_import = File.join(nginx_conf_dir, "aerobase-sub-module.import")
 subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 subdomains_http_service_conf = File.join(nginx_html_dir, "mobile-services.json")
+subdomains_http_auth_conf = File.join(nginx_html_dir, "aerobase.json")
 
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
@@ -155,6 +156,15 @@ end
 
 template subdomains_http_service_conf do
   source "nginx-subdomains-service-config.erb"
+  owner web_server_user
+  group web_server_group
+  mode "0644"
+  variables nginx_vars
+  action nginx_server_enabled ? :create : :delete
+end
+
+template subdomains_http_auth_conf do
+  source "nginx-subdomains-auth-config.erb"
   owner web_server_user
   group web_server_group
   mode "0644"
