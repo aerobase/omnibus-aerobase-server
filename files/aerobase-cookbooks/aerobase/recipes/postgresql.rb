@@ -25,6 +25,7 @@ postgresql_dir = node['unifiedpush']['postgresql']['dir']
 postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
 postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
+postgresql_delayed_start = node['unifiedpush']['postgresql']['delayed_start']
 postgresql_user = account_helper.postgresql_user
 postgresql_password = account_helper.postgresql_password
 postgresql_group = account_helper.postgresql_group
@@ -146,6 +147,7 @@ if os_helper.is_windows?
     action :create
     binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"#{service_label} PostgreSQL\" -D \"#{postgresql_data_dir}\" -w"
     startup_type :automatic
+	delayed_start postgresql_delayed_start
     description "#{service_label} PostgreSQL Instance"
   end
 

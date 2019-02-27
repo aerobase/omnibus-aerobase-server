@@ -77,6 +77,8 @@ default['unifiedpush']['unifiedpush-server']['env'] = {
   # defaults to /opt/aerobase/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"
 }
+# Delayed start service on windows
+default['unifiedpush']['unifiedpush-server']['delayed_start'] = false
 default['unifiedpush']['unifiedpush-server']['documents_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/documents"
 default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/uploads"
 # Max JSON size in KB
@@ -165,6 +167,8 @@ default['unifiedpush']['postgresql']['uid'] = nil
 default['unifiedpush']['postgresql']['gid'] = nil
 default['unifiedpush']['postgresql']['shell'] = "/bin/sh"
 default['unifiedpush']['postgresql']['home'] = "#{node['package']['runtime-dir']}/postgresql"
+# Delayed start service on windows
+default['unifiedpush']['postgresql']['delayed_start'] = false
 # Postgres User's Environment Path
 # defaults to /opt/aerobase/embedded/bin:/opt/aerobase/bin/$PATH. The install-dir path is set at build time
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
@@ -258,6 +262,8 @@ default['unifiedpush']['web-server']['external_users'] = []
 ####
 default['unifiedpush']['nginx']['enable'] = true
 default['unifiedpush']['nginx']['ha'] = false
+# Delayed start service on windows
+default['unifiedpush']['nginx']['delayed_start'] = false
 default['unifiedpush']['nginx']['dir'] = "#{node['package']['runtime-dir']}/nginx"
 default['unifiedpush']['nginx']['log_directory'] = "#{node['package']['logs-dir']}/nginx"
 default['unifiedpush']['nginx']['log_rotation']['file_maxbytes'] = 104857600
