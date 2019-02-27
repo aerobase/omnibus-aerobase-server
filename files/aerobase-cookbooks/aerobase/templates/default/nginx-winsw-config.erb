@@ -9,5 +9,8 @@
   
   <!-- Path to the executable, which should be started -->
   <executable><%= @nginx_dir %>\nginx.exe</executable>
-
+  <% if @delayed_start %>
+  <delayedAutoStart/>
+  <% end %>
+  
 </configuration>

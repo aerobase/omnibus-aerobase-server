@@ -29,7 +29,8 @@ ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 # Configure Services
 [
   "unifiedpush-server", 
-  "nginx"
+  "nginx",
+  "postgresql"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "aerobase::#{service}_uninstall"

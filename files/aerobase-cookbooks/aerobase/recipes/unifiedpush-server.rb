@@ -43,6 +43,7 @@ database_port = node['unifiedpush']['unifiedpush-server']['db_port']
 database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 database_username = node['unifiedpush']['unifiedpush-server']['db_username']
 database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
+service_delayed_start = node['unifiedpush']['unifiedpush-server']['delayed_start']
 
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
@@ -141,6 +142,12 @@ if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat install /startup /config standalone-full-ha.xml" do
   end
 
+  # https://issues.apache.org/jira/browse/DAEMON-303
+  # Delayed start not supported by prunsrv
+  execute "sc config \"#{global_vars['srv_label']}\" start= delayed-auto" do 
+    only_if { service_delayed_start }
+  end 
+  
   execute "#{server_dir}/bin/service.bat restart /name #{global_vars['srv_label']}" do
   end
 else
