@@ -31,9 +31,9 @@ if os_helper.is_windows?
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
   
-  ruby_block "Waiting 15 seconds for #{global_vars['srv_label']} service to stop" do
+  ruby_block "Waiting 45 seconds for #{global_vars['srv_label']} service to stop" do
     block do
-      sleep 15
+      sleep 45
     end
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
