@@ -163,8 +163,20 @@ class MsSQLHelper
     cmd = []
 	
     cmd << "sqlcmd -b"
+	hostcmd = "-S #{mssql_server}"
 	
-    cmd << "-S #{mssql_server},#{mssql_port}"
+	# use instance name if exists
+	if !mssql_instance.nil?
+	  hostcmd = hostcmd + "\\#{mssql_instance}"
+	end
+	
+	# use port if exists
+	if !mssql_port.nil?
+	  hostcmd = hostcmd + ",#{mssql_port}"
+	end
+	
+	cmd << hostcmd
+	
     if mssql_logon
       cmd << "-U #{mssql_user} -P #{mssql_password}"
     else
@@ -182,8 +194,9 @@ class MsSQLHelper
   
   def mssql_jdbc_url(db_host, db_port, db_database, db_username, db_password)
     login = mssql_login ? "user=#{db_username};password=#{db_username};" : "integratedSecurity=true;"
-      instance = mssql_instance.nil? ? "" : "\\\\#{mssql_instance}" 
-    url = "jdbc:sqlserver://#{db_host}#{instance}:#{db_port};databaseName=#{db_database};#{login}"
+	port =  db_port.nil? ? "" : ":#{db_port}"
+    instance = mssql_instance.nil? ? "" : "\\\\#{mssql_instance}"
+    url = "jdbc:sqlserver://#{db_host}#{instance}#{port};databaseName=#{db_database};#{login}"
     url
   end
 

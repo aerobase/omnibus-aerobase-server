@@ -115,7 +115,7 @@ default['unifiedpush']['unifiedpush-server']['db_username'] = "aerobase_server"
 default['unifiedpush']['unifiedpush-server']['db_password'] = nil
 # Postgresql host over TCP connection, java jdbc does not support unix socket.
 default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
-default['unifiedpush']['unifiedpush-server']['db_port'] = 5432
+default['unifiedpush']['unifiedpush-server']['db_port'] = nil
 default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
 default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
 default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
@@ -143,7 +143,7 @@ default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_password'] = nil
 default['unifiedpush']['keycloak-server']['db_host'] = "localhost"
-default['unifiedpush']['keycloak-server']['db_port'] = 5432
+default['unifiedpush']['keycloak-server']['db_port'] = nil
 default['unifiedpush']['keycloak-server']['db_pool'] = "10"
 # Additional realm json files array. e.g ['filepath', 'filepath']
 default['unifiedpush']['keycloak-server']['realm_files'] = []
@@ -207,11 +207,12 @@ default['unifiedpush']['postgresql']['checkpoint_warning'] = "30s"
 # MSSQL - Installation is not supported, only jdbc/odbc usage.
 ###
 default['unifiedpush']['mssql']['server'] = "localhost"
-default['unifiedpush']['mssql']['port'] = 1433
+default['unifiedpush']['mssql']['port'] = nil
 default['unifiedpush']['mssql']['username'] = "sa"
 default['unifiedpush']['mssql']['password'] = "sa"
 default['unifiedpush']['mssql']['logon'] = true
-default['unifiedpush']['mssql']['azure_logon'] = false 
+default['unifiedpush']['mssql']['azure_logon'] = false
+default['unifiedpush']['mssql']['instance'] = nil
 
 ###
 # Apache Cassandra
