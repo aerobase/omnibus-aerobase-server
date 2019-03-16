@@ -43,8 +43,8 @@ while [ -n "$1" ]; do
         --help|*)
             cat <<__EOF__
 Usage: $0
-	--aerobase-version=version  - Aerobase version to use (default 2.2.0-1)
-	--keycloak-version=version  - Keycloak version to use (default 2.2.0-1)
+	--aerobase-version=version  - Aerobase version to use (default 2.2.2-1)
+	--keycloak-version=version  - Keycloak version to use (default 2.2.2-1)
         --debug                     - prints debug statement when such are available in the script
 __EOF__
         exit 1
