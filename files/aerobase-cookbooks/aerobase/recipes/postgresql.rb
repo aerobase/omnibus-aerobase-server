@@ -33,20 +33,10 @@ postgresql_group = account_helper.postgresql_group
 service_label = node['unifiedpush']['global']['srv_label']
 service_name = "Aerobase-PostgreSQL-Server"
 
-account "Postgresql user and group" do
-  username postgresql_user
-  if os_helper.is_windows?
-	password postgresql_password
-  end 
-  uid node['unifiedpush']['postgresql']['uid']
-  ugid postgresql_group
-  groupname postgresql_group
-  group_members postgresql_user
-  gid node['unifiedpush']['postgresql']['gid']
-  shell node['unifiedpush']['postgresql']['shell']
-  home node['unifiedpush']['postgresql']['home']
-  manage node['unifiedpush']['manage-accounts']['enable']
-end
+# Create OS username and group
+if node["unifiedpush"]['postgresql']["enable"]
+  include_recipe "aerobase::postgresql_os_user"
+end 
 
 directory postgresql_dir do
   owner postgresql_user

@@ -19,6 +19,11 @@ account_helper = AccountHelper.new(node)
 postgresql_user = account_helper.postgresql_user
 postgresql_password = account_helper.postgresql_password
 
+# Create OS username only if postgresql is disabled
+if !node["unifiedpush"]['postgresql']["enable"]
+  include_recipe "aerobase::postgresql_os_user"
+end
+
 # NOTE: These recipes are written idempotently, but require a running
 # PostgreSQL service.  They should run each time (on the appropriate
 # backend machine, of course), because they also handle schema
