@@ -44,14 +44,15 @@ database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 database_username = node['unifiedpush']['unifiedpush-server']['db_username']
 database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
 service_delayed_start = node['unifiedpush']['unifiedpush-server']['delayed_start']
+service_name = "Aerobase-Application-Server"
 
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat stop /name #{global_vars['srv_label']}" do
+  execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
   
-  ruby_block "Waiting 15 seconds for #{global_vars['srv_label']} service to stop" do
+  ruby_block "Waiting 15 seconds for #{service_name} service to stop" do
     block do
       sleep 15
     end
@@ -144,11 +145,11 @@ if os_helper.is_windows?
 
   # https://issues.apache.org/jira/browse/DAEMON-303
   # Delayed start not supported by prunsrv
-  execute "sc config \"#{global_vars['srv_label']}\" start= delayed-auto" do 
+  execute "sc config \"#{service_name}\" start= delayed-auto" do 
     only_if { service_delayed_start }
   end 
   
-  execute "#{server_dir}/bin/service.bat restart /name #{global_vars['srv_label']}" do
+  execute "#{server_dir}/bin/service.bat restart /name #{service_name}" do
   end
 else
   component_runit_service "unifiedpush-server" do

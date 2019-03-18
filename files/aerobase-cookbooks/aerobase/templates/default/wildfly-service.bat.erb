@@ -112,10 +112,11 @@ if "%DEBUG%" == "1" (
 echo(
 
 rem defaults
-set SHORTNAME=<%= @srv_label %>
-set DISPLAYNAME=<%= @srv_label %>-Server
-rem NO quotes around the description here !
-set DESCRIPTION=<%= @srv_label %> Application Server (powered by Wildfly)
+set SHORTNAME=Aerobase-Application-Server
+rem NO quotes around the description here!
+set DISPLAYNAME=<%= @srv_label %> Server
+rem NO quotes around the description here!
+set DESCRIPTION=<%= @srv_label %> Server (Powered by Aerobase)
 set CONTROLLER=localhost:9990
 set DC_HOST=master
 set IS_DOMAIN=false
@@ -513,7 +514,7 @@ if /I "%ISDEBUG%" == "true" (
 @rem quotes around the "%DESCRIPTION%" but nowhere else
 echo %PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName=%DISPLAYNAME% --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM%
 
-%PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName=%DISPLAYNAME% --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM%
+%PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName="%DISPLAYNAME%" --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM%
 @rem %PRUNSRV% install "%SHORTNAME%" "%RUNAS%" --DisplayName="%DISPLAYNAME%" --Description="%DESCRIPTION%" --LogLevel="%LOGLEVEL%" --LogPath="%LOGPATH%" --LogPrefix=service --StdOutput="%STDOUT%" --StdError="%STDERR%" --StartMode=exe --Startup="%STARTUP_MODE%" --StartImage=cmd.exe --StartPath="%START_PATH%" ++StartParams="%STARTPARAM%" --StopMode=exe --StopImage=cmd.exe --StopPath="%STOP_PATH%"  ++StopParams="%STOPPARAM%"
 
 @if /I "%ISDEBUG%" == "true" (

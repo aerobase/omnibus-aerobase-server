@@ -24,23 +24,24 @@ os_helper = OsHelper.new(node)
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['unifiedpush-server']['dir']
 global_vars = node['unifiedpush']['global'].to_hash
+service_name = "Aerobase-Application-Server"
 
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat stop /name #{global_vars['srv_label']}" do
+  execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
   
-  ruby_block "Waiting 45 seconds for #{global_vars['srv_label']} service to stop" do
+  ruby_block "Waiting 60 seconds for #{service_name} service to stop" do
     block do
-      sleep 45
+      sleep 60
     end
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
 end
 
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat uninstall /name #{global_vars['srv_label']}" do
+  execute "#{server_dir}/bin/service.bat uninstall /name #{service_name}" do
     ignore_failure true
   end
 end

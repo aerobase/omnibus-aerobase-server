@@ -31,6 +31,7 @@ postgresql_password = account_helper.postgresql_password
 postgresql_group = account_helper.postgresql_group
 
 service_label = node['unifiedpush']['global']['srv_label']
+service_name = "Aerobase-PostgreSQL-Server"
 
 account "Postgresql user and group" do
   username postgresql_user
@@ -139,19 +140,20 @@ template File.join(postgresql_data_dir, "pg_ident.conf") do
 end
 
 if os_helper.is_windows?
-  service "#{service_label} PostgreSQL" do
+  service "#{service_name}" do
     action :stop
   end
   
-  windows_service "#{service_label} PostgreSQL" do
+  windows_service "#{service_name}" do
     action :create
-    binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"#{service_label} PostgreSQL\" -D \"#{postgresql_data_dir}\" -w"
+    binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"#{service_name}\" -D \"#{postgresql_data_dir}\" -w"
     startup_type :automatic
 	delayed_start postgresql_delayed_start
-    description "#{service_label} PostgreSQL Instance"
+	display_name "#{service_label} PostgreSQL" 
+    description "#{service_label} PostgreSQL (Powered by Aerobase)"
   end
 
-  service "#{service_label} PostgreSQL" do
+  service "#{service_name}" do
     action :restart
   end
 else
@@ -163,4 +165,4 @@ else
   execute "#{install_dir}/bin/aerobase-ctl restart postgresql" do
     retries 20
   end
-end 
+end

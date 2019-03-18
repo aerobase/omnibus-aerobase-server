@@ -14,13 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+service_name = "Aerobase-PostgreSQL-Server"
 
-service_label = node['unifiedpush']['global']['srv_label']
-
-service "#{service_label} PostgreSQL" do
+service "#{service_name}" do
   action :stop
 end
   
-windows_service "#{service_label} PostgreSQL" do
+windows_service "#{service_name}" do
   action :delete
 end
