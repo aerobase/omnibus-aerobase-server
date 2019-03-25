@@ -51,6 +51,11 @@ if File.exists?("#{config_dir}/aerobase.rb")
   Unifiedpush.from_file("#{config_dir}/aerobase.rb")
 end
 
+# override attributes in aerobase.rb (usefull in docker env)
+if File.exists?("#{config_dir}/overrides.rb")
+  Unifiedpush.from_file("#{config_dir}/overrides.rb")
+end
+
 # Merge and cosume aerobase attributes.
 node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 

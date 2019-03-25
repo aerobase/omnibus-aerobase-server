@@ -7,14 +7,17 @@ Create host directories to share SSL and Themes with docker.
 In order to run using SSL / HTTPS, place your certificate files under /etc/aerobase/ssl/$(hostname).crt/.key
 If only http access is required, add port 80 to docker-compose.yaml config
 
-### Run and build docker image
-Replace test.aerobase.org with your host name
+### Update your hostname and protocl (http/https) to overrides.rb
 ```
-export HOST=test.aerobase.org; docker-compose up --build -d
+vi overrides.rb
 ```
-### Configure aerobase image according to your host name
+### Run docker build
 ```
-docker-compose exec -T --privileged --index=1 aerobase /bin/bash -c "/root/setup.sh"
+docker-compose up --build -d
+```
+### Configure aerobase and start server
+```
+docker-compose exec -T --privileged --index=1 aerobase /bin/bash -c "aerobase-ctl reconfigure --accept-license"
 ```
 ### Update your hosts file according to selected $HOST
 ```

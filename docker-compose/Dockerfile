@@ -43,12 +43,10 @@ VOLUME [ "/sys/fs/cgroup" ]
 
 RUN systemctl enable sshd.service
 
-RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/aerobase-2.2.0-1.el7.x86_64.rpm" -o /tmp/aerobase-2.2.0-1.el7.x86_64.rpm
-RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/keycloak-server-2.2.0-1.el7.x86_64.rpm" -o /tmp/keycloak-server-2.2.0-1.el7.x86_64.rpm
-RUN rpm -i /tmp/aerobase-2.2.0-1.el7.x86_64.rpm
-RUN rpm -i /tmp/keycloak-server-2.2.0-1.el7.x86_64.rpm
-
-COPY /setup.sh /root/setup.sh
+RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/aerobase-2.2.3-1.el7.x86_64.rpm" -o /tmp/aerobase-2.2.3-1.el7.x86_64.rpm
+RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/keycloak-server-2.2.3-1.el7.x86_64.rpm" -o /tmp/keycloak-server-2.2.3-1.el7.x86_64.rpm
+RUN rpm -i /tmp/keycloak-server-2.2.3-1.el7.x86_64.rpm
+RUN rpm -i /tmp/aerobase-2.2.3-1.el7.x86_64.rpm
 
 # Standard SSH port
 EXPOSE 22 80 443

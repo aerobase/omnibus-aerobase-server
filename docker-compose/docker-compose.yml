@@ -10,8 +10,8 @@ services:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /etc/aerobase/ssl:/etc/aerobase/ssl
       - /var/opt/aerobase/unifiedpush-server/themes/:/var/opt/aerobase/unifiedpush-server/themes/
+      - ./overrides.rb:/etc/aerobase/overrides.rb
     tmpfs:
       - /run
       - /run/lock
     privileged: true
-    hostname: ${HOST}
