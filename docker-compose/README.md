@@ -1,10 +1,9 @@
 ## Aerobase Docker usage guide
 Create host directories to share SSL and Themes with docker.
-1. mkdir /etc/aerobase/ssl
-2. mkdir /var/opt/aerobase/unifiedpush-server/themes
+1. mkdir $HOME/aerobase/ssl
 
 ### HTTPS vs HTTP
-In order to run using SSL / HTTPS, place your certificate files under /etc/aerobase/ssl/$(hostname).crt/.key
+In order to run using SSL / HTTPS, place your certificate files under $HOME/aerobase/ssl/$(hostname).crt/.key
 If only http access is required, add port 80 to docker-compose.yaml config
 
 ### Update your hostname and protocl (http/https) to overrides.rb

@@ -3,13 +3,13 @@ services:
   aerobase:
     build: .
     ports:
-      - "443:443"
+      - "80:80"
     security_opt:
       - seccomp:unconfined
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /etc/aerobase/ssl:/etc/aerobase/ssl
-      - /var/opt/aerobase/unifiedpush-server/themes/:/var/opt/aerobase/unifiedpush-server/themes/
+      - $HOME/aerobase/ssl:/etc/aerobase/ssl
+      - $HOME/aerobase/themes/:/var/opt/aerobase/unifiedpush-server/themes/
       - ./overrides.rb:/etc/aerobase/overrides.rb
     tmpfs:
       - /run

@@ -112,7 +112,7 @@ default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
 default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_ups_user, listen_address, port]
 default['unifiedpush']['unifiedpush-server']['db_username'] = "aerobase_server"
-default['unifiedpush']['unifiedpush-server']['db_password'] = nil
+default['unifiedpush']['unifiedpush-server']['db_password'] = "aerobase_server"
 # Postgresql host over TCP connection, java jdbc does not support unix socket.
 default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
 default['unifiedpush']['unifiedpush-server']['db_port'] = nil
@@ -141,7 +141,7 @@ default['unifiedpush']['keycloak-server']['start_timeout'] = "600"
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_kc_user, listen_address, port]
 default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_username'] = "keycloak_server"
-default['unifiedpush']['keycloak-server']['db_password'] = nil
+default['unifiedpush']['keycloak-server']['db_password'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_host'] = "localhost"
 default['unifiedpush']['keycloak-server']['db_port'] = nil
 default['unifiedpush']['keycloak-server']['db_pool'] = "10"

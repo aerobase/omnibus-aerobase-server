@@ -90,13 +90,18 @@ class PgHelper
               "|#{grep_cmd} \"#{db_user}\""], user, password)
   end
 
-  def psql_cmd(cmd_list, user = nil, password = nil)
+  def psql_cmd_str(cmd_list, user = nil, password = nil)
     install_dir = node['package']['install-dir']
     cmd = []
-    if OsHelper.new(node).not_windows?
+
+    # When PG is disabled (remote db), md5/passowrd policy must be used.
+    if !pg_enable
       unless password.nil?
         cmd << "PGPASSWORD=#{password}"
       end
+    end
+
+    if OsHelper.new(node).not_windows?
       cmd << "#{install_dir}/embedded/bin/psql"
     else
       cmd << "\"#{install_dir}/embedded/bin/psql\""
@@ -109,6 +114,11 @@ class PgHelper
     cmd << "--port #{pg_port}"
     cmd << cmd_list.join(" ")
     cmd = cmd.join(" ")
+    cmd
+  end
+
+  def psql_cmd(cmd_list, user = nil, password = nil)
+    cmd = psql_cmd_str(cmd_list, user, password)
 
     if OsHelper.new(node).is_windows?
       success?(cmd, user, password)

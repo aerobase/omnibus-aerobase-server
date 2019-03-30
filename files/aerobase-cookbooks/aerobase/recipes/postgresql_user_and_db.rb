@@ -22,6 +22,7 @@
 pg_helper = PgHelper.new(node)
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
+pg_helper = PgHelper.new(node)
 
 postgresql_server = node['unifiedpush']['postgresql']['server']
 pg_port = node['unifiedpush']['postgresql']['port']
@@ -31,36 +32,40 @@ bin_dir = node['unifiedpush']['postgresql']['bin_dir']
 
 unifiedpush_database_name = node['unifiedpush']['unifiedpush-server']['db_database']
 unifiedpush_database_username = node['unifiedpush']['unifiedpush-server']['db_username']
+unifiedpush_database_password = node['unifiedpush']['unifiedpush-server']['db_password']
 keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
 keycloak_database_username = node['unifiedpush']['keycloak-server']['db_username']
+keycloak_database_password = node['unifiedpush']['keycloak-server']['db_password']
 
 databases = []
 if node['unifiedpush']['unifiedpush-server']['enable']
-  databases << ['unifiedpush-server', unifiedpush_database_name, unifiedpush_database_username]
+  databases << ['unifiedpush-server', unifiedpush_database_name, unifiedpush_database_username, unifiedpush_database_password]
 end
 
 if node['unifiedpush']['keycloak-server']['enable']
-  databases << ['unifiedpush-server', keycloak_database_name, keycloak_database_username]
+  databases << ['unifiedpush-server', keycloak_database_name, keycloak_database_username, keycloak_database_password]
 end
 
-databases.each do |unifiedpush_app, db_name, sql_user|
+databases.each do |unifiedpush_app, db_name, sql_user, sql_pass|
+  sql = pg_helper.psql_cmd_str(["-d \"postgres\"", "-c \"CREATE USER #{sql_user} WITH ENCRYPTED PASSWORD '#{sql_pass}'\" -t -A"], pg_user, pg_password)
   execute "create user #{sql_user} for database #{db_name}" do
-    command "#{bin_dir}/psql --port #{pg_port} -h #{postgresql_server} -d \"postgres\" -c \"CREATE USER #{sql_user}\""
+    command "#{sql}"
     user pg_user
-	if os_helper.is_windows?
-	  password pg_password
-	end
+        if os_helper.is_windows?
+          password pg_password
+        end
     # Added retries to give the service time to start on slower systems
     retries 20
     not_if { pg_helper.user_exists?(sql_user, pg_user, pg_password) }
   end
 
   execute "create #{db_name} database" do
-    command "#{bin_dir}/createdb --port #{pg_port} -h #{postgresql_server} -O #{sql_user} -E UTF8 #{db_name}"
+    sql = pg_helper.psql_cmd_str(["-d \"postgres\"", "-c \"CREATE DATABASE #{db_name} WITH OWNER #{sql_user} ENCODING 'UTF8'\" -t -A"], pg_user, pg_password)
+    command "#{sql}"
     user pg_user
     if os_helper.is_windows?
-	  password pg_password
-	end
+          password pg_password
+        end
     not_if { pg_helper.database_exists?(db_name, pg_user, pg_password) }
     retries 30
   end
