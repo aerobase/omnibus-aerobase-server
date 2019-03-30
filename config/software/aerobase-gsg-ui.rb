@@ -15,7 +15,7 @@
 #
 
 name "aerobase-gsg-ui"
-default_version "master"
+default_version "v2.2.3"
 license :project_license
 
 source git: "https://github.com/aerobase/aerobase-gsg-ui.git"
