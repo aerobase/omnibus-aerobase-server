@@ -145,6 +145,9 @@ class PgHelper
     node['unifiedpush']['postgresql']['server']
   end
 
+  def pg_enable
+    node['unifiedpush']['postgresql']['enable']
+  end
 end
 
 class MsSQLHelper
