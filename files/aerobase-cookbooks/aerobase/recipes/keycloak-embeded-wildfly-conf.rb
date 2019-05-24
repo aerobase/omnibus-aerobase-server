@@ -19,7 +19,7 @@
 # DO NOT change this value unless you are building your own Unifiedpush packages
 
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
@@ -35,7 +35,7 @@ database_host = node['unifiedpush']['keycloak-server']['db_host']
 database_port = node['unifiedpush']['keycloak-server']['db_port']
 database_name = node['unifiedpush']['keycloak-server']['db_database']
 database_username = node['unifiedpush']['keycloak-server']['db_username']
-database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
+database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 
 # Always include modules since they are statically referenced from war file.
 include_recipe "aerobase::postgresql-module-wildfly-conf"
@@ -59,7 +59,7 @@ end
 
 ruby_block 'copy_keycloak_sources' do
   block do
-	FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/.", "#{server_dir}"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/.", "#{server_dir}"
   end
   action :run
 end

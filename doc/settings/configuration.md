@@ -53,14 +53,14 @@ Any configuration that is set in `/etc/aerobase/aerobase.rb` after `from_file` i
 ### Storing Documents data in an alternative directory
 
 By default, Aerobase stores documents data under
-`/var/opt/aerobase/unifiedpush-server/documents/`: uploads are stored in
-`/var/opt/aerobase/unifiedpush-server/documents/`.  You can change the location of
+`/var/opt/aerobase/aerobase-server/documents/`: uploads are stored in
+`/var/opt/aerobase/aerobase-server/documents/`.  You can change the location of
 the above directories by editing the following lines to
 `/etc/aerobase/aerobase.rb`.
 
 ```ruby
-unifiedpush_server['documents_directory'] = "/var/opt/aerobase/unifiedpush-server/documents"
-unifiedpush_server['uploads_directory'] = "/var/opt/aerobase/unifiedpush-server/uploads"
+aerobase_server['documents_directory'] = "/var/opt/aerobase/aerobase-server/documents"
+aerobase_server['uploads_directory'] = "/var/opt/aerobase/aerobase-server/uploads"
 ```
 
 Note that the target directory and any of its subpaths must not be a symlink.

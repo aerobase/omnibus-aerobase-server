@@ -22,7 +22,7 @@ os_helper = OsHelper.new(node)
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 global_vars = node['unifiedpush']['global'].to_hash
 service_name = "Aerobase-Application-Server"
 

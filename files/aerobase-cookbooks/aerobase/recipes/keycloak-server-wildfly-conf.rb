@@ -19,16 +19,16 @@ account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 
 # Prepare ups realm json
-template "#{server_dir}/standalone/configuration/keycloak-server-ups-realm.json" do
+template "#{server_dir}/standalone/configuration/keycloak-server-aerobase-realm.json" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "keycloak-server-ups-realm-json.erb"
+  source "keycloak-server-aerobase-realm-json.erb"
   variables(keycloak_vars.merge(global_vars))
 end
 

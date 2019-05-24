@@ -16,9 +16,9 @@ Preperation
 only when runing under non root user.
 
 ```shell
-sudo mkdir -p /opt/unifiedpush-server /var/cache/omnibus
-sudo chown USER:USER /opt/unifiedpush
-sudo chown USER:USER /var/cache/omnibus
+sudo mkdir -p /opt/aerobase /var/cache/omnibus
+sudo chown $USER:$USER /opt/aerobase
+sudo chown $USER:$USER /var/cache/omnibus
 ```
 
 Windows Builds
@@ -45,9 +45,10 @@ You must have a sane Ruby 2.4+ environment with Bundler installed. Ensure all
 the required gems are installed:
 
 ```shell
-yum -y install gcc ruby-devel rubygems
+yum -y install gcc ruby-devel rubygems libpng-devel
 gem install omnibus
 gem install bundler
+npm install -g phantomjs-prebuilt
 ```
 
 ```shell
@@ -84,7 +85,7 @@ $ bundle exec omnibus clean aerobase
 ```
 
 Adding the `--purge` purge option removes __ALL__ files generated during the
-build including the project install directory (`/opt/unifiedpush-server`) and
+build including the project install directory (`/opt/aerobase-server`) and
 the package cache directory (`/var/cache/omnibus/pkg`):
 
 ```shell
@@ -140,10 +141,10 @@ section:
 
 ```shell
 $ bundle exec kitchen login ubuntu-1204
-[vagrant@ubuntu...] $ cd unifiedpush-server
+[vagrant@ubuntu...] $ cd aerobase-server
 [vagrant@ubuntu...] $ bundle install
 [vagrant@ubuntu...] $ ...
-[vagrant@ubuntu...] $ bin/omnibus build unifiedpush-server
+[vagrant@ubuntu...] $ bin/omnibus build aerobase-server
 ```
 
 For a complete list of all commands and platforms, run `kitchen list` or

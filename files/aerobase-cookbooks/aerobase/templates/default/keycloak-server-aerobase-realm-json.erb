@@ -69,11 +69,7 @@
             "publicClient": true,
             "baseUrl": "/unifiedpush-server/",
             "redirectUris": [
-                <% if node['unifiedpush']['keycloak-server']['enable'] %>
                     "/unifiedpush-server/*"
-                <% else %>
-                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/unifiedpush-server/*"
-                <% end %>
             ]
         },
         {
@@ -82,11 +78,7 @@
             "publicClient": true,
             "baseUrl": "/getting-started/",
             "redirectUris": [
-                <% if node['unifiedpush']['keycloak-server']['enable'] %>
                     "/getting-started/*"
-                <% else %>
-                    "http<% if @server_https %>s<% end %>://<%= @server_host %>/getting-started/*"
-                <% end %>
             ]
         }
 

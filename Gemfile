@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
  
 # Install omnibus
-gem 'omnibus', github: 'chef/omnibus', tag: 'v5.6.12'
-gem 'omnibus-software', github: 'aerobase/omnibus-software', branch: 'master'
+gem 'omnibus', git: 'https://github.com/chef/omnibus.git', tag: 'v5.6.12'
+gem 'omnibus-software', git: 'https://github.com/aerobase/omnibus-software.git', branch: 'master'
 gem 'json'
 
 # Use Chef's software definitions. It is recommended that you write your own

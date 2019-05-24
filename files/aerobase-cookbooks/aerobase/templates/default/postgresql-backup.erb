@@ -7,10 +7,10 @@
 BACKUP_USER=<%= node['unifiedpush']['postgresql']['username'] %>
  
 # Optional hostname to adhere to pg_hba policies.  Will default to "localhost" if none specified.
-HOSTNAME=<%= node['unifiedpush']['unifiedpush-server']['db_host'] %>
+HOSTNAME=<%= node['unifiedpush']['aerobase-server']['db_host'] %>
 
 # Optional hostname to adhere to pg_hba policies.  Will default to "localhost" if none specified.
-PORTNUM=<%= node['unifiedpush']['unifiedpush-server']['db_port'] %>
+PORTNUM=<%= node['unifiedpush']['aerobase-server']['db_port'] %>
 
 # Optional username to connect to database as.  Will default to "postgres" if none specified.
 USERNAME=<%= node['unifiedpush']['postgresql']['sql_ups_user'] %>

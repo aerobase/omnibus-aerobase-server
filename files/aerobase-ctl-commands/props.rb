@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-# Usage example:  aerobase-ctl.bat prop "unifiedpush_server.db_sslrootcert=TEST;;unifiedpush_server.db_sslmode=111"
+# Usage example:  aerobase-ctl.bat prop "aerobase_server.db_sslrootcert=TEST;;aerobase_server.db_sslmode=111"
 # Output: unifiedpush_se+rver['db_sslrootcert']="TEST"
-# Output: unifiedpush_server['db_sslmode']=111
+# Output: aerobase_server['db_sslmode']=111
 
 def is_numeric?(s)
   begin
@@ -85,7 +85,7 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
 	  
 	  # Convert token to regex expression
 	  if prop[0].include? "."
-	    # Case for two levels props, e.g 'unifiedpush_server.db_sslrootcert'
+	    # Case for two levels props, e.g 'aerobase_server.db_sslrootcert'
 	    prop[0] = prop[0].sub(".", "\\['") + "'\\]"
 		equality = " = "
 	  end

@@ -28,7 +28,7 @@ ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
 # Configure Services
 [
-  "unifiedpush-server", 
+  "aerobase-server", 
   "nginx",
   "postgresql"
 ].each do |service|

@@ -16,7 +16,7 @@
 #
 
 install_dir = node['package']['install-dir']
-keyspace_name = node['unifiedpush']['unifiedpush-server']['cas_keyspace']
+keyspace_name = node['unifiedpush']['aerobase-server']['cas_keyspace']
 cassandra_home = node['unifiedpush']['cassandra']['installation_dir']
 cassandra_user = node['unifiedpush']['cassandra']['user']
 
@@ -29,8 +29,8 @@ execute "initialize cassandra keyspace" do
   not_if { omnibus_helper.service_down?("cassandra") } 
 end
 
-template "#{cassandra_home}/conf/unifiedpush-server-keyspace.cql" do
-  source "cassandra-unifiedpush-server-keyspace.erb"
+template "#{cassandra_home}/conf/aerobase-server-keyspace.cql" do
+  source "cassandra-aerobase-server-keyspace.erb"
   owner cassandra_user
   mode "0644"
   variables(cassandra_vars)
@@ -38,7 +38,7 @@ end
 
 execute "update cassandra keyspace" do
   cwd "#{cassandra_home}/bin"
-  command "cqlsh -f  #{cassandra_home}/conf/unifiedpush-server-keyspace.cql"
+  command "cqlsh -f  #{cassandra_home}/conf/aerobase-server-keyspace.cql"
   not_if { omnibus_helper.service_down?("cassandra") }
 end
 

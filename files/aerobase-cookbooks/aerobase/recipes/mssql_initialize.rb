@@ -25,7 +25,7 @@ mssql_password = account_helper.mssql_password
 # upgrades for new releases of AeroBase.  As a result, we can't
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
-if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'mssql'
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql'
   ruby_block "wait for mssql to start" do
     block do
       mssql_helper = MsSQLHelper.new(node)

@@ -64,62 +64,63 @@ default['unifiedpush']['java']['oracle']['accept_oracle_download_terms'] = true
 ####
 # Unifiedpush Server app
 ####
-default['unifiedpush']['unifiedpush-server']['enable'] = true
-default['unifiedpush']['unifiedpush-server']['ha'] = false
-default['unifiedpush']['unifiedpush-server']['dir'] = "#{node['package']['runtime-dir']}/unifiedpush-server"
-default['unifiedpush']['unifiedpush-server']['log_directory'] = "#{node['package']['logs-dir']}/unifiedpush-server"
-default['unifiedpush']['unifiedpush-server']['log_rotation']['file_maxbytes'] = 104857600
-default['unifiedpush']['unifiedpush-server']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['unifiedpush-server']['environment'] = 'production'
-default['unifiedpush']['unifiedpush-server']['env'] = {
+default['unifiedpush']['aerobase-server']['enable'] = true
+default['unifiedpush']['aerobase-server']['ha'] = false
+default['unifiedpush']['aerobase-server']['dir'] = "#{node['package']['runtime-dir']}/aerobase-server"
+default['unifiedpush']['aerobase-server']['log_directory'] = "#{node['package']['logs-dir']}/aerobase-server"
+default['unifiedpush']['aerobase-server']['log_rotation']['file_maxbytes'] = 104857600
+default['unifiedpush']['aerobase-server']['log_rotation']['num_to_keep'] = 10
+default['unifiedpush']['aerobase-server']['environment'] = 'production'
+default['unifiedpush']['aerobase-server']['env'] = {
   'SIDEKIQ_MEMORY_KILLER_MAX_RSS' => '1000000',
   # PATH to set on the environment
   # defaults to /opt/aerobase/embedded/bin:/bin:/usr/bin. The install-dir path is set at build time
   'PATH' => "#{node['package']['install-dir']}/bin:#{node['package']['install-dir']}/embedded/bin:/bin:/usr/bin"
 }
 # Delayed start service on windows
-default['unifiedpush']['unifiedpush-server']['delayed_start'] = false
-default['unifiedpush']['unifiedpush-server']['documents_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/documents"
-default['unifiedpush']['unifiedpush-server']['uploads_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/uploads"
+default['unifiedpush']['aerobase-server']['delayed_start'] = false
+default['unifiedpush']['aerobase-server']['documents_directory'] = "#{node['package']['runtime-dir']}/aerobase-server/documents"
+default['unifiedpush']['aerobase-server']['uploads_directory'] = "#{node['package']['runtime-dir']}/aerobase-server/uploads"
 # Max JSON size in KB
-default['unifiedpush']['unifiedpush-server']['documents_json_limit'] = 4
+default['unifiedpush']['aerobase-server']['documents_json_limit'] = 4
 # By default server_host extracted from external_url
-default['unifiedpush']['unifiedpush-server']['server_host'] = node['fqdn']
+default['unifiedpush']['aerobase-server']['server_host'] = node['fqdn']
 # Internal network bind address. If the node has a default route, this is the IPV4 address for the interface. 
-default['unifiedpush']['unifiedpush-server']['server_address'] = node['ipaddress']
-default['unifiedpush']['unifiedpush-server']['server_contactpoints'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['server_port'] = 8080
-default['unifiedpush']['unifiedpush-server']['server_https'] = false
-default['unifiedpush']['unifiedpush-server']['time_zone'] = nil
-default['unifiedpush']['unifiedpush-server']['cache_owners'] = 1
-default['unifiedpush']['unifiedpush-server']['java_xmx'] = "1g"
+default['unifiedpush']['aerobase-server']['server_address'] = node['ipaddress']
+default['unifiedpush']['aerobase-server']['server_contactpoints'] = node['fqdn']
+default['unifiedpush']['aerobase-server']['server_port'] = 8080
+default['unifiedpush']['aerobase-server']['server_https'] = false
+default['unifiedpush']['aerobase-server']['time_zone'] = nil
+default['unifiedpush']['aerobase-server']['cache_owners'] = 1
+default['unifiedpush']['aerobase-server']['java_xmx'] = "1g"
 # OAuth2 Configureation, webapp_host is used as web applications root-url.
-default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
+default['unifiedpush']['aerobase-server']['webapp_host'] = node['fqdn']
+default['unifiedpush']['aerobase-server']['oauth2_enabled'] = true
+default['unifiedpush']['aerobase-server']['oauth2_context_root'] = "auth"
 # Realm name used for aerobase authentication, When running in portal mode, 'maser' realm must be used.
-default['unifiedpush']['unifiedpush-server']['oauth2_realm'] = 'aerobase'
-default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
-default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
-default['unifiedpush']['unifiedpush-server']['oauth2_subdomain_seperator'] = "."
+default['unifiedpush']['aerobase-server']['oauth2_realm'] = 'aerobase'
+default['unifiedpush']['aerobase-server']['oauth2_admin_user'] = "admin"
+default['unifiedpush']['aerobase-server']['oauth2_admin_pass'] = "password"
+default['unifiedpush']['aerobase-server']['oauth2_subdomain_seperator'] = "."
 # Cassandra connection params
-default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
-default['unifiedpush']['unifiedpush-server']['cas_keyspace'] = "unifiedpush_server"
-default['unifiedpush']['unifiedpush-server']['cas_consistencylevel'] = "LOCAL_ONE"
+default['unifiedpush']['aerobase-server']['cas_contactpoints'] = node['fqdn']
+default['unifiedpush']['aerobase-server']['cas_port'] = "9042"
+default['unifiedpush']['aerobase-server']['cas_keyspace'] = "aerobase_server"
+default['unifiedpush']['aerobase-server']['cas_consistencylevel'] = "LOCAL_ONE"
 # PostgreSQL connection params
-default['unifiedpush']['unifiedpush-server']['db_adapter'] = "postgresql"
-default['unifiedpush']['unifiedpush-server']['db_encoding'] = "unicode"
-default['unifiedpush']['unifiedpush-server']['db_database'] = "unifiedpush_server"
+default['unifiedpush']['aerobase-server']['db_adapter'] = "postgresql"
+default['unifiedpush']['aerobase-server']['db_encoding'] = "unicode"
+default['unifiedpush']['aerobase-server']['db_database'] = "unifiedpush_server"
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_ups_user, listen_address, port]
-default['unifiedpush']['unifiedpush-server']['db_username'] = "aerobase_server"
-default['unifiedpush']['unifiedpush-server']['db_password'] = "aerobase_server"
+default['unifiedpush']['aerobase-server']['db_username'] = "aerobase_server"
+default['unifiedpush']['aerobase-server']['db_password'] = "aerobase_server"
 # Postgresql host over TCP connection, java jdbc does not support unix socket.
-default['unifiedpush']['unifiedpush-server']['db_host'] = "localhost"
-default['unifiedpush']['unifiedpush-server']['db_port'] = nil
-default['unifiedpush']['unifiedpush-server']['db_pool'] = 10
-default['unifiedpush']['unifiedpush-server']['db_socket'] = nil
-default['unifiedpush']['unifiedpush-server']['db_sslmode'] = nil
-default['unifiedpush']['unifiedpush-server']['db_sslrootcert'] = nil
+default['unifiedpush']['aerobase-server']['db_host'] = "localhost"
+default['unifiedpush']['aerobase-server']['db_port'] = nil
+default['unifiedpush']['aerobase-server']['db_pool'] = 10
+default['unifiedpush']['aerobase-server']['db_socket'] = nil
+default['unifiedpush']['aerobase-server']['db_sslmode'] = nil
+default['unifiedpush']['aerobase-server']['db_sslrootcert'] = nil
 
 ####
 # Keycloak Server app
@@ -133,7 +134,6 @@ default['unifiedpush']['keycloak-server']['ha'] = false
 # When keycloak-server is disabled, server_host should point to external URL.
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
 default['unifiedpush']['keycloak-server']['server_https'] = false
-default['unifiedpush']['keycloak-server']['context_root'] = "auth"
 default['unifiedpush']['keycloak-server']['cache_owners'] = 1
 default['unifiedpush']['keycloak-server']['theme_cache'] = true
 default['unifiedpush']['keycloak-server']['start_timeout'] = "600"
@@ -334,6 +334,6 @@ default['unifiedpush']['logrotate']['dir'] = "#{node['package']['runtime-dir']}/
 default['unifiedpush']['logrotate']['log_directory'] = "#{node['package']['logs-dir']}/logrotate"
 default['unifiedpush']['logrotate']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['logrotate']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['logrotate']['services'] = %w{nginx unifiedpush-server cassandra}
+default['unifiedpush']['logrotate']['services'] = %w{nginx aerobase-server cassandra}
 default['unifiedpush']['logrotate']['pre_sleep'] = 600 # sleep 10 minutes before rotating after start-up
 default['unifiedpush']['logrotate']['post_sleep'] = 3000 # wait 50 minutes after rotating

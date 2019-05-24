@@ -1,4 +1,5 @@
 embed-server --server-config=standalone-full-ha.xml
+/system-property=aerogear.config.oauth2.keycloak.url:add(value=http<% if @server_https %>s<% end %>://<%= @server_host %>/<%= @oauth2_context_root %>)
 /system-property=aerogear.config.oauth2.enable:add(value=<%= @oauth2_enabled %>)
 /system-property=aerogear.config.oauth2.ups.realm.name:add(value=<% if @portal_mode %>master<% else %><%= @oauth2_realm %><% end %>)
 /system-property=aerogear.config.oauth2.ups.admin.client:add(value=admin-cli)

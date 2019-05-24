@@ -19,9 +19,9 @@
 #
 # Warning to the reader:
 # Because the Ruby DSL in /etc/aerobase/aerobase.rb does not accept hyphens (_) in
-# section names, this module translates names like 'unifiedpush_server' to the
-# correct 'unifiedpush-server' in the `generate_hash` method. This module is the only
-# place in the cookbook where we write 'unifiedpush_server'.
+# section names, this module translates names like 'aerobase_server' to the
+# correct 'aerobase-server' in the `generate_hash` method. This module is the only
+# place in the cookbook where we write 'aerobase_server'.
 
 require 'mixlib/config'
 require 'chef/mash'
@@ -42,7 +42,7 @@ module Unifiedpush
   cassandra_config Mash.new
   postgresql Mash.new
   mssql Mash.new
-  unifiedpush_server Mash.new
+  aerobase_server Mash.new
   keycloak_server Mash.new
   nginx Mash.new
   logging Mash.new
@@ -62,7 +62,7 @@ module Unifiedpush
 	  secret_helper.read_unifiedpush_secrets
 
       # Note: If you add another secret to generate here make sure it gets written to disk in SecretsHelper.write_to_unifiedpush_secrets
-      Unifiedpush['unifiedpush_server']['secret_token'] ||= generate_hex(64)
+      Unifiedpush['aerobase_server']['secret_token'] ||= generate_hex(64)
 
       # Note: Besides the section below, unifiedpush-secrets.json will also change
       # in CiHelper in libraries/helper.rb
@@ -98,10 +98,10 @@ module Unifiedpush
       end
 
       [
-        # %w{unifiedpush_server server_host} corresponds to
-        # Unifiedpush['unifiedpush_server']['server_host'], etc.
-        [%w{unifiedpush_server server_host}, %W{#{uri.host}}],
-        [%w{unifiedpush_server server_https}, [server_https]],
+        # %w{aerobase_server server_host} corresponds to
+        # Unifiedpush['aerobase_server']['server_host'], etc.
+        [%w{aerobase_server server_host}, %W{#{uri.host}}],
+        [%w{aerobase_server server_https}, [server_https]],
         [%w{keycloak_server server_host}, %W{#{uri.host}}],
         [%w{keycloak_server server_https}, [server_https]]
       ].each do |left, right|
@@ -111,7 +111,7 @@ module Unifiedpush
         end
       end
 
-      Unifiedpush['unifiedpush_server']['webapp_host'] = Unifiedpush['global']['top_domain']
+      Unifiedpush['aerobase_server']['webapp_host'] = Unifiedpush['global']['top_domain']
 
       unless ["", "/"].include?(uri.path)
         raise "Unsupported external URL path: #{uri.path}"
@@ -124,17 +124,17 @@ module Unifiedpush
       # unifiedpush.
 	  
       # Use either mssql or postgresql props
-      db_adapter =  Unifiedpush['unifiedpush_server']['db_adapter']
+      db_adapter =  Unifiedpush['aerobase_server']['db_adapter']
       if db_adapter.nil?
         # Use default if no override was specified
-        db_adapter =  node['unifiedpush']['unifiedpush-server']['db_adapter']
+        db_adapter =  node['unifiedpush']['aerobase-server']['db_adapter']
       end
       [
-        # %w{unifiedpush_server db_username} corresponds to
-        # Unifiedpush['unifiedpush_server']['db_username'], etc.
-        [%w{unifiedpush_server db_username}, %W{#{db_adapter} sql_ups_user}],
-        [%w{unifiedpush_server db_host}, %W{#{db_adapter} server}],
-        [%w{unifiedpush_server db_port}, %W{#{db_adapter} port}],
+        # %w{aerobase_server db_username} corresponds to
+        # Unifiedpush['aerobase_server']['db_username'], etc.
+        [%w{aerobase_server db_username}, %W{#{db_adapter} sql_ups_user}],
+        [%w{aerobase_server db_host}, %W{#{db_adapter} server}],
+        [%w{aerobase_server db_port}, %W{#{db_adapter} port}],
         [%w{keycloak_server db_username}, %W{#{db_adapter} sql_ks_user}],
         [%w{keycloak_server db_host}, %W{#{db_adapter} server}],
         [%w{keycloak_server db_port}, %W{#{db_adapter} port}]
@@ -154,12 +154,12 @@ module Unifiedpush
 
     def parse_cassandra_settings
       # If the user wants to run the in symetric cluster mode,
-      # then those settings should also be applied to cassandra / unifiedpush-server.
+      # then those settings should also be applied to cassandra / aerobase-server.
       [
-        # %w{unifiedpush_server cas_contactpoints} corresponds to
-        # Unifiedpush['unifiedpush_server']['cas_contactpoints'], etc.
-        [%w{unifiedpush_server server_contactpoints}, %w{global contactpoints}],
-        [%w{unifiedpush_server cas_contactpoints}, %w{global contactpoints}],
+        # %w{aerobase_server cas_contactpoints} corresponds to
+        # Unifiedpush['aerobase_server']['cas_contactpoints'], etc.
+        [%w{aerobase_server server_contactpoints}, %w{global contactpoints}],
+        [%w{aerobase_server cas_contactpoints}, %w{global contactpoints}],
         [%w{cassandra seeds}, %w{global contactpoints}]
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
@@ -176,12 +176,12 @@ module Unifiedpush
 
       # Only if user did not set a value to cas_consistencylevel
       # Calculate consistencylevel according to number of nodes.
-      contactpoints = Unifiedpush['unifiedpush_server']['cas_contactpoints']
-      if Unifiedpush['unifiedpush_server']['cas_consistencylevel'].nil?
+      contactpoints = Unifiedpush['aerobase_server']['cas_contactpoints']
+      if Unifiedpush['aerobase_server']['cas_consistencylevel'].nil?
         if contactpoints.nil? || contactpoints.split(",").length == 1
-          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_ONE"
+          Unifiedpush['aerobase_server']['cas_consistencylevel'] = "LOCAL_ONE"
         else
-          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_QUORUM"
+          Unifiedpush['aerobase_server']['cas_consistencylevel'] = "LOCAL_QUORUM"
         end
       end
     end
@@ -219,7 +219,7 @@ module Unifiedpush
 	"java",
 	"cassandra",
 	"cassandra_config",
-        "unifiedpush_server",
+        "aerobase_server",
         "keycloak_server",
         "nginx",
         "logging",

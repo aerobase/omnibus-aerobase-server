@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 
 os_helper = OsHelper.new(node)
 cmd_helper = CmdHelper.new(node)

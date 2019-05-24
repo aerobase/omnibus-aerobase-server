@@ -19,16 +19,18 @@
 # DO NOT change this value unless you are building your own Unifiedpush packages
 
 os_helper = OsHelper.new(node)
+db_helper = DBHelper.new(node)
+
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 cli_dir = "#{server_dir}/cli"
 mssql_dir = "#{server_dir}/bin/mssql"
 
-# These directories do not need to be writable for unifiedpush-server
+# These directories do not need to be writable for aerobase-server
 [
   cli_dir,
   mssql_dir
@@ -41,36 +43,45 @@ mssql_dir = "#{server_dir}/bin/mssql"
   end
 end
 
-unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
+aerobase_vars = node['unifiedpush']['aerobase-server'].to_hash
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 cassandra_enabled = node['unifiedpush']['cassandra']['enable']
 
 # Prepare datasource cli config script
-template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
+template "#{server_dir}/cli/aerobase-server-wildfly-ds.cli" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "unifiedpush-server-wildfly-ds-cli.erb"
-  variables(unifiedpush_vars)
+  source "aerobase-server-wildfly-ds-cli.erb"
+  variables(aerobase_vars)
 end
 
 # Prepare http cli config script
-template "#{server_dir}/cli/unifiedpush-server-wildfly-http.cli" do
+template "#{server_dir}/cli/aerobase-server-wildfly-http.cli" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "unifiedpush-server-wildfly-http-cli.erb"
-  variables(unifiedpush_vars)
+  source "aerobase-server-wildfly-http-cli.erb"
+  variables(aerobase_vars)
 end
 
 # Prepare kc cli config script
-template "#{server_dir}/cli/unifiedpush-server-wildfly-kc.cli" do
+template "#{server_dir}/cli/aerobase-server-wildfly-kc.cli" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "unifiedpush-server-wildfly-kc-cli.erb"
+  source "aerobase-server-wildfly-kc-cli.erb"
   variables(keycloak_vars)
+end
+
+# Prepare jgroup cli config script
+template "#{server_dir}/cli/aerobase-server-wildfly-jgroup.cli" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "aerobase-server-wildfly-jgroup-cli.erb"
+  variables(aerobase_vars)
 end
 
 # Prepare oauth2 cli config script
@@ -79,17 +90,9 @@ template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
   group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-oauth2-cli.erb"
-  variables(unifiedpush_vars.merge(global_vars))
+  variables(aerobase_vars.merge(global_vars))
 end
 
-# Prepare jgroup cli config script
-template "#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli" do
-  owner aerobase_user
-  group aerobase_group
-  mode 0755
-  source "unifiedpush-server-wildfly-jgroup-cli.erb"
-  variables(unifiedpush_vars)
-end
 
 if os_helper.is_windows?
   cli_cmd = "jboss-cli.bat"
@@ -105,7 +108,7 @@ template "#{server_dir}/bin/standalone.#{standalone_file}" do
   group aerobase_group
   mode 0755
   source "wildfly-standalone.#{standalone_file}.erb"
-  variables(unifiedpush_vars.merge({
+  variables(aerobase_vars.merge({
       :cassandra_enabled => cassandra_enabled
     }
   ))
@@ -116,41 +119,41 @@ template "#{server_dir}/bin/service.bat" do
   group aerobase_group
   mode 0755
   source "wildfly-service.bat.erb"
-  variables(unifiedpush_vars.merge(global_vars))
+  variables(aerobase_vars.merge(global_vars))
   only_if { os_helper.is_windows? }
 end
 
 # Execute cli scripts
-execute 'UPS datasource cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli"
+execute 'Aerobase datasource cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-ds.cli"
 end
 
-execute 'UPS http/s cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-http.cli"
+execute 'Aerobase http/s cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-http.cli"
 end
 
-execute 'UPS kc cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-kc.cli"
-end
-
-execute 'UPS oauth2 cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli"
+execute 'Aerobase kc cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-kc.cli"
 end
 
 execute 'UPS jgroup cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-jgroup.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-jgroup.cli"
 end
 
-# Link apps
+execute 'Aerobase oauth2 cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli"
+end
+
+# Link apps/
 link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
   to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
 end
 
-# Copy MSSQL jdbc driver
+# Copy MSSQL jdbc driver only if mssql is used
 ruby_block 'copy_mssql_jdbc_driver' do
   block do
     FileUtils.cp_r "#{install_dir}/embedded/apps/mssql/.", "#{server_dir}/bin/mssql"
   end
   action :run
-  only_if { os_helper.is_windows? }
+  only_if { db_helper.is_mssql? }
 end

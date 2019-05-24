@@ -19,7 +19,7 @@
 # DO NOT change this value unless you are building your own Unifiedpush packages
 
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 modules_dir = "#{server_dir}/modules/com/microsoft/main"
 
 account_helper = AccountHelper.new(node)
@@ -27,7 +27,7 @@ aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
 os_helper = OsHelper.new(node)
-# These directories do not need to be writable for unifiedpush-server
+# These directories do not need to be writable for aerobase-server
 [
   modules_dir
 ].each do |dir_name|

@@ -25,14 +25,14 @@ pgsql_helper = PgHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
-database_host = node['unifiedpush']['unifiedpush-server']['db_host']
-database_port = node['unifiedpush']['unifiedpush-server']['db_port']
-database_name = node['unifiedpush']['unifiedpush-server']['db_database']
-database_username = node['unifiedpush']['unifiedpush-server']['db_username']
-database_adapter = node['unifiedpush']['unifiedpush-server']['db_adapter']
+database_host = node['unifiedpush']['aerobase-server']['db_host']
+database_port = node['unifiedpush']['aerobase-server']['db_port']
+database_name = node['unifiedpush']['aerobase-server']['db_database']
+database_username = node['unifiedpush']['aerobase-server']['db_username']
+database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 
 
-unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
+unifiedpush_vars = node['unifiedpush']['aerobase-server'].to_hash
 
 if os_helper.is_windows?
   tmp_dir = "Temp"
@@ -82,7 +82,7 @@ template "#{install_dir}/#{tmp_dir}/hibernate.properties" do
   ))
 end
 
-execute "initialize unifiedpush-server database" do
+execute "initialize aerobase-server database" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
   command "#{command}"
 end

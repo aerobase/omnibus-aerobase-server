@@ -358,3 +358,19 @@ class OsHelper
 	node['platform'] != 'windows'
   end
 end
+
+class DBHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+
+  def is_pgsql?
+    node['unifiedpush']['aerobase-server']['db_adapter'] == 'postgresql'
+  end
+
+  def is_mssql?
+    node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql'
+  end
+end

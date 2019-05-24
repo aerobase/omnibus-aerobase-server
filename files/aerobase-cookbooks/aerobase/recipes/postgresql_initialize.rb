@@ -30,7 +30,7 @@ end
 # upgrades for new releases of AeroBase.  As a result, we can't
 # just do a check against node['unifiedpush']['bootstrap']['enable'],
 # which would only run them one time.
-if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'postgresql'
   ruby_block "wait for postgresql to start" do
     block do
       pg_helper = PgHelper.new(node)

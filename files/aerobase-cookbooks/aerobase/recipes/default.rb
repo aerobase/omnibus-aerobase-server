@@ -34,7 +34,7 @@ ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 # Always create default user and group.
 include_recipe "aerobase::users"
 
-# These directories do not need to be writable for unifiedpush-server
+# These directories do not need to be writable for aerobase-server
 [
   config_dir,
   runtime_dir,
@@ -96,12 +96,12 @@ end
 end
 
 # Schema creation - either to embedded postgresqk or to external.
-# Schama must be configured before unifiedpush-server is started.
-if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'postgresql'
+# Schama must be configured before aerobase-server is started.
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'postgresql'
   include_recipe "aerobase::postgresql_initialize"
 end
 
-if node['unifiedpush']['unifiedpush-server']['db_adapter'] == 'mssql'
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql'
   include_recipe "aerobase::mssql_initialize"
 end
 
@@ -110,7 +110,7 @@ include_recipe "aerobase::web-server"
 
 # Configure Services
 [
-  "unifiedpush-server", 
+  "aerobase-server", 
   "nginx"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]

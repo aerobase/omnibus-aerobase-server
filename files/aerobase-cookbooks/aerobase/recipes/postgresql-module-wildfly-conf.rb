@@ -19,7 +19,7 @@
 # DO NOT change this value unless you are building your own Unifiedpush packages
 
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
 modules_dir = "#{server_dir}/modules/org/postgresql/main"
 
 account_helper = AccountHelper.new(node)
@@ -27,7 +27,7 @@ aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
 os_helper = OsHelper.new(node)
-# These directories do not need to be writable for unifiedpush-server
+# These directories do not need to be writable for aerobase-server
 [
   modules_dir
 ].each do |dir_name|
@@ -52,7 +52,7 @@ if os_helper.is_windows?
   file_seperator = "///"
 end
 
-# Copy postgres JDBC driver
+# Copy postgres JDBC driver for ups usage
 remote_file "Copy postgres driver file" do
   path "#{modules_dir}/postgresql-42.1.4.jar"
   source "file:#{file_seperator}#{install_dir}/embedded/apps/unifiedpush-server/initdb/lib/postgresql-42.1.4.jar"

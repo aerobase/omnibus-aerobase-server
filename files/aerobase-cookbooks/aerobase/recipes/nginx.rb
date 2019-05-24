@@ -78,20 +78,20 @@ subdomains_http_auth_conf = File.join(nginx_html_dir, "aerobase.json")
 
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
-unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
-unifiedpush_server_port = node['unifiedpush']['unifiedpush-server']['server_port']
+aerobase_server_enabled = node['unifiedpush']['aerobase-server']['enable']
+aerobase_server_port = node['unifiedpush']['aerobase-server']['server_port']
 keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 portal_mode = node['unifiedpush']['global']['portal_mode']
 top_domain = node['unifiedpush']['global']['top_domain']
 
-# Include the config file for unifiedpush-server in nginx.conf later
+# Include the config file for aerobase-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
-               :aerobase_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
-	       :subdomains_http_conf => unifiedpush_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
+               :aerobase_http_conf => aerobase_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
+	       :subdomains_http_conf => aerobase_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
                :aerobase_http_configd => nginx_confd_dir,
 	       :aerobase_cache_conf => aerobase_cache_conf,
-	       :fqdn => node['unifiedpush']['unifiedpush-server']['server_host'],
-	       :unifiedpush_server_port => unifiedpush_server_port,
+	       :fqdn => node['unifiedpush']['aerobase-server']['server_host'],
+	       :aerobase_server_port => aerobase_server_port,
 	       :install_dir => install_dir,
       	       :html_dir => nginx_html_dir,
 	       :cache_dir => nginx_cache_dir,
@@ -101,7 +101,7 @@ nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
              })
 
 if nginx_vars['listen_https'].nil?
-  nginx_vars['https'] = node['unifiedpush']['unifiedpush-server']['server_https']
+  nginx_vars['https'] = node['unifiedpush']['aerobase-server']['server_https']
 else
   nginx_vars['https'] = nginx_vars['server_https']
 end
@@ -196,7 +196,7 @@ ruby_block 'copy_ups_html_sources' do
 	FileUtils.cp_r "#{install_dir}/embedded/apps/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
   end
   action :run
-  only_if { unifiedpush_server_enabled }
+  only_if { aerobase_server_enabled }
 end
 
 ruby_block 'copy_gsg_html_sources' do
@@ -204,7 +204,7 @@ ruby_block 'copy_gsg_html_sources' do
 	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
   end
   action :run
-  only_if { unifiedpush_server_enabled }
+  only_if { aerobase_server_enabled }
 end
 
 # Make sure owner is web_server_user

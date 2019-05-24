@@ -18,10 +18,10 @@
 require 'openssl'
 
 install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['unifiedpush-server']['dir']
-server_log_dir = node['unifiedpush']['unifiedpush-server']['log_directory']
-server_doc_dir = node['unifiedpush']['unifiedpush-server']['documents_directory']
-server_upl_dir = node['unifiedpush']['unifiedpush-server']['uploads_directory']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
+server_log_dir = node['unifiedpush']['aerobase-server']['log_directory']
+server_doc_dir = node['unifiedpush']['aerobase-server']['documents_directory']
+server_upl_dir = node['unifiedpush']['aerobase-server']['uploads_directory']
 server_etc_dir = "#{server_dir}/etc"
 
 os_helper = OsHelper.new(node)
@@ -29,11 +29,11 @@ account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
-unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
+unifiedpush_vars = node['unifiedpush']['aerobase-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
 
-# These directories do not need to be writable for unifiedpush-server
+# These directories do not need to be writable for aerobase-server
 [ 
   server_dir,
   server_log_dir,

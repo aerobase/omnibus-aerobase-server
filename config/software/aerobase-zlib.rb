@@ -15,7 +15,7 @@
 #
 
 # These options are required for all software definitions
-name "unifiedpush-server-zlib"
+name "aerobase-server-zlib"
 default_version "1.2.6"
 
 license :project_license

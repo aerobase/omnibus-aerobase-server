@@ -46,56 +46,57 @@ external_url 'GENERATED_EXTERNAL_URL'
 ####
 # Unifiedpush Applicaiton Server 
 ####
-# unifiedpush_server['enable'] = true
-# unifiedpush_server['ha'] = false
-# unifiedpush_server['dir'] = "#{node['package']['runtime-dir']}/unifiedpush-server"
-# unifiedpush_server['log_directory'] = "#{node['package']['logs-dir']}/unifiedpush-server"
-# unifiedpush_server['environment'] = 'production'
+# aerobase_server['enable'] = true
+# aerobase_server['ha'] = false
+# aerobase_server['dir'] = "#{node['package']['runtime-dir']}/aerobase-server"
+# aerobase_server['log_directory'] = "#{node['package']['logs-dir']}/aerobase-server"
+# aerobase_server['environment'] = 'production'
 #
 ## Delayed start service on windows
-# unifiedpush_server['delayed_start'] = false
-# unifiedpush_server['documents_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/documents"
-# unifiedpush_server['uploads_directory'] = "#{node['package']['runtime-dir']}/unifiedpush-server/uploads"
+# aerobase_server['delayed_start'] = false
+# aerobase_server['documents_directory'] = "#{node['package']['runtime-dir']}/aerobase-server/documents"
+# aerobase_server['uploads_directory'] = "#{node['package']['runtime-dir']}/aerobase-server/uploads"
 ## Max JSON size in KB
-# unifiedpush_server['documents_json_limit'] = 4
+# aerobase_server['documents_json_limit'] = 4
 ## By default server_host is extracted from external URL
-# unifiedpush_server['server_host'] = node['fqdn']
+# aerobase_server['server_host'] = node['fqdn']
 ## Internal network bind address. If the node has a default route, this is the IPV4 address for the interface.
-# unifiedpush_server['server_address'] = node['ipaddress']
-# unifiedpush_server['server_contactpoints'] = node['fqdn']
-# unifiedpush_server['server_port'] = 8080
-# unifiedpush_server['server_https'] = false
-# unifiedpush_server['time_zone'] = nil
-# unifiedpush_server['cache_owners'] = 1
-# unifiedpush_server['java_xmx'] = "1g"
+# aerobase_server['server_address'] = node['ipaddress']
+# aerobase_server['server_contactpoints'] = node['fqdn']
+# aerobase_server['server_port'] = 8080
+# aerobase_server['server_https'] = false
+# aerobase_server['time_zone'] = nil
+# aerobase_server['cache_owners'] = 1
+# aerobase_server['java_xmx'] = "1g"
 ## OAuth2 Configureation, webapp_host is used as web applications root-url.
-# unifiedpush_server['webapp_host'] = node['fqdn']
-# unifiedpush_server['oauth2_enabled'] = true
+# aerobase_server['webapp_host'] = node['fqdn']
+# aerobase_server['oauth2_enabled'] = true
+# aerobase_server['oauth2_context_root'] = "auth"
 ## Realm name used for aerobase authentication. When running in portal mode, 'maser' realm must be used.
-# unifiedpush_server['oauth2_realm'] = 'aerobase'
-# unifiedpush_server['oauth2_admin_user'] = "admin"
-# unifiedpush_server['oauth2_admin_pass'] = "password"
-# unifiedpush_server['oauth2_subdomain_seperator'] = "."
+# aerobase_server['oauth2_realm'] = 'aerobase'
+# aerobase_server['oauth2_admin_user'] = "admin"
+# aerobase_server['oauth2_admin_pass'] = "password"
+# aerobase_server['oauth2_subdomain_seperator'] = "."
 ## Cassandra connection params
-# unifiedpush_server['cas_contactpoints'] = node['fqdn']
-# unifiedpush_server['cas_port'] = "9042"
-# unifiedpush_server['cas_keyspace'] = "unifiedpush_server"
-# unifiedpush_server['cas_consistencylevel'] = "QUORUM"
+# aerobase_server['cas_contactpoints'] = node['fqdn']
+# aerobase_server['cas_port'] = "9042"
+# aerobase_server['cas_keyspace'] = "aerobase_server"
+# aerobase_server['cas_consistencylevel'] = "QUORUM"
 ## Database connection params
-# unifiedpush_server['db_adapter'] = "postgresql"
-# unifiedpush_server['db_encoding'] = "unicode"
-# unifiedpush_server['db_database'] = "unifiedpush_server"
+# aerobase_server['db_adapter'] = "postgresql"
+# aerobase_server['db_encoding'] = "unicode"
+# aerobase_server['db_database'] = "unifiedpush_server"
 ## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_ups_user, listen_address, port]
 ## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_ups_user, listen_address, port
-# unifiedpush_server['db_username'] = "aerobase_server"
-# unifiedpush_server['db_password'] = nil
+# aerobase_server['db_username'] = "aerobase_server"
+# aerobase_server['db_password'] = nil
 ## Database host over TCP connection, java jdbc does not support unix socket.
-# unifiedpush_server['db_host'] = "localhost"
-# unifiedpush_server['db_port'] = nil
-# unifiedpush_server['db_pool'] = 10
-# unifiedpush_server['db_socket'] = nil
-# unifiedpush_server['db_sslmode'] = nil
-# unifiedpush_server['db_sslrootcert'] = nil
+# aerobase_server['db_host'] = "localhost"
+# aerobase_server['db_port'] = nil
+# aerobase_server['db_pool'] = 10
+# aerobase_server['db_socket'] = nil
+# aerobase_server['db_sslmode'] = nil
+# aerobase_server['db_sslrootcert'] = nil
 
 ####
 # Keycloak Server app
@@ -119,7 +120,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # keycloak_server['db_host'] = "localhost"
 # keycloak_server['db_port'] = nil
 # keycloak_server['db_pool'] = "10"
-# keycloak_server['context_root'] = "auth"
 ## Additional realm files array. e.g ['filepath', 'filepath']
 # keycloak_server['realm_files'] = []
 

@@ -38,7 +38,7 @@ template "#{home_dir}/postgresql-backup.conf" do
   source "postgresql-backup.erb"
   owner aerobase_user
   mode "0664"
-  variables(node['unifiedpush']['unifiedpush-server'].to_hash)
+  variables(node['unifiedpush']['aerobase-server'].to_hash)
   not_if { !node['unifiedpush']['postgresql']['enable'] }
 end
 

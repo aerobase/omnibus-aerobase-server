@@ -11,7 +11,7 @@ main() {
     return
   fi
 
-  if [ -d ${DEST_DIR}/service/unifiedpush-server ] ; then
+  if [ -d ${DEST_DIR}/service/aerobase-server ] ; then
     notify "TODO - Backing up Aerobase Server SQL database (excluding configuration, uploads)"
     #if ! ${DEST_DIR}/bin/aerobase-backup.sh ; then
     #  notify
@@ -26,7 +26,7 @@ main() {
 }
 
 notify() {
-  echo "unifiedpush-server preinstall: $1"
+  echo "aerobase-server preinstall: $1"
 }
 
 if [ -n "${UNIFIEDPUSH_DEBUG}" ] ; then

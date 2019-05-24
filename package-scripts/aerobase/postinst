@@ -51,7 +51,7 @@ print_welcome()
   notify "And running reconfigure again."
   notify
   notify "For a comprehensive list of configuration options please see the unifiedpush readme"
-  notify "https://github.com/Aerobase/unifiedpush-server/blob/master/README.md"
+  notify "https://github.com/Aerobase/aerobase-server/blob/master/README.md"
   notify
 }
 

@@ -15,6 +15,6 @@
 # limitations under the License.
 #
 
-runit_service "unifiedpush-server" do
+runit_service "aerobase-server" do
   action :disable
 end
