@@ -22,47 +22,23 @@ add_command 'upgrade', 'Run migrations after a package upgrade', 1 do |cmd_name|
     exit! 0
   end
 
-  service_statuses = `#{base_path}/bin/aerobase-ctl status`
-
-  if /: runsv not running/.match(service_statuses) || service_statuses.empty? then
-    log 'It looks like Aerobase has not been installed yet; skipping the upgrade '\
-      'script.'
-    exit! 0
+  # Default location of install-dir is /opt/aerobase/. This path is set during build time.
+  # DO NOT change this value unless you are building your own Aerobase packages
+  if !::File.exists? "#{etc_path}/aerobase.rb" then
+    abort('It looks like aerobase has not been installed yet; skipping the update '\
+      'script.')
   end
 
-  log 'Shutting down all Aerobase services except those needed for migrations'
-  get_all_services.each do |sv_name|
-    run_sv_command_for_service('stop', sv_name)
-  end
 
-  MIGRATION_SERVICES = %w{postgresql}
-  MIGRATION_SERVICES.each do |sv_name|
-    # If the service is disabled, e.g. because we are using an external
-    # Postgres server, then this command is a no-op.
-    run_sv_command_for_service('start', sv_name)
-  end
+  # AEROBASE-107 - This sectiokn can be removed once 2.2.3 is no longer available
+  file_name = "#{etc_path}/aerobase.rb"
+  text = File.read(file_name)
+  new_contents = text.gsub(/unifiedpush_server\[/, "aerobase_server\[")
+  # Write changes to the file
+  File.open(file_name, "w") {|file| file.puts new_contents }
+  # END AEROBASE-107
 
-  SERVICE_WAIT = 30
-  MIGRATION_SERVICES.each do |sv_name|
-    status = -1
-    SERVICE_WAIT.times do
-      status = run_sv_command_for_service('status', sv_name)
-      break if status.zero?
-      sleep 1
-    end
-    abort "Failed to start #{sv_name} for migrations" unless status.zero?
-  end
-
-  log 'Reconfiguring Aerobase to apply migrations'
-  reconfigure(false) # sending 'false' means "don't quit afterwards"
-
-  log 'Restarting previously running Aerobase services'
-  get_all_services.each do |sv_name|
-    if /^run: #{sv_name}:/.match(service_statuses)
-      run_sv_command_for_service('start', sv_name)
-    end
-  end
-
+  log 'Run Aerobase reconfigure to apply migrations'
   log <<EOS
 
 Upgrade complete! If your Aerobase server is misbehaving try running
