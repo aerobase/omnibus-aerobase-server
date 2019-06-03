@@ -15,20 +15,24 @@
 # limitations under the License.
 #
 
-require 'openssl'
-
 os_helper = OsHelper.new(node)
 
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Unifiedpush packages
+install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 service_name = "Aerobase-Application-Server"
 
 # Stop windows service before we try to override files.
-include_recipe "aerobase::aerobase-server_stop"
-
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat uninstall /name #{service_name}" do
-    ignore_failure true
+  execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do
+    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
+  end
+  
+  ruby_block "Waiting 60 seconds for #{service_name} service to stop" do
+    block do
+      sleep 60
+    end
+    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
 end

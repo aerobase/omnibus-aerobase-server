@@ -15,23 +15,14 @@
 # limitations under the License.
 #
 
-cmd_helper = CmdHelper.new(node)
-
+os_helper = OsHelper.new(node)
 nginx_dir = node['unifiedpush']['nginx']['dir']
 
-# Stop service first
-execute "stop nginx service" do
-  command "echo 'Stoping nginx service ...'"
-  only_if { cmd_helper.success("#{nginx_dir}/aerobasesw.exe stop") }
-end
+include_recipe "aerobase::nginx_stop"
 
-ruby_block "Waiting 5 seconds for nginx service to stop ..." do
-  block do
-    sleep 5
+if os_helper.is_windows?
+  execute "uninstall nginx service" do
+    command "#{nginx_dir}/aerobasesw.exe uninstall"
+    only_if { ::File.exist? "#{nginx_dir}/aerobasesw.exe" }
   end
-end
-
-execute "uninstall nginx service" do
-  command "#{nginx_dir}/aerobasesw.exe uninstall"
-  only_if { ::File.exist? "#{nginx_dir}/aerobasesw.exe" }
 end

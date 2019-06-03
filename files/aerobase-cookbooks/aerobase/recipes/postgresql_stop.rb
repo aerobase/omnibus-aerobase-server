@@ -14,21 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+service_name = "Aerobase-PostgreSQL-Server"
 
-require 'openssl'
-
-os_helper = OsHelper.new(node)
-
-# Default location of install-dir is /opt/aerobase/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush packages
-server_dir = node['unifiedpush']['aerobase-server']['dir']
-service_name = "Aerobase-Application-Server"
-
-# Stop windows service before we try to override files.
-include_recipe "aerobase::aerobase-server_stop"
-
-if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat uninstall /name #{service_name}" do
-    ignore_failure true
-  end
+service "#{service_name}" do
+  action :stop
 end

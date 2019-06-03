@@ -29,14 +29,12 @@ add_command 'upgrade', 'Run migrations after a package upgrade', 1 do |cmd_name|
       'script.')
   end
 
+  conf = File.open("#{base_path}/embedded/cookbooks/upgrade.json", "w")
+  conf.puts "{ }"
+  conf.close
 
-  # AEROBASE-107 - This sectiokn can be removed once 2.2.3 is no longer available
-  file_name = "#{etc_path}/aerobase.rb"
-  text = File.read(file_name)
-  new_contents = text.gsub(/unifiedpush_server\[/, "aerobase_server\[")
-  # Write changes to the file
-  File.open(file_name, "w") {|file| file.puts new_contents }
-  # END AEROBASE-107
+  status = run_chef("#{base_path}/embedded/cookbooks/upgrade.json", "-l fatal -F null -o recipe[aerobase::upgrade]")
+  File.delete("#{base_path}/embedded/cookbooks/upgrade.json")
 
   log 'Run Aerobase reconfigure to apply migrations'
   log <<EOS

@@ -16,9 +16,7 @@
 #
 service_name = "Aerobase-PostgreSQL-Server"
 
-service "#{service_name}" do
-  action :stop
-end
+include_recipe "aerobase::postgresql_stop"
   
 windows_service "#{service_name}" do
   action :delete
