@@ -23,6 +23,7 @@ install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 service_name = "Aerobase-Application-Server"
 
+# TODO - Wait until service is down or 120 seconds
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do

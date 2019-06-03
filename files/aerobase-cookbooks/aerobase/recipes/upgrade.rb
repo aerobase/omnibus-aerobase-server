@@ -26,9 +26,11 @@ runtime_dir = node['package']['runtime-dir']
 logs_dir = node['package']['logs-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
 
+server_dir = node['unifiedpush']['aerobase-server']['dir']
+service_name = "Aerobase-Application-Server"
+
 # Stop All Services
 [
-  "aerobase-server", 
   "nginx",
   "postgresql"
 ].each do |service|
@@ -49,5 +51,9 @@ ruby_block "Update aerobase.rb attributes" do
     rescue
       puts "Failed to upgrade aerobase server, unable to modify #{config_dir}/aerobase.rb"
     end
+	FileUtils.mv("#{runtime_dir}/unifiedpush-server/", "#{runtime_dir}/aerobase-server/", :verbose => false, :force => true)
   end
 end
+
+include_recipe "aerobase::aerobase-server_uninstall"
+# AEROBASE-107 - END
