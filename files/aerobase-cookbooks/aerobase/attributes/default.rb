@@ -135,6 +135,7 @@ default['unifiedpush']['keycloak-server']['ha'] = false
 default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
 default['unifiedpush']['keycloak-server']['server_https'] = false
 default['unifiedpush']['keycloak-server']['cache_owners'] = 1
+default['unifiedpush']['keycloak-server']['cache_size'] = 10000
 default['unifiedpush']['keycloak-server']['theme_cache'] = true
 default['unifiedpush']['keycloak-server']['start_timeout'] = "600"
 # Database properties
