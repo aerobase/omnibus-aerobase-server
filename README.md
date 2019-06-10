@@ -2,13 +2,13 @@ Aerobase Server Omnibus
 ==================================
 This project creates full-stack platform-specific packages for the Aerobase Server.
 
-Aerobase Server is part of the [Aerobase project](http://aerobase.org/), see the [Community Page](http://aerobase.org/community) for general guidelines for contributing to the project.
+Aerobase Server is part of the [Aerobase project](https://aerobase.io/), see the [Community Page](https://aerobase.io/) for general guidelines for contributing to the project.
 
-The easiest way to start using Aerobase is sign-up a free Plan at [Aerobase.io](https://aerobase.io)
+The easiest way to start using Aerobase is sign-up a free Plan at [Aerobase.io](https://cloud.aerobase.io/portal)
 
 Download Binaries
 ------------
-Please follow the steps on the [installation page](https://aerobase.atlassian.net/wiki/spaces/ARB/pages)
+Please follow the steps on the [installation page](https://aerobase.io/docs/gsg/index.html)
 
 
 Preperation 
