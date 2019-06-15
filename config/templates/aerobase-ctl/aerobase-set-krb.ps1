@@ -30,6 +30,7 @@ aerobase-set-krb.ps1 -SetKeytab -SetKrb5 -SpnUser "SPN Account Name" -SpnPass "S
 Only Execute keytab commands
 aerobase-set-krb.ps1 -SetKeytab -SpnUser "aerobase" -SpnPass "123456" -Output "Exec"
 #>
+
 Param(
     [Switch]$SetKeytab,
     [Parameter(HelpMessage = "Write keytab (ktpass) command output to selected directory.")][ValidateNotNullOrEmpty()]$KeytabDir = "C:\",
@@ -49,6 +50,16 @@ function is_admin {
 function get_domain {
     (Get-WmiObject Win32_ComputerSystem).Domain
 }
+
+function get_dc {
+    $getdomain = [System.Directoryservices.Activedirectory.Domain]::GetCurrentDomain() 
+   
+    foreach ($dc in $getdomain.DomainControllers)
+    {
+      $lastdc = $dc.Name      
+    }
+    $lastdc    
+ }
 
 function get_compname {
     (Get-WmiObject Win32_ComputerSystem).Name
@@ -84,15 +95,41 @@ if ($SetKeytab) {
     }
 }
 
+$krb5ini = @'
+[libdefaults]
+dns_lookup_realm = false
+ticket_lifetime = 24h
+renew_lifetime = 7d
+forwardable = true
+rdns = false
+default_realm = _DOMAINUPPER_
+default_etypes = aes256-cts-hmac-sha1-96
+
+[realms]
+_DOMAINUPPER_ = {
+  kdc = _DOMAINDC_
+  admin_server = _DOMAINDC_
+}
+
+[domain_realm]
+._DOMAIN_ = _DOMAINUPPER_
+_DOMAIN_ = _DOMAINUPPER_
+'@
+
+
 if ($SetKrb5) {
     if (-Not (is_admin)) {
         Write-Error "ERROR: You need Administrator rights to set krb5.ini file"
     }
 	
-    $cmd='NOT Implemented Yet'
-    Write-Verbose -Verbose ('ktpass command will output: ' + $cmd)
+    $krb5ini = $krb5ini.replace("_DOMAINUPPER_",(get_domain).ToUpper())
+    $krb5ini = $krb5ini.replace("_DOMAIN_",(get_domain))
+    $krb5ini = $krb5ini.replace("_DOMAINDC_", (get_dc))
+    
+    #$cmd='NOT Implemented Yet'
+    Write-Verbose -Verbose ('krb5.ini file will output: ' + $krb5ini)
 	
     if ($Output -eq "Exec"){
-        Invoke-Expression $cmd
+        Out-File -FilePath 'C:\Windows\krb5.ini' -InputObject $krb5ini
     }
 }
