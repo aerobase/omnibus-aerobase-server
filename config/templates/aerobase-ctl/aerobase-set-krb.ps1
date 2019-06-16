@@ -78,7 +78,7 @@ if ($SetSpn) {
         Write-Error "ERROR: You need Administrator rights to run setspn command"
     }
 	
-    $cmd=$winroot + '\setspn.exe -A HTTP/' + (get_fqdn) + ' ' + $SpnUser
+    $cmd=$system32 + '\setspn.exe -A HTTP/' + (get_fqdn) + ' ' + $SpnUser
     Write-Verbose -Verbose ('setspn command will output: ' + $cmd)
 	
     if ($Output -eq "Exec"){
@@ -91,7 +91,7 @@ if ($SetKeytab) {
         Write-Error "ERROR: You need Administrator rights to run keytab command"
     }
 	
-    $cmd=$winroot + '\ktpass -out ' + $KeytabDir + '/aerobase.keytab' + ' -princ HTTP/' + (get_fqdn) + '@' + (get_domain).ToUpper() + ' -mapUser ' + $SpnUser +  ' -mapOp set -pass ' + $SpnPass + ' -kvno 0 -crypto all -pType KRB5_NT_PRINCIPAL'
+    $cmd=$system32 + '\ktpass -out ' + $KeytabDir + '/aerobase.keytab' + ' -princ HTTP/' + (get_fqdn) + '@' + (get_domain).ToUpper() + ' -mapUser ' + $SpnUser +  ' -mapOp set -pass ' + $SpnPass + ' -kvno 0 -crypto all -pType KRB5_NT_PRINCIPAL'
     Write-Verbose -Verbose ('ktpass command will output: ' + $cmd)
 	
     if ($Output -eq "Exec"){
