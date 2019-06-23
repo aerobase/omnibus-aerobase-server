@@ -28,8 +28,8 @@ build do
       mode: 0755, 
 	  vars: {install_dir: "#{install_dir}"}
 	  
-    erb source: "aerobase-bootstrap.bat.erb",
-      dest: "#{install_dir}/bin/aerobase-bootstrap.bat",
+    erb source: "aerobase-bootstrap.ps1.erb",
+      dest: "#{install_dir}/bin/aerobase-bootstrap.ps1",
       mode: 0755
 
     # Source file copied from https://gist.github.com/se35710/43693e679701387d722206eff1e85f5f

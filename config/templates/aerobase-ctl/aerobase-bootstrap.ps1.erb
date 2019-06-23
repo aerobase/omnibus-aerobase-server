@@ -1,0 +1,67 @@
+<#
+.SYNOPSIS
+Modify Aerobase home directory.
+.DESCRIPTION
+Execute aerobase home directory modification
+.PARAMETER AEROBASE_HOME
+ Aerobase home directory.
+.EXAMPLE
+aerobase-bootstrap -AEROBASE_HOME "C:/Aerobase"
+#>
+
+Param(
+    [Parameter(HelpMessage = "Aerobase home directory")][ValidateNotNullOrEmpty()]$AEROBASE_HOME
+)
+
+function get_domain {
+    (Get-WmiObject Win32_ComputerSystem).Domain
+}
+
+function get_compname {
+    (Get-WmiObject Win32_ComputerSystem).Name
+}
+
+function get_fqdn {
+    (get_compname) + '.' + (get_domain)
+}
+
+if ($AEROBASE_HOME -match '\\$')
+{
+  $AEROBASE_HOME = $AEROBASE_HOME.Substring(0,$AEROBASE_HOME.Length-1)
+}
+
+$AEROBASE_HOME=$AEROBASE_HOME.replace('\', '/')
+Write-Verbose -Verbose ('Aerobase home selected to: ' + $AEROBASE_HOME)
+
+(gc $AEROBASE_HOME\Aerobase\bin\aerobase-ctl.bat) -replace 'C:/Aerobase', "$AEROBASE_HOME" | Out-File $AEROBASE_HOME\Aerobase\bin\aerobase-ctl.bat -Encoding default
+
+(gc $AEROBASE_HOME\Aerobase\embedded\bin\omnibus-ctl.bat) -replace 'C:\Aerobase', "$AEROBASE_HOME" | Out-File $AEROBASE_HOME\Aerobase\embedded\bin\omnibus-ctl.bat -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/var/opt/#{name}', "$AEROBASE_HOME/Data" | Out-File $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/opt/#{name}', "$AEROBASE_HOME/Aerobase" | Out-File $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/var/log/#{name}', "$AEROBASE_HOME/Logs" | Out-File $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/etc/#{name}', "$AEROBASE_HOME/Configuration" | Out-File $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb) -replace '/etc', "$AEROBASE_HOME/Configuration" | Out-File $AEROBASE_HOME\Aerobase\embedded\lib\ruby\gems\2.5.0\gems\omnibus-ctl-0.6.0\lib\omnibus-ctl.rb -Encoding default
+
+(gc $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb) -replace 'C:/Aerobase', "$AEROBASE_HOME" | Out-File $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb) -replace '/var/opt/Aerobase', "$AEROBASE_HOME/Data" | Out-File $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb) -replace '/var/log/Aerobase', "$AEROBASE_HOME/Logs" | Out-File $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb -Encoding default
+(gc $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb) -replace '/etc/Aerobase', "$AEROBASE_HOME/Configuration" | Out-File $AEROBASE_HOME\Aerobase\embedded\cookbooks\package\attributes\default.rb -Encoding default
+
+Write-Verbose -Verbose ('Create license accepted file')
+echo "" > $AEROBASE_HOME/Data/.license.accepted
+
+Write-Verbose -Verbose ('Copy configuration template and set windows defaults')
+New-Item -ItemType directory -Force -Path $AEROBASE_HOME\Configuration
+if ((Test-Path $AEROBASE_HOME\Configuration\aerobase.rb) -eq $False){Copy-Item -Path $AEROBASE_HOME\Aerobase\etc\aerobase.rb.template -Destination $AEROBASE_HOME\Configuration\aerobase.rb}
+
+
+Write-Verbose -Verbose ('Set Windows hostname to default config')
+if ((get_domain) -eq ""){
+  $HOST_NAME=(get_compname)
+}else{
+  $HOST_NAME=(get_fqdn)
+}
+
+(gc $AEROBASE_HOME\Configuration\aerobase.rb) -replace 'GENERATED_EXTERNAL_URL', "http://$HOST_NAME" | Out-File $AEROBASE_HOME\Configuration\aerobase.rb -Encoding default
+& "$AEROBASE_HOME\Aerobase\embedded\bin\find-java.ps1" -SetSystem
+Start-Process -FilePath $Env:ComSpec -WindowStyle Hidden -ArgumentList '/c $AEROBASE_HOME\Aerobase\bin\aerobase-ctl.bat upgrade'
