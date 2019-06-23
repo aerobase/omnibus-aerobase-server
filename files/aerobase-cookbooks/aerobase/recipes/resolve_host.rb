@@ -33,7 +33,7 @@ end
 
 hostname "Set hostname entry to #{hostname} - 127.0.0.1" do
   hostname  "#{hostname}"
-  ipaddress "#{node['ipaddress']}"
+  ipaddress "127.0.0.1"
   windows_reboot false
   compile_time false
   only_if { !hostname_resolved }

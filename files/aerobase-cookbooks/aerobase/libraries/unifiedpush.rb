@@ -82,6 +82,8 @@ module Unifiedpush
 	  
       Unifiedpush['global']['fqdn'] = external_url.to_s
       Unifiedpush['global']['top_domain'] = DomainHelper.new(node).parse_domain(uri.host)
+      
+      # server_port is derived from external url 
       Unifiedpush['global']['server_port'] = uri.port
 
       config_dir = node['package']['config-dir']
@@ -225,7 +227,7 @@ module Unifiedpush
         "logging",
         "logrotate",
         "postgresql",
-		"mssql",
+	"mssql",
         "external_url"
       ].each do |key|
         rkey = key.gsub('_', '-')
