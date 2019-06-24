@@ -51,7 +51,7 @@
 
 	<CustomAction Id="DefenderExcludeAerobaseHome"
                   Directory="INSTALLLOCATION"
-                  ExeCommand="powershell -Command &quot;Add-MpPreference -ExclusionPath '[INSTALLLOCATION]'&quot;"
+                  ExeCommand="powershell -WindowStyle Hidden -Command &quot;Add-MpPreference -ExclusionPath '[INSTALLLOCATION]'&quot;"
                   Execute="deferred"
                   Impersonate="no"
                   Return="ignore" />
@@ -65,14 +65,14 @@
 
 	<CustomAction Id="UpdateInstallationPath"
                   Directory="INSTALLLOCATION"
-                  ExeCommand="powershell -Command &quot;$(var.ProjectLocationDir)\bin\aerobase-bootstrap.bat '[INSTALLLOCATION]'&quot;"
+                  ExeCommand="powershell -WindowStyle Hidden -Command &quot;$(var.ProjectLocationDir)\bin\aerobase-bootstrap.ps1 '[INSTALLLOCATION]'&quot;"
                   Execute="deferred"
                   Impersonate="no"
                   Return="ignore" />
 				  
 	<CustomAction Id="InstallCRedistributable"
                   Directory="INSTALLLOCATION"
-                  ExeCommand="powershell -Command &quot;$(var.ProjectLocationDir)\embedded\apps\mscplus\vcredist_x64.exe /q&quot;"
+                  ExeCommand="powershell -WindowStyle Hidden -Command &quot;$(var.ProjectLocationDir)\embedded\apps\mscplus\vcredist_x64.exe /q&quot;"
                   Execute="deferred"
                   Impersonate="no"
                   Return="ignore" />
