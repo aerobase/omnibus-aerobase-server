@@ -47,6 +47,11 @@ aerobase_vars = node['unifiedpush']['aerobase-server'].to_hash
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 cassandra_enabled = node['unifiedpush']['cassandra']['enable']
+aerobase_vars.merge(global_vars)
+aerobase_vars.merge({
+  :cassandra_enabled => cassandra_enabled,
+  :install_dir => install_dir
+})
 
 # Prepare datasource cli config script
 template "#{server_dir}/cli/aerobase-server-wildfly-ds.cli" do
@@ -90,7 +95,7 @@ template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
   group aerobase_group
   mode 0755
   source "unifiedpush-server-wildfly-oauth2-cli.erb"
-  variables(aerobase_vars.merge(global_vars))
+  variables(aerobase_vars)
 end
 
 
@@ -108,10 +113,17 @@ template "#{server_dir}/bin/standalone.#{standalone_file}" do
   group aerobase_group
   mode 0755
   source "wildfly-standalone.#{standalone_file}.erb"
-  variables(aerobase_vars.merge({
-      :cassandra_enabled => cassandra_enabled
-    }
-  ))
+  variables(aerobase_vars)
+end
+
+# Update 
+template "#{server_dir}/bin/jboss-cli.bat" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "wildfly-jboss-cli.bat.erb"
+  variables(aerobase_vars)
+  only_if { os_helper.is_windows? }
 end
 
 template "#{server_dir}/bin/service.bat" do
@@ -119,7 +131,7 @@ template "#{server_dir}/bin/service.bat" do
   group aerobase_group
   mode 0755
   source "wildfly-service.bat.erb"
-  variables(aerobase_vars.merge(global_vars))
+  variables(aerobase_vars)
   only_if { os_helper.is_windows? }
 end
 

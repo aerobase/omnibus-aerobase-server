@@ -32,7 +32,12 @@ rem # Specify the location of the Java home directory (it is recommended that
 rem # this always be set). If set, then "%JAVA_HOME%\bin\java" will be used as
 rem # the Java VM executable; otherwise, "%JAVA%" will be used (see below).
 rem #
-rem set "JAVA_HOME=C:\opt\jdk1.6.0_23"
+rem # Aerobase 
+if "x%JAVA_HOME%" == "x" (
+  set "JAVA_HOME=<%= @install_dir %>\embedded\openjdk\jre"
+  echo "JAVA_HOME not set in environment; overriding default settings with values: %JAVA_HOME%"
+)
+rem # End Aerobase 
 
 rem #
 rem # Specify the exact Java VM executable to use - only used if JAVA_HOME is
