@@ -83,8 +83,8 @@ module Unifiedpush
       Unifiedpush['global']['fqdn'] = external_url.to_s
       Unifiedpush['global']['top_domain'] = DomainHelper.new(node).parse_domain(uri.host)
       
-      # server_port is derived from external url 
-      Unifiedpush['global']['server_port'] = uri.port
+      # access_port is derived from external url 
+      Unifiedpush['global']['access_port'] = uri.port
 
       config_dir = node['package']['config-dir']
 
@@ -199,16 +199,16 @@ module Unifiedpush
 
     def parse_nginx_listen_ports
       [
-        [%w{nginx listen_port}, %w{global server_port}]
+        [%w{nginx listen_port}, %w{global access_port}]
       ].each do |left, right|
         if !Unifiedpush[left.first][left.last].nil?
           next
         end
 
-        default_set_server_port = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
-        user_set_server_port = Unifiedpush[right.first][right.last]
+        default_set_access_port = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
+        user_set_access_port = Unifiedpush[right.first][right.last]
 
-        Unifiedpush[left.first][left.last] = user_set_server_port || default_set_server_port
+        Unifiedpush[left.first][left.last] = user_set_access_port || default_set_access_port
       end
     end
 

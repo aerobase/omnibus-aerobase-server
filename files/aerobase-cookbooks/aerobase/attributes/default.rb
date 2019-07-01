@@ -32,7 +32,7 @@ default['unifiedpush']['manage-accounts']['enable'] = true
 default['unifiedpush']['global']['contactpoints'] = node['fqdn']
 default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
-default['unifiedpush']['global']['server_port'] = 80
+default['unifiedpush']['global']['access_port'] = 80
 # Windows Services prefix
 default['unifiedpush']['global']['srv_label'] = "Aerobase"
 
