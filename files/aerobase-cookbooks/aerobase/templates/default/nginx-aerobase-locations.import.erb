@@ -6,6 +6,7 @@
   real_ip_recursive on;
   <% end %>
 
+  <% if @analytics %>
   # Allow Google analytics reverse proxy while preserving remote_addr
   location ~ ^/analytics/(.*)$ {
       expires 31536000s;
@@ -14,6 +15,7 @@
 
       proxy_pass https://www.google-analytics.com<% if @set_real_ip_from %><%= '$uri$is_args$args&uip=$remote_addr' %><% end %>;
   }
+  <% end %>
 
   # Serve static theme resource with/without cacheing.
   location ~* ^/auth/.+\.(?:css|cur|js|jpe?g|gif|htc|ico|png|html|xml|otf|ttf|eot|woff|woff2|svg)$ {

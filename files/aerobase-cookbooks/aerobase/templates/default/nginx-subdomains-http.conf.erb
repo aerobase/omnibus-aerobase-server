@@ -5,7 +5,10 @@ server {
 
   server_name  ~^(?<subd>.+)\.<%= @top_domain.to_s.dup.gsub!(".", "\\.") %>$;
   server_tokens off; ## Don't show the nginx version number, a security best practice
-  resolver 8.8.8.8;
+
+  <% if @resolver %>
+  resolver <%= @resolver %>;
+  <% end %>
 
   ## Increase this if you want to upload large attachments
   ## Or if you want to accept large git objects over http
@@ -38,7 +41,7 @@ server {
     ## Serve static files from defined root folder.
     root <%= @html_dir %>;
     try_files $uri mobile-services.json;
-    }
+  }
 
   location = /aerobase.json {
     sub_filter 'TEMPLATE' '$subd';

@@ -289,6 +289,10 @@ default['unifiedpush']['nginx']['client_max_body_size'] = '250m'
 default['unifiedpush']['nginx']['proxy_cache'] = false
 default['unifiedpush']['nginx']['cache_max_size'] = '10g'
 default['unifiedpush']['nginx']['cache_expires'] = '48h'
+default['unifiedpush']['nginx']['resolver'] = nil # set nginx resolver tag e,g '8.8.8.8 8.8.4.4'
+# Set google analytics access from reverse proxy
+# When analytics is true, resolver must be set
+default['unifiedpush']['nginx']['analytics'] = false
 default['unifiedpush']['nginx']['redirect_http_to_https'] = false
 default['unifiedpush']['nginx']['redirect_http_to_https_port'] = 80
 default['unifiedpush']['nginx']['ssl_certificate'] = "#{node['package']['config-dir']}/ssl/#{node['fqdn']}.crt"
