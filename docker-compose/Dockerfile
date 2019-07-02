@@ -43,10 +43,10 @@ VOLUME [ "/sys/fs/cgroup" ]
 
 RUN systemctl enable sshd.service
 
-RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/aerobase-2.3.1-1.el7.x86_64.rpm" -o /tmp/aerobase-2.3.1-1.el7.x86_64.rpm
-RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/aerobase-iam-2.3.1-1.el7.x86_64.rpm" -o /tmp/aerobase-iam-2.3.1-1.el7.x86_64.rpm
-RUN rpm -i /tmp/aerobase-iam-2.3.1-1.el7.x86_64.rpm
-RUN rpm -i /tmp/aerobase-2.3.1-1.el7.x86_64.rpm
+RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/aerobase-2.3.2-1.el7.x86_64.rpm" -o /tmp/aerobase-2.3.2-1.el7.x86_64.rpm
+RUN curl -L "https://dl.bintray.com/aerobase/aerobase-rpm/aerobase-iam-2.3.2-1.el7.x86_64.rpm" -o /tmp/aerobase-iam-2.3.2-1.el7.x86_64.rpm
+RUN rpm -i /tmp/aerobase-iam-2.3.2-1.el7.x86_64.rpm
+RUN rpm -i /tmp/aerobase-2.3.2-1.el7.x86_64.rpm
 
 # Standard SSH port
 EXPOSE 22 80 443
