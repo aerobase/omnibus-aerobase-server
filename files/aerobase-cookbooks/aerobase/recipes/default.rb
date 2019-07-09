@@ -107,7 +107,6 @@ end
 
 include_recipe "aerobase::database_schema"
 include_recipe "aerobase::web-server"
-include_recipe "aerobase::resolve_host"
 
 # Configure Services
 [

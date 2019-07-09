@@ -29,7 +29,7 @@ default['unifiedpush']['bootstrap']['enable'] = true
 default['unifiedpush']['manage-accounts']['enable'] = true
 # Default contactpoints for symmetric cluster mode.
 # Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to aerobase.rb
-default['unifiedpush']['global']['contactpoints'] = node['fqdn']
+default['unifiedpush']['global']['contactpoints'] = "127.0.0.1"
 default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
 default['unifiedpush']['global']['access_port'] = 80
@@ -86,7 +86,7 @@ default['unifiedpush']['aerobase-server']['documents_json_limit'] = 4
 # By default server_host extracted from external_url
 default['unifiedpush']['aerobase-server']['server_host'] = node['fqdn']
 # Internal network bind address. If the node has a default route, this is the IPV4 address for the interface. 
-default['unifiedpush']['aerobase-server']['server_address'] = node['ipaddress']
+default['unifiedpush']['aerobase-server']['server_address'] = '127.0.0.1'
 default['unifiedpush']['aerobase-server']['server_contactpoints'] = node['fqdn']
 default['unifiedpush']['aerobase-server']['server_port'] = 8080
 default['unifiedpush']['aerobase-server']['server_https'] = false
