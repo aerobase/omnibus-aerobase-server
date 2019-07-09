@@ -61,7 +61,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## By default server_host is extracted from external URL
 # aerobase_server['server_host'] = node['fqdn']
 ## Internal network bind address. If the node has a default route, this is the IPV4 address for the interface.
-# aerobase_server['server_address'] = '127.0.0.1' # use node['ipaddress'] to bind to external address
+## Uncomment this line in case of cluster contactpoints. unless commented out, default bind is set to loopback
+# aerobase_server['server_address'] = node['ipaddress'] 
 # aerobase_server['server_contactpoints'] = node['fqdn']
 # aerobase_server['server_port'] = 8080
 # aerobase_server['server_https'] = false
