@@ -191,7 +191,7 @@ class MsSQLHelper
 	cmd << hostcmd
 	
     if mssql_logon
-      cmd << "-U #{mssql_user} -P #{mssql_password}"
+      cmd << "-U \"#{mssql_user}\" -P \"#{mssql_password}\""
     else
       cmd << "-E"
     end
