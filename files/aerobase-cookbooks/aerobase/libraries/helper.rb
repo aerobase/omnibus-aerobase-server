@@ -162,8 +162,12 @@ class MsSQLHelper
     mssql_exec(["\"SELECT name FROM master.dbo.sysdatabases WHERE name = '#{db_name}'\"", "|findstr \"#{db_name}\""])
   end
 
-  def user_exists?(db_user, user = nil, password = nil)
+  def login_exists?(db_user, user = nil, password = nil)
     mssql_exec(["\"SELECT name FROM [sys].[server_principals] WHERE  name = '#{db_user}'\"", "|findstr \"#{db_user}\""])
+  end
+
+  def user_exists?(db_user, db_name, user = nil, password = nil)
+    mssql_exec(["\"SELECT name FROM [#{db_name}].[sys].[database_principals] WHERE  name = '#{db_user}'\"", "|findstr \"#{db_user}\""])
   end
 
   def mssql_exec(cmd_list, user = nil, password = nil)

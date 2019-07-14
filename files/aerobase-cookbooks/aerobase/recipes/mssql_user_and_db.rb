@@ -42,17 +42,37 @@ if node['unifiedpush']['keycloak-server']['enable']
 end
 
 databases.each do |unifiedpush_app, db_name, sql_user|
-  execute "create user #{sql_user} for database #{db_name}" do
-    command "#{mssql_helper.mssql_cmd(["\"CREATE LOGIN [#{sql_user}] WITH PASSWORD=N'#{sql_user}', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF\""])}"    
-    # Added retries to give the service time to start on slower systems
-    retries 20
-    not_if { mssql_helper.user_exists?(sql_user) }
-  end
-  
   execute "create #{db_name} database" do
-    command "#{mssql_helper.mssql_cmd(["\"CREATE DATABASE [#{db_name}] CONTAINMENT = NONE; ALTER AUTHORIZATION ON database::#{db_name} TO #{sql_user};\""])}"    
+    command "#{mssql_helper.mssql_cmd(["\"CREATE DATABASE [#{db_name}] CONTAINMENT = NONE;\""])}"    
 
     not_if { mssql_helper.database_exists?(db_name) }
-    retries 30
+    retries 5
+  end
+  
+  execute "create login #{sql_user} for database #{db_name}" do
+    command "#{mssql_helper.mssql_cmd(["\"CREATE LOGIN [#{sql_user}] WITH PASSWORD=N'#{sql_user}', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF\""])}"    
+    # Added retries to give the service time to start on slower systems
+    retries 5
+    not_if { mssql_helper.login_exists?(sql_user) }
+  end
+  
+  execute "add roles to login #{sql_user} for database #{db_name}" do
+    command "#{mssql_helper.mssql_cmd(["\"USE [#{db_name}]; ALTER SERVER ROLE [setupadmin] ADD MEMBER #{sql_user}; ALTER SERVER ROLE [processadmin] ADD MEMBER #{sql_user};\""])}"    
+    # Added retries to give the service time to start on slower systems
+    retries 5
+    not_if { mssql_helper.user_exists?(sql_user, db_name) }
+  end
+ 
+  execute "add database user #{sql_user} for database #{db_name}" do
+    command "#{mssql_helper.mssql_cmd(["\"USE [#{db_name}]; CREATE USER [#{sql_user}] FOR LOGIN [#{sql_user}]\""])}"    
+    # Added retries to give the service time to start on slower systems
+    retries 5
+    not_if { mssql_helper.user_exists?(sql_user, db_name) }
+  end 
+
+  execute "add database role db_owner for user #{sql_user}" do
+    command "#{mssql_helper.mssql_cmd(["\"USE [#{db_name}]; ALTER ROLE [db_owner] ADD MEMBER #{sql_user};\""])}"    
+    # Added retries to give the service time to start on slower systems
+    retries 5
   end
 end
