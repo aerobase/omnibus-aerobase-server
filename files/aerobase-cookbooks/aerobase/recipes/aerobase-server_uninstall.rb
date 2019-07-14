@@ -30,5 +30,6 @@ include_recipe "aerobase::aerobase-server_stop"
 if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat uninstall /name #{service_name}" do
     ignore_failure true
+    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
 end

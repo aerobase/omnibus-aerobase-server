@@ -23,16 +23,16 @@ install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 service_name = "Aerobase-Application-Server"
 
-# TODO - Wait until service is down or 120 seconds
+# TODO - Wait until service is down or 90 seconds
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
   execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
   
-  ruby_block "Waiting 60 seconds for #{service_name} service to stop" do
+  ruby_block "Waiting 90 seconds for #{service_name} service to stop" do
     block do
-      sleep 60
+      sleep 90
     end
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
