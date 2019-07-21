@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 server_etc_dir = "#{server_dir}/etc"
 
