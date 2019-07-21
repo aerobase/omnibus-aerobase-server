@@ -62,7 +62,7 @@ template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "aerobase-server-wildfly-ds-cli.erb"
+  source "unifiedpush-server-wildfly-ds-cli.erb"
   variables(all_vars)
 end
 
