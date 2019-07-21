@@ -47,6 +47,14 @@ if database_adapter == "mssql"
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
 end
 
+if os_helper.is_windows?
+  cli_cmd = "jboss-cli.bat"
+  standalone_file = "conf.bat"
+else
+  cli_cmd = "jboss-cli.sh"
+  standalone_file = "conf"
+end
+
 # Prepare datasource cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
   owner aerobase_user
