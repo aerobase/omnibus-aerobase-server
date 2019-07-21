@@ -58,7 +58,10 @@ end
 include_recipe "aerobase::wildfly-server"
 include_recipe "aerobase::aerobase-server-wildfly-conf"
 include_recipe "aerobase::keycloak-server"
-include_recipe "aerobase::unifiedpush-server"
+
+if node['unifiedpush']['unifiedpush-server']['enable']
+  include_recipe "aerobase::unifiedpush-server"
+end 
 
 # create themes dir
 directory "#{server_dir}/themes" do

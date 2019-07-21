@@ -25,9 +25,11 @@ pgsql_helper = PgHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
-unifiedpush_vars = node['unifiedpush']['aerobase-server'].to_hash
+aerobase_vars = node['unifiedpush']['aerobase-server'].to_hash
+unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
-all_vars = unifiedpush_vars.merge(global_vars)
+all_vars = aerobase_vars.merge(unifiedpush_vars)
+all_vars = aerobase_vars.merge(global_vars)
 
 database_host = node['unifiedpush']['aerobase-server']['db_host']
 database_port = node['unifiedpush']['aerobase-server']['db_port']
@@ -45,6 +47,24 @@ if database_adapter == "mssql"
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
 end
 
+# Prepare datasource cli config script
+template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "aerobase-server-wildfly-ds-cli.erb"
+  variables(all_vars)
+end
+
+# Prepare oauth2 cli config script
+template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "unifiedpush-server-wildfly-oauth2-cli.erb"
+  variables(all_vars)
+end
+
 template "#{server_etc_dir}/environment.properties" do
   source "unifiedpush-server-env-properties.erb"
   owner aerobase_user
@@ -58,7 +78,7 @@ template "#{server_etc_dir}/db.properties" do
   owner aerobase_user
   group aerobase_group
   mode "0644"
-  variables(unifiedpush_vars.merge({
+  variables(all_vars.merge({
       :jdbc_url => jdbc_url
     }
   ))
@@ -69,8 +89,23 @@ template "#{server_etc_dir}/hibernate.properties" do
   owner aerobase_user
   group aerobase_group
   mode "0644"
-  variables(unifiedpush_vars.merge({
+  variables(all_vars.merge({
       :jdbc_hbm_dialect => jdbc_hbm_dialect
     }
   ))
 end
+
+# Execute cli scripts
+execute 'Unifiedpush datasource cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli"
+end
+
+execute 'Unifiedpush oauth2 cli script' do
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli"
+end
+
+# Link apps/
+link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
+  to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
+end
+

@@ -53,15 +53,6 @@ aerobase_vars = aerobase_vars.merge({
   :install_dir => install_dir
 })
 
-# Prepare datasource cli config script
-template "#{server_dir}/cli/aerobase-server-wildfly-ds.cli" do
-  owner aerobase_user
-  group aerobase_group
-  mode 0755
-  source "aerobase-server-wildfly-ds-cli.erb"
-  variables(aerobase_vars)
-end
-
 # Prepare http cli config script
 template "#{server_dir}/cli/aerobase-server-wildfly-http.cli" do
   owner aerobase_user
@@ -88,16 +79,6 @@ template "#{server_dir}/cli/aerobase-server-wildfly-jgroup.cli" do
   source "aerobase-server-wildfly-jgroup-cli.erb"
   variables(aerobase_vars)
 end
-
-# Prepare oauth2 cli config script
-template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
-  owner aerobase_user
-  group aerobase_group
-  mode 0755
-  source "unifiedpush-server-wildfly-oauth2-cli.erb"
-  variables(aerobase_vars)
-end
-
 
 if os_helper.is_windows?
   cli_cmd = "jboss-cli.bat"
@@ -135,11 +116,6 @@ template "#{server_dir}/bin/service.bat" do
   only_if { os_helper.is_windows? }
 end
 
-# Execute cli scripts
-execute 'Aerobase datasource cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-ds.cli"
-end
-
 execute 'Aerobase http/s cli script' do
   command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-http.cli"
 end
@@ -148,17 +124,8 @@ execute 'Aerobase kc cli script' do
   command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-kc.cli"
 end
 
-execute 'UPS jgroup cli script' do
+execute 'Aerobase jgroup cli script' do
   command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/aerobase-server-wildfly-jgroup.cli"
-end
-
-execute 'Aerobase oauth2 cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli"
-end
-
-# Link apps/
-link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
-  to "#{install_dir}/embedded/apps/unifiedpush-server/unifiedpush-server.war"
 end
 
 # Copy MSSQL jdbc driver only if mssql is used

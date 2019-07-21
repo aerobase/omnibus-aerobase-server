@@ -62,7 +62,7 @@ default['unifiedpush']['java']['set_default'] = true
 default['unifiedpush']['java']['oracle']['accept_oracle_download_terms'] = true
 
 ####
-# Unifiedpush Server app
+# Aerobase Server app
 ####
 default['unifiedpush']['aerobase-server']['enable'] = true
 default['unifiedpush']['aerobase-server']['ha'] = false
@@ -93,20 +93,6 @@ default['unifiedpush']['aerobase-server']['server_https'] = false
 default['unifiedpush']['aerobase-server']['time_zone'] = nil
 default['unifiedpush']['aerobase-server']['cache_owners'] = 1
 default['unifiedpush']['aerobase-server']['java_xmx'] = "1g"
-# OAuth2 Configureation, webapp_host is used as web applications root-url.
-default['unifiedpush']['aerobase-server']['webapp_host'] = node['fqdn']
-default['unifiedpush']['aerobase-server']['oauth2_enabled'] = true
-default['unifiedpush']['aerobase-server']['oauth2_context_root'] = "auth"
-# Realm name used for aerobase authentication, When running in portal mode, 'maser' realm must be used.
-default['unifiedpush']['aerobase-server']['oauth2_realm'] = 'aerobase'
-default['unifiedpush']['aerobase-server']['oauth2_admin_user'] = "admin"
-default['unifiedpush']['aerobase-server']['oauth2_admin_pass'] = "password"
-default['unifiedpush']['aerobase-server']['oauth2_subdomain_seperator'] = "."
-# Cassandra connection params
-default['unifiedpush']['aerobase-server']['cas_contactpoints'] = node['fqdn']
-default['unifiedpush']['aerobase-server']['cas_port'] = "9042"
-default['unifiedpush']['aerobase-server']['cas_keyspace'] = "aerobase_server"
-default['unifiedpush']['aerobase-server']['cas_consistencylevel'] = "LOCAL_ONE"
 # PostgreSQL connection params
 default['unifiedpush']['aerobase-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['aerobase-server']['db_encoding'] = "unicode"
@@ -121,6 +107,25 @@ default['unifiedpush']['aerobase-server']['db_pool'] = 10
 default['unifiedpush']['aerobase-server']['db_socket'] = nil
 default['unifiedpush']['aerobase-server']['db_sslmode'] = nil
 default['unifiedpush']['aerobase-server']['db_sslrootcert'] = nil
+
+####
+# Unifiedpush Server app
+####
+default['unifiedpush']['unifiedpush-server']['enable'] = true
+# OAuth2 Configureation, webapp_host is used as web applications root-url.
+default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
+default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
+default['unifiedpush']['unifiedpush-server']['oauth2_context_root'] = "auth"
+# Realm name used for aerobase authentication, When running in portal mode, 'maser' realm must be used.
+default['unifiedpush']['unifiedpush-server']['oauth2_realm'] = 'aerobase'
+default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
+default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
+default['unifiedpush']['unifiedpush-server']['oauth2_subdomain_seperator'] = "."
+# Cassandra connection params
+default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = node['fqdn']
+default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
+default['unifiedpush']['unifiedpush-server']['cas_keyspace'] = "aerobase_server"
+default['unifiedpush']['unifiedpush-server']['cas_consistencylevel'] = "LOCAL_ONE"
 
 ####
 # Keycloak Server app

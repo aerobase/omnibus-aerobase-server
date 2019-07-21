@@ -69,20 +69,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # aerobase_server['time_zone'] = nil
 # aerobase_server['cache_owners'] = 1
 # aerobase_server['java_xmx'] = "1g"
-## OAuth2 Configureation, webapp_host is used as web applications root-url.
-# aerobase_server['webapp_host'] = node['fqdn']
-# aerobase_server['oauth2_enabled'] = true
-# aerobase_server['oauth2_context_root'] = "auth"
-## Realm name used for aerobase authentication. When running in portal mode, 'maser' realm must be used.
-# aerobase_server['oauth2_realm'] = 'aerobase'
-# aerobase_server['oauth2_admin_user'] = "admin"
-# aerobase_server['oauth2_admin_pass'] = "password"
-# aerobase_server['oauth2_subdomain_seperator'] = "."
-## Cassandra connection params
-# aerobase_server['cas_contactpoints'] = node['fqdn']
-# aerobase_server['cas_port'] = "9042"
-# aerobase_server['cas_keyspace'] = "aerobase_server"
-# aerobase_server['cas_consistencylevel'] = "QUORUM"
 ## Database connection params
 # aerobase_server['db_adapter'] = "postgresql"
 # aerobase_server['db_encoding'] = "unicode"
@@ -98,6 +84,25 @@ external_url 'GENERATED_EXTERNAL_URL'
 # aerobase_server['db_socket'] = nil
 # aerobase_server['db_sslmode'] = nil
 # aerobase_server['db_sslrootcert'] = nil
+
+####
+# Unifiedpush Server app
+####
+# unifiedpush_server['enable'] = true
+## OAuth2 Configureation, webapp_host is used as web applications root-url.
+# unifiedpush_server['webapp_host'] = node['fqdn']
+# unifiedpush_server['oauth2_enabled'] = true
+# unifiedpush_server['oauth2_context_root'] = "auth"
+## Realm name used for aerobase authentication. When running in portal mode, 'maser' realm must be used.
+# unifiedpush_server['oauth2_realm'] = 'aerobase'
+# unifiedpush_server['oauth2_admin_user'] = "admin"
+# unifiedpush_server['oauth2_admin_pass'] = "password"
+# unifiedpush_server['oauth2_subdomain_seperator'] = "."
+## Cassandra connection params
+# unifiedpush_server['cas_contactpoints'] = node['fqdn']
+# unifiedpush_server['cas_port'] = "9042"
+# unifiedpush_server['cas_keyspace'] = "aerobase_server"
+# unifiedpush_server['cas_consistencylevel'] = "QUORUM"
 
 ####
 # Keycloak Server app

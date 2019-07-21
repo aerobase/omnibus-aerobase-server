@@ -44,6 +44,7 @@ module Unifiedpush
   mssql Mash.new
   aerobase_server Mash.new
   keycloak_server Mash.new
+  unifiedpush_server Mash.new
   nginx Mash.new
   logging Mash.new
   logrotate Mash.new
@@ -154,14 +155,14 @@ module Unifiedpush
       end
     end
 
-    def parse_cassandra_settings
+    def parse_contactpoints_settings
       # If the user wants to run the in symetric cluster mode,
       # then those settings should also be applied to cassandra / aerobase-server.
       [
-        # %w{aerobase_server cas_contactpoints} corresponds to
-        # Unifiedpush['aerobase_server']['cas_contactpoints'], etc.
+        # %w{unifiedpush_server cas_contactpoints} corresponds to
+        # Unifiedpush['unifiedpush_server']['cas_contactpoints'], etc.
         [%w{aerobase_server server_contactpoints}, %w{global contactpoints}],
-        [%w{aerobase_server cas_contactpoints}, %w{global contactpoints}],
+        [%w{unifiedpush_server cas_contactpoints}, %w{global contactpoints}],
         [%w{cassandra seeds}, %w{global contactpoints}]
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
@@ -175,7 +176,9 @@ module Unifiedpush
         default_from_attributes = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
         Unifiedpush[left.first][left.last] = better_value_from_unifiedpush_rb || default_from_attributes
       end
+    end
 
+    def parse_cassandra_settings
       # Only if user did not set a value to cas_consistencylevel
       # Calculate consistencylevel according to number of nodes.
       contactpoints = Unifiedpush['aerobase_server']['cas_contactpoints']
@@ -223,6 +226,7 @@ module Unifiedpush
 	"cassandra_config",
         "aerobase_server",
         "keycloak_server",
+        "unifiedpush_server",
         "nginx",
         "logging",
         "logrotate",
@@ -242,6 +246,7 @@ module Unifiedpush
       # generate_secrets(node_name)
       parse_external_url
       parse_database_settings
+      parse_contactpoints_settings
       parse_cassandra_settings
       parse_nginx_listen_address
       parse_nginx_listen_ports

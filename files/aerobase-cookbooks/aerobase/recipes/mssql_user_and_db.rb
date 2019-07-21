@@ -27,7 +27,7 @@ keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
 keycloak_database_username = node['unifiedpush']['keycloak-server']['db_username']
 
 databases = []
-if node['unifiedpush']['aerobase-server']['enable']
+if node['unifiedpush']['unifiedpush-server']['enable']
   databases << ['aerobase-server', 
 				unifiedpush_database_name, 
 				unifiedpush_database_username
