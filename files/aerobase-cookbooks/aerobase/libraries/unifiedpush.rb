@@ -181,12 +181,12 @@ module Unifiedpush
     def parse_cassandra_settings
       # Only if user did not set a value to cas_consistencylevel
       # Calculate consistencylevel according to number of nodes.
-      contactpoints = Unifiedpush['aerobase_server']['cas_contactpoints']
-      if Unifiedpush['aerobase_server']['cas_consistencylevel'].nil?
+      contactpoints = Unifiedpush['unifiedpush_server']['cas_contactpoints']
+      if Unifiedpush['unifiedpush_server']['cas_consistencylevel'].nil?
         if contactpoints.nil? || contactpoints.split(",").length == 1
-          Unifiedpush['aerobase_server']['cas_consistencylevel'] = "LOCAL_ONE"
+          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_ONE"
         else
-          Unifiedpush['aerobase_server']['cas_consistencylevel'] = "LOCAL_QUORUM"
+          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_QUORUM"
         end
       end
     end

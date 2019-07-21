@@ -31,7 +31,7 @@ aerobase_vars = node['unifiedpush']['aerobase-server'].to_hash
 unifiedpush_vars = node['unifiedpush']['unifiedpush-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = aerobase_vars.merge(unifiedpush_vars)
-all_vars = aerobase_vars.merge(global_vars)
+all_vars = all_vars.merge(global_vars)
 
 database_host = node['unifiedpush']['aerobase-server']['db_host']
 database_port = node['unifiedpush']['aerobase-server']['db_port']
