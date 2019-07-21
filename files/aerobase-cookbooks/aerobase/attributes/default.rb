@@ -151,6 +151,7 @@ default['unifiedpush']['keycloak-server']['db_password'] = "keycloak_server"
 default['unifiedpush']['keycloak-server']['db_host'] = "localhost"
 default['unifiedpush']['keycloak-server']['db_port'] = nil
 default['unifiedpush']['keycloak-server']['db_pool'] = "10"
+default['unifiedpush']['keycloak-server']['realm_default_enable'] = true
 # Additional realm json files array. e.g ['filepath', 'filepath']
 default['unifiedpush']['keycloak-server']['realm_files'] = []
 

@@ -37,6 +37,17 @@ database_name = node['unifiedpush']['keycloak-server']['db_database']
 database_username = node['unifiedpush']['keycloak-server']['db_username']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 
+# Aggreagate all server realms
+if node['unifiedpush']['keycloak-server']['realm_default_enable']
+  server_realms = server_dir + "/standalone/configuration/keycloak-server-aerobase-realm.json,"
+else
+  server_realms = ""
+end
+
+node['unifiedpush']['keycloak-server']['realm_files'].each do |file|
+  server_realms = server_realms + file + ","
+end
+
 # Always include modules since they are statically referenced from war file.
 include_recipe "aerobase::postgresql-module-wildfly-conf"
 include_recipe "aerobase::mssql-module-wildfly-conf"
@@ -82,13 +93,13 @@ template "#{server_dir}/cli/keycloak-server-wildfly.cli" do
   ))
 end
 
-template "#{server_dir}/cli/keycloak-server-ups-realms.cli" do
+template "#{server_dir}/cli/keycloak-server-aerobase-realms.cli" do
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "keycloak-server-ups-realms-cli.erb"
+  source "keycloak-server-aerobase-realms-cli.erb"
   variables(keycloak_vars.merge({
-      :server_dir => "#{server_dir}"
+      :server_realms => "#{server_realms}"
     }
   ))
 end
@@ -104,7 +115,7 @@ execute 'KC datasource and config cli script' do
 end
 
 execute 'KC datasource and config cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/keycloak-server-ups-realms.cli"
+  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/keycloak-server-aerobase-realms.cli"
 end
 
 # Copy spi resources

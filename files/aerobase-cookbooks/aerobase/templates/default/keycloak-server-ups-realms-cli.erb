@@ -1,3 +1,0 @@
-embed-server --server-config=standalone-full-ha.xml
-/system-property=keycloak.import:add(value="<%= @server_dir %>/standalone/configuration/keycloak-server-aerobase-realm.json<% node['unifiedpush']['keycloak-server']['realm_files'].each do |file| %>,<%= file %><% end %>")
-/system-property=keycloak.theme.privateTemplates:add(value="<% if @private_themes %>true<% else %>false<% end %>")
