@@ -79,6 +79,7 @@ subdomains_http_auth_conf = File.join(nginx_html_dir, "aerobase.json")
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
 aerobase_server_enabled = node['unifiedpush']['aerobase-server']['enable']
+unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
 aerobase_server_port = node['unifiedpush']['aerobase-server']['server_port']
 keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 portal_mode = node['unifiedpush']['global']['portal_mode']
@@ -196,7 +197,7 @@ ruby_block 'copy_ups_html_sources' do
 	FileUtils.cp_r "#{install_dir}/embedded/apps/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
   end
   action :run
-  only_if { aerobase_server_enabled }
+  only_if { aerobase_server_enabled && unifiedpush_server_enabled }
 end
 
 ruby_block 'copy_gsg_html_sources' do

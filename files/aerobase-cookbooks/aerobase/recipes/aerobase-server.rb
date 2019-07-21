@@ -61,6 +61,8 @@ include_recipe "aerobase::keycloak-server"
 
 if node['unifiedpush']['unifiedpush-server']['enable']
   include_recipe "aerobase::unifiedpush-server"
+else
+  include_recipe "aerobase::unifiedpush-server_disable"
 end 
 
 # create themes dir
