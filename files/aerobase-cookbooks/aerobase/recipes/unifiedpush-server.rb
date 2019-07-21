@@ -51,10 +51,8 @@ end
 
 if os_helper.is_windows?
   cli_cmd = "jboss-cli.bat"
-  standalone_file = "conf.bat"
 else
   cli_cmd = "jboss-cli.sh"
-  standalone_file = "conf"
 end
 
 # Prepare datasource cli config script
