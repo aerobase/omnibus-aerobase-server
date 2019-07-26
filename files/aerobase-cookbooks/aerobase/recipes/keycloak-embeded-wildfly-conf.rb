@@ -35,6 +35,7 @@ database_host = node['unifiedpush']['keycloak-server']['db_host']
 database_port = node['unifiedpush']['keycloak-server']['db_port']
 database_name = node['unifiedpush']['keycloak-server']['db_database']
 database_username = node['unifiedpush']['keycloak-server']['db_username']
+database_password = node['unifiedpush']['keycloak-server']['db_password']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 
 # Aggreagate all server realms
@@ -61,7 +62,7 @@ if database_adapter == 'postgresql'
 end
 
 if database_adapter == 'mssql'
-  jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_username)
+  jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_password)
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect"
   jdbc_driver_name = "sqlserver"
   jdbc_driver_module_name = "com.microsoft"

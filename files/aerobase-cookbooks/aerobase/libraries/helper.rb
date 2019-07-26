@@ -210,8 +210,8 @@ class MsSQLHelper
   end 
   
   def mssql_jdbc_url(db_host, db_port, db_database, db_username, db_password)
-    login = mssql_login ? "user=#{db_username};password=#{db_username};" : "integratedSecurity=true;"
-	port =  db_port.nil? ? "" : ":#{db_port}"
+    login = mssql_login ? "user=#{db_username};password=#{db_password};" : "integratedSecurity=true;"
+    port =  db_port.nil? ? "" : ":#{db_port}"
     instance = mssql_instance.nil? ? "" : "\\\\#{mssql_instance}"
     url = "jdbc:sqlserver://#{db_host}#{instance}#{port};databaseName=#{db_database};#{login}"
     url

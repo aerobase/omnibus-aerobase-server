@@ -23,25 +23,21 @@ mssql_helper = MsSQLHelper.new(node)
 
 unifiedpush_database_name = node['unifiedpush']['aerobase-server']['db_database']
 unifiedpush_database_username = node['unifiedpush']['aerobase-server']['db_username']
+unifiedpush_database_password = node['unifiedpush']['aerobase-server']['db_password']
 keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
 keycloak_database_username = node['unifiedpush']['keycloak-server']['db_username']
+keycloak_database_password = node['unifiedpush']['keycloak-server']['db_password']
 
 databases = []
 if node['unifiedpush']['unifiedpush-server']['enable']
-  databases << ['aerobase-server', 
-				unifiedpush_database_name, 
-				unifiedpush_database_username
-			   ]
+  databases << ['aerobase-server', unifiedpush_database_name, unifiedpush_database_username, unifiedpush_database_password]
 end
 
 if node['unifiedpush']['keycloak-server']['enable']
-  databases << ['aerobase-server', 
-			    keycloak_database_name, 
-				keycloak_database_username
-			   ]
+  databases << ['aerobase-server', keycloak_database_name, keycloak_database_username, keycloak_database_password]
 end
 
-databases.each do |unifiedpush_app, db_name, sql_user|
+databases.each do |unifiedpush_app, db_name, sql_user, sql_pass|
   execute "create #{db_name} database" do
     command "#{mssql_helper.mssql_cmd(["\"CREATE DATABASE [#{db_name}] CONTAINMENT = NONE;\""])}"    
 
@@ -50,7 +46,7 @@ databases.each do |unifiedpush_app, db_name, sql_user|
   end
   
   execute "create login #{sql_user} for database #{db_name}" do
-    command "#{mssql_helper.mssql_cmd(["\"CREATE LOGIN [#{sql_user}] WITH PASSWORD=N'#{sql_user}', DEFAULT_DATABASE=[master], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF\""])}"    
+    command "#{mssql_helper.mssql_cmd(["\"CREATE LOGIN [#{sql_user}] WITH PASSWORD=N'#{sql_pass}', CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF\""])}"
     # Added retries to give the service time to start on slower systems
     retries 5
     not_if { mssql_helper.login_exists?(sql_user) }
