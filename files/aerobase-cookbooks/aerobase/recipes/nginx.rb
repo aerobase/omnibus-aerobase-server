@@ -66,7 +66,6 @@ link "#{nginx_log_dir}/logs" do
 end
 
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")
-nginx_aerobase_js = File.join(nginx_html_dir, "aerobase.js")
 
 aerobase_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
 aerobase_cache_conf = File.join(nginx_conf_dir, "aerobase-proxy-cache.conf")
@@ -75,6 +74,7 @@ aerobase_sub_module_import = File.join(nginx_conf_dir, "aerobase-sub-module.impo
 subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
 subdomains_http_service_conf = File.join(nginx_html_dir, "mobile-services.json")
 subdomains_http_auth_conf = File.join(nginx_html_dir, "aerobase.json")
+nginx_aerobase_js = File.join(nginx_html_dir, "aerobase.js")
 
 # If the service is enabled, check if we are using internal nginx
 nginx_server_enabled = node['unifiedpush']['nginx']['enable']
@@ -87,19 +87,18 @@ top_domain = node['unifiedpush']['global']['top_domain']
 
 # Include the config file for aerobase-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
-               :aerobase_http_conf => aerobase_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
-	       :subdomains_http_conf => aerobase_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
-               :aerobase_http_configd => nginx_confd_dir,
-	       :aerobase_cache_conf => aerobase_cache_conf,
-	       :fqdn => node['unifiedpush']['aerobase-server']['server_host'],
-	       :aerobase_server_port => aerobase_server_port,
-	       :install_dir => install_dir,
-      	       :html_dir => nginx_html_dir,
-	       :cache_dir => nginx_cache_dir,
-               :portal_mode => portal_mode,
-	       :top_domain => top_domain,
-	       :windows => os_helper.is_windows?
-             })
+		:aerobase_http_conf => aerobase_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
+		:subdomains_http_conf => aerobase_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
+		:aerobase_http_configd => nginx_confd_dir,
+		:aerobase_cache_conf => aerobase_cache_conf,
+		:fqdn => node['unifiedpush']['aerobase-server']['server_host'],
+		:aerobase_server_port => aerobase_server_port,
+		:html_dir => "www/html",
+		:cache_dir => "cache",
+		:portal_mode => portal_mode,
+		:top_domain => top_domain,
+		:windows => os_helper.is_windows?
+	 })
 
 if nginx_vars['listen_https'].nil?
   nginx_vars['https'] = node['unifiedpush']['aerobase-server']['server_https']
@@ -203,6 +202,14 @@ end
 ruby_block 'copy_gsg_html_sources' do
   block do
 	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
+  end
+  action :run
+  only_if { aerobase_server_enabled }
+end
+
+ruby_block 'copy_mime_sources' do
+  block do
+	FileUtils.cp "#{install_dir}/embedded/conf/mime.types", "#{nginx_conf_dir}"
   end
   action :run
   only_if { aerobase_server_enabled }

@@ -55,8 +55,8 @@ server {
   <% end %>
 
   ## Individual nginx logs for this unifiedpush vhost
-  access_log  <%= @log_directory %>/unifiedpush_access.log;
-  error_log   <%= @log_directory %>/unifiedpush_error.log;
+  access_log  logs/unifiedpush_access.log;
+  error_log   logs/unifiedpush_error.log;
 
   <%= @custom_aerobase_config %>
   <% if @portal_mode %>

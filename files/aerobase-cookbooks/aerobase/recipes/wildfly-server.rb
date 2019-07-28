@@ -23,6 +23,8 @@ server_log_dir = node['unifiedpush']['aerobase-server']['log_directory']
 server_doc_dir = node['unifiedpush']['aerobase-server']['documents_directory']
 server_upl_dir = node['unifiedpush']['aerobase-server']['uploads_directory']
 server_etc_dir = "#{server_dir}/etc"
+# Create standalone log dir in advanced, else win slink will fail
+server_standalone_log = File.join(server_dir, "standalone/log")
 
 os_helper = OsHelper.new(node)
 account_helper = AccountHelper.new(node)
@@ -39,7 +41,8 @@ all_vars = unifiedpush_vars.merge(global_vars)
   server_log_dir,
   server_doc_dir, 
   server_upl_dir,
-  server_etc_dir
+  server_etc_dir,
+  server_standalone_log
 ].each do |dir_name|
   directory dir_name do
     owner aerobase_user
@@ -62,6 +65,14 @@ ruby_block 'copy_wildfly_service' do
   end
   action :run
   only_if { os_helper.is_windows? }
+end
+
+# Create standalone log dir in advanced, else win slink will fail
+directory "#{server_standalone_log}" do
+  owner aerobase_user
+  group aerobase_group
+  mode "0775"
+  action :create
 end
 
 # Link logrotate gir to wildfly log dir

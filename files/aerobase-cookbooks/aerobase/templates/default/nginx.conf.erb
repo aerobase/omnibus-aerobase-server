@@ -41,17 +41,17 @@ http {
   # Controls the maximum length of a virtual host entry (ie the length of the domain name).
   server_names_hash_bucket_size <%= @server_names_hash_bucket_size %>; 
 
-  include <%= @install_dir %>/embedded/conf/mime.types;
+  include mime.types;
 
   <%= @custom_http_config %>
   <% if @proxy_cache %>
-  include <%= @aerobase_cache_conf %>;
+  include aerobase-proxy-cache.conf;
   <% end %>
   <% if @aerobase_http_conf %>
-  include <%= @aerobase_http_conf %>;
+  include aerobase-http.conf;
   <% end %>
   <% if @subdomains_http_conf %>
-  include <%= @subdomains_http_conf %>;
+  include aerobase-subdomains.conf;
   <% end %>
-  include <%= @aerobase_http_configd %>/*.conf;
+  include ../conf.d/*.conf;
 }
