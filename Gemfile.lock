@@ -352,4 +352,4 @@ DEPENDENCIES
   test-kitchen (~> 1.2)
 
 BUNDLED WITH
-   1.16.3
+   2.0.1
