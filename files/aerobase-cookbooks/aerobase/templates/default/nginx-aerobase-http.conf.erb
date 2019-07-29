@@ -2,7 +2,7 @@
 # erased! To change the contents below, edit /etc/aerobase/aerobase.rb
 # and run `sudo aerobase-ctl reconfigure`.
 
-## Unifiedpush
+## Aerobase
 ##
 ## Lines starting with two hashes (##) are comments with information.
 ## Lines starting with one hash (#) are configuration parameters that can be uncommented.
@@ -19,8 +19,8 @@ server {
   server_name <%= @fqdn %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
   return 301 https://<%= @fqdn %>:<%= @port %>$request_uri;
-  access_log  <%= @log_directory %>/unifiedpush_access.log;
-  error_log   <%= @log_directory %>/unifiedpush_error.log;
+  access_log  logs/aerobase_access.log;
+  error_log   logs/aerobase_error.log;
 }
 <% end %>
 
@@ -55,8 +55,8 @@ server {
   <% end %>
 
   ## Individual nginx logs for this unifiedpush vhost
-  access_log  logs/unifiedpush_access.log;
-  error_log   logs/unifiedpush_error.log;
+  access_log  logs/aerobase_access.log <% if !@log_2xx_3xx %>combined if=$loggable<% end %>;
+  error_log   logs/aerobase_error.log;
 
   <%= @custom_aerobase_config %>
   <% if @portal_mode %>

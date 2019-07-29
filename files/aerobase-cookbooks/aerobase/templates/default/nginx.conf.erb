@@ -40,9 +40,14 @@ http {
  
   # Controls the maximum length of a virtual host entry (ie the length of the domain name).
   server_names_hash_bucket_size <%= @server_names_hash_bucket_size %>; 
-
   include mime.types;
 
+  <% if !@log_2xx_3xx %>
+  map $status $loggable {
+    ~^[23]  0;
+    default 1;
+  }
+  <% end %>
   <%= @custom_http_config %>
   <% if @proxy_cache %>
   include aerobase-proxy-cache.conf;

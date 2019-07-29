@@ -16,7 +16,7 @@
 #
 
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush packages
+# DO NOT change this value unless you are building your own Aerobase packages
 
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']

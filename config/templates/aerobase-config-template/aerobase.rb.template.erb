@@ -222,6 +222,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # nginx['delayed_start'] = false
 # nginx['dir'] = "#{node['package']['runtime-dir']}/nginx"
 # nginx['log_directory'] = "#{node['package']['logs-dir']}/nginx"
+# nginx['log_2xx_3xx'] = true
 # nginx['worker_processes'] = node['cpu']['total'].to_i
 # nginx['worker_connections'] = 10240
 ## If you’re serving locally stored static files, sendfile is totally essential to speed your Web server. 

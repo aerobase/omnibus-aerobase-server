@@ -16,7 +16,7 @@
 #
 
 # Default location of install-dir is /opt/unifiedpush/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush packages
+# DO NOT change this value unless you are building your own Aerobase packages
 
 os_helper = OsHelper.new(node)
 db_helper = DBHelper.new(node)

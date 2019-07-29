@@ -6,7 +6,7 @@ description      "Install and configure Aerobase Server from Omnibus"
 long_description "Install and configure Aerobase Server from Omnibus"
 version 		 "1.2.0"
 
-recipe "aerobase-server", "Configures Unifiedpush Application Server from Omnibus"
+recipe "aerobase-server", "Configures Aerobase Application Server from Omnibus"
 recipe "keycloak-server", "Configures KeyCloak Application Server from Omnibus"
 
 %w{ ubuntu debian redhat centos oracle fedora windows }.each do |os|

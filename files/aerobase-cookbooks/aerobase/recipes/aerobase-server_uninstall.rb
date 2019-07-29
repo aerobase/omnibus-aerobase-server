@@ -20,7 +20,7 @@ require 'openssl'
 os_helper = OsHelper.new(node)
 
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
-# DO NOT change this value unless you are building your own Unifiedpush packages
+# DO NOT change this value unless you are building your own Aerobase packages
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 service_name = "Aerobase-Application-Server"
 

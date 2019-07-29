@@ -276,6 +276,7 @@ default['unifiedpush']['nginx']['dir'] = "#{node['package']['runtime-dir']}/ngin
 default['unifiedpush']['nginx']['log_directory'] = "#{node['package']['logs-dir']}/nginx"
 default['unifiedpush']['nginx']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['nginx']['log_rotation']['num_to_keep'] = 10
+default['unifiedpush']['nginx']['log_2xx_3xx'] = true
 default['unifiedpush']['nginx']['worker_processes'] = node['cpu']['total'].to_i
 default['unifiedpush']['nginx']['worker_connections'] = 10240
 default['unifiedpush']['nginx']['sendfile'] = 'off'
