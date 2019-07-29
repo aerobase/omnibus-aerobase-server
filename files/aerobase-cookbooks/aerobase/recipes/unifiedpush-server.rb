@@ -46,7 +46,7 @@ if database_adapter == "postgresql"
 end 
 
 if database_adapter == "mssql"
-  jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_username, database_password)
+  jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_password)
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
 end
 
