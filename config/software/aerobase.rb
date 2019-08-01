@@ -15,6 +15,7 @@ else
 end
 
 dependency "omnibus-ctl"
+dependency "omnibus-ctl-nofisp"
 dependency "public_suffix"
 
 # unifiedpush internal dependencies/components
