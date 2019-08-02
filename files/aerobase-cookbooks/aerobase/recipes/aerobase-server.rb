@@ -53,6 +53,11 @@ if os_helper.is_windows?
     end
     only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
+else
+  execute "/opt/aerobase/bin/aerobase-ctl stop aerobase-server" do
+    retries 20
+    only_if { ::File.exist? "#{server_dir}/bin/standalone.sh" }
+  end
 end
 
 include_recipe "aerobase::wildfly-server"
