@@ -97,11 +97,11 @@ end
 
 # Schema creation - either to embedded postgresqk or to external.
 # Schama must be configured before aerobase-server is started.
-if node['unifiedpush']['aerobase-server']['db_adapter'] == 'postgresql'
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'postgresql' && node['unifiedpush']['aerobase-server']['db_initialize']
   include_recipe "aerobase::postgresql_initialize"
 end
 
-if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql'
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql' && node['unifiedpush']['aerobase-server']['db_initialize']
   include_recipe "aerobase::mssql_initialize"
 end
 

@@ -93,14 +93,15 @@ default['unifiedpush']['aerobase-server']['server_https'] = false
 default['unifiedpush']['aerobase-server']['time_zone'] = nil
 default['unifiedpush']['aerobase-server']['cache_owners'] = 1
 default['unifiedpush']['aerobase-server']['java_xmx'] = "1g"
-# PostgreSQL connection params
+# SQL connection params
+default['unifiedpush']['aerobase-server']['db_initialize'] = true
 default['unifiedpush']['aerobase-server']['db_adapter'] = "postgresql"
 default['unifiedpush']['aerobase-server']['db_encoding'] = "unicode"
 default['unifiedpush']['aerobase-server']['db_database'] = "unifiedpush_server"
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_ups_user, listen_address, port]
 default['unifiedpush']['aerobase-server']['db_username'] = "aerobase_server"
 default['unifiedpush']['aerobase-server']['db_password'] = "aerobase_server"
-# Postgresql host over TCP connection, java jdbc does not support unix socket.
+# PostgreSQL host over TCP connection, java jdbc does not support unix socket.
 default['unifiedpush']['aerobase-server']['db_host'] = "localhost"
 default['unifiedpush']['aerobase-server']['db_port'] = nil
 default['unifiedpush']['aerobase-server']['db_pool'] = 10
