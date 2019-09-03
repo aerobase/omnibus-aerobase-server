@@ -25,35 +25,4 @@ config_dir = node['package']['config-dir']
 runtime_dir = node['package']['runtime-dir']
 logs_dir = node['package']['logs-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
-
 server_dir = node['unifiedpush']['aerobase-server']['dir']
-service_name = "Aerobase-Application-Server"
-
-# Stop All Services
-[
-  "nginx",
-  "postgresql"
-].each do |service|
-  if node["unifiedpush"][service]["enable"]
-    include_recipe "aerobase::#{service}_stop"
-  end
-end
-
-# AEROBASE-107 - This sectiokn can be removed once 2.2.3 is no longer available
-ruby_block "Update aerobase.rb attributes" do
-  block do
-    begin
-      file_name = "#{config_dir}/aerobase.rb"
-      text = File.read(file_name)
-      new_contents = text.gsub(/unifiedpush_server\[/, "aerobase_server\[")
-      # Write changes to the file
-      File.open(file_name, "w") {|file| file.puts new_contents }
-    rescue
-      puts "Failed to upgrade aerobase server, unable to modify #{config_dir}/aerobase.rb"
-    end
-	FileUtils.mv("#{runtime_dir}/unifiedpush-server/", "#{runtime_dir}/aerobase-server/", :verbose => false, :force => true)
-  end
-end
-
-include_recipe "aerobase::aerobase-server_uninstall"
-# AEROBASE-107 - END

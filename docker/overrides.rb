@@ -1,4 +1,4 @@
-external_url 'http://test.aerobase.org'
+external_url 'http://aerobase.example.com'
 keycloak_server['theme_cache'] = false
 
 #postgresql['enable'] = false

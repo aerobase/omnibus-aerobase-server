@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+curl -L "https://dl.bintray.com/aerobase/aerobase-deb/aerobase_2.3.5-1_xenial.deb" -o /tmp/aerobase_2.3.5-1_xenial.deb
+curl -L "https://dl.bintray.com/aerobase/aerobase-deb/aerobase-iam_2.3.5-1_xenial.deb" -o /tmp/aerobase-iam_2.3.5-1_xenial.deb

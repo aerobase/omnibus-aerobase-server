@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+source /etc/lsb-release
+
+# Set up SSH
+mkdir /var/run/sshd && mkdir /var/log/ssh
+
+# Set up SSHD config
+sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# SSH login fix. Otherwise user is kicked off after login
+sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+	
+# Disabling use DNS in ssh since it tends to slow connecting
+echo "UseDNS no" >> /etc/ssh/sshd_config
+
+# Install packages
+dpkg -i /tmp/aerobase-iam_2.3.5-1_xenial.deb
+dpkg -i /tmp/aerobase_2.3.5-1_xenial.deb
