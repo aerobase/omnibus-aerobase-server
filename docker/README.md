@@ -1,8 +1,9 @@
 ## Aerobase Docker usage guide
 
-### Update your hostname and protocol (http/https) to overrides.rb
+### Update properties to overrides.rb
 ```
 vi overrides.rb
+# Update `external_url` with your hostname
 ```
 ### Run docker container
 ```
@@ -12,7 +13,7 @@ docker-compose up -d
 ```
 docker build -t aerobase/aerobase:latest .
 ```
-### Open chrome and browse http(s)://test.aerobase.org/auth/admin/aerobase/console
+### Open web browser and access http(s)://aerobase.example.com/auth/admin/aerobase/console
 Username: admin
 Password: 123
 
@@ -21,11 +22,18 @@ Password: 123
 docker-compose kill
 docker-compose rm
 ```
+
+### View aerobase logs
+```
+docker-compose logs -f
+```
+
+### Run ssh command
+```
+docker exec -it docker_aerobase_1 /bin/bash
+```
+
 ### Start Using SSL/HTTPS
 Create host directories to share SSL.
-1. mkdir $HOME/aerobase/ssl
-
-### HTTPS vs HTTP
-In order to run using SSL / HTTPS, place your certificate files under $HOME/aerobase/ssl/$(hostname).crt/.key
-If only http access is required, add port 80 to docker-compose.yaml config
-
+1. mkdir `$HOME/aerobase/ssl`
+2. Place your certificate files under `$HOME/aerobase/ssl/$(hostname).crt/.key`
