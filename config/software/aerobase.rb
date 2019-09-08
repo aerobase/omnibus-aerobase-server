@@ -36,3 +36,4 @@ if windows?
 end
 
 dependency "aerobase-keycloak-theme"
+dependency "aerobase-keycloak-patch"
