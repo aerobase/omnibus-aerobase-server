@@ -129,12 +129,12 @@ ruby_block 'copy_aerobase_keycloak_spi' do
 end
 
 # Copy spi resources
-ruby_block 'copy_aerobase_keycloak_petch' do
+ruby_block 'copy_aerobase_keycloak_patch' do
   block do
-    FileUtils.cp "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-services/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-services/main"
-	FileUtils.cp "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-server-spi/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi/main"
-	FileUtils.cp "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-ldap-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-ldap-federation/main"
-	FileUtils.cp "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-kerberos-federation/main"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-services/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-server-spi/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi/main/"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-ldap-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-ldap-federation/main/"
+	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-kerberos-federation/main/"
   end
   action :run
   only_if { node['unifiedpush']['keycloak-server']['aerobase_patch'] }
