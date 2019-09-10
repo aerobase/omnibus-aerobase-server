@@ -27,7 +27,7 @@ relative_path "aerobase-keycloak-patch"
 build_dir = "#{project_dir}"
 
 build do
-  command "mvn clean install -DskipTests"
+  command "mvn -T 1C install -DskipTests"
 
     # Copy dist to package dir.
   command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch"
