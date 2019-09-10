@@ -54,6 +54,7 @@ npm install -g phantomjs-prebuilt
 ```shell
 # Windows Only
 $ load-omnibus-toolchain.bat
+$ git config --system core.longpaths true
 ```
 
 ```shell
