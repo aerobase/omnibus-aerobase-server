@@ -42,6 +42,7 @@ module Unifiedpush
   cassandra_config Mash.new
   postgresql Mash.new
   mssql Mash.new
+  mysql Mash.new
   aerobase_server Mash.new
   keycloak_server Mash.new
   unifiedpush_server Mash.new
@@ -126,7 +127,7 @@ module Unifiedpush
       # DB username, host or port, then those settings should also be applied to
       # unifiedpush.
 	  
-      # Use either mssql or postgresql props
+      # Use either mssql mysql or postgresql props
       db_adapter =  Unifiedpush['aerobase_server']['db_adapter']
       if db_adapter.nil?
         # Use default if no override was specified
@@ -232,6 +233,7 @@ module Unifiedpush
         "logrotate",
         "postgresql",
 	"mssql",
+        "mysql",
         "external_url"
       ].each do |key|
         rkey = key.gsub('_', '-')

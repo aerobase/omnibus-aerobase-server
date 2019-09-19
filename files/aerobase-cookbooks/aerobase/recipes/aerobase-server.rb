@@ -26,8 +26,6 @@ server_dir = node['unifiedpush']['aerobase-server']['dir']
 server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
-mssql_helper = MsSQLHelper.new(node)
-pgsql_helper = PgHelper.new(node)
 os_helper = OsHelper.new(node)
 
 aerobase_user = account_helper.aerobase_user

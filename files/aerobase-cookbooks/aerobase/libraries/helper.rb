@@ -250,6 +250,83 @@ class MsSQLHelper
   end
 end
 
+class MySQLHelper
+  include ShellOutHelper
+  attr_reader :node
+
+  def initialize(node)
+    @node = node
+  end
+
+  def database_exists?(db_name, user = nil, password = nil)
+    mysql_exec(["SELECT 1 FROM DUAL"], db_name)
+  end
+
+  def user_exists?(db_name, db_user, db_password, user = nil, password = nil)
+    mysql_exec(["SELECT 1 FROM DUAL"], db_name, db_user, db_password)
+  end
+
+  def mysql_exec_def(cmd_list, user = nil, password = nil)
+    cmd = mysql_cmd(cmd_list)
+    success?(cmd, user, password)
+  end
+
+  def mysql_exec(cmd_list, db_database = nil, db_user = nil, db_password = nil, user = nil, password = nil)
+    cmd = mysql_cmd(cmd_list, db_database, db_user, db_password)
+    success?(cmd, user, password)
+  end
+
+  def mysql_cmd(cmd_list, db_database = nil, db_user = nil, db_password = nil)
+    install_dir = node['package']['install-dir']
+    cmd = []
+
+    username = db_user ? db_user : mysql_user
+    password = db_password ? db_password : mysql_password
+
+    cmd << "mysqlsh --sql --mysql --password=#{password}"
+
+    if !db_database.nil?
+        cmd << "--database=#{db_database}"
+    end
+
+    hostcmd = "#{username}@#{mysql_server}"
+
+    # use port if exists
+    if !mysql_port.nil?
+        hostcmd = hostcmd + ":#{mysql_port}"
+    end
+
+    cmd << hostcmd
+
+    cmd << "--execute=\""
+    cmd << cmd_list.join(" ")
+    cmd << "\""
+    cmd = cmd.join(" ")
+    cmd
+  end
+
+  def mysql_jdbc_url(db_host, db_port, db_database)
+    url = "jdbc:mysql://#{db_host}:#{db_port}/#{db_database}"
+    url
+  end
+
+  def mysql_user
+    node['unifiedpush']['mysql']['username']
+  end
+
+  def mysql_password
+    node['unifiedpush']['mysql']['password']
+  end
+
+  def mysql_port
+    node['unifiedpush']['mysql']['port']
+  end
+
+  def mysql_server
+    node['unifiedpush']['mysql']['server']
+  end
+end
+
 class SecretsHelper
   include ShellOutHelper
   attr_reader :node

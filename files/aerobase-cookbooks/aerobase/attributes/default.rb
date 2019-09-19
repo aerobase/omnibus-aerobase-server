@@ -224,6 +224,14 @@ default['unifiedpush']['mssql']['azure_logon'] = false
 default['unifiedpush']['mssql']['instance'] = nil
 
 ###
+# MySQL - Installation is not supported, only jdbc usage.
+###
+default['unifiedpush']['mysql']['server'] = "localhost"
+default['unifiedpush']['mysql']['port'] = 3306
+default['unifiedpush']['mysql']['username'] = "root"
+default['unifiedpush']['mysql']['password'] = "password"
+
+###
 # Apache Cassandra
 ###
 default['unifiedpush']['cassandra']['enable'] = false

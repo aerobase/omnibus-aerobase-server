@@ -21,6 +21,7 @@ server_etc_dir = "#{server_dir}/etc"
 
 account_helper = AccountHelper.new(node)
 mssql_helper = MsSQLHelper.new(node)
+mysql_helper = MySQLHelper.new(node)
 pgsql_helper = PgHelper.new(node)
 os_helper = OsHelper.new(node)
 
@@ -48,6 +49,11 @@ end
 if database_adapter == "mssql"
   jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_password)
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
+end
+
+if database_adapter == "mysql"
+  jdbc_url = mysql_helper.mysql_jdbc_url(database_host, database_port, database_name)
+  jdbc_hbm_dialect = "org.hibernate.dialect.MySQL8Dialect"
 end
 
 if os_helper.is_windows?

@@ -24,11 +24,11 @@ dependency "unifiedpush-server"
 dependency "unifiedpush-admin-ui"
 dependency "aerobase-gsg-ui"
 dependency "aerobase-config-template" 
-dependency "aerobase-cookbooks"
 dependency "aerobase-keycloak-spi"
 dependency "mscplus"
 dependency "winsw"
 dependency "mssql-jdbc"
+dependency "mysql-jdbc"
 
 # KC server and themes must be added after cookbooks
 if windows?
@@ -37,3 +37,6 @@ end
 
 dependency "aerobase-keycloak-theme"
 dependency "aerobase-keycloak-patch"
+
+# Most common updates - keep it last
+dependency "aerobase-cookbooks"

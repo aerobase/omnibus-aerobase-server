@@ -24,6 +24,7 @@ server_dir = node['unifiedpush']['aerobase-server']['dir']
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
 mssql_helper = MsSQLHelper.new(node)
+mysql_helper = MySQLHelper.new(node)
 pgsql_helper = PgHelper.new(node)
 
 aerobase_user = account_helper.aerobase_user
@@ -52,6 +53,7 @@ end
 # Always include modules since they are statically referenced from war file.
 include_recipe "aerobase::postgresql-module-wildfly-conf"
 include_recipe "aerobase::mssql-module-wildfly-conf"
+include_recipe "aerobase::mysql-module-wildfly-conf"
 
 if database_adapter == 'postgresql'
   jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
@@ -67,6 +69,14 @@ if database_adapter == 'mssql'
   jdbc_driver_name = "sqlserver"
   jdbc_driver_module_name = "com.microsoft"
   jdbc_driver_class_name = "com.microsoft.sqlserver.jdbc.SQLServerXADataSource"
+end
+
+if database_adapter == 'mysql'
+  jdbc_url = mysql_helper.mysql_jdbc_url(database_host, database_port, database_name)
+  jdbc_hbm_dialect = "org.hibernate.dialect.MySQL8Dialect"
+  jdbc_driver_name = "mysql"
+  jdbc_driver_module_name = "com.mysql.jdbc"
+  jdbc_driver_class_name = "com.mysql.cj.jdbc.MysqlXADataSource"
 end
 
 ruby_block 'copy_keycloak_sources' do

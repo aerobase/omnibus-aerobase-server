@@ -105,6 +105,10 @@ if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql' && node['unif
   include_recipe "aerobase::mssql_initialize"
 end
 
+if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mysql' && node['unifiedpush']['aerobase-server']['db_initialize']
+  include_recipe "aerobase::mysql_initialize"
+end
+
 include_recipe "aerobase::database_schema"
 include_recipe "aerobase::web-server"
 
