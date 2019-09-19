@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/aerobase/omnibus-software.git
-  revision: e0ac81e9ad0871b318c6896fd4aa4e06c4a045d8
+  revision: c8df31099c097a2ed75bdfd3aa8543cbaf026cde
   branch: master
   specs:
     omnibus-software (2.2.0)
@@ -28,17 +28,17 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     awesome_print (1.8.0)
     aws-eventstream (1.0.3)
-    aws-sdk (2.11.324)
-      aws-sdk-resources (= 2.11.324)
-    aws-sdk-core (2.11.324)
+    aws-sdk (2.11.356)
+      aws-sdk-resources (= 2.11.356)
+    aws-sdk-core (2.11.356)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.324)
-      aws-sdk-core (= 2.11.324)
+    aws-sdk-resources (2.11.356)
+      aws-sdk-core (= 2.11.356)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
     berkshelf (7.0.8)
@@ -153,14 +153,14 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    minitar (0.8)
+    minitar (0.9)
     mixlib-archive (1.0.1-universal-mingw32)
       mixlib-log
     mixlib-authentication (2.1.1)
     mixlib-cli (2.1.1)
     mixlib-config (3.0.1)
       tomlrb
-    mixlib-install (3.11.18)
+    mixlib-install (3.11.21)
       mixlib-shellout
       mixlib-versioning
       thor
@@ -187,7 +187,7 @@ GEM
     nori (2.6.0)
     octokit (4.14.0)
       sawyer (~> 0.8.0, >= 0.5.3)
-    ohai (14.8.12)
+    ohai (14.14.0)
       chef-config (>= 12.8, < 15)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
@@ -211,7 +211,7 @@ GEM
     plist (3.5.0)
     progressbar (1.10.1)
     proxifier (1.0.3)
-    public_suffix (3.1.1)
+    public_suffix (4.0.1)
     rack (2.0.7)
     retryable (3.0.4)
     rspec (3.8.0)
@@ -235,12 +235,12 @@ GEM
       rspec-core (>= 2, < 4, != 2.12.0)
     ruby-progressbar (1.10.1)
     rubyntlm (0.6.2)
-    rubyzip (1.2.3)
+    rubyzip (1.2.4)
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
     semverse (3.0.0)
-    serverspec (2.41.4)
+    serverspec (2.41.5)
       multi_json
       rspec (~> 3.0)
       rspec-its
@@ -254,12 +254,12 @@ GEM
       net-ssh (>= 2.7)
       net-telnet (= 0.1.1)
       sfl
-    strings (0.1.5)
+    strings (0.1.6)
       strings-ansi (~> 0.1)
       unicode-display_width (~> 1.5)
       unicode_utils (~> 1.4)
     strings-ansi (0.1.0)
-    structured_warnings (0.3.0)
+    structured_warnings (0.4.0)
     syslog-logger (1.6.8)
     systemu (2.6.5)
     test-kitchen (1.25.0)
@@ -277,9 +277,9 @@ GEM
     toml-rb (1.1.2)
       citrus (~> 3.0, > 3.0)
     tomlrb (1.2.8)
-    tty-box (0.4.0)
+    tty-box (0.4.1)
       pastel (~> 0.7.2)
-      strings (~> 0.1.5)
+      strings (~> 0.1.6)
       tty-cursor (~> 0.7)
     tty-color (0.5.0)
     tty-cursor (0.7.0)

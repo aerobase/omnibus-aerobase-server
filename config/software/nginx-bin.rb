@@ -15,10 +15,10 @@
 #
 
 name "nginx-bin"
-default_version "1.14.0"
+default_version "1.16.1"
 
-version "1.14.0" do
-  source md5: "c645cfcd1c74416c7741fd17ce616523"
+version "1.16.1" do
+  source md5: "aee9302d2f7d7a80eaa0fc9f81f784d7"
 end
 
 source url: "http://nginx.org/download/nginx-#{version}.zip"

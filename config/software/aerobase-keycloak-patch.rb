@@ -30,7 +30,11 @@ build do
   command "mvn -T 1C install -DskipTests"
 
     # Copy dist to package dir.
-  command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch"
+  command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation"
+  command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-services"
+  command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-server-spi"
+  command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-ldap-federation"
+  
   copy "./federation/kerberos/target/keycloak-kerberos-federation-#{default_version}.Final.jar", "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation"
   copy "./services/target/keycloak-services-#{default_version}.Final.jar", "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-services"
   copy "./server-spi/target/keycloak-server-spi-#{default_version}.Final.jar", "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-server-spi"
