@@ -29,7 +29,7 @@ homepage "https://aerobase.io"
 license "Apache-2.0"
 license_file "LICENSE"
 build_version IO.read(File.expand_path("../../../VERSION", __FILE__)).strip
-build_iteration 1
+build_iteration IO.read(File.expand_path("../../../ITERATION", __FILE__)).strip
 
 # In order to prevent unecessary cache expiration,
 # package and package version overrides, build_version

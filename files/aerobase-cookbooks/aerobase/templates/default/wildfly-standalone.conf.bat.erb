@@ -84,6 +84,6 @@ rem # Load Application properties from a local file.
 set "JAVA_OPTS=%JAVA_OPTS% -Daerobase.config.dir=/<%= @dir %>/etc/ -Djboss.http.port=<%= @server_port %>"
 
 rem # Cluster configuration - Set private address to required subnet
-set "JAVA_OPTS=%JAVA_OPTS% -Djboss.bind.address.private=<%= @server_address %> -Djava.library.path=<%= @dir %>/bin/mssql"
+set "JAVA_OPTS=%JAVA_OPTS% -Djboss.bind.address.private=<%= @server_address %> -Djava.library.path=<%= @dir %>/bin/mssql <% if @java_opts %><%= @java_opts %><% end %>"
 
 :JAVA_OPTS_SET

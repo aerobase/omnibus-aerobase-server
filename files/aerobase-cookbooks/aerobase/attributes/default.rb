@@ -93,6 +93,7 @@ default['unifiedpush']['aerobase-server']['server_https'] = false
 default['unifiedpush']['aerobase-server']['time_zone'] = nil
 default['unifiedpush']['aerobase-server']['cache_owners'] = 1
 default['unifiedpush']['aerobase-server']['java_xmx'] = "1g"
+default['unifiedpush']['aerobase-server']['java_opts'] = nil
 # SQL connection params
 default['unifiedpush']['aerobase-server']['db_initialize'] = true
 default['unifiedpush']['aerobase-server']['db_adapter'] = "postgresql"

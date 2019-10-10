@@ -19,7 +19,7 @@ require 'openssl'
 
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
-mysql_helper = MsSQLHelper.new(node)
+mysql_helper = MySQLHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 postgresql_user = account_helper.postgresql_user
