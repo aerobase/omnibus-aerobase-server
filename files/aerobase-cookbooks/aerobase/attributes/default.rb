@@ -232,6 +232,14 @@ default['unifiedpush']['mysql']['username'] = "root"
 default['unifiedpush']['mysql']['password'] = "password"
 
 ###
+# MariaDB - Installation is not supported, only jdbc usage.
+###
+default['unifiedpush']['mariadb']['server'] = "localhost"
+default['unifiedpush']['mariadb']['port'] = 3306
+default['unifiedpush']['mariadb']['username'] = "root"
+default['unifiedpush']['mariadb']['password'] = "password"
+
+###
 # Apache Cassandra
 ###
 default['unifiedpush']['cassandra']['enable'] = false

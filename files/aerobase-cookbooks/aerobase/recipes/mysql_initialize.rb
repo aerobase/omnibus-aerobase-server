@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-account_helper = AccountHelper.new(node)
-mysql_user = account_helper.mysql_user
-mysql_password = account_helper.mysql_password
+mysql_helper = MySQLHelper.new(node)
+mysql_user = mysql_helper.mysql_user
+mysql_password = mysql_helper.mysql_password
 
 # NOTE: These recipes are written idempotently, but require a running
 # MSSQL service.  They should run each time (on the appropriate
@@ -28,7 +28,6 @@ mysql_password = account_helper.mysql_password
 if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mysql'
   ruby_block "wait for mysql to start" do
     block do
-      mysql_helper = MySQLHelper.new(node)
       connectable = false
       2.times do |i|
         # Note that we have to include the port even for a local pipe, because the port number

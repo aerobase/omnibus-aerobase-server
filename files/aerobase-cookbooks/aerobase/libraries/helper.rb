@@ -258,6 +258,10 @@ class MySQLHelper
     @node = node
   end
 
+  def mysql_type
+    node['unifiedpush']['aerobase-server']['db_adapter']
+  end
+
   def database_exists?(db_name, user = nil, password = nil)
     mysql_exec(["SELECT 1 FROM DUAL"], db_name)
   end
@@ -305,25 +309,53 @@ class MySQLHelper
     cmd
   end
 
+  def is_mysql_type
+    node['unifiedpush']['aerobase-server']['db_adapter'] == 'mysql' || node['unifiedpush']['aerobase-server']['db_adapter'] == 'mariadb'
+  end
+
   def mysql_jdbc_url(db_host, db_port, db_database)
-    url = "jdbc:mysql://#{db_host}:#{db_port}/#{db_database}"
+    url = "jdbc:#{mysql_type}://#{db_host}:#{db_port}/#{db_database}"
     url
   end
 
+  def mysql_jdbc_hbm_dialect
+    if mysql_type == "mysql"
+      "org.hibernate.dialect.MySQL8Dialect"
+    else
+      "org.hibernate.dialect.MariaDB103Dialect"     
+    end
+  end 
+  
+  def mysql_jdbc_driver_module_name
+    if mysql_type == "mysql"
+      "com.mysql.jdbc"
+    else
+      "com.mariadb.jdbc"
+    end
+  end
+
+  def mysql_jdbc_driver_class_name
+    if mysql_type == "mysql"
+      "com.mysql.cj.jdbc.MysqlXADataSource"
+    else
+      "org.mariadb.jdbc.MySQLDataSource"
+    end
+  end
+
   def mysql_user
-    node['unifiedpush']['mysql']['username']
+    node['unifiedpush'][mysql_type]['username']
   end
 
   def mysql_password
-    node['unifiedpush']['mysql']['password']
+    node['unifiedpush'][mysql_type]['password']
   end
 
   def mysql_port
-    node['unifiedpush']['mysql']['port']
+    node['unifiedpush'][mysql_type]['port']
   end
 
   def mysql_server
-    node['unifiedpush']['mysql']['server']
+    node['unifiedpush'][mysql_type]['server']
   end
 end
 

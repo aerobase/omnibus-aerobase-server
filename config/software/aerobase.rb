@@ -29,6 +29,7 @@ dependency "mscplus"
 dependency "winsw"
 dependency "mssql-jdbc"
 dependency "mysql-jdbc"
+dependency "mariadb-jdbc"
 
 # KC server and themes must be added after cookbooks
 if windows?

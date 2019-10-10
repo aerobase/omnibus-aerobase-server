@@ -43,6 +43,7 @@ module Unifiedpush
   postgresql Mash.new
   mssql Mash.new
   mysql Mash.new
+  mariadb Mash.new
   aerobase_server Mash.new
   keycloak_server Mash.new
   unifiedpush_server Mash.new
@@ -234,6 +235,7 @@ module Unifiedpush
         "postgresql",
 	"mssql",
         "mysql",
+        "mariadb",
         "external_url"
       ].each do |key|
         rkey = key.gsub('_', '-')

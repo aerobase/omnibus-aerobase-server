@@ -66,14 +66,6 @@ class AccountHelper
     node['unifiedpush']['mssql']['password']
   end
   
-  def mysql_user
-    node['unifiedpush']['mysql']['username']
-  end
-  
-  def mysql_password
-    node['unifiedpush']['mysql']['password']
-  end
-
   def cassandra_user
     node['unifiedpush']['cassandra']['user']
   end

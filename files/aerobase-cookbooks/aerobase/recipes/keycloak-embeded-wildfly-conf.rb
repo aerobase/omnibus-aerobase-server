@@ -54,6 +54,7 @@ end
 include_recipe "aerobase::postgresql-module-wildfly-conf"
 include_recipe "aerobase::mssql-module-wildfly-conf"
 include_recipe "aerobase::mysql-module-wildfly-conf"
+include_recipe "aerobase::mariadb-module-wildfly-conf"
 
 if database_adapter == 'postgresql'
   jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
@@ -71,12 +72,12 @@ if database_adapter == 'mssql'
   jdbc_driver_class_name = "com.microsoft.sqlserver.jdbc.SQLServerXADataSource"
 end
 
-if database_adapter == 'mysql'
+if mysql_helper.is_mysql_type
   jdbc_url = mysql_helper.mysql_jdbc_url(database_host, database_port, database_name)
-  jdbc_hbm_dialect = "org.hibernate.dialect.MySQL8Dialect"
-  jdbc_driver_name = "mysql"
-  jdbc_driver_module_name = "com.mysql.jdbc"
-  jdbc_driver_class_name = "com.mysql.cj.jdbc.MysqlXADataSource"
+  jdbc_hbm_dialect = mysql_helper.mysql_jdbc_hbm_dialect
+  jdbc_driver_name = mysql_helper.mysql_type
+  jdbc_driver_module_name = mysql_helper.mysql_jdbc_driver_module_name
+  jdbc_driver_class_name = mysql_helper.mysql_jdbc_driver_class_name 
 end
 
 ruby_block 'copy_keycloak_sources' do

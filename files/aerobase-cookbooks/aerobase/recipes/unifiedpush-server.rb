@@ -51,9 +51,9 @@ if database_adapter == "mssql"
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect" 
 end
 
-if database_adapter == "mysql"
+if mysql_helper.is_mysql_type
   jdbc_url = mysql_helper.mysql_jdbc_url(database_host, database_port, database_name)
-  jdbc_hbm_dialect = "org.hibernate.dialect.MySQL8Dialect"
+  jdbc_hbm_dialect = mysql_helper.mysql_jdbc_hbm_dialect
 end
 
 if os_helper.is_windows?

@@ -19,6 +19,7 @@ require 'openssl'
 
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
+mysql_helper = MsSQLHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 postgresql_user = account_helper.postgresql_user
@@ -105,7 +106,7 @@ if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mssql' && node['unif
   include_recipe "aerobase::mssql_initialize"
 end
 
-if node['unifiedpush']['aerobase-server']['db_adapter'] == 'mysql' && node['unifiedpush']['aerobase-server']['db_initialize']
+if mysql_helper.is_mysql_type && node['unifiedpush']['aerobase-server']['db_initialize']
   include_recipe "aerobase::mysql_initialize"
 end
 
