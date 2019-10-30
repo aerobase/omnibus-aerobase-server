@@ -15,21 +15,15 @@
 # limitations under the License.
 #
 
-require 'openssl'
-
 os_helper = OsHelper.new(node)
 
-# Default location of install-dir is /opt/aerobase/. This path is set during build time.
-# DO NOT change this value unless you are building your own Aerobase packages
-server_dir = node['unifiedpush']['aerobase-server']['dir']
-win_service_name = "Aerobase-Application-Server"
-
-# Stop windows service before we try to override files.
-include_recipe "aerobase::aerobase-server_stop"
+# Configure Services
+servicename = node['servicename']
 
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat uninstall /name #{win_service_name}" do
-    ignore_failure true
-    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
+  if node["unifiedpush"][servicename]["enable"]
+    include_recipe "aerobase::#{servicename}_uninstall"
   end
+else
+  puts "Remove service command is supported only for Windows OS"
 end

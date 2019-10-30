@@ -62,7 +62,6 @@ end
 # A workarround to ensure logrotate always exists at log_directory/logs
 link "#{nginx_log_dir}/logs" do
   to nginx_log_dir
-  only_if { os_helper.not_windows? }
 end
 
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")

@@ -36,6 +36,9 @@ build do
     erb source: "aerobase-find-java.ps1.erb",
       dest: "#{install_dir}/embedded/bin/find-java.ps1",
       mode: 0755
+
+	# Copy win only resources 
+	copy "./win-only/*.rb", "#{install_dir}/embedded/service/omnibus-ctl/"
   else
     erb source: "aerobase-ctl.erb",
       dest: "#{install_dir}/bin/aerobase-ctl",
@@ -44,5 +47,5 @@ build do
   end 
 
   # additional omnibus-ctl commands
-  copy "./*.*", "#{install_dir}/embedded/service/omnibus-ctl/"
+  copy "./*.rb", "#{install_dir}/embedded/service/omnibus-ctl/"
 end

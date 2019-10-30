@@ -94,6 +94,11 @@ execute "#{install_dir}/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" d
   end
 end
 
+# Link logrotate gir to pgsql log dir
+link "#{postgresql_log_dir}/logs" do
+  to "#{postgresql_data_dir}/pg_log"
+end
+
 postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
 
 if os_helper.is_windows? 
