@@ -115,7 +115,7 @@ if os_helper.is_windows?
     only_if { service_delayed_start }
   end 
   
-  execute "#{server_dir}/bin/service.bat restart /name #{service_name}" do
+  include_recipe "aerobase::aerobase-server_start"
   end
 else
   component_runit_service "aerobase-server" do

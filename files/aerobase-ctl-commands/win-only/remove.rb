@@ -15,9 +15,7 @@
 # limitations under the License.
 #
 
-add_command 'remove-service', 'Run remove windows service', 2 do |cmd_name, props|
-  # Default location of install-dir is /opt/aerobase/. This path is set during build time.
-  # DO NOT change this value unless you are building your own Aerobase packages
+add_command 'remove', 'Remove windows service', 2 do |cmd_name, props|
   if !::File.exists? "#{etc_path}/aerobase.rb" then
     abort('It looks like aerobase has not been installed yet; skipping the remove service step '\
       'script.')
@@ -28,10 +26,13 @@ add_command 'remove-service', 'Run remove windows service', 2 do |cmd_name, prop
   end	
     
   conf = File.open("#{base_path}/embedded/cookbooks/remove-service.json", "w")
-  conf.puts "{ \"servicename\": \"#{props}\" }"
+  conf.puts "{" 
+  conf.puts "\"servicename\": \"#{props}\","
+  conf.puts "\"servicecmd\": \"uninstall\""
+  conf.puts "}"
   conf.close
   
-  status = run_chef("#{base_path}/embedded/cookbooks/remove-service.json", "-l fatal -F null -o recipe[aerobase::remove-service]")
+  status = run_chef("#{base_path}/embedded/cookbooks/remove-service.json", "-l fatal -F null -o recipe[aerobase::service]")
   File.delete("#{base_path}/embedded/cookbooks/remove-service.json")
   
   log <<EOS

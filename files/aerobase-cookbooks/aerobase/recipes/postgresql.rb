@@ -25,13 +25,9 @@ postgresql_dir = node['unifiedpush']['postgresql']['dir']
 postgresql_data_dir = node['unifiedpush']['postgresql']['data_dir']
 postgresql_data_dir_symlink = File.join(postgresql_dir, "data")
 postgresql_log_dir = node['unifiedpush']['postgresql']['log_directory']
-postgresql_delayed_start = node['unifiedpush']['postgresql']['delayed_start']
 postgresql_user = account_helper.postgresql_user
 postgresql_password = account_helper.postgresql_password
 postgresql_group = account_helper.postgresql_group
-
-service_label = node['unifiedpush']['global']['srv_label']
-service_name = "Aerobase-PostgreSQL-Server"
 
 # Create OS username and group
 if node["unifiedpush"]['postgresql']["enable"]
@@ -135,22 +131,7 @@ template File.join(postgresql_data_dir, "pg_ident.conf") do
 end
 
 if os_helper.is_windows?
-  service "#{service_name}" do
-    action :stop
-  end
-  
-  windows_service "#{service_name}" do
-    action :create
-    binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"#{service_name}\" -D \"#{postgresql_data_dir}\" -w"
-    startup_type :automatic
-	delayed_start postgresql_delayed_start
-	display_name "#{service_label} PostgreSQL" 
-    description "#{service_label} PostgreSQL (Powered by Aerobase)"
-  end
-
-  service "#{service_name}" do
-    action :restart
-  end
+  include_recipe "aerobase::postgresql_start"
 else
   component_runit_service "postgresql" do
     package "unifiedpush"

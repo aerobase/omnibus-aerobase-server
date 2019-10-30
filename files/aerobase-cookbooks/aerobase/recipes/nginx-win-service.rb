@@ -94,6 +94,4 @@ execute "install nginx service" do
   command "#{nginx_dir}/aerobasesw.exe install"
 end
 
-execute "restart nginx service" do
-  command "#{nginx_dir}/aerobasesw.exe restart"
-end
+include_recipe "aerobase::nginx_start"
