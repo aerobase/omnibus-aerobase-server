@@ -116,7 +116,6 @@ if os_helper.is_windows?
   end 
   
   include_recipe "aerobase::aerobase-server_start"
-  end
 else
   component_runit_service "aerobase-server" do
     package "unifiedpush"
