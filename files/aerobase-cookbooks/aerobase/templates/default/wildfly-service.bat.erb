@@ -17,14 +17,14 @@ REM  v6 2013-08-21 added /name /desc
 REM                added /serviceuser /servicepass
 REM                extended directory checking for versions and locations
 REM                extended checking on option usage
-REM  v5	2013-06-10 adapted for EAP 6.1.0
-REM  v4	2012-10-03 Small changes to properly handles spaces in LogPath, StartPath,
+REM  v5 2013-06-10 adapted for EAP 6.1.0
+REM  v4 2012-10-03 Small changes to properly handles spaces in LogPath, StartPath,
 REM                and StopPath (George Rypysc)
-REM  v3	2012-09-14 fixed service log path
+REM  v3 2012-09-14 fixed service log path
 REM                cmd line options for controller,domain host, loglevel,
-REM		   username,password
-REM  v2	2012-09-05 NOPAUSE support
-REM  v1	2012-08-20 initial edit
+REM                username,password
+REM  v2 2012-09-05 NOPAUSE support
+REM  v1 2012-08-20 initial edit
 REM
 REM Author: Tom Fonteyne (unless noted above)
 REM ========================================================
@@ -32,13 +32,13 @@ setlocal EnableExtensions EnableDelayedExpansion
 
 set DEBUG=0
 if "%DEBUG%" == "1" (
-	echo "Debug info enabled"
-	echo on
+        echo "Debug info enabled"
+        echo on
 )
 
 set "DIRNAME=%~dp0%"
 if "%DEBUG%" == "1" (
-	echo DIRNAME "%DIRNAME%x"
+        echo DIRNAME "%DIRNAME%x"
 )
 
 if exist "%DIRNAME%..\jboss-modules.jar" (
@@ -59,12 +59,12 @@ if exist "%DIRNAME%..\jboss-modules.jar" (
 )
 
 if "%DEBUG%" == "1" (
-	echo WE was not found, using "%WE%"
+        echo WE was not found, using "%WE%"
 )
 
 :WE_FOUND
 if "%DEBUG%" == "1" (
-	echo WE "%WE%"
+        echo WE "%WE%"
 )
 pushd "%WE%"
 set "RESOLVED_JBOSS_HOME=%CD%"
@@ -80,9 +80,9 @@ set "SANITIZED_JBOSS_HOME=%CD%"
 popd
 
 if "%DEBUG%" == "1" (
-	echo SANITIZED_JBOSS_HOME="%SANITIZED_JBOSS_HOME%"
-	echo RESOLVED_JBOSS_HOME="%RESOLVED_JBOSS_HOME%"
-	echo JBOSS_HOME="%JBOSS_HOME%"
+        echo SANITIZED_JBOSS_HOME="%SANITIZED_JBOSS_HOME%"
+        echo RESOLVED_JBOSS_HOME="%RESOLVED_JBOSS_HOME%"
+        echo JBOSS_HOME="%JBOSS_HOME%"
 )
 
 if not "%RESOLVED_JBOSS_HOME%x" == "%SANITIZED_JBOSS_HOME%x" (
@@ -106,7 +106,7 @@ if "%PROCESSOR_ARCHITECTURE%"=="AMD64" (
 )
 
 if "%DEBUG%" == "1" (
-	echo PRUNSRV %PRUNSRV%
+        echo PRUNSRV %PRUNSRV%
 )
 
 echo(
@@ -122,6 +122,8 @@ set DC_HOST=master
 set IS_DOMAIN=false
 set LOGLEVEL=INFO
 set LOGPATH=
+set PROPSPATH=
+set ENV_VARS=
 set JBOSSUSER=
 set JBOSSPASS=
 set SERVICE_USER=
@@ -148,10 +150,11 @@ echo Usage:
 echo(
 echo   service install ^<options^>  , where the options are:
 echo(
-echo     /startup                  : Set the service to auto start
+echo     /startup                    : Set the service to auto start
 echo                                 Not specifying sets the service to manual
 echo(
 echo     /jbossuser ^<username^>     : JBoss username to use for the shutdown command.
+echo(
 echo     /jbosspass ^<password^>     : Password for /jbossuser
 echo(
 echo     /controller ^<host:port^>   : The host:port of the management interface.
@@ -166,8 +169,13 @@ echo(
 echo Options to use when multiple services or different accounts are needed:
 echo(
 echo     /name ^<servicename^>       : The name of the service
-echo(
 echo                                 default: %SHORTNAME%
+echo(
+echo     /display ^<displayname^>    : The display name of the service, use double
+echo                                 quotes to allow spaces.
+echo                                 Maximum 256 characters.
+echo                                 default: %DISPLAYNAME%
+echo(
 echo     /desc ^<description^>       : The description of the service, use double
 echo                                 quotes to allow spaces.
 echo                                 Maximum 1024 characters.
@@ -179,12 +187,14 @@ echo                                 Use an account name in the form of
 echo                                 DomainName\UserName
 echo                                 default: not used, the service runs as
 echo                                 Local System Account.
+echo(
 echo     /servicepass ^<password^>   : password for /serviceuser
 echo(
 echo Advanced options:
 echo(
 echo     /config ^<xmlfile^>         : The server-config to use
 echo                                 default: standalone.xml / domain.xml
+echo(
 echo     /hostconfig ^<xmlfile^>     : domain mode only, the host config to use
 echo                                 default: host.xml
 echo(
@@ -196,13 +206,20 @@ echo(
 echo     /loglevel ^<level^>         : The log level for the service:  Error, Info,
 echo                                 Warn or Debug ^(Case insensitive^)
 echo                                 default: %LOGLEVEL%
+echo(
 echo     /logpath ^<path^>           : Path of the log
 echo                                 default depends on domain or standalone mode
 echo                                 /base applies when /logpath is not set.
 echo                                   %JBOSS_HOME%\domain\log
 echo                                   %JBOSS_HOME%\standalone\log
 echo(
-echo     /debug                    : run the service install in debug mode
+echo     /debug                      : run the service install in debug mode
+echo(
+echo     /properties ^<path^>           : Path of the properties file to use
+echo                                 default none
+echo(
+echo     /environment ^<env^>           : List of environment variables that will be provided to the service in the form key=value. They are separated using either # or ; characters. If you need to embed either # or ; character within a value put them inside single quotes.
+echo                                 default none
 echo(
 echo Other commands:
 echo(
@@ -301,7 +318,6 @@ if /I "%~1"== "/name" (
     set T=%~2
     if not "!T:~0,1!"=="/" (
       set SHORTNAME=%~2
-      set DISPLAYNAME=%~2
     )
   )
   if "!SHORTNAME!" == "" (
@@ -312,6 +328,23 @@ if /I "%~1"== "/name" (
   shift
   goto LoopArgs
 )
+if /I "%~1"== "/display" (
+  set DISPLAYNAME=
+  if not "%~2"=="" (
+    set T=%~2
+    if not "!T:~0,1!"=="/" (
+      set DISPLAYNAME=%~2
+    )
+  )
+  if "!DISPLAYNAME!" == "" (
+    echo ERROR: You need to specify a service display name, maximum of 256 characters
+    goto endBatch
+  )
+  shift
+  shift
+  goto LoopArgs
+)
+
 if /I "%~1"== "/desc" (
   set DESCRIPTION=
   if not "%~2"=="" (
@@ -421,10 +454,42 @@ if /I "%~1"== "/logpath" (
     set T=%~2
     if not "!T:~0,1!"=="/" (
       set LOGPATH=%~2
-	)
+        )
   )
   if "!LOGPATH!" == "" (
     echo ERROR: You need to specify a path for the service log
+    goto endBatch
+  )
+  shift
+  shift
+  goto LoopArgs
+)
+if /I "%~1"== "/properties" (
+  set PROPSPATH=
+  if not "%~2"=="" (
+    set T=%~2
+    if not "!T:~0,1!"=="/" (
+      set PROPSPATH=%~2
+    )
+  )
+  if "!PROPSPATH!" == "" (
+    echo ERROR: You need to specify a path for the properties file
+    goto endBatch
+  )
+  shift
+  shift
+  goto LoopArgs
+)
+if /I "%~1"== "/environment" (
+  set ENV_VARS=
+  if not "%~2"=="" (
+    set T=%~2
+    if not "!T:~0,1!"=="/" (
+      set ENV_VARS=%~2
+    )
+  )
+  if "!ENV_VARS!" == "" (
+    echo ERROR: You need to specify a list of environment variables
     goto endBatch
   )
   shift
@@ -472,7 +537,12 @@ if /I "%IS_DOMAIN%" == "true" (
   if "%BASE%"=="" set "BASE=%JBOSS_HOME%\standalone"
   if "%CONFIG%"=="" set CONFIG=standalone.xml
   if "%START_SCRIPT%"=="" set START_SCRIPT=standalone.bat
-  set STARTPARAM="/c#set#NOPAUSE=Y#&&#!START_SCRIPT!#-Djboss.server.base.dir=!BASE!#--server-config=!CONFIG!"
+  if "%PROPSPATH%"=="" (
+    set "PROPS="
+  ) else (
+    set "PROPS=#--properties=%PROPSPATH%"
+  )
+  set STARTPARAM="/c#set#NOPAUSE=Y#&&#!START_SCRIPT!#-Djboss.server.base.dir=!BASE!#--server-config=!CONFIG!!PROPS!"
   set STOPPARAM="/c !STOP_SCRIPT! --controller=%CONTROLLER% --connect %CREDENTIALS% --command=:shutdown"
 )
 
@@ -492,11 +562,14 @@ if /I "%ISDEBUG%" == "true" (
   echo JBOSS_HOME="%JBOSS_HOME%"
   echo RUNAS=%RUNAS%
   echo SHORTNAME="%SHORTNAME%"
+  echo DISPLAYNAME="%DISPLAYNAME%"
   echo DESCRIPTION="%DESCRIPTION%"
   echo STARTPARAM=%STARTPARAM%
   echo STOPPARAM=%STOPPARAM%
   echo LOGLEVEL=%LOGLEVEL%
   echo LOGPATH=%LOGPATH%
+  echo PROPSPATH=%PROPSPATH%
+  echo ENV_VARS=%ENV_VARS%
   echo CREDENTIALS=%CREDENTIALS%
   echo BASE="%BASE%"
   echo CONFIG="%CONFIG%"
@@ -511,11 +584,9 @@ if /I "%ISDEBUG%" == "true" (
   @echo on
 )
 
-@rem quotes around the "%DESCRIPTION%" but nowhere else
-echo %PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName=%DISPLAYNAME% --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM%
-
-%PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName="%DISPLAYNAME%" --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM%
-@rem %PRUNSRV% install "%SHORTNAME%" "%RUNAS%" --DisplayName="%DISPLAYNAME%" --Description="%DESCRIPTION%" --LogLevel="%LOGLEVEL%" --LogPath="%LOGPATH%" --LogPrefix=service --StdOutput="%STDOUT%" --StdError="%STDERR%" --StartMode=exe --Startup="%STARTUP_MODE%" --StartImage=cmd.exe --StartPath="%START_PATH%" ++StartParams="%STARTPARAM%" --StopMode=exe --StopImage=cmd.exe --StopPath="%STOP_PATH%"  ++StopParams="%STOPPARAM%"
+@rem quotes around the "%DESCRIPTION%" and "%DISPLAYNAME" but nowhere else
+echo %PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName="%DISPLAYNAME%" --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM% ++Environment=%ENV_VARS%
+%PRUNSRV% install %SHORTNAME% %RUNAS% --DisplayName="%DISPLAYNAME%" --Description="%DESCRIPTION%" --LogLevel=%LOGLEVEL% --LogPath=%LOGPATH% --LogPrefix=service --StdOutput=%STDOUT% --StdError=%STDERR% --StartMode=exe --Startup=%STARTUP_MODE% --StartImage=cmd.exe --StartPath=%START_PATH% ++StartParams=%STARTPARAM% --StopMode=exe --StopImage=cmd.exe --StopPath=%STOP_PATH%  ++StopParams=%STOPPARAM% ++Environment=%ENV_VARS%
 
 @if /I "%ISDEBUG%" == "true" (
   @echo off

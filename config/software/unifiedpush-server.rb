@@ -15,7 +15,7 @@
 #
 
 name "unifiedpush-server"
-default_version "master"
+default_version "AEROBASE-144"
 license :project_license
 
 dependency "ruby"

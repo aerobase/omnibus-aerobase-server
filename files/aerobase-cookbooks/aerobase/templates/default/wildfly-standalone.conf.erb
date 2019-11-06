@@ -68,6 +68,10 @@ fi
 # Uncomment to gather JBoss Modules metrics
 #JAVA_OPTS="$JAVA_OPTS -Djboss.modules.metrics=true"
 
+# Uncomment to enable the experimental JDK 11 support for ByteBuddy
+# ByteBuddy is the default bytecode provider of Hibernate ORM
+#JAVA_OPTS="$JAVA_OPTS -Dnet.bytebuddy.experimental=true"
+
 # Uncomment this to run with a security manager enabled
 # SECMGR="true"
 
@@ -77,6 +81,9 @@ fi
 
 # Uncomment this out to control garbage collection logging
 # GC_LOG="true"
+
+# Uncomment and edit to use a custom java.security file to override all the Java security properties
+#JAVA_OPTS="$JAVA_OPTS -Djava.security.properties==/path/to/custom/java.security"
 
 # Load Application properties from a local file.
 JAVA_OPTS="$JAVA_OPTS -Daerobase.config.dir=<%= @dir %>/etc/ -Djboss.http.port=<%= @server_port %>"
