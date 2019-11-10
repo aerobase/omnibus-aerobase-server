@@ -316,6 +316,7 @@ default['unifiedpush']['nginx']['proxy_cache'] = false
 default['unifiedpush']['nginx']['cache_max_size'] = '10g'
 default['unifiedpush']['nginx']['cache_expires'] = '48h'
 default['unifiedpush']['nginx']['resolver'] = nil # set nginx resolver tag e,g '8.8.8.8 8.8.4.4'
+default['unifiedpush']['nginx']['software_lb'] = false
 # Set google analytics access from reverse proxy
 # When analytics is true, resolver must be set
 default['unifiedpush']['nginx']['analytics'] = false

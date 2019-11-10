@@ -10,6 +10,17 @@
 ##         configuration         ##
 ###################################
 
+upstream softwarebl {
+  zone upstream_dynamic 64k;
+<% if @software_lb %>
+  <% @server_contactpoints.split(",").each do |contactpoint| %>
+  server <%= contactpoint %>:<%= @aerobase_server_port %>     max_fails=3 fail_timeout=30s;
+  <% end %>
+<% else %>
+  server 127.0.0.1:<%= @aerobase_server_port %>;
+<% end %>
+}
+
 <% if @https && @redirect_http_to_https %>
 ## Redirects all HTTP traffic to the HTTPS host
 server {
