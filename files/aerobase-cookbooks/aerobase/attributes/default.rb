@@ -25,8 +25,6 @@ default['unifiedpush']['install_path'] = "#{node['package']['install-dir']}"
 # omnibus options
 ####
 default['unifiedpush']['bootstrap']['enable'] = true
-# create users and groups needed for the package
-default['unifiedpush']['manage-accounts']['enable'] = true
 # Default contactpoints for symmetric cluster mode.
 # Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to aerobase.rb
 default['unifiedpush']['global']['contactpoints'] = "127.0.0.1"
@@ -42,6 +40,7 @@ default['unifiedpush']['global']['srv_label'] = "Aerobase"
 # The Aerobase User that services run as
 default['unifiedpush']['user']['username'] = "aerobase"
 default['unifiedpush']['user']['group'] = "aerobase-group"
+default['unifiedpush']['user']['manage-accounts'] = true
 # Used only under windows os
 default['unifiedpush']['user']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['user']['uid'] = nil
