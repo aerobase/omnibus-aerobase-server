@@ -21,6 +21,7 @@ os_helper = OsHelper.new(node)
 postgresql_user = account_helper.postgresql_user
 postgresql_group = account_helper.postgresql_group
 postgresql_password = account_helper.postgresql_password
+manage_accounts = account_helper.manage_accounts
 
 account "Postgresql user and group" do
   username postgresql_user
@@ -34,5 +35,5 @@ account "Postgresql user and group" do
   gid node['unifiedpush']['postgresql']['gid']
   shell node['unifiedpush']['postgresql']['shell']
   home node['unifiedpush']['postgresql']['home']
-  manage node['unifiedpush']['manage-accounts']['enable']
+  manage manage_accounts
 end

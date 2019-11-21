@@ -47,6 +47,7 @@ module Unifiedpush
   aerobase_server Mash.new
   keycloak_server Mash.new
   unifiedpush_server Mash.new
+  web_server Mash.new
   nginx Mash.new
   logging Mash.new
   logrotate Mash.new
@@ -223,17 +224,18 @@ module Unifiedpush
         "bootstrap",
         "global",
         "user",
-	"java",
-	"cassandra",
-	"cassandra_config",
+        "java",
+        "cassandra",
+        "cassandra_config",
         "aerobase_server",
         "keycloak_server",
         "unifiedpush_server",
+        "web_server",
         "nginx",
         "logging",
         "logrotate",
         "postgresql",
-	"mssql",
+        "mssql",
         "mysql",
         "mariadb",
         "external_url"

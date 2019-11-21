@@ -17,35 +17,12 @@
 
 require 'openssl'
 
-account_helper = AccountHelper.new(node)
-os_helper = OsHelper.new(node)
-mysql_helper = MySQLHelper.new(node)
-aerobase_user = account_helper.aerobase_user
-aerobase_group = account_helper.aerobase_group
-postgresql_user = account_helper.postgresql_user
-postgresql_password = account_helper.postgresql_password
-
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Aerobase packages
 install_dir = node['package']['install-dir']
 config_dir = node['package']['config-dir']
 runtime_dir = node['package']['runtime-dir']
 ENV['PATH'] = "#{install_dir}/bin:#{install_dir}/embedded/bin:#{ENV['PATH']}"
-
-# Always create default user and group.
-include_recipe "aerobase::users"
-
-# These directories do not need to be writable for aerobase-server
-[
-  config_dir,
-  runtime_dir,
-].each do |dir_name|
-  directory dir_name do
-    owner aerobase_user
-    group aerobase_group
-    mode '0775'
-  end
-end
 
 Unifiedpush[:node] = node
 if File.exists?("#{config_dir}/aerobase.rb")
@@ -62,6 +39,29 @@ node.consume_attributes(Unifiedpush.generate_config(node['fqdn']))
 
 if File.exists?("#{runtime_dir}/bootstrapped")
   node.default['unifiedpush']['bootstrap']['enable'] = false
+end
+
+account_helper = AccountHelper.new(node)
+os_helper = OsHelper.new(node)
+mysql_helper = MySQLHelper.new(node)
+aerobase_user = account_helper.aerobase_user
+aerobase_group = account_helper.aerobase_group
+postgresql_user = account_helper.postgresql_user
+postgresql_password = account_helper.postgresql_password
+
+# Always create default user and group.
+include_recipe "aerobase::users"
+
+# These directories do not need to be writable for aerobase-server
+[
+  config_dir,
+  runtime_dir,
+].each do |dir_name|
+  directory dir_name do
+    owner aerobase_user
+	group aerobase_group
+    mode '0775'
+  end
 end
 
 directory "#{install_dir}/embedded/etc" do
