@@ -20,6 +20,7 @@ account_helper = AccountHelper.new(node)
 aerobase_username = account_helper.aerobase_user
 aerobase_password = account_helper.aerobase_password
 aerobase_group = account_helper.aerobase_group
+manage_accounts = account_helper.manage_accounts
 aerobase_home = node['unifiedpush']['user']['home']
 os_helper = OsHelper.new(node)
 
@@ -38,5 +39,5 @@ account "Aerobase user and group" do
     gid node['unifiedpush']['user']['gid']
     shell node['unifiedpush']['user']['shell']
     home aerobase_home
-    manage node['unifiedpush']['manage-accounts']['enable']
+    manage manage_accounts
 end  

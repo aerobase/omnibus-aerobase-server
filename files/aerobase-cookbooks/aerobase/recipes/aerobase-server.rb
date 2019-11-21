@@ -95,7 +95,9 @@ end
 
 if os_helper.is_windows?
   directory server_dir do
-    rights :read, aerobase_group, :applies_to_children => true
+    if aerobase_group
+      rights :read, aerobase_group, :applies_to_children => true
+    end
     rights :full_control, aerobase_user,  :applies_to_children => true
   end
 else

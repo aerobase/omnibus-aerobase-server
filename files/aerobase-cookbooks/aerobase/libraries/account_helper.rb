@@ -31,7 +31,15 @@ class AccountHelper
   end
 
   def aerobase_group
-    node['unifiedpush']['user']['group']
+    if node['unifiedpush']['user']['group'].nil? || node['unifiedpush']['user']['group'].empty? 
+      nil
+    else
+      node['unifiedpush']['user']['group']
+    end
+  end
+  
+  def manage_accounts
+    node['unifiedpush']['user']['manage_accounts']
   end
 
   def web_server_user
@@ -43,7 +51,7 @@ class AccountHelper
   end
 
   def web_server_group
-    node['unifiedpush']['user']['group']
+    aerobase_group
   end
 
   def postgresql_user
@@ -55,7 +63,7 @@ class AccountHelper
   end
 
   def postgresql_group
-    node['unifiedpush']['user']['group']
+    aerobase_group
   end
   
   def mssql_user
@@ -71,7 +79,13 @@ class AccountHelper
   end
 
   def cassandra_group
-    node['unifiedpush']['user']['group']
+    aerobase_group
+  end
+  
+  def manage
+    %W(
+        #{manage_accounts}
+      )
   end
   
   def users

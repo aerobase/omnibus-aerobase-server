@@ -22,11 +22,12 @@ webserver_username = account_helper.web_server_user
 webserver_group = account_helper.web_server_group
 webserver_password = account_helper.web_server_password
 aerobase_group = account_helper.aerobase_group
+manage_accounts = account_helper.manage_accounts
 external_webserver_users = node['unifiedpush']['web-server']['external_users']
 
-# Create the group for the Unifiedpush user
+# Create the group for the Aerobase user
 # If external webserver is used, add the external webserver user to
-# Unifiedpush webserver group
+# Aerobase webserver group
 append_members = external_webserver_users.any? && !node['unifiedpush']['nginx']['enable']
 
 account "Webserver user and group" do
@@ -42,12 +43,14 @@ account "Webserver user and group" do
   home node['unifiedpush']['web-server']['home']
   append_to_group append_members
   group_members external_webserver_users
-  manage node['unifiedpush']['manage-accounts']['enable']
+  manage manage_accounts
 end
 
-# Add webserver user to unifiedpudh group
-group aerobase_group do
-  action :modify
-  members webserver_username
-  append true
+# Add webserver user to aerobase group
+if manage_accounts
+    group aerobase_group do
+      action :modify
+      members webserver_username
+      append true
+    end
 end
