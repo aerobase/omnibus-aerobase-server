@@ -40,7 +40,7 @@ default['unifiedpush']['global']['srv_label'] = "Aerobase"
 # The Aerobase User that services run as
 default['unifiedpush']['user']['username'] = "aerobase"
 default['unifiedpush']['user']['group'] = "aerobase-group"
-default['unifiedpush']['user']['manage-accounts'] = true
+default['unifiedpush']['user']['manage_accounts'] = true
 # Used only under windows os
 default['unifiedpush']['user']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['user']['uid'] = nil
