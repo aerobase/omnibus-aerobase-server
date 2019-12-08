@@ -4,7 +4,9 @@ Execure all necessary commands in order to prepare kerberos spnego integration.
 .DESCRIPTION
 Execure all  necessary commands in order to prepare kerberos spnego integration
 .PARAMETER SetKeytab
-Prepare Keytab file for kerberos integration and place it under AEROBASE default home. Requires domain administrator rights.
+ Prepare Keytab file for kerberos integration and place it under AEROBASE default home. Requires domain administrator rights.
+.PARAMETER SetKtab
+ Prepare Keytab file for kerberos integration (using java ktab) and place it under AEROBASE default home. Requires domain administrator rights.
 .PARAMETER SpnUser
  Service Principal Names (SPN) user for an Active Directory service account.
 .PARAMETER SpnPass
@@ -14,12 +16,19 @@ Permanently sets Service Principal Names (SPN) for an Active Directory service a
 .PARAMETER SetKrb5
 Permanently sets krb5.ini to Windows installation folder. Requires domain administrator rights.
 .PARAMETER KeytabDir
- Write keytab (ktpass) command output to directory. Defaults to C:/Aerobase/Configuration.
+ Write keytab (ktpass) command output to directory. Defaults to C:\Aerobase\Configuration.
+.PARAMETER JavaDir
+ Java Home to run ktab.exe. Defaults to C:\Aerobase\Aerobase\embedded\openjdk\jre\bin.
+.PARAMETER SetFqdn
+ Override FQDN of this machine, default is HOSTNAME.DOMAIN. 
 .PARAMETER Output
 Outputs / Execute setspn/keytab/krb5.ini commands. Valid options are Exec, Log. Defaults to Log.
 .EXAMPLE
 Execute setspn / keytab / krb5.ini commands
 aerobase-set-krb.ps1 -SetKeytab -SetSpn -SetKrb5 -SpnUser "SPN Account Name" -SpnPass "SPN Account Password"  -Output "Exec"
+.EXAMPLE
+Execute keytab / krb5.ini commands using java ktab
+aerobase-set-krb.ps1 -SetKtab -SetKrb5 -SpnPass "SPN Account Password" -Output "Exec"
 .EXAMPLE
 Only print keytab / krb5.ini commands
 aerobase-set-krb.ps1 -SetKeytab -SetKrb5 -SpnUser "SPN Account Name" -SpnPass "SPN Account Password"
@@ -33,7 +42,10 @@ aerobase-set-krb.ps1 -SetKeytab -SpnUser "aerobase" -SpnPass "123456" -Output "E
 
 Param(
     [Switch]$SetKeytab,
-    [Parameter(HelpMessage = "Write keytab (ktpass) command output to selected directory.")][ValidateNotNullOrEmpty()]$KeytabDir=$env:SYSTEMDRIVE + "\",
+    [Switch]$SetKtab,
+    [Parameter(HelpMessage = "Write keytab (ktpass) command output to selected directory")][ValidateNotNullOrEmpty()]$KeytabDir=$env:SYSTEMDRIVE + "\Aerobase\Configuration",
+	[Parameter(HelpMessage = "Java home dir for ktab.exe command (does not required for SetKeytab)")][ValidateNotNullOrEmpty()]$JavaDir=$env:SYSTEMDRIVE + "\Aerobase\Aerobase\embedded\openjdk\jre\bin",
+	[Parameter(HelpMessage = "Override FQDN of this machine, default is HOSTNAME.DOMAIN")][ValidateNotNullOrEmpty()]$SetFqdn = "",
     [Parameter(HelpMessage = "Service Principal Names (SPN) account name for an Active Directory")][ValidateNotNullOrEmpty()]$SpnUser = "",
     [Parameter(HelpMessage = "Service Principal Names (SPN) account password for an Active Directory")][ValidateNotNullOrEmpty()]$SpnPass = "",
     [Switch]$SetSpn,
@@ -70,7 +82,17 @@ function get_compname {
 }
 
 function get_fqdn {
+  if (([string]::IsNullOrEmpty($SetFqdn))){
     (get_compname) + '.' + (get_domain)
+  }else{
+	$SetFqdn
+  }
+}
+
+function short_path($path){
+  $a = New-Object -ComObject Scripting.FileSystemObject 
+  $f = $a.GetFolder($path) 
+  $f.ShortPath
 }
 
 if ($SetSpn) {
@@ -78,11 +100,12 @@ if ($SetSpn) {
         Write-Error "ERROR: You need Administrator rights to run setspn command"
     }
 	
-    $cmd=$system32 + '\setspn.exe -A HTTP/' + (get_fqdn) + ' ' + $SpnUser
-    Write-Verbose -Verbose ('setspn command will output: ' + $cmd)
+    $cmd=$system32 + '\setspn.exe -A HTTP/' + (get_fqdn).ToLower() + ' ' + $SpnUser
 	
     if ($Output -eq "Exec"){
         Invoke-Expression $cmd
+    }else{
+	Write-Verbose -Verbose ('setspn command will output: ' + $cmd)
     }
 }
 
@@ -91,11 +114,12 @@ if ($SetKeytab) {
         Write-Error "ERROR: You need Administrator rights to run keytab command"
     }
 	
-    $cmd=$system32 + '\ktpass -out ' + $KeytabDir + '/aerobase.keytab' + ' -princ HTTP/' + (get_fqdn) + '@' + (get_domain).ToUpper() + ' -mapUser ' + $SpnUser +  ' -mapOp set -pass ' + $SpnPass + ' -kvno 0 -crypto all -pType KRB5_NT_PRINCIPAL'
-    Write-Verbose -Verbose ('ktpass command will output: ' + $cmd)
+    $cmd=$system32 + '\ktpass -out ' + $KeytabDir + '\aerobase.keytab' + ' -princ HTTP/' + (get_fqdn) + '@' + (get_domain).ToUpper() + ' -mapUser ' + $SpnUser +  ' -mapOp set -pass ' + $SpnPass + ' -kvno 0 -crypto all -pType KRB5_NT_PRINCIPAL'
 	
     if ($Output -eq "Exec"){
         Invoke-Expression $cmd
+    }else{
+	Write-Verbose -Verbose ('ktpass command will output: ' + $cmd)
     }
 }
 
@@ -118,7 +142,6 @@ _DOMAINUPPER_ = {
 _DOMAIN_ = _DOMAINUPPER_
 '@
 
-
 if ($SetKrb5) {
     if (-Not (is_admin)) {
         Write-Error "ERROR: You need Administrator rights to set krb5.ini file"
@@ -128,9 +151,24 @@ if ($SetKrb5) {
     $krb5ini = $krb5ini.replace("_DOMAIN_",(get_domain))
     $krb5ini = $krb5ini.replace("_DOMAINDC_", (get_dc))
     
-    #$cmd='NOT Implemented Yet'
-    Write-Verbose -Verbose ('krb5.ini file will output: ' + $krb5ini)
+	$outfile = $winroot + '\krb5.ini'
     if ($Output -eq "Exec"){
-       Out-File -FilePath $winroot + '\krb5.ini' -InputObject $krb5ini
+    	Out-File -FilePath $outfile -InputObject $krb5ini
+    }else{
+	Write-Verbose -Verbose ('krb5.ini file will output: ' + $krb5ini)
+    }
+}
+
+if ($SetKtab) {
+    if (-Not (is_admin)) {
+        Write-Error "ERROR: You need Administrator rights to run keytab command"
+    }
+
+    $cmd=(short_path($JavaDir)) + '\ktab.exe -a HTTP/' + (get_fqdn).ToLower() + '@' + (get_domain).ToUpper() + ' ' +  $SpnPass + ' -n 0 -k ' + (short_path($KeytabDir)) + '\aerobase.keytab'
+
+    if ($Output -eq "Exec"){
+        Invoke-Expression $cmd
+    }else{
+	Write-Verbose -Verbose ('ktab command will output: ' + $cmd)
     }
 }
