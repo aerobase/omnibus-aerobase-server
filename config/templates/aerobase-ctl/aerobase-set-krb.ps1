@@ -114,18 +114,19 @@ if ($SetKeytab) {
         Write-Error "ERROR: You need Administrator rights to run keytab command"
     }
 	
-    $cmd=$system32 + '\ktpass -out ' + $KeytabDir + '\aerobase.keytab' + ' -princ HTTP/' + (get_fqdn) + '@' + (get_domain).ToUpper() + ' -mapUser ' + $SpnUser +  ' -mapOp set -pass ' + $SpnPass + ' -kvno 0 -crypto all -pType KRB5_NT_PRINCIPAL'
+    $cmd=$system32 + '\ktpass -out ' + $KeytabDir + '\aerobase.keytab' + ' -princ HTTP/' + (get_fqdn).ToLower() + '@' + (get_domain).ToUpper() + ' -mapUser ' + $SpnUser +  ' -mapOp set -pass ' + $SpnPass + ' -kvno 0 -crypto all -pType KRB5_NT_PRINCIPAL'
 	
     if ($Output -eq "Exec"){
         Invoke-Expression $cmd
     }else{
-	Write-Verbose -Verbose ('ktpass command will output: ' + $cmd)
+		Write-Verbose -Verbose ('ktpass command will output: ' + $cmd)
     }
 }
 
 $krb5ini = @'
 [libdefaults]
 dns_lookup_realm = false
+dns_lookup_kdc = false
 ticket_lifetime = 24h
 renew_lifetime = 7d
 forwardable = true
@@ -153,9 +154,10 @@ if ($SetKrb5) {
     
 	$outfile = $winroot + '\krb5.ini'
     if ($Output -eq "Exec"){
-    	Out-File -FilePath $outfile -InputObject $krb5ini
+      $Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+      [System.IO.File]::WriteAllLines($outfile, $krb5ini, $Utf8NoBomEncoding)
     }else{
-	Write-Verbose -Verbose ('krb5.ini file will output: ' + $krb5ini)
+	  Write-Verbose -Verbose ('krb5.ini file will output: ' + $krb5ini)
     }
 }
 
