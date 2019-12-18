@@ -64,14 +64,6 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
 
   # Reopen file to clear previous content
   conf = File.open("#{etc_path}/aerobase.rb", 'w')
-
-  # Validate Tokens
-  tokens.each { |token| 
-	prop = token.split("=")
-	if !prop.any? || prop.length < 2
-      abort("Property #{token} requires left hand and right hand elements!")
-    end
-  }
   
   lines.each do |line|
     match=false
@@ -95,6 +87,11 @@ add_command 'prop', 'Update default aerobase properties', 2 do |cmd_name, props|
 	  
 	  # Extract regex $1
 	  part = line[/#{regex}/,1]
+	  
+	  if prop.length < 2
+		# Empty String 
+		prop << ""
+	  end 
 	  
 	  if !part.nil? && !part.empty?
 	    # Evaluate boolean, numeric or array values 
