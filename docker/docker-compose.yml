@@ -13,3 +13,7 @@ services:
       - $HOME/aerobase/logs:/var/log/aerobase
       - $HOME/aerobase/themes:/var/opt/aerobase/aerobase-server/themes
       - ./overrides.rb:/etc/aerobase/overrides.rb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
