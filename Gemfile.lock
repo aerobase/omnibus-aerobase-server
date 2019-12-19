@@ -9,18 +9,18 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 93f714834ad309a0d31cdb205cc2ad184e042e7e
-  tag: v5.6.17
+  revision: 5919d6d4eab9bcd85e760cff27f52074248759a4
+  tag: 6.1.4
   specs:
-    omnibus (5.6.17)
-      aws-sdk (~> 2)
-      chef-sugar (>= 3.3)
-      cleanroom (~> 1.0)
+    omnibus (6.1.4)
+      aws-sdk-s3 (~> 1)
+      chef-cleanroom (~> 1.0)
+      chef-sugar-ng (>= 3.3)
       ffi-yajl (~> 2.2)
       license_scout (~> 1.0)
-      mixlib-shellout (~> 2.0)
+      mixlib-shellout (>= 2.0, < 4.0)
       mixlib-versioning
-      ohai (>= 13, < 15)
+      ohai (>= 13, < 16)
       pedump
       ruby-progressbar (~> 1.7)
       thor (~> 0.18)
@@ -32,13 +32,19 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     awesome_print (1.8.0)
     aws-eventstream (1.0.3)
-    aws-sdk (2.11.356)
-      aws-sdk-resources (= 2.11.356)
-    aws-sdk-core (2.11.356)
-      aws-sigv4 (~> 1.0)
+    aws-partitions (1.257.0)
+    aws-sdk-core (3.86.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.11.356)
-      aws-sdk-core (= 2.11.356)
+    aws-sdk-kms (1.27.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.60.0)
+      aws-sdk-core (~> 3, >= 3.83.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
     berkshelf (7.0.8)
@@ -127,6 +133,7 @@ GEM
       win32-service (>= 1.0, < 3.0)
       win32-taskscheduler (~> 2.0)
       wmi-lite (~> 1.0)
+    chef-cleanroom (1.0.2)
     chef-config (14.13.11)
       addressable
       fuzzyurl
@@ -134,6 +141,7 @@ GEM
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
     chef-sugar (5.0.1)
+    chef-sugar-ng (5.1.9)
     chef-zero (14.0.12)
       ffi-yajl (~> 2.2)
       hashie (>= 2.0, < 4.0)
@@ -176,9 +184,9 @@ GEM
       tomlrb (~> 1.2)
       tty-box (~> 0.3)
       tty-prompt (~> 0.18)
-    license_scout (1.0.24)
+    license_scout (1.0.29)
       ffi-yajl (~> 2.2)
-      mixlib-shellout (~> 2.2)
+      mixlib-shellout (>= 2.2, < 4.0)
       toml-rb (~> 1.0)
     little-plugger (1.1.4)
     logging (2.2.2)
@@ -246,7 +254,7 @@ GEM
     progressbar (1.10.1)
     proxifier (1.0.3)
     public_suffix (4.0.1)
-    rack (2.0.7)
+    rack (2.0.8)
     retryable (3.0.4)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
