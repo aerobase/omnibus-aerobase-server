@@ -2,14 +2,14 @@
 
 set -e
 
-if [ ! -f /assets/aerobase_2.4.0-1_xenial.deb ]; then
-  curl -L "https://dl.bintray.com/aerobase/aerobase-deb/aerobase_2.4.0-1_xenial.deb" -o /tmp/aerobase_2.4.0-1_xenial.deb
+if [ ! -f /assets/aerobase_2.4.1-1_xenial.deb ]; then
+  curl -L "https://dl.bintray.com/aerobase/aerobase-deb/aerobase_2.4.1-1_xenial.deb" -o /tmp/aerobase_2.4.1-1_xenial.deb
 else
-  cp /assets/aerobase_2.4.0-1_xenial.deb /tmp  
+  cp /assets/aerobase_2.4.1-1_xenial.deb /tmp  
 fi
 
-if [ ! -f /assets/aerobase-iam_2.4.0-1_xenial.deb ]; then
-  curl -L "https://dl.bintray.com/aerobase/aerobase-deb/aerobase-iam_2.4.0-1_xenial.deb" -o /tmp/aerobase-iam_2.4.0-1_xenial.deb
+if [ ! -f /assets/aerobase-iam_2.4.1-1_xenial.deb ]; then
+  curl -L "https://dl.bintray.com/aerobase/aerobase-deb/aerobase-iam_2.4.1-1_xenial.deb" -o /tmp/aerobase-iam_2.4.1-1_xenial.deb
 else
-  cp /assets/aerobase-iam_2.4.0-1_xenial.deb /tmp
+  cp /assets/aerobase-iam_2.4.1-1_xenial.deb /tmp
 fi
