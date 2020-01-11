@@ -25,6 +25,7 @@ web_server_group = account_helper.web_server_group
 install_dir = node['package']['install-dir']
 nginx_dir = node['unifiedpush']['nginx']['dir']
 nginx_html_dir = File.join(nginx_dir, "www/html")
+service_start = node['unifiedpush']['global']['srv_start']
 
 global_vars = node['unifiedpush']['global'].to_hash
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
@@ -96,4 +97,6 @@ execute "install nginx service" do
   command "#{nginx_dir}/aerobasesw.exe install"
 end
 
-include_recipe "aerobase::nginx_start"
+if service_start
+  include_recipe "aerobase::nginx_start"
+end
