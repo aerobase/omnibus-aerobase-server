@@ -2,7 +2,7 @@ source 'https://rubygems.org'
  
 # Install omnibus
 gem 'omnibus', git: 'https://github.com/chef/omnibus.git', tag: '6.1.4'
-gem 'omnibus-software', git: 'https://github.com/aerobase/omnibus-software.git', branch: 'master'
+gem 'omnibus-software', git: 'https://github.com/aerobase/omnibus-software.git', tag: 'v2.4.2'
 gem 'json'
 
 # Use Chef's software definitions. It is recommended that you write your own
