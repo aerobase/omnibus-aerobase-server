@@ -33,6 +33,7 @@ default['unifiedpush']['global']['portal_mode'] = false
 default['unifiedpush']['global']['access_port'] = 80
 # Windows Services prefix
 default['unifiedpush']['global']['srv_label'] = "Aerobase"
+default['unifiedpush']['global']['srv_start'] = true
 
 ####
 ## Global user managment options

@@ -36,6 +36,8 @@ unifiedpush_vars = node['unifiedpush']['aerobase-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
 
+# Windows Only service related 
+service_start = node['unifiedpush']['global']['srv_start']
 service_delayed_start = node['unifiedpush']['aerobase-server']['delayed_start']
 service_name = "Aerobase-Application-Server"
 
@@ -116,8 +118,10 @@ if os_helper.is_windows?
   execute "sc config \"#{service_name}\" start= delayed-auto" do 
     only_if { service_delayed_start }
   end 
-  
-  include_recipe "aerobase::aerobase-server_start"
+ 
+  if service_start 
+    include_recipe "aerobase::aerobase-server_start"
+  end
 else
   component_runit_service "aerobase-server" do
     package "unifiedpush"
