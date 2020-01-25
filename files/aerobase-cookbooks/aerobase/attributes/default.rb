@@ -331,6 +331,7 @@ default['unifiedpush']['nginx']['ssl_session_cache'] = "builtin:1000  shared:SSL
 default['unifiedpush']['nginx']['ssl_session_timeout'] = "5m" # default according to http://nginx.org/en/docs/http/ngx_http_ssl_module.html
 default['unifiedpush']['nginx']['ssl_dhparam'] = nil # Path to dhparam.pem
 default['unifiedpush']['nginx']['listen_addresses'] = ['*']
+default['unifiedpush']['nginx']['listen_addresses_ipv6'] = ['::']
 default['unifiedpush']['nginx']['listen_port'] = nil # override only if you have a reverse proxy
 default['unifiedpush']['nginx']['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP
 default['unifiedpush']['nginx']['set_real_ip_from'] = nil # array type of network addresses

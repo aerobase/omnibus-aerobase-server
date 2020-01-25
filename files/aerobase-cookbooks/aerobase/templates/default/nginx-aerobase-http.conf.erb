@@ -27,6 +27,9 @@ server {
 <% @listen_addresses.each do |listen_address| %>
   listen <%= listen_address %>:<%= @redirect_http_to_https_port %>;
 <% end %>
+<% @listen_addresses_ipv6.each do |listen_address| %>
+  listen [<%= listen_address %>]:<%= @redirect_http_to_https_port %>;
+<% end %>
   server_name <%= @fqdn %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
   return 301 https://<%= @fqdn %>:<%= @port %>$request_uri;
@@ -38,6 +41,9 @@ server {
 server {
 <% @listen_addresses.each do |listen_address| %>
   listen <%= listen_address %>:<%= @listen_port %><% if @https %> ssl<% end %>;
+<% end %>
+<% @listen_addresses_ipv6.each do |listen_address| %>
+  listen [<%= listen_address %>]:<%= @listen_port %><% if @https %> ssl<% end %>;
 <% end %>
   server_name <%= @fqdn %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
