@@ -6,8 +6,8 @@ REM ###############################################################
 
 set HOMEDRIVE=C:\
 set HOMEPATH=omnibus-ruby
-set PATH=C:\Program Files\7-Zip;C:\Program Files (x86)\WiX Toolset v3.11\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\opscode\omnibus-toolchain\embedded\bin;C:\opscode\omnibus-toolchain\embedded\bin\mingw64\bin;C:\opscode\omnibus-toolchain\embedded\bin\usr\bin;C:\opscode\omnibus-toolchain\embedded\git\cmd;C:\opscode\omnibus-toolchain\embedded\git\mingw64\libexec\git-core;%PATH%
-set MSYSTEM=MINGW64
+set PATH=C:\Program Files (x86)\GnuWin32\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Ruby25-x64\msys64\usr\bin;C:\Ruby25-x64\msys64\mingw64\bin;C:\Ruby25-x64\bin;%PATH%
+set MSYSTEM=..\
 set OMNIBUS_WINDOWS_ARCH=x64
 set BASH_ENV=C:\opscode\omnibus-toolchain\embedded\bin\etc\msys2.bashrc
 set OMNIBUS_TOOLCHAIN_INSTALL_DIR=C:\opscode\omnibus-toolchain

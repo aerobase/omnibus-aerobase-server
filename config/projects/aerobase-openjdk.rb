@@ -47,14 +47,9 @@ dependency "chef"
 # unifiedpush internal dependencies/components
 dependency "aerobase"
 dependency "openjdk"
+# Must be after aerobase deps to prevent errors
+dependency "omnibus-ctl-nofisp"
 
-#
-# addons which require omnibus software defns (not direct deps of chef itself - RFC-063)
-#
-dependency "nokogiri" # (nokogiri cannot go in the Gemfile, see wall of text in the software defn)
-
-# FIXME?: might make sense to move dependencies below into the omnibus-software chef
-#  definition or into a chef-complete definition added to omnibus-software.
 dependency "gem-permissions"
 dependency "shebang-cleanup"
 dependency "version-manifest"

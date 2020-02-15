@@ -24,12 +24,10 @@ sudo chown $USER:$USER /var/cache/omnibus
 Windows Builds
 --------------
 Required packages:
-- [omnibus-toolchain](https://github.com/aerobase/omnibus-toolchain)
 - [WiX Toolset v3.11](http://wixtoolset.org/releases/)
 - [Windows Kits 10](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
-- [7zip](https://www.7-zip.org/download.html)
+- [bsdtar] https://sourceforge.net/projects/gnuwin32/ - once installed rename bsdtar to tar
 - Install .net 3.5 and .net 4+
-- Install [Visual C++ Redistributable 2013](https://www.microsoft.com/en-us/download/confirmation.aspx?id=40784)
 - Create Directory C:\omnibus-ruby
 
 Any OS
@@ -68,7 +66,7 @@ Usage
 You create a platform-specific package using the `build project` command:
 
 ```shell
-$ bundle exec omnibus build aerobase
+$ bundle exec omnibus build aerobase-openjdk
 ```
 
 The platform/architecture type of the package created will match the platform
@@ -82,7 +80,7 @@ You can clean up all temporary files generated during the build process with
 the `clean` command:
 
 ```shell
-$ bundle exec omnibus clean aerobase
+$ bundle exec omnibus clean aerobase-openjdk
 ```
 
 Adding the `--purge` purge option removes __ALL__ files generated during the
@@ -90,7 +88,7 @@ build including the project install directory (`/opt/aerobase-server`) and
 the package cache directory (`/var/cache/omnibus/pkg`):
 
 ```shell
-$ bundle exec omnibus clean aerobase --purge
+$ bundle exec omnibus clean aerobase-openjdk --purge
 ```
 
 ### Publish

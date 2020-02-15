@@ -15,7 +15,6 @@ else
 end
 
 dependency "omnibus-ctl"
-dependency "omnibus-ctl-nofisp"
 dependency "public_suffix"
 dependency "file-tail" 
 
@@ -31,6 +30,7 @@ dependency "winsw"
 dependency "mssql-jdbc"
 dependency "mysql-jdbc"
 dependency "mariadb-jdbc"
+    
 
 # KC server and themes must be added after cookbooks
 if windows?
