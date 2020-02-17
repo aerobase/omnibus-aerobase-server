@@ -107,8 +107,9 @@ default['unifiedpush']['aerobase-server']['db_host'] = "localhost"
 default['unifiedpush']['aerobase-server']['db_port'] = nil
 default['unifiedpush']['aerobase-server']['db_pool'] = 10
 default['unifiedpush']['aerobase-server']['db_socket'] = nil
-default['unifiedpush']['aerobase-server']['db_sslmode'] = nil
+default['unifiedpush']['aerobase-server']['db_sslmode'] = false
 default['unifiedpush']['aerobase-server']['db_sslrootcert'] = nil
+default['unifiedpush']['aerobase-server']['db_jdbc_flags'] = nil
 
 ####
 # Unifiedpush Server app
@@ -161,7 +162,7 @@ default['unifiedpush']['keycloak-server']['realm_files'] = []
 ###
 # PostgreSQL
 ###
-default['unifiedpush']['postgresql']['enable'] = true
+default['unifiedpush']['postgresql']['enable'] = false
 default['unifiedpush']['postgresql']['ha'] = false
 default['unifiedpush']['postgresql']['dir'] = "#{node['package']['runtime-dir']}/postgresql"
 default['unifiedpush']['postgresql']['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
@@ -332,6 +333,7 @@ default['unifiedpush']['nginx']['ssl_session_timeout'] = "5m" # default accordin
 default['unifiedpush']['nginx']['ssl_dhparam'] = nil # Path to dhparam.pem
 default['unifiedpush']['nginx']['listen_addresses'] = ['*']
 default['unifiedpush']['nginx']['listen_addresses_ipv6'] = ['::']
+default['unifiedpush']['nginx']['listen_ipv4_only'] = false
 default['unifiedpush']['nginx']['listen_port'] = nil # override only if you have a reverse proxy
 default['unifiedpush']['nginx']['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP
 default['unifiedpush']['nginx']['set_real_ip_from'] = nil # array type of network addresses

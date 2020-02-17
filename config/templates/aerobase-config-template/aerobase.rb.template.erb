@@ -88,13 +88,14 @@ external_url 'GENERATED_EXTERNAL_URL'
 # aerobase_server['db_port'] = nil
 # aerobase_server['db_pool'] = 10
 # aerobase_server['db_socket'] = nil
-# aerobase_server['db_sslmode'] = nil
+# aerobase_server['db_sslmode'] = false
 # aerobase_server['db_sslrootcert'] = nil
+# aerobase_server['db_jdbc_flags'] = nil
 
 ####
 # Unifiedpush Server app
 ####
-# unifiedpush_server['enable'] = true
+# unifiedpush_server['enable'] = false
 ## OAuth2 Configureation, webapp_host is used as web applications root-url.
 # unifiedpush_server['webapp_host'] = node['fqdn']
 # unifiedpush_server['oauth2_enabled'] = true
@@ -284,6 +285,7 @@ external_url 'GENERATED_EXTERNAL_URL'
 # nginx['ssl_dhparam'] = nil # Path to dhparam.pem
 # nginx['listen_addresses'] = ['*']
 # nginx['listen_addresses_ipv6'] = ['::']
+# nginx['listen_ipv4_only'] = false
 # nginx['listen_port'] = nil # override only if you have a reverse proxy
 # nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP
 # nginx['set_real_ip_from'] = nil # array type of network addresses

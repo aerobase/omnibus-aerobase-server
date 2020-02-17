@@ -68,6 +68,10 @@ class PgHelper
     @node = node
   end
 
+  def db_sslmode
+    node['unifiedpush']['aerobase-server']['db_sslmode']
+  end
+  
   def database_exists?(db_name, user = nil, password = nil)
     if OsHelper.new(node).is_windows?
       grep_cmd = "findstr"
@@ -97,7 +101,7 @@ class PgHelper
     # When PG is disabled (remote db), md5/passowrd policy must be used.
     if !pg_enable
       unless password.nil?
-        cmd << "PGPASSWORD=#{password}"
+        cmd << "PGPASSWORD=\"#{password}\""
       end
     end
 
@@ -129,7 +133,8 @@ class PgHelper
   end
   
   def psql_jdbc_url(db_host, db_port, db_database)
-    url = "jdbc:postgresql://#{db_host}:#{db_port}/#{db_database}"
+    secure =  db_sslmode ? "ssl=true" : ""
+    url = "jdbc:postgresql://#{db_host}:#{db_port}/#{db_database}?#{secure}"
     url
   end
 
@@ -148,6 +153,7 @@ class PgHelper
   def pg_enable
     node['unifiedpush']['postgresql']['enable']
   end
+  
 end
 
 class MsSQLHelper
@@ -158,6 +164,10 @@ class MsSQLHelper
     @node = node
   end
 
+  def db_sslmode
+    node['unifiedpush']['aerobase-server']['db_sslmode']
+  end
+  
   def database_exists?(db_name, user = nil, password = nil)
     mssql_exec(["\"SELECT name FROM master.dbo.sysdatabases WHERE name = '#{db_name}'\"", "|findstr \"#{db_name}\""])
   end
@@ -210,10 +220,11 @@ class MsSQLHelper
   end 
   
   def mssql_jdbc_url(db_host, db_port, db_database, db_username, db_password)
-    login = mssql_login ? "user=#{db_username};password=#{db_password};" : "integratedSecurity=true;"
+    login = mssql_login ? "" : "integratedSecurity=true;"
     port =  db_port.nil? ? "" : ":#{db_port}"
     instance = mssql_instance.nil? ? "" : "\\\\#{mssql_instance}"
-    url = "jdbc:sqlserver://#{db_host}#{instance}#{port};databaseName=#{db_database};#{login}"
+    secure =  db_sslmode ? "encrypt=true;" : ""
+    url = "jdbc:sqlserver://#{db_host}#{instance}#{port};databaseName=#{db_database};#{login}#{secure}"
     url
   end
 
@@ -248,6 +259,7 @@ class MsSQLHelper
   def mssql_instance
     node['unifiedpush']['mssql']['instance']
   end
+  
 end
 
 class MySQLHelper
@@ -260,6 +272,10 @@ class MySQLHelper
 
   def mysql_type
     node['unifiedpush']['aerobase-server']['db_adapter']
+  end
+  
+  def db_sslmode
+    node['unifiedpush']['aerobase-server']['db_sslmode']
   end
 
   def database_exists?(db_name, user = nil, password = nil)
@@ -287,7 +303,7 @@ class MySQLHelper
     username = db_user ? db_user : mysql_user
     password = db_password ? db_password : mysql_password
 
-    cmd << "mysqlsh --sql --mysql --password=#{password}"
+    cmd << "mysqlsh --sql --mysql --password=\"#{password}\""
 
     if !db_database.nil?
         cmd << "--database=#{db_database}"
@@ -314,7 +330,9 @@ class MySQLHelper
   end
 
   def mysql_jdbc_url(db_host, db_port, db_database)
-    url = "jdbc:#{mysql_type}://#{db_host}:#{db_port}/#{db_database}"
+    secure =  db_sslmode ? "useSSL=true&" : ""
+	url = "jdbc:#{mysql_type}://#{db_host}:#{db_port}/#{db_database}?#{secure}"
+    
     url
   end
 
@@ -357,6 +375,7 @@ class MySQLHelper
   def mysql_server
     node['unifiedpush'][mysql_type]['server']
   end
+
 end
 
 class SecretsHelper

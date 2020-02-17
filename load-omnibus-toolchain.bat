@@ -7,11 +7,9 @@ REM ###############################################################
 set HOMEDRIVE=C:\
 set HOMEPATH=omnibus-ruby
 set PATH=C:\Program Files (x86)\GnuWin32\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Ruby25-x64\msys64\usr\bin;C:\Ruby25-x64\msys64\mingw64\bin;C:\Ruby25-x64\bin;%PATH%
-set MSYSTEM=..\
+set MSYSTEM=MINGW64
 set OMNIBUS_WINDOWS_ARCH=x64
-set BASH_ENV=C:\opscode\omnibus-toolchain\embedded\bin\etc\msys2.bashrc
-set OMNIBUS_TOOLCHAIN_INSTALL_DIR=C:\opscode\omnibus-toolchain
-set SSL_CERT_FILE=C:\opscode\omnibus-toolchain\embedded\ssl\certs\cacert.pem
+set BASH_ENV=C:\Ruby25-x64\msys64\etc\bash.bashrc
 
 ECHO(
 ECHO ========================================

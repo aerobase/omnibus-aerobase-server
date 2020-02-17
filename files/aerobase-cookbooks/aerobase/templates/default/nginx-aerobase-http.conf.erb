@@ -43,7 +43,9 @@ server {
   listen <%= listen_address %>:<%= @listen_port %><% if @https %> ssl<% end %>;
 <% end %>
 <% @listen_addresses_ipv6.each do |listen_address| %>
-  listen [<%= listen_address %>]:<%= @listen_port %><% if @https %> ssl<% end %>;
+  <% if !@listen_ipv4_only %>
+    listen [<%= listen_address %>]:<%= @listen_port %><% if @https %> ssl<% end %>;
+  <% end %>
 <% end %>
   server_name <%= @fqdn %>;
   server_tokens off; ## Don't show the nginx version number, a security best practice
@@ -55,7 +57,6 @@ server {
   <% if @https %>
   ## Strong SSL Security
   ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html & https://cipherli.st/
-  ssl on;
   ssl_certificate <%= @ssl_certificate %>;
   ssl_certificate_key <%= @ssl_certificate_key %>;
 
