@@ -10,6 +10,7 @@ set PATH=C:\Program Files (x86)\GnuWin32\bin;C:\Program Files (x86)\WiX Toolset 
 set MSYSTEM=MINGW64
 set OMNIBUS_WINDOWS_ARCH=x64
 set BASH_ENV=C:\Ruby25-x64\msys64\etc\bash.bashrc
+git config --system core.longpaths true
 
 ECHO(
 ECHO ========================================

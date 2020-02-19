@@ -1,4 +1,4 @@
-override :chef, version: "v14.13.11"
+override :chef, version: "v14.14.29"
 override :ruby, version: "2.5.3"
 override :rubygems, version: "2.7.7"
 override :bundler, version: "2.1.4"
