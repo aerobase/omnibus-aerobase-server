@@ -72,6 +72,10 @@ class PgHelper
     node['unifiedpush']['aerobase-server']['db_sslmode']
   end
   
+  def db_jdbc_flags
+    node['unifiedpush']['aerobase-server']['db_jdbc_flags']
+  end
+    
   def database_exists?(db_name, user = nil, password = nil)
     if OsHelper.new(node).is_windows?
       grep_cmd = "findstr"
@@ -134,7 +138,8 @@ class PgHelper
   
   def psql_jdbc_url(db_host, db_port, db_database)
     secure =  db_sslmode ? "ssl=true" : ""
-    url = "jdbc:postgresql://#{db_host}:#{db_port}/#{db_database}?#{secure}"
+    flags = db_jdbc_flags.nil? ? "" : db_jdbc_flags
+    url = "jdbc:postgresql://#{db_host}:#{db_port}/#{db_database}?#{secure}#{flags}"
     url
   end
 
@@ -166,6 +171,10 @@ class MsSQLHelper
 
   def db_sslmode
     node['unifiedpush']['aerobase-server']['db_sslmode']
+  end
+  
+  def db_jdbc_flags
+    node['unifiedpush']['aerobase-server']['db_jdbc_flags']
   end
   
   def database_exists?(db_name, user = nil, password = nil)
@@ -224,7 +233,8 @@ class MsSQLHelper
     port =  db_port.nil? ? "" : ":#{db_port}"
     instance = mssql_instance.nil? ? "" : "\\\\#{mssql_instance}"
     secure =  db_sslmode ? "encrypt=true;" : ""
-    url = "jdbc:sqlserver://#{db_host}#{instance}#{port};databaseName=#{db_database};#{login}#{secure}"
+    flags = db_jdbc_flags.nil? ? "" : db_jdbc_flags
+    url = "jdbc:sqlserver://#{db_host}#{instance}#{port};databaseName=#{db_database};#{login}#{secure}#{flags}"
     url
   end
 
@@ -278,6 +288,10 @@ class MySQLHelper
     node['unifiedpush']['aerobase-server']['db_sslmode']
   end
 
+  def db_jdbc_flags
+    node['unifiedpush']['aerobase-server']['db_jdbc_flags']
+  end
+  
   def database_exists?(db_name, user = nil, password = nil)
     mysql_exec(["SELECT 1 FROM DUAL"], db_name)
   end
@@ -331,7 +345,8 @@ class MySQLHelper
 
   def mysql_jdbc_url(db_host, db_port, db_database)
     secure =  db_sslmode ? "useSSL=true&" : ""
-	url = "jdbc:#{mysql_type}://#{db_host}:#{db_port}/#{db_database}?#{secure}"
+    flags = db_jdbc_flags.nil? ? "" : db_jdbc_flags
+	url = "jdbc:#{mysql_type}://#{db_host}:#{db_port}/#{db_database}?#{secure}#{flags}"
     
     url
   end

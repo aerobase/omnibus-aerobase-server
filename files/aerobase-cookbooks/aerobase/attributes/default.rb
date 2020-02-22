@@ -114,7 +114,7 @@ default['unifiedpush']['aerobase-server']['db_jdbc_flags'] = nil
 ####
 # Unifiedpush Server app
 ####
-default['unifiedpush']['unifiedpush-server']['enable'] = true
+default['unifiedpush']['unifiedpush-server']['enable'] = false
 # OAuth2 Configureation, webapp_host is used as web applications root-url.
 default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
 default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
@@ -162,7 +162,7 @@ default['unifiedpush']['keycloak-server']['realm_files'] = []
 ###
 # PostgreSQL
 ###
-default['unifiedpush']['postgresql']['enable'] = false
+default['unifiedpush']['postgresql']['enable'] = true
 default['unifiedpush']['postgresql']['ha'] = false
 default['unifiedpush']['postgresql']['dir'] = "#{node['package']['runtime-dir']}/postgresql"
 default['unifiedpush']['postgresql']['data_dir'] = "#{node['package']['runtime-dir']}/postgresql/data"
