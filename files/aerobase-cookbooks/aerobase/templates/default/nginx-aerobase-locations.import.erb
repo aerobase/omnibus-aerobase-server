@@ -77,6 +77,12 @@
     proxy_set_header    X-Forwarded-Proto   $scheme;
     proxy_set_header    X-Frame-Options     SAMEORIGIN;
 
+    <% if @set_intr_ip_from %>
+	proxy_hide_header   WWW-Authenticate;
+    if ($<%= @set_intr_map_name %>) {
+      add_header WWW-Authenticate 'Negotiate' always;
+    }
+    <% end %>
     proxy_pass http://softwarebl;
   }
 

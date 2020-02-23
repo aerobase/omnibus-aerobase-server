@@ -48,6 +48,24 @@ http {
     default 1;
   }
   <% end %>
+  <% if @set_intr_ip_from %>
+  # Define a map according to http_x_forwarded_for
+  # This map is used to apply kerberos to internal network only (Fix https://issues.redhat.com/browse/KEYCLOAK-10161)
+  map $http_x_forwarded_for $isinternalx {
+  <% @set_intr_ip_from.each do |real_ip| %>
+    ~^<%= real_ip.gsub('.', '\.') %>.*$ 1;
+  <% end %>
+    default 0;  
+  }
+  # Define a map according to realip_remote_addr
+  # This map is used to apply kerberos to internal network only (Fix https://issues.redhat.com/browse/KEYCLOAK-10161)
+  map $realip_remote_addr $isinternalr {
+  <% @set_intr_ip_from.each do |real_ip| %>
+    ~^<%= real_ip.gsub('.', '\.') %>.*$ 1;
+  <% end %> 
+    default 0;
+  }
+  <% end %>
   <%= @custom_http_config %>
   <% if @proxy_cache %>
   include aerobase-proxy-cache.conf;

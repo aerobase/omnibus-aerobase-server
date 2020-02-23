@@ -288,7 +288,11 @@ external_url 'GENERATED_EXTERNAL_URL'
 # nginx['listen_ipv4_only'] = false
 # nginx['listen_port'] = nil # override only if you have a reverse proxy
 # nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP
-# nginx['set_real_ip_from'] = nil # array type of network addresses
+# nginx['set_real_ip_from'] = nil # array type of network CIDR
+# nginx['set_real_ip_header'] = "X-Forwarded-For"
+# nginx['set_real_ip_recursive'] = "on"
+# nginx['set_intr_ip_from'] = nil # array type of internal network ips ['1.2.3', '1.2.3.4']
+# nginx['set_intr_map_name'] = "isinternalx" # isinternalr (using realip_remote_addr) | isinternalx (using x-forwarded-for)
 # nginx['custom_nginx_config'] = nil
 # nginx['custom_http_config'] = nil
 # nginx['custom_aerobase_config'] = nil
