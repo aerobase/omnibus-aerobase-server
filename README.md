@@ -65,9 +65,13 @@ Usage
 
 You create a platform-specific package using the `build project` command:
 
-```shell
+```Linux shell
+$ bundle exec omnibus build aerobase
+```
+```Windows PowerShell
 $ bundle exec omnibus build aerobase-openjdk
 ```
+
 
 The platform/architecture type of the package created will match the platform
 where the `build project` command is invoked. For example, running this command
@@ -79,7 +83,10 @@ packages will be available in the `pkg/` folder.
 You can clean up all temporary files generated during the build process with
 the `clean` command:
 
-```shell
+```Linux shell
+$ bundle exec omnibus clean aerobase
+```
+```Windows PowerShell
 $ bundle exec omnibus clean aerobase-openjdk
 ```
 
