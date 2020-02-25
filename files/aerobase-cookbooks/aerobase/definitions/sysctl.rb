@@ -37,8 +37,8 @@ define :sysctl, value: nil do
     not_if "sysctl -n #{param} | grep -q -x #{value}"
   end
 
-  link "/opt/aerobase/embedded/etc/90-omnibus-aerobase.conf" do
-    to "/etc/sysctl.d/90-omnibus-aerobase.conf"
+  link "/etc/sysctl.d/90-omnibus-aerobase.conf" do
+    to "/opt/aerobase/embedded/etc/90-omnibus-aerobase.conf"
   end
 
   # Load the settings right away
