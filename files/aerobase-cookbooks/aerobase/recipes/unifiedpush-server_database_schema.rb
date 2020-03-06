@@ -89,7 +89,7 @@ template "#{install_dir}/#{tmp_dir}/hibernate.properties" do
   ))
 end
 
-execute "initialize aerobase-server database" do
+execute "initialize unifiedpush-server database" do
   cwd "#{install_dir}/embedded/apps/unifiedpush-server/initdb/bin"
   command "#{command}"
 end

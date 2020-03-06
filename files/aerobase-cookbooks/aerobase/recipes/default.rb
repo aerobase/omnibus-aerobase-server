@@ -110,7 +110,6 @@ if mysql_helper.is_mysql_type && node['unifiedpush']['aerobase-server']['db_init
   include_recipe "aerobase::mysql_initialize"
 end
 
-include_recipe "aerobase::database_schema"
 include_recipe "aerobase::web-server"
 
 # Configure Services
