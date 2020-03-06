@@ -41,6 +41,8 @@ database_username = node['unifiedpush']['aerobase-server']['db_username']
 database_password = node['unifiedpush']['aerobase-server']['db_password']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 
+include_recipe "aerobase::unifiedpush-server_database_schema"
+
 if database_adapter == "postgresql"
   jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
   jdbc_hbm_dialect = "org.hibernate.dialect.PostgreSQL95Dialect"
