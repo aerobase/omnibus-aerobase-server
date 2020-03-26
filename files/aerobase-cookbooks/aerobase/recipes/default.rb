@@ -84,10 +84,9 @@ if node['unifiedpush']['java']['install_java']
   include_recipe 'java'
 end
 
-# First setup datastore configuraitons (postgres, cassandra), if required. 
+# First setup datastore configuraitons (postgres), if required. 
 [
-  "postgresql",
-  "cassandra"
+  "postgresql"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "aerobase::#{service}"

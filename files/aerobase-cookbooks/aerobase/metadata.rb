@@ -20,7 +20,6 @@ depends  'java'
 unless windows?
   depends 'runit'
   depends 'apt'
-  depends 'cassandra-dse'
 end 
 if windows?
   depends 'windows'

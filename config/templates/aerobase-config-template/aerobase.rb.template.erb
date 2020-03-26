@@ -105,11 +105,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # unifiedpush_server['oauth2_admin_user'] = "admin"
 # unifiedpush_server['oauth2_admin_pass'] = "password"
 # unifiedpush_server['oauth2_subdomain_seperator'] = "."
-## Cassandra connection params
-# unifiedpush_server['cas_contactpoints'] = node['fqdn']
-# unifiedpush_server['cas_port'] = "9042"
-# unifiedpush_server['cas_keyspace'] = "aerobase_server"
-# unifiedpush_server['cas_consistencylevel'] = "QUORUM"
 
 ####
 # Keycloak Server app
@@ -207,22 +202,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # mariadb['port'] = 3306
 # mariadb['username'] = "root"
 # mariadb['password'] = "password"
-
-###
-# Apache Cassandra 
-###
-# cassandra['enable'] = false
-# cassandra['schedule_repairs'] = false
-# cassandra['user'] = 'aerobase-cas'
-# cassandra['root_dir'] = '{node['package']['runtime-dir']}/cassandra/data'
-# cassandra['seeds'] = node['fqdn']
-# cassandra['max_heap_size'] = '1G'
-# cassandra['heap_new_size'] = '200M'
-# cassandra['heap_dump_dir'] = '{node['package']['runtime-dir']}/cassandra/data'
-# cassandra['replication_factor'] = 2
-## Cluster config options
-# cassandra_config['cluster_name'] = 'aerobase-cluster'
-# cassandra_config['endpoint_snitch'] = 'SimpleSnitch'
 
 ####
 # Web server

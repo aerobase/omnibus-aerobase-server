@@ -74,14 +74,6 @@ class AccountHelper
     node['unifiedpush']['mssql']['password']
   end
   
-  def cassandra_user
-    node['unifiedpush']['cassandra']['user']
-  end
-
-  def cassandra_group
-    aerobase_group
-  end
-  
   def manage
     %W(
         #{manage_accounts}
@@ -93,7 +85,6 @@ class AccountHelper
         #{aerobase_user}
         #{web_server_user}
         #{postgresql_user}
-	#{cassandra_user}
       )
   end
 
@@ -102,7 +93,6 @@ class AccountHelper
         #{aerobase_group}
         #{web_server_group}
         #{postgresql_group}
-	#{cassandra_group}
       )
   end
   

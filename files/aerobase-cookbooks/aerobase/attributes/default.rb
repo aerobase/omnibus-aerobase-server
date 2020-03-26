@@ -26,7 +26,7 @@ default['unifiedpush']['install_path'] = "#{node['package']['install-dir']}"
 ####
 default['unifiedpush']['bootstrap']['enable'] = true
 # Default contactpoints for symmetric cluster mode.
-# Override spesific properties [cas_contactpoints, server_contactpoints, seeds] unless spesified to aerobase.rb
+# Override spesific properties [server_contactpoints, seeds] unless spesified to aerobase.rb
 default['unifiedpush']['global']['contactpoints'] = "127.0.0.1"
 default['unifiedpush']['global']['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 default['unifiedpush']['global']['portal_mode'] = false
@@ -124,11 +124,6 @@ default['unifiedpush']['unifiedpush-server']['oauth2_realm'] = 'aerobase'
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
 default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
 default['unifiedpush']['unifiedpush-server']['oauth2_subdomain_seperator'] = "."
-# Cassandra connection params
-default['unifiedpush']['unifiedpush-server']['cas_contactpoints'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['cas_port'] = "9042"
-default['unifiedpush']['unifiedpush-server']['cas_keyspace'] = "aerobase_server"
-default['unifiedpush']['unifiedpush-server']['cas_consistencylevel'] = "LOCAL_ONE"
 
 ####
 # Keycloak Server app
@@ -241,37 +236,6 @@ default['unifiedpush']['mariadb']['port'] = 3306
 default['unifiedpush']['mariadb']['username'] = "root"
 default['unifiedpush']['mariadb']['password'] = "password"
 
-###
-# Apache Cassandra
-###
-default['unifiedpush']['cassandra']['enable'] = false
-default['unifiedpush']['cassandra']['schedule_repairs'] = false
-default['unifiedpush']['cassandra']['ha'] = false
-default['unifiedpush']['cassandra']['install_method'] = "tarball"
-default['unifiedpush']['cassandra']['version'] = "3.11.2"
-default['unifiedpush']['cassandra']['user'] = "aerobase-cas"
-default['unifiedpush']['cassandra']['installation_dir'] = "#{node['package']['runtime-dir']}/cassandra/cassandra"
-# aerobase replication_factor will be used on schema creation
-default['unifiedpush']['cassandra']['replication_factor'] = 2
-# log_dir used in cassandra-chef-cookbook, log_directory used in logrotate recipe.
-default['unifiedpush']['cassandra']['log_dir'] = "#{node['package']['runtime-dir']}/cassandra/cassandra/logs"
-default['unifiedpush']['cassandra']['log_directory'] = "#{node['package']['logs-dir']}/cassandra"
-default['unifiedpush']['cassandra']['log_rotation']['file_maxbytes'] = 104857600
-default['unifiedpush']['cassandra']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['cassandra']['root_dir'] = "#{node['package']['runtime-dir']}/cassandra/data"
-default['unifiedpush']['cassandra']['heap_dump_dir'] = "#{node['package']['runtime-dir']}/cassandra/data"
-default['unifiedpush']['cassandra']['install_java'] = false
-default['unifiedpush']['cassandra']['use_systemd'] = false
-default['unifiedpush']['cassandra']['use_initd'] = false
-default['unifiedpush']['cassandra']['setup_jamm'] = true
-default['unifiedpush']['cassandra']['seeds'] = node['fqdn']
-default['unifiedpush']['cassandra']['max_heap_size'] = '1G'
-default['unifiedpush']['cassandra']['heap_new_size'] = '200M'
-
-# Cluster config options
-default['unifiedpush']['cassandra-config']['cluster_name'] = 'aerobase-cluster'
-default['unifiedpush']['cassandra-config']['endpoint_snitch'] = 'SimpleSnitch'
-
 ####
 # Web server
 ####
@@ -373,6 +337,6 @@ default['unifiedpush']['logrotate']['dir'] = "#{node['package']['runtime-dir']}/
 default['unifiedpush']['logrotate']['log_directory'] = "#{node['package']['logs-dir']}/logrotate"
 default['unifiedpush']['logrotate']['log_rotation']['file_maxbytes'] = 104857600
 default['unifiedpush']['logrotate']['log_rotation']['num_to_keep'] = 10
-default['unifiedpush']['logrotate']['services'] = %w{nginx aerobase-server cassandra}
+default['unifiedpush']['logrotate']['services'] = %w{nginx aerobase-server}
 default['unifiedpush']['logrotate']['pre_sleep'] = 600 # sleep 10 minutes before rotating after start-up
 default['unifiedpush']['logrotate']['post_sleep'] = 3000 # wait 50 minutes after rotating

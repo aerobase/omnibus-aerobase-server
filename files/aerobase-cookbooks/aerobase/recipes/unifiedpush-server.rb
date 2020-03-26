@@ -64,15 +64,6 @@ else
   cli_cmd = "jboss-cli.sh"
 end
 
-# Prepare datasource cli config script
-template "#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli" do
-  owner aerobase_user
-  group aerobase_group
-  mode 0755
-  source "unifiedpush-server-wildfly-ds-cli.erb"
-  variables(all_vars)
-end
-
 # Prepare oauth2 cli config script
 template "#{server_dir}/cli/unifiedpush-server-wildfly-oauth2.cli" do
   owner aerobase_user
@@ -110,11 +101,6 @@ template "#{server_etc_dir}/hibernate.properties" do
       :jdbc_hbm_dialect => jdbc_hbm_dialect
     }
   ))
-end
-
-# Execute cli scripts
-execute 'Unifiedpush datasource cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/unifiedpush-server-wildfly-ds.cli"
 end
 
 execute 'Unifiedpush oauth2 cli script' do

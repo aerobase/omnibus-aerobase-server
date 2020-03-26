@@ -1,5 +1,0 @@
-#!/bin/sh
-echo "received TERM from runit, running disablegossip disablethrift and drain"
-<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/nodetool disablegossip
-<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/nodetool disablethrift
-<%= node['unifiedpush']['cassandra']['installation_dir'] %>/bin/nodetool drain

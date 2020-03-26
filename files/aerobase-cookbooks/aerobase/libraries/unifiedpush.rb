@@ -38,8 +38,6 @@ module Unifiedpush
   global Mash.new
   user Mash.new
   java Mash.new
-  cassandra Mash.new
-  cassandra_config Mash.new
   postgresql Mash.new
   mssql Mash.new
   mysql Mash.new
@@ -160,13 +158,11 @@ module Unifiedpush
 
     def parse_contactpoints_settings
       # If the user wants to run the in symetric cluster mode,
-      # then those settings should also be applied to cassandra / aerobase-server.
+      # then those settings should also be applied to  aerobase-server.
       [
-        # %w{unifiedpush_server cas_contactpoints} corresponds to
-        # Unifiedpush['unifiedpush_server']['cas_contactpoints'], etc.
+        # %w{unifiedpush_server server_contactpoints} corresponds to
+        # Unifiedpush['unifiedpush_server']['server_contactpoints'], etc.
         [%w{aerobase_server server_contactpoints}, %w{global contactpoints}],
-        [%w{unifiedpush_server cas_contactpoints}, %w{global contactpoints}],
-        [%w{cassandra seeds}, %w{global contactpoints}]
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
           # If the user explicitly sets a value for e.g.
@@ -178,19 +174,6 @@ module Unifiedpush
         better_value_from_unifiedpush_rb = Unifiedpush[right.first][right.last]
         default_from_attributes = node['unifiedpush'][right.first.gsub('_', '-')][right.last]
         Unifiedpush[left.first][left.last] = better_value_from_unifiedpush_rb || default_from_attributes
-      end
-    end
-
-    def parse_cassandra_settings
-      # Only if user did not set a value to cas_consistencylevel
-      # Calculate consistencylevel according to number of nodes.
-      contactpoints = Unifiedpush['unifiedpush_server']['cas_contactpoints']
-      if Unifiedpush['unifiedpush_server']['cas_consistencylevel'].nil?
-        if contactpoints.nil? || contactpoints.split(",").length == 1
-          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_ONE"
-        else
-          Unifiedpush['unifiedpush_server']['cas_consistencylevel'] = "LOCAL_QUORUM"
-        end
       end
     end
 
@@ -225,8 +208,6 @@ module Unifiedpush
         "global",
         "user",
         "java",
-        "cassandra",
-        "cassandra_config",
         "aerobase_server",
         "keycloak_server",
         "unifiedpush_server",
@@ -253,7 +234,6 @@ module Unifiedpush
       parse_external_url
       parse_database_settings
       parse_contactpoints_settings
-      parse_cassandra_settings
       parse_nginx_listen_address
       parse_nginx_listen_ports
       # The last step is to convert underscores to hyphens in top-level keys
@@ -282,20 +262,5 @@ class DomainHelper
 
   def parse_domain(domain)
     return PublicSuffix.domain(domain, ignore_private: true)
-  end
-end
-
-class CassandraHelper
-  attr_reader :node
-
-  def initialize(node)
-    @node = node
-      node['unifiedpush']['cassandra'].each do |key, value|
-        node.override['cassandra'][key] = value
-      end
-
-      node['unifiedpush']['cassandra-config'].each do |key, value|
-        node.override['cassandra']['config'][key] = value
-      end
   end
 end
