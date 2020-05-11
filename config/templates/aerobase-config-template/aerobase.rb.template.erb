@@ -38,16 +38,6 @@ external_url 'GENERATED_EXTERNAL_URL'
 # global['srv_start'] = true
 
 ####
-# Java installation options, this package is not embeded.
-# When enabled, external java package will be installed.
-# This option requires python installation in your path.
-####
-# java['install_java'] = false
-# java['jdk_version'] = '8'
-# java['install_flavor'] = 'openjdk'
-# java['set_default'] = true
-
-####
 # Unifiedpush Applicaiton Server 
 ####
 # aerobase_server['enable'] = true
@@ -77,34 +67,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ## Database connection params
 # aerobase_server['db_initialize'] = true
 # aerobase_server['db_adapter'] = "postgresql"
-# aerobase_server['db_encoding'] = "unicode"
-# aerobase_server['db_database'] = "unifiedpush_server"
-## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_ups_user, listen_address, port]
-## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_ups_user, listen_address, port
-# aerobase_server['db_username'] = "aerobase_server"
-# aerobase_server['db_password'] = nil
-## Database host over TCP connection, java jdbc does not support unix socket.
-# aerobase_server['db_host'] = "localhost"
-# aerobase_server['db_port'] = nil
-# aerobase_server['db_pool'] = 10
-# aerobase_server['db_socket'] = nil
 # aerobase_server['db_sslmode'] = false
-# aerobase_server['db_sslrootcert'] = nil
 # aerobase_server['db_jdbc_flags'] = nil
-
-####
-# Unifiedpush Server app
-####
-# unifiedpush_server['enable'] = false
-## OAuth2 Configureation, webapp_host is used as web applications root-url.
-# unifiedpush_server['webapp_host'] = node['fqdn']
-# unifiedpush_server['oauth2_enabled'] = true
-# unifiedpush_server['oauth2_context_root'] = "auth"
-## Realm name used for aerobase authentication. When running in portal mode, 'maser' realm must be used.
-# unifiedpush_server['oauth2_realm'] = 'aerobase'
-# unifiedpush_server['oauth2_admin_user'] = "admin"
-# unifiedpush_server['oauth2_admin_pass'] = "password"
-# unifiedpush_server['oauth2_subdomain_seperator'] = "."
 
 ####
 # Keycloak Server app

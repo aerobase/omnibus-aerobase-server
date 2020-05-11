@@ -37,14 +37,12 @@ module Unifiedpush
   bootstrap Mash.new
   global Mash.new
   user Mash.new
-  java Mash.new
   postgresql Mash.new
   mssql Mash.new
   mysql Mash.new
   mariadb Mash.new
   aerobase_server Mash.new
   keycloak_server Mash.new
-  unifiedpush_server Mash.new
   web_server Mash.new
   nginx Mash.new
   logging Mash.new
@@ -160,8 +158,8 @@ module Unifiedpush
       # If the user wants to run the in symetric cluster mode,
       # then those settings should also be applied to  aerobase-server.
       [
-        # %w{unifiedpush_server server_contactpoints} corresponds to
-        # Unifiedpush['unifiedpush_server']['server_contactpoints'], etc.
+        # %w{aerobase_server server_contactpoints} corresponds to
+        # Unifiedpush['aerobase_server']['server_contactpoints'], etc.
         [%w{aerobase_server server_contactpoints}, %w{global contactpoints}],
       ].each do |left, right|
         if ! Unifiedpush[left.first][left.last].nil?
@@ -207,10 +205,8 @@ module Unifiedpush
         "bootstrap",
         "global",
         "user",
-        "java",
         "aerobase_server",
         "keycloak_server",
-        "unifiedpush_server",
         "web_server",
         "nginx",
         "logging",
@@ -239,17 +235,6 @@ module Unifiedpush
       # The last step is to convert underscores to hyphens in top-level keys
       generate_hash
     end
-  end
-end
-
-class JavaHelper
-  attr_reader :node
-
-  def initialize(node)
-    @node = node
-      node['unifiedpush']['java'].each do |key, value|
-        node.override['java'][key] = value
-      end
   end
 end
 

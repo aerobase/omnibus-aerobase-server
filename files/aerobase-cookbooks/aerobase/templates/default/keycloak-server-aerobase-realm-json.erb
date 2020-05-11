@@ -16,7 +16,6 @@
     "emailTheme": "aerobase",
     "updateProfileOnInitialSocialLogin": false,
     "requiredCredentials": [ "password" ],
-    "defaultRoles": [ "installation" ],
     "users" : [
         {
             "username" : "admin",
@@ -44,10 +43,6 @@
             {
                 "name": "developer",
                 "description": "Developer privileges"
-            },
-            {
-                "name": "installation",
-                "description": "Device installation privileges"
             }
         ]
     },
@@ -62,15 +57,6 @@
             "clientId": "aerobase",
             "enabled": true,
             "bearerOnly": true
-        },
-        {
-            "clientId": "aerobase-app",
-            "enabled": true,
-            "publicClient": true,
-            "baseUrl": "/unifiedpush-server/",
-            "redirectUris": [
-                    "/unifiedpush-server/*"
-            ]
         },
         {
             "clientId": "aerobase-gsg",

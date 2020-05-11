@@ -1,0 +1,18 @@
+version: '3'
+services:
+  aerobase-centos:
+    image: 'fedora:31'
+    hostname: 'aerobase.example.com'
+    ports:
+      - "80:80"
+      - '443:443'
+    volumes:
+      - $HOME/aerobase/config:/etc/aerobase
+      - $HOME/aerobase/data:/var/opt/aerobase
+      - $HOME/aerobase/logs:/var/log/aerobase
+      - $HOME/aerobase/themes:/var/opt/aerobase/aerobase-server/themes
+      - ./overrides.rb:/etc/aerobase/overrides.rb
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536

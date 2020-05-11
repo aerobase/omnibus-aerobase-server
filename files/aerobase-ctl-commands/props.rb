@@ -15,8 +15,8 @@
 # limitations under the License.
 #
 
-# Usage example:  aerobase-ctl.bat prop "aerobase_server.db_sslrootcert=TEST;;aerobase_server.db_sslmode=111"
-# Output: unifiedpush_se+rver['db_sslrootcert']="TEST"
+# Usage example:  aerobase-ctl.bat prop "aerobase_server.db_adapter=mssql;;aerobase_server.db_sslmode=111"
+# Output: unifiedpush_se+rver['db_adapter']="mssql"
 # Output: aerobase_server['db_sslmode']=111
 
 def is_numeric?(s)

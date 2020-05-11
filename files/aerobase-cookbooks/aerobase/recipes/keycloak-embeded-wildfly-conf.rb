@@ -82,7 +82,7 @@ end
 
 ruby_block 'copy_keycloak_sources' do
   block do
-    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/.", "#{server_dir}"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak/.", "#{server_dir}"
   end
   action :run
 end

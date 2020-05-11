@@ -52,16 +52,6 @@ default['unifiedpush']['user']['shell'] = "/bin/sh"
 default['unifiedpush']['user']['home'] = "#{node['package']['runtime-dir']}"
 
 ####
-# Java installation options, this package is not embeded.
-# When enabled, external java package will be installed.
-####
-default['unifiedpush']['java']['install_java'] = false
-default['unifiedpush']['java']['jdk_version'] = '8'
-default['unifiedpush']['java']['install_flavor'] = 'openjdk'
-default['unifiedpush']['java']['set_default'] = true
-default['unifiedpush']['java']['oracle']['accept_oracle_download_terms'] = true
-
-####
 # Aerobase Server app
 ####
 default['unifiedpush']['aerobase-server']['enable'] = true
@@ -94,36 +84,11 @@ default['unifiedpush']['aerobase-server']['time_zone'] = nil
 default['unifiedpush']['aerobase-server']['cache_owners'] = 1
 default['unifiedpush']['aerobase-server']['java_xmx'] = "1g"
 default['unifiedpush']['aerobase-server']['java_opts'] = nil
-# SQL connection params
+# SQL Global connection params
 default['unifiedpush']['aerobase-server']['db_initialize'] = true
 default['unifiedpush']['aerobase-server']['db_adapter'] = "postgresql"
-default['unifiedpush']['aerobase-server']['db_encoding'] = "unicode"
-default['unifiedpush']['aerobase-server']['db_database'] = "unifiedpush_server"
-# db_username, db_host, db_port oveeride PostgreSQL properties [sql_ups_user, listen_address, port]
-default['unifiedpush']['aerobase-server']['db_username'] = "aerobase_server"
-default['unifiedpush']['aerobase-server']['db_password'] = "aerobase_server"
-# PostgreSQL host over TCP connection, java jdbc does not support unix socket.
-default['unifiedpush']['aerobase-server']['db_host'] = "localhost"
-default['unifiedpush']['aerobase-server']['db_port'] = nil
-default['unifiedpush']['aerobase-server']['db_pool'] = 10
-default['unifiedpush']['aerobase-server']['db_socket'] = nil
 default['unifiedpush']['aerobase-server']['db_sslmode'] = false
-default['unifiedpush']['aerobase-server']['db_sslrootcert'] = nil
 default['unifiedpush']['aerobase-server']['db_jdbc_flags'] = nil
-
-####
-# Unifiedpush Server app
-####
-default['unifiedpush']['unifiedpush-server']['enable'] = false
-# OAuth2 Configureation, webapp_host is used as web applications root-url.
-default['unifiedpush']['unifiedpush-server']['webapp_host'] = node['fqdn']
-default['unifiedpush']['unifiedpush-server']['oauth2_enabled'] = true
-default['unifiedpush']['unifiedpush-server']['oauth2_context_root'] = "auth"
-# Realm name used for aerobase authentication, When running in portal mode, 'maser' realm must be used.
-default['unifiedpush']['unifiedpush-server']['oauth2_realm'] = 'aerobase'
-default['unifiedpush']['unifiedpush-server']['oauth2_admin_user'] = "admin"
-default['unifiedpush']['unifiedpush-server']['oauth2_admin_pass'] = "password"
-default['unifiedpush']['unifiedpush-server']['oauth2_subdomain_seperator'] = "."
 
 ####
 # Keycloak Server app

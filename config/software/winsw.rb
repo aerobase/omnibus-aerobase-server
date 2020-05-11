@@ -15,14 +15,18 @@
 #
 
 name "winsw"
-default_version "2.1.2"
+default_version "2.6.2"
 license :project_license
+
+version "2.6.2" do
+  source md5: "fc9d882f2e606bfdf72e71eef2e2c7c3"
+end
 
 version "2.1.2" do
   source md5: "1f41775fcf14aee2085c5fca5cd99d81"
 end
 
-source url: "https://github.com/kohsuke/winsw/releases/download/winsw-v#{version}/WinSW.NET4.exe"
+source url: "https://github.com/winsw/winsw/releases/download/v#{version}/WinSW.NET4.exe"
 
 relative_path "winsw"
 

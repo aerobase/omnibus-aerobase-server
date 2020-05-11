@@ -64,12 +64,6 @@ include_recipe "aerobase::wildfly-server"
 include_recipe "aerobase::aerobase-server-wildfly-conf"
 include_recipe "aerobase::keycloak-server"
 
-if node['unifiedpush']['unifiedpush-server']['enable']
-  include_recipe "aerobase::unifiedpush-server"
-else
-  include_recipe "aerobase::unifiedpush-server_disable"
-end 
-
 # create themes dir
 directory "#{server_dir}/themes" do
   owner aerobase_user

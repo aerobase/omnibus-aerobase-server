@@ -56,7 +56,9 @@ $ git config --system core.longpaths true
 ```
 
 ```shell
-$ bundle install --without development --binstubs
+$ bundle install --binstubs
+gem install berkshelf
+berks vendor files/aerobase-cookbooks/
 ```
 
 Usage

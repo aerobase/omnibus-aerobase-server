@@ -17,7 +17,7 @@ gem 'json'
 
 group :development do
   # Use Berkshelf for resolving cookbook dependencies
-  gem 'berkshelf', '~> 7.0.7'
+  gem 'berkshelf', '~> 7.0.10'
 
   # Use Test Kitchen with Vagrant for converging the build environment
   gem 'test-kitchen',    '~> 1.2'

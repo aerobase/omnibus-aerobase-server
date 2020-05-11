@@ -1,7 +1,5 @@
 #
-# Copyright:: Copyright (c) 2018, Aerobase Inc
-# License:: Apache License, Version 2.0
-#
+# Copyright:: Copyright (c) 2015.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,10 +13,18 @@
 # limitations under the License.
 #
 
-install_dir = node['package']['install-dir']
-server_dir = node['unifiedpush']['aerobase-server']['dir']
+name "postgresql-jdbc"
+default_version "42.2.12"
+skip_transitive_dependency_licensing true
 
-# Unlink ups application in case it was deployed
-link "#{server_dir}/standalone/deployments/unifiedpush-server.war" do
-  action :delete
+version "42.2.12" do
+  source md5: "ea718ed07bdcb6f98814f11783df9fcb"
+end
+
+https://jdbc.postgresql.org/download/postgresql-#{version}.jar
+source url: "https://jdbc.postgresql.org/download/postgresql-#{version}.jar"
+
+build do
+  command "mkdir -p #{install_dir}/embedded/apps/postgresql"
+  sync "./", "#{install_dir}/embedded/apps/postgresql"
 end

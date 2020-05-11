@@ -20,8 +20,6 @@ dependency "file-tail"
 
 # unifiedpush internal dependencies/components
 dependency "aerobase-ctl"
-dependency "unifiedpush-server"
-dependency "unifiedpush-admin-ui"
 dependency "aerobase-gsg-ui"
 dependency "aerobase-config-template" 
 dependency "aerobase-keycloak-spi"
@@ -30,7 +28,6 @@ dependency "winsw"
 dependency "mssql-jdbc"
 dependency "mysql-jdbc"
 dependency "mariadb-jdbc"
-    
 
 # KC server and themes must be added after cookbooks
 if windows?
