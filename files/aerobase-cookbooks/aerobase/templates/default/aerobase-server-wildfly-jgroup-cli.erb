@@ -1,4 +1,4 @@
-embed-server --server-config=standalone-full-ha.xml
+embed-server --server-config=standalone-ha.xml
 # Add the tcpping stack
 /subsystem=jgroups/stack=tcpping:add
 /subsystem=jgroups/stack=tcpping/transport=TCP:add(socket-binding=jgroups-tcp)

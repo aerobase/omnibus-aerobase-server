@@ -1,3 +1,3 @@
-embed-server --server-config=standalone-full-ha.xml
+embed-server --server-config=standalone-ha.xml
 /system-property=jboss.as.management.blocking.timeout:add(value=<%= @start_timeout %>)
 /subsystem=transactions/:write-attribute(name=default-timeout,value=<%= @start_timeout %>)

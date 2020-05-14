@@ -18,10 +18,9 @@ default_version "42.2.12"
 skip_transitive_dependency_licensing true
 
 version "42.2.12" do
-  source md5: "ea718ed07bdcb6f98814f11783df9fcb"
+  source md5: "f8d55c8180c54ce6c713025faf459fd5"
 end
 
-https://jdbc.postgresql.org/download/postgresql-#{version}.jar
 source url: "https://jdbc.postgresql.org/download/postgresql-#{version}.jar"
 
 build do

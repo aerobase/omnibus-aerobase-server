@@ -1,4 +1,4 @@
-embed-server --server-config=standalone-full-ha.xml
+embed-server --server-config=standalone-ha.xml
 /subsystem=datasources/data-source=KeycloakDS/:remove
 /subsystem=datasources/data-source=KeycloakDS/:add(connection-url="<%= @jdbc_url %>",jta=false,driver-name=<%= @jdbc_driver_name %>,jndi-name=java:jboss/datasources/KeycloakDS,password="<%= @db_password %>",user-name="<%= @db_username %>",use-java-context=true,min-pool-size=5,max-pool-size=<%= @db_pool %>,validate-on-match=true,background-validation=true,background-validation-millis=10000,check-valid-connection-sql="select 1")
 /subsystem=datasources/jdbc-driver=<%= @jdbc_driver_name %>:remove

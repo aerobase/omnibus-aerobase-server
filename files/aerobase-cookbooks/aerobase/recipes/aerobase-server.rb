@@ -104,7 +104,7 @@ else
 end
 
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat install /startup /config standalone-full-ha.xml" do
+  execute "#{server_dir}/bin/service.bat install /startup /config standalone-ha.xml" do
   end
 
   # https://issues.apache.org/jira/browse/DAEMON-303
