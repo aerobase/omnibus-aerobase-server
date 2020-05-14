@@ -31,5 +31,3 @@ template "#{server_dir}/standalone/configuration/keycloak-server-aerobase-realm.
   source "keycloak-server-aerobase-realm-json.erb"
   variables(keycloak_vars.merge(global_vars))
 end
-
-include_recipe "aerobase::keycloak-embeded-wildfly-conf"

@@ -52,13 +52,6 @@ all_vars = unifiedpush_vars.merge(global_vars)
   end
 end
 
-ruby_block 'copy_wildfly_sources' do
-  block do
-    FileUtils.cp_r "#{install_dir}/embedded/apps/wildfly/.", "#{server_dir}"
-  end
-  action :run
-end
-
 ruby_block 'copy_wildfly_service' do
   block do
     FileUtils.cp_r "#{install_dir}/embedded/apps/wildfly/docs/contrib/scripts/service/.", "#{server_dir}/bin"

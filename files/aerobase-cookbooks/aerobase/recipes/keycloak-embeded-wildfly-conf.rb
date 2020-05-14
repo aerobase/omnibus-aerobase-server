@@ -39,6 +39,13 @@ database_username = node['unifiedpush']['keycloak-server']['db_username']
 database_password = node['unifiedpush']['keycloak-server']['db_password']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 
+ruby_block 'copy_keycloak_sources' do
+  block do
+    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak/.", "#{server_dir}"
+  end
+  action :run
+end
+
 # Aggreagate all server realms
 if node['unifiedpush']['keycloak-server']['realm_default_enable']
   server_realms = server_dir + "/standalone/configuration/keycloak-server-aerobase-realm.json,"
@@ -78,13 +85,6 @@ if mysql_helper.is_mysql_type
   jdbc_driver_name = mysql_helper.mysql_type
   jdbc_driver_module_name = mysql_helper.mysql_jdbc_driver_module_name
   jdbc_driver_class_name = mysql_helper.mysql_jdbc_driver_class_name 
-end
-
-ruby_block 'copy_keycloak_sources' do
-  block do
-    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak/.", "#{server_dir}"
-  end
-  action :run
 end
 
 # install keycloak-server-wildfly-cli.erb to cli directory
