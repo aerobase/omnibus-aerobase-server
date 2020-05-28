@@ -18,7 +18,7 @@
 # Every KC Update, require evaluation rather PRs accepted by KC.
  
 name "aerobase-keycloak-patch"
-default_version "7.0.1"
+default_version "9.0.3"
 skip_transitive_dependency_licensing true
 
 source git: "https://github.com/aerobase/keycloak.git"
@@ -27,7 +27,7 @@ relative_path "aerobase-keycloak-patch"
 build_dir = "#{project_dir}"
 
 build do
-  command "mvn -T 1C install -DskipTests"
+  command "mvn install -DskipTests"
 
     # Copy dist to package dir.
   command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation"

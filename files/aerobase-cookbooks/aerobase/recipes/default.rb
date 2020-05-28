@@ -77,17 +77,9 @@ if os_helper.not_windows?
   include_recipe "enterprise::runit"
 end
 
-# Install java from external package
-if node['unifiedpush']['java']['install_java']
-  # Define java cookbook attributes.
-  JavaHelper.new(node)
-  include_recipe 'java'
-end
-
-# First setup datastore configuraitons (postgres, cassandra), if required. 
+# First setup datastore configuraitons (postgres), if required. 
 [
-  "postgresql",
-  "cassandra"
+  "postgresql"
 ].each do |service|
   if node["unifiedpush"][service]["enable"]
     include_recipe "aerobase::#{service}"

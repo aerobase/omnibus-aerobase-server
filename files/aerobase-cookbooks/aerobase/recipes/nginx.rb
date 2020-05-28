@@ -29,7 +29,6 @@ nginx_conf_dir = File.join(nginx_dir, "conf")
 nginx_confd_dir = File.join(nginx_dir, "conf.d")
 nginx_html_dir = File.join(nginx_dir, "www/html")
 nginx_cache_dir = File.join(nginx_dir, "cache")
-nginx_ups_html_dir = File.join(nginx_html_dir, "unifiedpush-server")
 nginx_gsg_html_dir = File.join(nginx_html_dir, "getting-started")
 nginx_log_dir = node['unifiedpush']['nginx']['log_directory']
 nginx_ssl_dir = File.join(config_dir, "ssl")
@@ -41,7 +40,6 @@ nginx_ssl_dir = File.join(config_dir, "ssl")
   nginx_confd_dir,
   nginx_html_dir,
   nginx_cache_dir,
-  nginx_ups_html_dir,
   nginx_gsg_html_dir,
   nginx_log_dir,
   nginx_ssl_dir,
@@ -81,7 +79,6 @@ aerobase_server_enabled = node['unifiedpush']['aerobase-server']['enable']
 aerobase_server_contactpoints = node['unifiedpush']['aerobase-server']['server_contactpoints']
 aerobase_server_port = node['unifiedpush']['aerobase-server']['server_port']
 aerobase_server_fqdn = node['unifiedpush']['aerobase-server']['server_host']
-unifiedpush_server_enabled = node['unifiedpush']['unifiedpush-server']['enable']
 keycloak_server_enabled = node['unifiedpush']['keycloak-server']['enable']
 portal_mode = node['unifiedpush']['global']['portal_mode']
 top_domain = node['unifiedpush']['global']['top_domain']
@@ -192,15 +189,6 @@ template nginx_aerobase_js do
   action nginx_server_enabled ? :create : :delete
 end
 
-# Extract aerobase static contect to html directory
-ruby_block 'copy_ups_html_sources' do
-  block do
-	FileUtils.cp_r "#{install_dir}/embedded/apps/unifiedpush-admin-ui/.", "#{nginx_ups_html_dir}"
-  end
-  action :run
-  only_if { aerobase_server_enabled && unifiedpush_server_enabled }
-end
-
 ruby_block 'copy_gsg_html_sources' do
   block do
 	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
@@ -215,14 +203,6 @@ ruby_block 'copy_mime_sources' do
   end
   action :run
   only_if { aerobase_server_enabled }
-end
-
-# Make sure owner is web_server_user
-directory "#{nginx_ups_html_dir}" do
-  owner web_server_user
-  group web_server_group
-  mode "0775"
-  action :create
 end
 
 if os_helper.is_windows?

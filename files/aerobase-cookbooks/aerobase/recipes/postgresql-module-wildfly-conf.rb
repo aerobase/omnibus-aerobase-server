@@ -54,8 +54,8 @@ end
 
 # Copy postgres JDBC driver for ups usage
 remote_file "Copy postgres driver file" do
-  path "#{modules_dir}/postgresql-42.1.4.jar"
-  source "file:#{file_seperator}#{install_dir}/embedded/apps/unifiedpush-server/initdb/lib/postgresql-42.1.4.jar"
+  path "#{modules_dir}/postgresql-42.2.12.jar"
+  source "file:#{file_seperator}#{install_dir}/embedded/apps/postgresql/postgresql-42.2.12.jar"
   owner aerobase_user
   group aerobase_group
   mode 0755

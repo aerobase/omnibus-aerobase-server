@@ -27,29 +27,12 @@ aerobase_group = account_helper.aerobase_group
 
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
-cli_dir = "#{server_dir}/cli"
-mssql_dir = "#{server_dir}/bin/mssql"
-
-# These directories do not need to be writable for aerobase-server
-[
-  cli_dir,
-  mssql_dir
-].each do |dir_name|
-  directory dir_name do
-    owner aerobase_user
-    group aerobase_group
-    mode 0775
-    recursive true
-  end
-end
 
 aerobase_vars = node['unifiedpush']['aerobase-server'].to_hash
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
-cassandra_enabled = node['unifiedpush']['cassandra']['enable']
 aerobase_vars = aerobase_vars.merge(global_vars)
 aerobase_vars = aerobase_vars.merge({
-  :cassandra_enabled => cassandra_enabled,
   :install_dir => install_dir
 })
 

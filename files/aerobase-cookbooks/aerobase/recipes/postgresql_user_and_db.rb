@@ -30,18 +30,11 @@ pg_user = account_helper.postgresql_user
 pg_password = account_helper.postgresql_password
 bin_dir = node['unifiedpush']['postgresql']['bin_dir']
 
-unifiedpush_database_name = node['unifiedpush']['aerobase-server']['db_database']
-unifiedpush_database_username = node['unifiedpush']['aerobase-server']['db_username']
-unifiedpush_database_password = node['unifiedpush']['aerobase-server']['db_password']
 keycloak_database_name = node['unifiedpush']['keycloak-server']['db_database']
 keycloak_database_username = node['unifiedpush']['keycloak-server']['db_username']
 keycloak_database_password = node['unifiedpush']['keycloak-server']['db_password']
 
 databases = []
-if node['unifiedpush']['unifiedpush-server']['enable']
-  databases << ['aerobase-server', unifiedpush_database_name, unifiedpush_database_username, unifiedpush_database_password]
-end
-
 if node['unifiedpush']['keycloak-server']['enable']
   databases << ['aerobase-server', keycloak_database_name, keycloak_database_username, keycloak_database_password]
 end

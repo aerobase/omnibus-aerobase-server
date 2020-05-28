@@ -15,6 +15,5 @@
 # limitations under the License.
 #
 
-require 'openssl'
-
+include_recipe "aerobase::keycloak-embeded-wildfly-conf"
 include_recipe "aerobase::keycloak-server-wildfly-conf"

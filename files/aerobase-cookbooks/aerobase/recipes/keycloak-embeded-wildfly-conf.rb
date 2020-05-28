@@ -20,6 +20,9 @@
 
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
+server_etc_dir = "#{server_dir}/etc"
+server_cli_dir = "#{server_dir}/cli"
+server_mssql_dir = "#{server_dir}/bin/mssql"
 
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
@@ -38,6 +41,27 @@ database_name = node['unifiedpush']['keycloak-server']['db_database']
 database_username = node['unifiedpush']['keycloak-server']['db_username']
 database_password = node['unifiedpush']['keycloak-server']['db_password']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
+
+ruby_block 'copy_keycloak_sources' do
+  block do
+    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak/.", "#{server_dir}"
+  end
+  action :run
+end
+
+# Additional aerobase config dirs
+[
+  server_etc_dir,
+  server_cli_dir,
+  server_mssql_dir
+].each do |dir_name|
+  directory dir_name do
+    owner aerobase_user
+    group aerobase_group
+    mode 0775
+    recursive true
+  end
+end
 
 # Aggreagate all server realms
 if node['unifiedpush']['keycloak-server']['realm_default_enable']
@@ -78,13 +102,6 @@ if mysql_helper.is_mysql_type
   jdbc_driver_name = mysql_helper.mysql_type
   jdbc_driver_module_name = mysql_helper.mysql_jdbc_driver_module_name
   jdbc_driver_class_name = mysql_helper.mysql_jdbc_driver_class_name 
-end
-
-ruby_block 'copy_keycloak_sources' do
-  block do
-    FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak-overlay/.", "#{server_dir}"
-  end
-  action :run
 end
 
 # install keycloak-server-wildfly-cli.erb to cli directory

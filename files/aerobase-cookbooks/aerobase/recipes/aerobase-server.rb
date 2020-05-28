@@ -60,15 +60,9 @@ else
   end
 end
 
+include_recipe "aerobase::keycloak-server"
 include_recipe "aerobase::wildfly-server"
 include_recipe "aerobase::aerobase-server-wildfly-conf"
-include_recipe "aerobase::keycloak-server"
-
-if node['unifiedpush']['unifiedpush-server']['enable']
-  include_recipe "aerobase::unifiedpush-server"
-else
-  include_recipe "aerobase::unifiedpush-server_disable"
-end 
 
 # create themes dir
 directory "#{server_dir}/themes" do
@@ -110,7 +104,7 @@ else
 end
 
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat install /startup /config standalone-full-ha.xml" do
+  execute "#{server_dir}/bin/service.bat install /startup /config standalone-ha.xml" do
   end
 
   # https://issues.apache.org/jira/browse/DAEMON-303
