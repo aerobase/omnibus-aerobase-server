@@ -7,13 +7,13 @@
 BACKUP_USER=<%= node['unifiedpush']['postgresql']['username'] %>
  
 # Optional hostname to adhere to pg_hba policies.  Will default to "localhost" if none specified.
-HOSTNAME=<%= node['unifiedpush']['aerobase-server']['db_host'] %>
+HOSTNAME=<%= node['unifiedpush']['keycloak-server']['db_host'] %>
 
 # Optional hostname to adhere to pg_hba policies.  Will default to "localhost" if none specified.
-PORTNUM=<%= node['unifiedpush']['aerobase-server']['db_port'] %>
+PORTNUM=<%= node['unifiedpush']['keycloak-server']['db_port'] %>
 
 # Optional username to connect to database as.  Will default to "postgres" if none specified.
-USERNAME=<%= node['unifiedpush']['postgresql']['sql_ups_user'] %>
+USERNAME=<%= node['unifiedpush']['postgresql']['sql_kc_user'] %>
  
 # This dir will be created if it doesn't exist.  This must be writable by the user the script is
 # running as.

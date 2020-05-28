@@ -41,6 +41,7 @@ module Unifiedpush
   mssql Mash.new
   mysql Mash.new
   mariadb Mash.new
+  unifiedpush_server Mash.new
   aerobase_server Mash.new
   keycloak_server Mash.new
   web_server Mash.new
@@ -103,9 +104,7 @@ module Unifiedpush
         # %w{aerobase_server server_host} corresponds to
         # Unifiedpush['aerobase_server']['server_host'], etc.
         [%w{aerobase_server server_host}, %W{#{uri.host}}],
-        [%w{aerobase_server server_https}, [server_https]],
-        [%w{keycloak_server server_host}, %W{#{uri.host}}],
-        [%w{keycloak_server server_https}, [server_https]]
+        [%w{aerobase_server server_https}, [server_https]]
       ].each do |left, right|
         if Unifiedpush[left.first][left.last].nil?
           # Only If the user does not explicitly sets a value for e.g.
@@ -132,11 +131,8 @@ module Unifiedpush
         db_adapter =  node['unifiedpush']['aerobase-server']['db_adapter']
       end
       [
-        # %w{aerobase_server db_username} corresponds to
-        # Unifiedpush['aerobase_server']['db_username'], etc.
-        [%w{aerobase_server db_username}, %W{#{db_adapter} sql_ups_user}],
-        [%w{aerobase_server db_host}, %W{#{db_adapter} server}],
-        [%w{aerobase_server db_port}, %W{#{db_adapter} port}],
+        # %w{keycloak_server db_username} corresponds to
+        # Unifiedpush['keycloak_server']['db_username'], etc.
         [%w{keycloak_server db_username}, %W{#{db_adapter} sql_ks_user}],
         [%w{keycloak_server db_host}, %W{#{db_adapter} server}],
         [%w{keycloak_server db_port}, %W{#{db_adapter} port}]
@@ -205,6 +201,7 @@ module Unifiedpush
         "bootstrap",
         "global",
         "user",
+	"unifiedpush_server",
         "aerobase_server",
         "keycloak_server",
         "web_server",

@@ -100,9 +100,6 @@ default['unifiedpush']['keycloak-server']['aerobase_patch'] = true
 # private_themes will filter aerobase themes and realm private themes
 default['unifiedpush']['keycloak-server']['private_themes'] = false
 default['unifiedpush']['keycloak-server']['ha'] = false
-# When keycloak-server is disabled, server_host should point to external URL.
-default['unifiedpush']['keycloak-server']['server_host'] = node['fqdn']
-default['unifiedpush']['keycloak-server']['server_https'] = false
 default['unifiedpush']['keycloak-server']['cache_owners'] = 1
 default['unifiedpush']['keycloak-server']['cache_size'] = 10000
 default['unifiedpush']['keycloak-server']['theme_cache'] = true
@@ -144,7 +141,6 @@ default['unifiedpush']['postgresql']['delayed_start'] = false
 # defaults to /opt/aerobase/embedded/bin:/opt/aerobase/bin/$PATH. The install-dir path is set at build time
 default['unifiedpush']['postgresql']['user_path'] = "#{node['package']['install-dir']}/embedded/bin:#{node['package']['install-dir']}/bin:$PATH"
 default['unifiedpush']['postgresql']['bin_dir'] = "#{node['package']['install-dir']}/embedded/bin"
-default['unifiedpush']['postgresql']['sql_ups_user'] = "aerobase_server"
 default['unifiedpush']['postgresql']['sql_kc_user'] = "keycloak_server"
 default['unifiedpush']['postgresql']['port'] = 5432
 default['unifiedpush']['postgresql']['listen_address'] = 'localhost'
