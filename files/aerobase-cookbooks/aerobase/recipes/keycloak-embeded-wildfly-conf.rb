@@ -20,6 +20,9 @@
 
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
+server_etc_dir = "#{server_dir}/etc"
+server_cli_dir = "#{server_dir}/cli"
+server_mssql_dir = "#{server_dir}/bin/mssql"
 
 account_helper = AccountHelper.new(node)
 os_helper = OsHelper.new(node)
@@ -44,6 +47,20 @@ ruby_block 'copy_keycloak_sources' do
     FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak/.", "#{server_dir}"
   end
   action :run
+end
+
+# Additional aerobase config dirs
+[
+  server_etc_dir,
+  server_cli_dir,
+  server_mssql_dir
+].each do |dir_name|
+  directory dir_name do
+    owner aerobase_user
+    group aerobase_group
+    mode 0775
+    recursive true
+  end
 end
 
 # Aggreagate all server realms

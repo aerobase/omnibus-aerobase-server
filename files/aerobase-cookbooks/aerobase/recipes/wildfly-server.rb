@@ -22,7 +22,6 @@ server_dir = node['unifiedpush']['aerobase-server']['dir']
 server_log_dir = node['unifiedpush']['aerobase-server']['log_directory']
 server_doc_dir = node['unifiedpush']['aerobase-server']['documents_directory']
 server_upl_dir = node['unifiedpush']['aerobase-server']['uploads_directory']
-server_etc_dir = "#{server_dir}/etc"
 # Create standalone log dir in advanced, else win slink will fail
 server_standalone_log = File.join(server_dir, "standalone/log")
 
@@ -41,7 +40,6 @@ all_vars = unifiedpush_vars.merge(global_vars)
   server_log_dir,
   server_doc_dir, 
   server_upl_dir,
-  server_etc_dir,
   server_standalone_log
 ].each do |dir_name|
   directory dir_name do
