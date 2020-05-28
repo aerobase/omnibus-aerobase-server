@@ -6,6 +6,7 @@ DEPENDENCIES
   mingw (= 2.1.0)
   ohai (= 5.3.0)
   runit (= 5.1.1)
+  seven_zip (~> 3.1.2)
   ulimit (~> 1.1.0)
   yum (= 5.1.0)
   yum-epel (= 3.3.0)

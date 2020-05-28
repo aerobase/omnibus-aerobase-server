@@ -20,3 +20,6 @@ files/aerobase-cookbooks/systemd
 files/aerobase-cookbooks/enterprise
 files/aerobase-cookbooks/ulimit
 files/aerobase-cookbooks/packagecloud
+files/aerobase-cookbooks/seven_zip
+files/aerobase-cookbooks/yum
+files/aerobase-cookbooks/yum-epel
