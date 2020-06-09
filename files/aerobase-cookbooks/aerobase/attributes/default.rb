@@ -78,6 +78,7 @@ default['unifiedpush']['aerobase-server']['server_host'] = node['fqdn']
 # Internal network bind address. If the node has a default route, this is the IPV4 address for the interface. 
 default['unifiedpush']['aerobase-server']['server_address'] = '127.0.0.1'
 default['unifiedpush']['aerobase-server']['server_contactpoints'] = node['fqdn']
+default['unifiedpush']['aerobase-server']['jgroups_stack'] = "tcpping"
 default['unifiedpush']['aerobase-server']['server_port'] = 8080
 default['unifiedpush']['aerobase-server']['server_https'] = false
 default['unifiedpush']['aerobase-server']['time_zone'] = nil

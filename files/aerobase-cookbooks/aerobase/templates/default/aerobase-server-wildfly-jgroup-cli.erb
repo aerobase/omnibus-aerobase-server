@@ -16,4 +16,4 @@ embed-server --server-config=standalone-ha.xml
 /subsystem=jgroups/stack=tcpping/protocol=MFC:add
 /subsystem=jgroups/stack=tcpping/protocol=FRAG2:add
 # Set tcpping as the stack for the ee channel
-/subsystem=jgroups/channel=ee:write-attribute(name=stack,value=tcpping)
+/subsystem=jgroups/channel=ee:write-attribute(name=stack,value=<%= @jgroups_stack %>)
