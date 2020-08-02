@@ -18,7 +18,7 @@
 # Every KC Update, require evaluation rather PRs accepted by KC.
  
 name "aerobase-keycloak-patch"
-default_version "9.0.3"
+default_version "11.0.0"
 skip_transitive_dependency_licensing true
 
 source git: "https://github.com/aerobase/keycloak.git"
