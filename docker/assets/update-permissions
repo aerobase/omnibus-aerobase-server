@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -x
+
+# chown_if_exists
+# input: matches `chown` command, see `man chown`
+# Simply, this checks that the file you're trying to chown actually exists
+# before making the chown call. DRY'ing the rest of this script's checks.
+chown_if_exists()
+{
+	# the last argument of chown is the file or path
+	path="${@:${#@}}"
+	if [ -e "$path" ]; then
+		chown $@
+	else
+		echo "skipping, path does not exist: $path"
+	fi
+}
+
+chmod_if_exists()
+{
+	# the last argument of chown is the file or path
+	path="${@:${#@}}"
+	if [ -e "$path" ]; then
+		chmod $@
+	else
+		echo "skipping, path does not exist: $path"
+	fi
+}
+
+# Fix database storage and logs
+if id -u aerobase-sql; then
+	chown_if_exists -R aerobase-sql:aerobase-group /var/opt/aerobase/postgresql
+	chown_if_exists aerobase-sql:aerobase-group /var/log/aerobase/postgresql
+fi
+
+# Fix Aerobase permissions
+if id -u aerobase; then
+	# Update log files
+	chmod_if_exists -R 664 /var/log/aerobase/aerobase-server/logs/*.log
+fi

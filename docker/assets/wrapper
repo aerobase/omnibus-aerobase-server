@@ -33,5 +33,8 @@ aerobase-ctl reconfigure --accept-license
 # Tail all logs
 aerobase-ctl tail &
 
+DIR="$(cd "$(dirname "$0")" && pwd)"
+$DIR/update-permissions
+
 # Wait for SIGTERM
 wait
