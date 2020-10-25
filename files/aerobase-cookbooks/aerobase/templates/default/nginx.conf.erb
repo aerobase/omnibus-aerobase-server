@@ -66,6 +66,16 @@ http {
     default 0;
   }
   <% end %>
+  <% if @sticky_cookie %>
+  # Define a map according to server_contactpoints and sticky_cookie value
+  # This map is used to apply upstream value
+  map $cookie_<%= @sticky_cookie %> $sticky_node {
+  <% @server_contactpoints.split(",").each do |contactpoint| %>
+    .*.<%= contactpoint.split(".").first %>$ <%= contactpoint %>:<%= @aerobase_server_port %>;
+  <% end %>
+    default 127.0.0.1:<%= @aerobase_server_port %>;
+  }
+  <% end %>
   <%= @custom_http_config %>
   <% if @proxy_cache %>
   include aerobase-proxy-cache.conf;

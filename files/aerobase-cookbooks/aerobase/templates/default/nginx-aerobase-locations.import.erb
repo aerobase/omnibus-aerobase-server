@@ -46,7 +46,11 @@
     proxy_cache_lock on;
     add_header X-Cache-Status $upstream_cache_status;
     <% end %>
+    <% if @sticky_cookie %>
+    proxy_pass http://$sticky_node;
+    <% else %>
     proxy_pass http://softwarebl;
+    <% end %>
     expires 48h;
   }
 
@@ -83,7 +87,11 @@
       add_header WWW-Authenticate 'Negotiate' always;
     }
     <% end %>
+    <% if @sticky_cookie %>
+    proxy_pass http://$sticky_node;
+    <% else %>
     proxy_pass http://softwarebl;
+    <% end %>
   }
 
   error_page  404              /404.html;
