@@ -39,18 +39,18 @@ Required packages:
 
 Installation
 ------------
-You must have a sane Ruby 2.4+ environment with Bundler installed. Ensure all
+You must have a sane Ruby 2.5+ environment with Bundler installed. Ensure all
 the required gems are installed:
 
 ```shell
 yum -y install gcc ruby-devel rubygems libpng-devel
-gem install omnibus
-gem install bundler
+gem install bundler -v 2.0.2
+gem install omnibus -v 6.1.4 
 npm install -g phantomjs-prebuilt
 ```
 
 ```shell
-# Windows Only
+# Windows Only - Currently ruby build is working only if rubyinstaller-devkit-2.5.7-1-x64 is installed
 $ load-omnibus-toolchain.bat
 $ git config --system core.longpaths true
 ```
