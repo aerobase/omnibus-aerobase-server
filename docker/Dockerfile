@@ -20,7 +20,7 @@ RUN apt-get update -q \
       curl \
       locales \
       net-tools \
-    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
     && sed 's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' -i /etc/pam.d/sshd
 
 # Set local for PostgreSQL instance
