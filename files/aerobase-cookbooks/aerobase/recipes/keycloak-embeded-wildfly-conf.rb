@@ -22,6 +22,7 @@ install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 server_etc_dir = "#{server_dir}/etc"
 server_cli_dir = "#{server_dir}/cli"
+user_cli_dir = "#{server_dir}/cli/usr"
 server_mssql_dir = "#{server_dir}/bin/mssql"
 
 account_helper = AccountHelper.new(node)
@@ -53,6 +54,7 @@ end
 [
   server_etc_dir,
   server_cli_dir,
+  user_cli_dir,
   server_mssql_dir
 ].each do |dir_name|
   directory dir_name do
@@ -145,6 +147,13 @@ end
 
 execute 'KC datasource and config cli script' do
   command "#{server_dir}/bin/#{cli_cmd} --file=#{server_dir}/cli/keycloak-server-aerobase-realms.cli"
+end
+
+# Additional keycloak cli files
+Dir.glob("#{server_dir}/cli/usr/*.cli") do |file_name|
+  execute 'KC user additional cli script #{file_name}' do
+    command "#{server_dir}/bin/#{cli_cmd} --file=#{file_name}"
+  end
 end
 
 # Copy spi resources
