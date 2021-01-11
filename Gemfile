@@ -2,8 +2,8 @@ source 'https://rubygems.org'
  
 # Install omnibus
 # Any version higher then 6.1.4 break the 2nd build. gems are not placed in aerobase home
-gem 'omnibus', git: 'https://github.com/chef/omnibus.git', tag: '6.1.4'
-gem 'omnibus-software', git: 'https://github.com/aerobase/omnibus-software.git', branch: 'master'
+gem 'omnibus', git: 'https://github.com/chef/omnibus.git', tag: '8.0.0'
+gem 'omnibus-software', git: 'https://github.com/aerobase/omnibus-software.git', branch: '2.11.x'
 gem 'json'
 
 # Use Chef's software definitions. It is recommended that you write your own
