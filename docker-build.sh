@@ -22,7 +22,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-rbenv global 2.5.7
+rbenv global 2.7.2
 
 ruby -v 
 gem -v
@@ -30,10 +30,12 @@ mvn -v
 git --version
 
 gem install bundler -v 2.0.2
-gem install omnibus -v 6.1.4 
+gem install omnibus -v 8.0.9
 
 bundle update
 bundle install --without development --binstubs
+gem install berkshelf -v 7.0.10
+berks vendor files/aerobase-cookbooks/
 
 if [ "${CLEAN_CACHE}" == "true" ]; then
 	bin/omnibus clean aerobase --purge
