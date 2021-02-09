@@ -43,6 +43,7 @@ dependency "preparation"
 
 # ruby core tools, chef already include ruby, rubygems, bundler, ohai, appbundler ...
 # ruby includes openssl, cacerts ...
+dependency "config_guess"
 dependency "chef"
 
 # unifiedpush internal dependencies/components

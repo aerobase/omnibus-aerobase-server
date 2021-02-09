@@ -29,13 +29,14 @@ gem -v
 mvn -v 
 git --version
 
-gem install bundler -v 2.0.2
+gem install bundler -v 2.2.8
 gem install omnibus -v 8.0.9
 
 bundle update
 bundle install --without development --binstubs
 gem install berkshelf -v 7.0.10
 berks vendor files/aerobase-cookbooks/
+git submodule update
 
 if [ "${CLEAN_CACHE}" == "true" ]; then
 	bin/omnibus clean aerobase --purge

@@ -10,14 +10,10 @@ bin
 .env
 files/aerobase-cookbooks/apt
 files/aerobase-cookbooks/ark
-files/aerobase-cookbooks/compat_resource
-files/aerobase-cookbooks/ohai
 files/aerobase-cookbooks/mingw
 files/aerobase-cookbooks/windows
 files/aerobase-cookbooks/homebrew
-files/aerobase-cookbooks/runit
 files/aerobase-cookbooks/systemd
-files/aerobase-cookbooks/enterprise
 files/aerobase-cookbooks/ulimit
 files/aerobase-cookbooks/packagecloud
 files/aerobase-cookbooks/seven_zip
