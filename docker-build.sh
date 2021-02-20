@@ -36,6 +36,8 @@ bundle update
 bundle install --without development --binstubs
 gem install berkshelf -v 7.0.10
 berks vendor files/aerobase-cookbooks/
+
+git submodule init
 git submodule update
 
 if [ "${CLEAN_CACHE}" == "true" ]; then
