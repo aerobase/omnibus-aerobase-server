@@ -28,7 +28,8 @@ external_url 'GENERATED_EXTERNAL_URL'
 ####
 # Global (Cross component) configuration
 ###
-## When setting contactpoints, make sure all 'fqdn's are resolved to none loopback addresses. 
+## When setting contactpoints, make sure all 'fqdn's are resolved to none loopback addresses.
+## Examples: "IP1,IP2" | "IP1[PORT],IP2[PORT]", default port when not set 7600 
 # global['contactpoints'] = node['fqdn']
 # global['backup_path'] = "#{node['package']['runtime-dir']}/backups"
 # global['portal_mode'] = false
