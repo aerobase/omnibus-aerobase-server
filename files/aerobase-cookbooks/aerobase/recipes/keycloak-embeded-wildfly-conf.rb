@@ -165,6 +165,15 @@ ruby_block 'copy_aerobase_keycloak_spi' do
   only_if { node['unifiedpush']['keycloak-server']['aerobase_spi'] }
 end
 
+# Copy addons resources
+ruby_block 'copy_aerobase_keycloak_addons' do
+  block do
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-addons/.", "#{server_dir}/standalone/deployments/"
+  end
+  action :run
+  only_if { node['unifiedpush']['keycloak-server']['aerobase_addons'] }
+end
+
 # Copy spi resources
 ruby_block 'copy_aerobase_keycloak_patch' do
   block do

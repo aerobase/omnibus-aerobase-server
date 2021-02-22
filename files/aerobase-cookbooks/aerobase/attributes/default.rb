@@ -95,8 +95,9 @@ default['unifiedpush']['aerobase-server']['db_jdbc_flags'] = nil
 # Keycloak Server app
 ####
 default['unifiedpush']['keycloak-server']['enable'] = true
-# Install additional aerobase spi services
+# Install additional aerobase spi/addons services
 default['unifiedpush']['keycloak-server']['aerobase_spi'] = true
+default['unifiedpush']['keycloak-server']['aerobase_addons'] = false
 default['unifiedpush']['keycloak-server']['aerobase_patch'] = true
 # private_themes will filter aerobase themes and realm private themes
 default['unifiedpush']['keycloak-server']['private_themes'] = false
