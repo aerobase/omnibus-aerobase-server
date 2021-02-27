@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/aerobase/omnibus-software.git
-  revision: f78aac900623cdf12dbd7c6713786ca1fb2ba59d
-  branch: master
+  revision: 530eff5f8e7a1cb268d575e230433899b1cf0ee1
+  branch: 2.11.x
   specs:
     omnibus-software (2.2.0)
       omnibus (>= 8.0.0)
@@ -31,7 +31,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     awesome_print (1.8.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.428.0)
+    aws-partitions (1.429.0)
     aws-sdk-core (3.112.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -47,6 +47,7 @@ GEM
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt_pbkdf (1.1.0)
+    bcrypt_pbkdf (1.1.0-x64-mingw32)
     berkshelf (7.0.10)
       chef (>= 13.6.52)
       chef-config
@@ -91,6 +92,48 @@ GEM
       train-core (~> 2.0, >= 2.0.12)
       tty-screen (~> 0.6)
       uuidtools (~> 2.1.5)
+    chef (15.2.20-universal-mingw32)
+      addressable
+      bcrypt_pbkdf (~> 1.0)
+      bundler (>= 1.10)
+      chef-config (= 15.2.20)
+      chef-zero (>= 14.0.11)
+      diff-lcs (~> 1.2, >= 1.2.4)
+      ed25519 (~> 1.2)
+      erubis (~> 2.7)
+      ffi (~> 1.9, >= 1.9.25)
+      ffi-libarchive
+      ffi-yajl (~> 2.2)
+      highline (>= 1.6.9, < 2)
+      iniparse (~> 1.4)
+      iso8601 (~> 0.12.1)
+      license-acceptance (~> 1.0, >= 1.0.5)
+      mixlib-archive (>= 0.4, < 2.0)
+      mixlib-authentication (~> 2.1)
+      mixlib-cli (>= 2.1.1, < 3.0)
+      mixlib-log (>= 2.0.3, < 4.0)
+      mixlib-shellout (>= 2.4, < 4.0)
+      net-sftp (~> 2.1, >= 2.1.2)
+      net-ssh (>= 4.2, < 6)
+      net-ssh-multi (~> 1.2, >= 1.2.1)
+      ohai (~> 15.0)
+      plist (~> 3.2)
+      proxifier (~> 1.0)
+      syslog-logger (~> 1.6)
+      train-core (~> 2.0, >= 2.0.12)
+      tty-screen (~> 0.6)
+      uuidtools (~> 2.1.5)
+      win32-api (~> 1.5.3)
+      win32-certstore (~> 0.3)
+      win32-dir (~> 0.5.0)
+      win32-event (~> 0.6.1)
+      win32-eventlog (= 0.6.3)
+      win32-mmap (~> 0.4.1)
+      win32-mutex (~> 0.4.2)
+      win32-process (~> 0.8.2)
+      win32-service (>= 2.1.2, < 3.0)
+      win32-taskscheduler (~> 2.0)
+      wmi-lite (~> 1.0)
     chef-cleanroom (1.0.2)
     chef-config (15.2.20)
       addressable
@@ -119,8 +162,11 @@ GEM
       ruby2_keywords
     faraday-net_http (1.0.1)
     ffi (1.14.2)
+    ffi (1.14.2-x64-mingw32)
     ffi-libarchive (1.0.17)
       ffi (~> 1.0)
+    ffi-win32-extensions (1.0.4)
+      ffi
     ffi-yajl (2.3.4)
       libyajl2 (~> 1.2)
     fuzzyurl (0.9.0)
@@ -134,6 +180,7 @@ GEM
     iniparse (1.5.0)
     iostruct (0.0.4)
     ipaddress (0.8.3)
+    iso8601 (0.12.3)
     jmespath (1.4.0)
     json (2.5.1)
     kitchen-vagrant (0.21.1)
@@ -155,6 +202,8 @@ GEM
     minitar (0.9)
     mixlib-archive (1.1.7)
       mixlib-log
+    mixlib-archive (1.1.7-universal-mingw32)
+      mixlib-log
     mixlib-authentication (2.1.1)
     mixlib-cli (2.1.8)
     mixlib-config (3.0.9)
@@ -165,6 +214,9 @@ GEM
       thor
     mixlib-log (3.0.9)
     mixlib-shellout (2.4.4)
+    mixlib-shellout (2.4.4-universal-mingw32)
+      win32-process (~> 0.8.2)
+      wmi-lite (~> 1.0)
     mixlib-versioning (1.2.12)
     molinillo (0.7.0)
     multi_json (1.15.0)
@@ -225,6 +277,7 @@ GEM
       unicode-display_width (~> 1.5)
       unicode_utils (~> 1.4)
     strings-ansi (0.2.0)
+    structured_warnings (0.4.0)
     syslog-logger (1.6.8)
     systemu (2.6.5)
     test-kitchen (1.25.0)
@@ -267,6 +320,30 @@ GEM
     unicode_utils (1.4.0)
     uuidtools (2.1.5)
     webrick (1.7.0)
+    win32-api (1.5.3-universal-mingw32)
+    win32-certstore (0.5.3)
+      ffi
+      mixlib-shellout
+    win32-dir (0.5.1)
+      ffi (>= 1.0.0)
+    win32-event (0.6.3)
+      win32-ipc (>= 0.6.0)
+    win32-eventlog (0.6.3)
+      ffi
+    win32-ipc (0.7.0)
+      ffi
+    win32-mmap (0.4.2)
+      ffi
+    win32-mutex (0.4.3)
+      win32-ipc (>= 0.6.0)
+    win32-process (0.8.3)
+      ffi (>= 1.0.0)
+    win32-service (2.2.0)
+      ffi
+      ffi-win32-extensions
+    win32-taskscheduler (2.0.4)
+      ffi
+      structured_warnings
     winrm (2.3.6)
       builder (>= 2.1.2)
       erubi (~> 1.8)
@@ -290,6 +367,7 @@ GEM
     zhexdump (0.0.2)
 
 PLATFORMS
+  x64-mingw32
   x86_64-linux
 
 DEPENDENCIES

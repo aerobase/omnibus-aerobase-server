@@ -39,13 +39,13 @@ Required packages:
 
 Installation
 ------------
-You must have a sane Ruby 2.5+ environment with Bundler installed. Ensure all
+You must have a sane Ruby 2.7+ environment with Bundler installed. Ensure all
 the required gems are installed:
 
 ```shell
 yum -y install gcc ruby-devel rubygems libpng-devel
-gem install bundler -v 2.0.2
-gem install omnibus -v 6.1.4 
+gem install bundler -v 2.2.8
+gem install omnibus -v 8.0.9 
 npm install -g phantomjs-prebuilt
 ```
 

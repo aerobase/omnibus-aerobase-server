@@ -23,6 +23,6 @@ license :project_license
 
 build do
   if windows?
-    ruby "-pi.bk -e \"gsub(/chef-client/, 'chef-client --no-fips')\" #{install_dir}/embedded/lib/ruby/gems/2.5.0/gems/omnibus-ctl-0.6.0/lib/omnibus-ctl.rb"
+    ruby "-pi.bk -e \"gsub(/chef-client/, 'chef-client --no-fips')\" #{install_dir}/embedded/lib/ruby/gems/2.7.0/gems/omnibus-ctl-0.6.0/lib/omnibus-ctl.rb"
   end
 end

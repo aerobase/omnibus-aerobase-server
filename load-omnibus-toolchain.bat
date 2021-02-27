@@ -6,10 +6,10 @@ REM ###############################################################
 
 set HOMEDRIVE=C:\
 set HOMEPATH=omnibus-ruby
-set PATH=C:\Program Files (x86)\GnuWin32\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Ruby25-x64\msys64\usr\bin;C:\Ruby25-x64\msys64\mingw64\bin;C:\Ruby25-x64\bin;%PATH%
+set PATH=C:\Program Files (x86)\GnuWin32\bin;C:\Program Files (x86)\WiX Toolset v3.11\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Ruby27-x64\msys64\usr\bin;C:\Ruby27-x64\msys64\mingw64\bin;C:\Ruby27-x64\bin;%PATH%
 set MSYSTEM=MINGW64
 set OMNIBUS_WINDOWS_ARCH=x64
-set BASH_ENV=C:\Ruby25-x64\msys64\etc\bash.bashrc
+set BASH_ENV=C:\Ruby27-x64\msys64\etc\bash.bashrc
 git config --system core.longpaths true
 
 ECHO(
