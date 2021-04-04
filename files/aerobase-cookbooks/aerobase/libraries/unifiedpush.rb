@@ -133,7 +133,8 @@ module Unifiedpush
       [
         # %w{keycloak_server db_username} corresponds to
         # Unifiedpush['keycloak_server']['db_username'], etc.
-        [%w{keycloak_server db_username}, %W{#{db_adapter} sql_kc_user}],
+        # sql_kc_user is defined only in postgresql section.
+        [%w{keycloak_server db_username}, %w{postgresql sql_kc_user}],
         [%w{keycloak_server db_host}, %W{#{db_adapter} server}],
         [%w{keycloak_server db_port}, %W{#{db_adapter} port}]
       ].each do |left, right|

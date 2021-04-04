@@ -45,7 +45,7 @@ the required gems are installed:
 ```shell
 yum -y install gcc ruby-devel rubygems libpng-devel
 gem install bundler -v 2.2.8
-gem install omnibus -v 8.0.9 
+gem install omnibus -v 8.0.15 
 npm install -g phantomjs-prebuilt
 ```
 

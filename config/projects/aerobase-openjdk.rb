@@ -75,6 +75,11 @@ package :msi do
   parameters ProjectLocationDir: project_location_dir
 end
 
+# We don't support appx builds, and they eat a lot of time.
+package :appx do
+  skip_packager true
+end
+
 exclude "**/.git"
 exclude "**/bundler/git"
 
