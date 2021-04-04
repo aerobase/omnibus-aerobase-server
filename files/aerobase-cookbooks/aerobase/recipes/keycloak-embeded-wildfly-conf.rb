@@ -174,6 +174,15 @@ ruby_block 'copy_aerobase_keycloak_addons' do
   only_if { node['unifiedpush']['keycloak-server']['aerobase_addons'] }
 end
 
+# Deploy sms auth resources
+ruby_block 'copy_aerobase_keycloak_sms_authenticator' do
+  block do
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-sms-authenticator/.", "#{server_dir}/standalone/deployments/"
+  end
+  action :run
+  only_if { node['unifiedpush']['keycloak-server']['aerobase_sms_authenticator'] }
+end
+
 # Copy spi resources
 ruby_block 'copy_aerobase_keycloak_patch' do
   block do

@@ -24,6 +24,7 @@ dependency "aerobase-gsg-ui"
 dependency "aerobase-config-template" 
 dependency "aerobase-keycloak-spi"
 dependency "aerobase-keycloak-addons"
+dependency "aerobase-keycloak-sms-authenticator
 dependency "mscplus"
 dependency "winsw"
 dependency "mssql-jdbc"
