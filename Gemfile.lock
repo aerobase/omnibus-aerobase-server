@@ -141,7 +141,7 @@ GEM
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (16.11.7)
+    chef-utils (16.12.3)
     chef-zero (15.0.4)
       ffi-yajl (~> 2.2)
       hashie (>= 2.0, < 5.0)
@@ -372,7 +372,6 @@ PLATFORMS
 
 DEPENDENCIES
   berkshelf (~> 7.0.10)
-  chef-utils (= 16.11.7)
   json
   kitchen-vagrant (~> 0.14)
   omnibus!

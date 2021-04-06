@@ -1,5 +1,5 @@
-override :chef, version: "v16.11.7"
-override :ohai, version: "v16.10.7"
+override :chef, version: "v16.12.2"
+override :ohai, version: "v16.12.3"
 override :ruby, version: "2.7.2"
 override :bundler, version: "2.2.8"
 override :appundler, version: "v0.13.2"
