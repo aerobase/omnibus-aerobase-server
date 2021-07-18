@@ -174,22 +174,13 @@ ruby_block 'copy_aerobase_keycloak_addons' do
   only_if { node['unifiedpush']['keycloak-server']['aerobase_addons'] }
 end
 
-# Deploy sms auth resources
-ruby_block 'copy_aerobase_keycloak_sms_authenticator' do
-  block do
-    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-sms-authenticator/.", "#{server_dir}/standalone/deployments/"
-  end
-  action :run
-  only_if { node['unifiedpush']['keycloak-server']['aerobase_sms_authenticator'] }
-end
-
 # Copy spi resources
 ruby_block 'copy_aerobase_keycloak_patch' do
   block do
     FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-services/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/"
-	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-server-spi/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi/main/"
-	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-ldap-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-ldap-federation/main/"
-	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-kerberos-federation/main/"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-server-spi/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-server-spi/main/"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-ldap-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-ldap-federation/main/"
+    FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation/.", "#{server_dir}/modules/system/layers/keycloak/org/keycloak/keycloak-kerberos-federation/main/"
   end
   action :run
   only_if { node['unifiedpush']['keycloak-server']['aerobase_patch'] }
