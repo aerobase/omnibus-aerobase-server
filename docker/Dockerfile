@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER Aerobase LTD. <support@aerobase.io>
 
 SHELL ["/bin/sh", "-c"],
@@ -45,7 +45,7 @@ ENV TERM xterm
 EXPOSE 443 80 22
 
 # Define data volumes
-VOLUME ["/etc/aerobase", "/var/opt/aerobase", "/var/log/aerobase"]
+VOLUME ["/etc/aerobase", "/var/opt/aerobase", "/var/log/aerobase", "/etc/init"]
 
 # Wrapper to handle signal, trigger runit and reconfigure Aerobase
 CMD ["/assets/wrapper"]

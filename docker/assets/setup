@@ -16,8 +16,8 @@ sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' 
 echo "UseDNS no" >> /etc/ssh/sshd_config
 
 # Install packages
-dpkg -i /tmp/aerobase-iam_*_xenial.deb
-dpkg -i /tmp/aerobase_*_xenial.deb
+dpkg -i /tmp/aerobase-iam_*.deb
+dpkg -i /tmp/aerobase_*.deb
 
-rm -rf /tmp/aerobase-iam_*_xenial.deb
-rm -rf /tmp/aerobase_*_xenial.deb
+rm -rf /tmp/aerobase-iam_*.deb
+rm -rf /tmp/aerobase_*.deb
