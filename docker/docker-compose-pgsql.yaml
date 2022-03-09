@@ -19,10 +19,12 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+    depends_on:
+      - postgres
   postgres:
     hostname: 'postgres'
     restart: always
-    image: postgres:${IMAGE_TAG:-latest}
+    image: postgres:${IMAGE_TAG:-9.6}
     env_file:
       - pgsql.env
     ports:
