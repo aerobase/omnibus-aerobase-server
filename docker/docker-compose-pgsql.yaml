@@ -1,0 +1,37 @@
+version: '3'
+services:
+  aerobase:
+    image: 'aerobase/aerobase:latest'
+    restart: always
+    hostname: 'aerobase.example.com'
+    ports:
+      - "80:80"
+      - '443:443'
+    volumes:
+      - $HOME/aerobase/config:/etc/aerobase
+      - $HOME/aerobase/data:/var/opt/aerobase
+      - $HOME/aerobase/logs:/var/log/aerobase
+      - $HOME/aerobase/themes:/var/opt/aerobase/aerobase-server/themes
+      - ./overrides.rb:/etc/aerobase/overrides.rb
+    networks:
+      - aerobase
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+  postgres:
+    hostname: 'postgres'
+    restart: always
+    image: postgres:${IMAGE_TAG:-latest}
+    env_file:
+      - pgsql.env
+    ports:
+      - ${PG_PORT:-5432:5432}
+    networks:
+      - aerobase
+    volumes:
+      - postgres_data:/var/lib/pgsql
+volumes:
+  postgres_data:
+networks:
+  aerobase:
