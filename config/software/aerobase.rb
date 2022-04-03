@@ -37,7 +37,6 @@ if windows?
 end
 
 dependency "aerobase-keycloak-theme"
-dependency "aerobase-keycloak-patch"
 
 # Most common updates - keep it last
 dependency "aerobase-cookbooks"
