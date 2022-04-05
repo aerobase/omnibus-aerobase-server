@@ -27,7 +27,7 @@ relative_path "aerobase-keycloak-patch"
 build_dir = "#{project_dir}"
 
 build do
-  command "mvn install -DskipTests"
+  command "mvn install -DskipTests -P '!quarkus,!testsuite'"
 
     # Copy dist to package dir.
   command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-patch/keycloak-kerberos-federation"
