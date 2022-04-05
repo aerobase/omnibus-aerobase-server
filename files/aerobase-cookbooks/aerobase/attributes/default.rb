@@ -98,7 +98,7 @@ default['unifiedpush']['keycloak-server']['enable'] = true
 # Install additional aerobase spi/addons services
 default['unifiedpush']['keycloak-server']['aerobase_spi'] = true
 default['unifiedpush']['keycloak-server']['aerobase_addons'] = false
-default['unifiedpush']['keycloak-server']['aerobase_patch'] = true
+default['unifiedpush']['keycloak-server']['aerobase_patch'] = false
 # private_themes will filter aerobase themes and realm private themes
 default['unifiedpush']['keycloak-server']['private_themes'] = false
 default['unifiedpush']['keycloak-server']['ha'] = false
