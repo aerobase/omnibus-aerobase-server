@@ -25,8 +25,8 @@ build_dir = "#{project_dir}"
 
 build do
   command "mvn clean install -DskipTests -N"
-  command "mvn clean install -DskipTests -Djava.version=8 -Dkeycloak.version=17.0.0 -f auth-require-group-extension/pom.xml"
-  command "mvn clean install -DskipTests -Djava.version=8 -Dkeycloak.version=17.0.0 -f auth-require-role-extension/pom.xml"
+  command "mvn clean install -DskipTests -Djava.version=8 -Dkeycloak.version=17.0.1 -f auth-require-group-extension/pom.xml"
+  command "mvn clean install -DskipTests -Djava.version=8 -Dkeycloak.version=17.0.1 -f auth-require-role-extension/pom.xml"
 
   # Copy dist to package dir.
   command "mkdir -p #{install_dir}/embedded/apps/aerobase-keycloak-addons"
