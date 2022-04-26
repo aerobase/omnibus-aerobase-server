@@ -391,6 +391,9 @@ class MySQLHelper
     node['unifiedpush'][mysql_type]['server']
   end
 
+  def selective_privileges
+    node['unifiedpush'][mysql_type]['selective_privileges']
+  end
 end
 
 class SecretsHelper

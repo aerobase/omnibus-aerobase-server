@@ -190,6 +190,7 @@ default['unifiedpush']['mysql']['server'] = "localhost"
 default['unifiedpush']['mysql']['port'] = 3306
 default['unifiedpush']['mysql']['username'] = "root"
 default['unifiedpush']['mysql']['password'] = "password"
+default['unifiedpush']['mysql']['selective_privileges'] = false
 
 ###
 # MariaDB - Installation is not supported, only jdbc usage.
@@ -198,6 +199,7 @@ default['unifiedpush']['mariadb']['server'] = "localhost"
 default['unifiedpush']['mariadb']['port'] = 3306
 default['unifiedpush']['mariadb']['username'] = "root"
 default['unifiedpush']['mariadb']['password'] = "password"
+default['unifiedpush']['mariadb']['selective_privileges'] = false
 
 ####
 # Web server

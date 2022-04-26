@@ -30,6 +30,11 @@ if node['unifiedpush']['keycloak-server']['enable']
   databases << ['aerobase-server', keycloak_database_name, keycloak_database_username, keycloak_database_password]
 end
 
+grant_cmd = "ALL"
+if mysql_helper.selective_privileges
+  grant_cmd = "SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER"
+end 
+
 databases.each do |unifiedpush_app, db_name, sql_user, sql_pass|
   execute "create #{db_name} database" do
     command "#{mysql_helper.mysql_cmd(["CREATE DATABASE IF NOT EXISTS #{db_name} CHARACTER SET utf8 COLLATE utf8_unicode_ci;"])}"
@@ -51,14 +56,14 @@ databases.each do |unifiedpush_app, db_name, sql_user, sql_pass|
   end
 
   execute "grant all to user '#{sql_user}'@'localhost' for database #{db_name}" do
-    command "#{mysql_helper.mysql_cmd(["GRANT ALL ON #{db_name}.* TO '#{sql_user}'@'localhost';"])}"
+    command "#{mysql_helper.mysql_cmd(["GRANT #{grant_cmd} ON #{db_name}.* TO '#{sql_user}'@'localhost';"])}"
     # Added retries to give the service time to start on slower systems
     retries 3
   end
 
 
   execute "grant all to user '#{sql_user}'@'%' for database #{db_name}" do
-    command "#{mysql_helper.mysql_cmd(["GRANT ALL ON #{db_name}.* TO '#{sql_user}'@'%';"])}"
+    command "#{mysql_helper.mysql_cmd(["GRANT #{grant_cmd} ON #{db_name}.* TO '#{sql_user}'@'%';"])}"
     # Added retries to give the service time to start on slower systems
     retries 3
   end
