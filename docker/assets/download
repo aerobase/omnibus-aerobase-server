@@ -2,14 +2,14 @@
 
 set -e
 
-if [ ! -f /assets/aerobase_2.17.0-1_amd64.deb ]; then
-  curl -L "https://packages.aerobase.io/deb/aerobase_2.17.0-1_amd64.deb" -o /tmp/aerobase_2.17.0-1_amd64.deb
+if [ ! -f /assets/aerobase_2.17.1-1_amd64.deb ]; then
+  curl -L "https://packages.aerobase.io/deb/aerobase_2.17.1-1_amd64.deb" -o /tmp/aerobase_2.17.1-1_amd64.deb
 else
-  cp /assets/aerobase_2.17.0-1_amd64.deb /tmp  
+  cp /assets/aerobase_2.17.1-1_amd64.deb /tmp  
 fi
 
-if [ ! -f /assets/aerobase-iam_2.17.0-1_amd64.deb ]; then
-  curl -L "https://packages.aerobase.io/deb/aerobase-iam_2.17.0-1_amd64.deb" -o /tmp/aerobase-iam_2.17.0-1_amd64.deb
+if [ ! -f /assets/aerobase-iam_2.17.1-1_amd64.deb ]; then
+  curl -L "https://packages.aerobase.io/deb/aerobase-iam_2.17.1-1_amd64.deb" -o /tmp/aerobase-iam_2.17.1-1_amd64.deb
 else
-  cp /assets/aerobase-iam_2.17.0-1_amd64.deb /tmp
+  cp /assets/aerobase-iam_2.17.1-1_amd64.deb /tmp
 fi
