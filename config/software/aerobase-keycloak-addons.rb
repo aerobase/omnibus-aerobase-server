@@ -15,7 +15,7 @@
 #
 
 name "aerobase-keycloak-addons"
-default_version "17.0.0"
+default_version "17.0.1"
 skip_transitive_dependency_licensing true
 
 source git: "https://github.com/aerobase/keycloak-extension-playground.git"

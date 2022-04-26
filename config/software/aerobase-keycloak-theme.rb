@@ -18,7 +18,7 @@ name "aerobase-keycloak-theme"
 license :project_license
 
 skip_transitive_dependency_licensing true
-default_version "v2.17.0"
+default_version "master"
 source git: "https://github.com/aerobase/aerobase-keycloak-theme.git"
 
 relative_path "aerobase-keycloak-theme"
