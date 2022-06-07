@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/aerobase/omnibus-software.git
-  revision: 530eff5f8e7a1cb268d575e230433899b1cf0ee1
-  branch: master
+  revision: 9bf9d5e09d7a8fdecab81ef979b34a84d041dec5
+  tag: master
   specs:
     omnibus-software (2.2.0)
       omnibus (>= 8.0.0)
@@ -181,7 +181,7 @@ GEM
     iostruct (0.0.4)
     ipaddress (0.8.3)
     iso8601 (0.12.3)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     json (2.5.1)
     kitchen-vagrant (0.21.1)
       test-kitchen (~> 1.4)
