@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/aerobase/omnibus-software.git
-  revision: 530eff5f8e7a1cb268d575e230433899b1cf0ee1
-  branch: master
+  revision: 9bf9d5e09d7a8fdecab81ef979b34a84d041dec5
+  tag: master
   specs:
     omnibus-software (2.2.0)
       omnibus (>= 8.0.0)
@@ -258,7 +258,7 @@ GEM
     plist (3.6.0)
     proxifier (1.0.3)
     public_suffix (4.0.6)
-    rack (2.2.3)
+    rack (2.2.6.2)
     rainbow (3.0.0)
     retryable (3.0.5)
     ruby-progressbar (1.11.0)
