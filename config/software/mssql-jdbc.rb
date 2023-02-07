@@ -14,8 +14,12 @@
 #
 
 name "mssql-jdbc"
-default_version "6.4.0"
+default_version "12.2.0"
 skip_transitive_dependency_licensing true
+
+version "12.2.0" do
+  source md5: "9213e420b907ef3347d215e0f8617c84"
+end
 
 version "6.4.0" do
   source md5: "ea718ed07bdcb6f98814f11783df9fcb"
@@ -23,11 +27,10 @@ end
 
 source url: "https://github.com/aerobase/mssql-jdbc/releases/download/v#{version}/sqljdbc_#{version}.0_enu.tar.gz"
 
-relative_path "sqljdbc_6.4/enu/auth/x64"
+relative_path "sqljdbc_12.2/enu/auth/x64"
 
 build do
   command "mkdir -p #{install_dir}/embedded/apps/mssql"
   sync "./", "#{install_dir}/embedded/apps/mssql"
-  copy "../../mssql-jdbc-6.4.0.jre8.jar", "#{install_dir}/embedded/apps/mssql"
-  
+  copy "../../mssql-jdbc-12.2.0.jre11.jar", "#{install_dir}/embedded/apps/mssql"
 end

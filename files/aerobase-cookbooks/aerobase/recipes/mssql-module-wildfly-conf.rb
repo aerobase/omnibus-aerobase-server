@@ -54,8 +54,8 @@ end
 
 # Copy postgres JDBC driver
 remote_file "Copy mssql driver file" do
-  path "#{modules_dir}/mssql-jdbc-6.4.0.jre8.jar"
-  source "file:#{file_seperator}#{install_dir}/embedded/apps/mssql/mssql-jdbc-6.4.0.jre8.jar"
+  path "#{modules_dir}/mssql-jdbc-12.2.0.jre11.jar"
+  source "file:#{file_seperator}#{install_dir}/embedded/apps/mssql/mssql-jdbc-12.2.0.jre11.jar"
   owner aerobase_user
   group aerobase_group
   mode 0755
