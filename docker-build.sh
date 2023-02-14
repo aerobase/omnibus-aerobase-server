@@ -31,6 +31,7 @@ git --version
 
 gem install bundler -v 2.2.8
 gem install omnibus -v 8.0.9
+gem install rack -v 2.2.3.1
 
 bundle update
 bundle install --without development --binstubs
