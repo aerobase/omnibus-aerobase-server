@@ -47,5 +47,9 @@ EXPOSE 443 80 22
 # Define data volumes
 VOLUME ["/etc/aerobase", "/var/opt/aerobase", "/var/log/aerobase", "/etc/init"]
 
+RUN cd /opt/aerobase/embedded/lib/ruby
+RUN gem install rack -v 2.2.3.1
+RUN gem uninstall rack -v 2.2.3
+
 # Wrapper to handle signal, trigger runit and reconfigure Aerobase
 CMD ["/assets/wrapper"]
