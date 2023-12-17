@@ -35,6 +35,10 @@ COPY assets/ /assets
 RUN /assets/download
 RUN /assets/setup
 
+RUN addgroup aerobase-group && \
+    adduser --disabled-password --gecos "" aerobase && \
+    echo 'aerobase ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+
 # Allow to access embedded tools
 ENV PATH /opt/aerobase/embedded/bin:/opt/aerobase/bin:/assets:$PATH
 
@@ -50,6 +54,10 @@ VOLUME ["/etc/aerobase", "/var/opt/aerobase", "/var/log/aerobase", "/etc/init"]
 RUN cd /opt/aerobase/embedded/lib/ruby
 RUN gem install rack -v 2.2.3.1
 RUN gem uninstall rack -v 2.2.3
+RUN chown -R aerobase:aerobase-group /opt/aerobase/
+RUN chown -R aerobase:aerobase-group /var/opt/aerobase/
+
+USER aerobase
 
 # Wrapper to handle signal, trigger runit and reconfigure Aerobase
 CMD ["/assets/wrapper"]

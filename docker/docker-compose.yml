@@ -9,6 +9,7 @@ services:
       - '443:443'
       - '5432:5432'
     volumes:
+      - $HOME/aerobase/server:/var/opt/aerobase
       - $HOME/aerobase/config:/etc/aerobase
       - $HOME/aerobase/data:/var/opt/aerobase
       - $HOME/aerobase/logs:/var/log/aerobase

@@ -27,11 +27,11 @@ sleep 3s
 echo "Starting services..."
 AEROBASE_OMNIBUS_CONFIG= /opt/aerobase/embedded/bin/runsvdir-start &
 
-echo "Configuring Aerobase..."
-aerobase-ctl reconfigure --accept-license
+# echo "Configuring Aerobase..."
+# aerobase-ctl reconfigure --accept-license
 
 # Tail all logs
-aerobase-ctl tail &
+# aerobase-ctl tail &
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 $DIR/update-permissions
