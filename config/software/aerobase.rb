@@ -20,10 +20,10 @@ dependency "file-tail"
 
 # unifiedpush internal dependencies/components
 dependency "aerobase-ctl"
-dependency "aerobase-gsg-ui"
 dependency "aerobase-config-template" 
-dependency "aerobase-keycloak-spi"
-dependency "aerobase-keycloak-addons"
+# dependency "aerobase-keycloak-spi"
+# Ignore until rebuild for version 20.x 
+# dependency "aerobase-keycloak-addons"
 dependency "mscplus"
 dependency "winsw"
 dependency "mssql-jdbc"
@@ -37,7 +37,7 @@ if windows?
 end
 
 dependency "aerobase-keycloak-theme"
-dependency "aerobase-keycloak-patch"
+# dependency "aerobase-keycloak-patch"
 
 # Most common updates - keep it last
 dependency "aerobase-cookbooks"

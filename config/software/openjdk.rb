@@ -15,23 +15,15 @@
 #
 
 name "openjdk"
-default_version "11.0.14.1"
+default_version "17"
 license :project_license
-build_bumber = "1"
+build_bumber = "0.10"
 
-version "11.0.14.1" do
+version "17" do
   if windows?
-    source md5: "5ef420c2d337acae88c69ef8642d2830"
+    source sha256: "c98d85c8417703b0f72ddc5757ed66f3478ea7107b0e6d2a98cadbc73a45d77b"
   else
-    source md5: "d0934cfeb97c62dc979eb2ced0688c08"
-  end
-end
-
-version "8u192" do
-  if windows?
-    source md5: "e7d7c4d205d0f3266c09a87785304ee1"
-  else
-    source md5: "3e1a4419f15c744e2c226af2f6cf7ca4"
+    source sha256: "e4fb2df9a32a876afb0a6e17f54c594c2780e18badfa2e8fc99bc2656b0a57b1"
   end
 end
 
@@ -43,9 +35,9 @@ else
   ext = "tar.gz"
 end
 
-source url: "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-#{version}+#{build_bumber}/OpenJDK11U-jre_x64_#{os}_hotspot_#{version}_#{build_bumber}.#{ext}"
+source url: "https://download.oracle.com/java/17/latest/jdk-#{version}_#{os}-x64_bin.#{ext}"
 
-relative_path "jdk-#{version}+#{build_bumber}-jre"
+relative_path "jdk-#{version}.#{build_bumber}"
 
 build do
   mkdir "#{install_dir}/embedded/openjdk/"

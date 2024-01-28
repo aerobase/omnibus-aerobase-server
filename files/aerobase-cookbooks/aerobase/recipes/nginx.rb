@@ -132,45 +132,6 @@ template aerobase_locations_import do
   action nginx_server_enabled ? :create : :delete
 end
 
-# Install nginx protection to serving apps outside of portal iframe.
-# This case is relevant when returning from external actions e.g registration.
-template aerobase_sub_module_import do
-  source "nginx-aerobase-sub-module.import.erb"
-  owner web_server_user
-  group web_server_group
-  mode "0644"
-  variables nginx_vars
-  action nginx_server_enabled ? :create : :delete
-  only_if { portal_mode }
-end
-
-template subdomains_http_conf do
-  source "nginx-subdomains-http.conf.erb"
-  owner web_server_user
-  group web_server_group
-  mode "0644"
-  variables nginx_vars
-  action nginx_server_enabled ? :create : :delete
-end
-
-template subdomains_http_service_conf do
-  source "nginx-subdomains-service-config.erb"
-  owner web_server_user
-  group web_server_group
-  mode "0644"
-  variables nginx_vars
-  action nginx_server_enabled ? :create : :delete
-end
-
-template subdomains_http_auth_conf do
-  source "nginx-subdomains-auth-config.erb"
-  owner web_server_user
-  group web_server_group
-  mode "0644"
-  variables nginx_vars
-  action nginx_server_enabled ? :create : :delete
-end
-
 template nginx_config do
   source "nginx.conf.erb"
   owner web_server_user
@@ -178,23 +139,6 @@ template nginx_config do
   mode "0644"
   variables nginx_vars
   action nginx_server_enabled ? :create : :delete
-end
-
-template nginx_aerobase_js do
-  source "nginx-aerobase.js.erb"
-  owner web_server_user
-  group web_server_group
-  mode "0644"
-  variables nginx_vars
-  action nginx_server_enabled ? :create : :delete
-end
-
-ruby_block 'copy_gsg_html_sources' do
-  block do
-	FileUtils.cp_r "#{install_dir}/embedded/apps/aerobase-gsg-ui/.", "#{nginx_gsg_html_dir}"
-  end
-  action :run
-  only_if { aerobase_server_enabled }
 end
 
 ruby_block 'copy_mime_sources' do

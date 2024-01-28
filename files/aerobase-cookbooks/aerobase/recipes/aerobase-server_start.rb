@@ -18,5 +18,14 @@
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 service_name = "Aerobase-Application-Server"
 
-execute "#{server_dir}/bin/service.bat restart /name #{service_name}" do
+# Stop aerobase-server first
+if os_helper.is_windows?
+  execute "restart aerobase-server service" do
+    command "#{server_dir}/bin/aerobasesw.exe restart"
+  end
+  ruby_block "Waiting 30 seconds for aerobase-server service to restart ..." do
+    block do
+      sleep 30
+    end
+  end
 end

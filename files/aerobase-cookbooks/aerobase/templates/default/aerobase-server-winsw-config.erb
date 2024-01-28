@@ -1,17 +1,16 @@
 <configuration>
   
   <!-- ID of the service. It should be unique across the Windows system-->
-  <id>Aerobase-Gateway-Server</id>
+  <id>Aerobase-Application-Server</id>
   <!-- Display name of the service -->
-  <name><%= @srv_label %> Gateway</name>
+  <name><%= @srv_label %> IAM Server</name>
   <!-- Service description -->
-  <description><%= @srv_label %> Gateway (Powered by Aerobase)</description>
+  <description><%= @srv_label %> IAM Server (Powered by Aerobase)</description>
   
   <!-- Path to the executable, which should be started -->
-  <executable><%= @nginx_dir %>\nginx.exe</executable>
+  <executable><%= @server_dir %>\nkc.bat start --log="console,file"</executable>
   <% if @delayed_start %>
   <delayedAutoStart/>
   <% end %>
   <stopparentprocessfirst>true</stopparentprocessfirst>
-  
 </configuration>

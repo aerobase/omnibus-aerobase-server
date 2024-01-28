@@ -18,34 +18,15 @@
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Aerobase packages
 
+os_helper = OsHelper.new(node)
+
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
-modules_dir = "#{server_dir}/modules/com/mysql/jdbc/main"
+modules_dir = "#{server_dir}/lib/lib/main"
 
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
-
-os_helper = OsHelper.new(node)
-# These directories do not need to be writable for aerobase-server
-[
-  modules_dir
-].each do |dir_name|
-  directory dir_name do
-    owner aerobase_user
-    group aerobase_group
-    mode 0775
-    recursive true
-  end
-end
-
-# Add postgres module
-template "#{modules_dir}/module.xml" do
-  owner aerobase_user
-  group aerobase_group
-  mode 0755
-  source "wildfly-mysql-module.xml.erb"
-end
 
 file_seperator = "//"
 if os_helper.is_windows?

@@ -45,7 +45,7 @@ ruby_block "Waiting 5 seconds for nginx service to stop ..." do
   end
 end
 			 
-directory nginx_dir do
+directory "#{nginx_dir}" do
   if web_server_group
     rights :full_control, web_server_group, :applies_to_children => true
   end

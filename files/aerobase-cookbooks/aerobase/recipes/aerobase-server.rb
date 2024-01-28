@@ -36,33 +36,17 @@ unifiedpush_vars = node['unifiedpush']['aerobase-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 all_vars = unifiedpush_vars.merge(global_vars)
 
-# Windows Only service related 
-service_start = node['unifiedpush']['global']['srv_start']
-service_delayed_start = node['unifiedpush']['aerobase-server']['delayed_start']
-service_name = "Aerobase-Application-Server"
-
 # Stop windows service before we try to override files.
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do
-    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
-  end
-  
-  ruby_block "Waiting 15 seconds for #{service_name} service to stop" do
-    block do
-      sleep 15
-    end
-    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
-  end
+  include_recipe "aerobase::aerobase-server_stop"
 else
   execute "/opt/aerobase/bin/aerobase-ctl stop aerobase-server" do
     retries 20
-    only_if { ::File.exist? "#{server_dir}/bin/standalone.sh" }
+    only_if { ::File.exist? "#{server_dir}/bin/ks.sh" }
   end
 end
 
 include_recipe "aerobase::keycloak-server"
-include_recipe "aerobase::wildfly-server"
-include_recipe "aerobase::aerobase-server-wildfly-conf"
 
 # create themes dir
 directory "#{server_dir}/themes" do
@@ -104,18 +88,7 @@ else
 end
 
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat install /startup /config standalone-ha.xml" do
-  end
-
-  # https://issues.apache.org/jira/browse/DAEMON-303
-  # Delayed start not supported by prunsrv
-  execute "sc config \"#{service_name}\" start= delayed-auto" do 
-    only_if { service_delayed_start }
-  end 
- 
-  if service_start 
-    include_recipe "aerobase::aerobase-server_start"
-  end
+  include_recipe "aerobase::aerobase-server-win-service"
 else
   component_runit_service "aerobase-server" do
     package "unifiedpush"

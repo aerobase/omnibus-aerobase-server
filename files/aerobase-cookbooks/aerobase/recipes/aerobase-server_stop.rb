@@ -21,19 +21,19 @@ os_helper = OsHelper.new(node)
 # DO NOT change this value unless you are building your own Aerobase packages
 install_dir = node['package']['install-dir']
 server_dir = node['unifiedpush']['aerobase-server']['dir']
-service_name = "Aerobase-Application-Server"
 
-# TODO - Wait until service is down or 60 seconds
-# Stop windows service before we try to override files.
+# Stop service first
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat stop /name #{service_name}" do
-    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
+  execute "stop aerobase-server service" do
+    command "echo 'Stoping aerobase-server service ...'"
+    only_if { cmd_helper.success("#{server_dir}/bin/aerobasesw.exe stop") }
   end
-  
-  ruby_block "Waiting 60 seconds for #{service_name} service to stop" do
+
+  ruby_block "Waiting 30 seconds for aerobase-server service to stop ..." do
     block do
-      sleep 60
+      sleep 30
     end
-    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
   end
 end
+
+

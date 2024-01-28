@@ -1,9 +1,0 @@
-    location = /getting-started/ {
-        sub_filter '</body>' '<script src="../aerobase.js"></script>
-</body>';
-        sub_filter_once on;
-
-        ## Serve static files from defined root folder.
-        root <%= @html_dir %>;
-        try_files $uri $uri/index.html $uri.html @unifiedpush;
-    }
