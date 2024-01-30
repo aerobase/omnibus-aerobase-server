@@ -29,13 +29,15 @@ gem -v
 mvn -v 
 git --version
 
-gem install bundler -v 2.2.8
-gem install omnibus -v 8.0.9
-gem install rack -v 2.2.3.1
+gem install bundler -v 2.4.22
+gem install omnibus -v 9.0.24
+gem install rack -v 3.0.8
 
 bundle update
-bundle install --without development --binstubs
-gem install berkshelf -v 7.0.10
+bundle config set --local without 'development'
+bundle install --all
+
+gem install berkshelf -v 8.0.9
 berks vendor files/aerobase-cookbooks/
 
 git submodule init
