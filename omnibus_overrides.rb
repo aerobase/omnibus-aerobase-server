@@ -1,10 +1,12 @@
-override :ohai, version: "v18.1.17"
-override :ruby, version: "3.2.2"
+override :chef, version: "v17.10.119"
+override :ohai, version: "v17.9.1"
+override :ruby, version: "3.0.6"
 override :rack, version: "2.2.3.1"
-override :bundler, version: "2.2.8"
+override :bundler, version: "2.4.22"
 override :appundler, version: "v0.13.2"
 override :gtar, version: "1.34"
 override :curl, version: "7.68.0"
+
 # THIS IS NOW HAND MANAGED, JUST EDIT THE THING
 # keep it machine-parsable since CI uses it
 #
@@ -26,4 +28,4 @@ override "pkg-config-lite", version: "0.28-1"
 override "ruby-windows-devkit-bash", version: "3.1.23-4-msys-1.0.18"
 override "util-macros", version: "1.19.0"
 override "xproto", version: "7.0.31"
-override "zlib", version: "1.2.13"
+override "zlib", version: "1.2.11"

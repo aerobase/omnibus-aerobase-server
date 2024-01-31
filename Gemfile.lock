@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/aerobase/omnibus-software.git
-  revision: 233d0d39b06c5e9f350c637b776c90684cb38517
+  revision: e6cf4cd33c1a5660b274531cdb6015150f70939a
   tag: kc-upgrade
   specs:
     omnibus-software (24.1.310)
@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: https://github.com/chef/omnibus.git
-  revision: 57681e3d8a372d5cf5349344f789e0fd77d7889c
-  tag: 9.0.25
+  revision: 81d8653dc294735c8de871953189e8595503aa84
+  tag: 9.0.24
   specs:
-    omnibus (9.0.25)
+    omnibus (9.0.24)
       aws-sdk-s3 (~> 1.116.0)
       chef-cleanroom (~> 1.0)
       chef-utils (>= 15.4)
@@ -49,20 +49,19 @@ GEM
     aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
     chef-cleanroom (1.0.5)
-    chef-config (18.3.0)
+    chef-config (18.4.2)
       addressable
-      chef-utils (= 18.3.0)
+      chef-utils (= 18.4.2)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (18.3.0)
+    chef-utils (18.4.2)
       concurrent-ruby
     citrus (3.0.2)
     concurrent-ruby (1.2.3)
     contracts (0.16.1)
     ffi (1.16.3)
-    ffi (1.16.3-x64-mingw32)
     ffi-win32-extensions (1.0.4)
       ffi
     ffi-yajl (2.6.0)
@@ -84,6 +83,11 @@ GEM
     mixlib-shellout (3.2.7)
       chef-utils
     mixlib-shellout (3.2.7-universal-mingw32)
+      chef-utils
+      ffi-win32-extensions (~> 1.0.3)
+      win32-process (~> 0.9)
+      wmi-lite (~> 1.0)
+    mixlib-shellout (3.2.7-x64-mingw-ucrt)
       chef-utils
       ffi-win32-extensions (~> 1.0.3)
       win32-process (~> 0.9)
@@ -134,6 +138,7 @@ GEM
     zhexdump (0.0.2)
 
 PLATFORMS
+  x64-mingw-ucrt
   x64-mingw32
   x86_64-linux
 
@@ -143,4 +148,4 @@ DEPENDENCIES
   omnibus-software!
 
 BUNDLED WITH
-   2.2.8
+   2.4.22
