@@ -20,14 +20,14 @@ maintainer "Aerobase Software, Inc. <maintainers@aerobase.io>"
 homepage "https://aerobase.io"
 license "Apache-2.0"
 license_file "LICENSE"
-build_version IO.read(File.expand_path("../../../VERSION", __FILE__)).strip
-build_iteration IO.read(File.expand_path("../../../ITERATION", __FILE__)).strip
 
-# In order to prevent unecessary cache expiration,
-# package and package version overrides, build_version
-# and build_iteration are kept in <project-root>/omnibus_overrides.rb
-overrides_path = File.expand_path("../../../omnibus_overrides.rb", __FILE__)
-instance_eval(IO.read(overrides_path), overrides_path)
+# Do not use __FILE__ after this point, use current_file. If you use __FILE__
+# after this point, any dependent defs (ex: angrychef) that use instance_eval
+# will fail to work correctly.
+current_file ||= __FILE__
+
+build_version IO.read(File.expand_path("../../../VERSION", current_file)).strip
+build_iteration IO.read(File.expand_path("../../../ITERATION", current_file)).strip
 
 if windows?
   name "Aerobase"
@@ -36,6 +36,10 @@ else
   name "aerobase"
   install_dir  "#{default_root}/#{name}"
 end 
+
+# Load dynamically updated overrides
+overrides_path = File.expand_path("../../../omnibus_overrides.rb", current_file)
+instance_eval(IO.read(overrides_path), overrides_path)
 
 # Creates required build directories
 dependency "preparation"
@@ -49,12 +53,11 @@ dependency "aerobase"
 dependency "openjdk"
 # Must be after aerobase deps to prevent errors
 dependency "omnibus-ctl-nofisp"
-
 dependency "gem-permissions"
-dependency "shebang-cleanup"
-dependency "ruby-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
+dependency "shebang-cleanup"
+dependency "ruby-cleanup"
 
 package :rpm do
   compression_level 6
