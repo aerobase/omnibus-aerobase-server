@@ -5,7 +5,7 @@ REM # Load the base Omnibus environment
 REM ###############################################################
 
 set HOMEDRIVE=C:\
-set HOMEPATH=omnibus-ruby
+set HOMEPATH=Aerobase
 set PATH=C:\Program Files (x86)\WiX Toolset v3.11\bin;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Ruby30-x64\msys64\usr\bin;C:\Ruby30-x64\msys64\mingw64\bin;C:\Ruby30-x64\bin;%PATH%
 set MSYSTEM=MINGW64
 set OMNIBUS_WINDOWS_ARCH=x64

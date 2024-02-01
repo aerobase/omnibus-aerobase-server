@@ -29,7 +29,7 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   bundle "config set --local without 'development'", env: env
-  bundle "install --all", env: env
+  bundle "install", env: env
 
   gem "build public_suffix.gemspec", env: env
   gem "install public_suffix-*.gem" \

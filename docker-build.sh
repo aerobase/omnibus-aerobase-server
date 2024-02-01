@@ -29,7 +29,7 @@ gem -v
 mvn -v 
 git --version
 
-gem install bundler -v 2.4.22
+gem install bundler -v 2.3.18
 gem install omnibus -v 9.0.24
 gem install rack -v 3.0.8
 

@@ -14,14 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-if windows?
-  name "Aerobase"
-  install_dir  "#{default_root}/Aerobase/#{name}"
-else
-  name "aerobase"
-  install_dir  "#{default_root}/#{name}"
-end 
-
 package_name    "aerobase-openjdk"
 friendly_name   "Aerobase Platform"
 maintainer "Aerobase Software, Inc. <maintainers@aerobase.io>"
@@ -36,6 +28,14 @@ build_iteration IO.read(File.expand_path("../../../ITERATION", __FILE__)).strip
 # and build_iteration are kept in <project-root>/omnibus_overrides.rb
 overrides_path = File.expand_path("../../../omnibus_overrides.rb", __FILE__)
 instance_eval(IO.read(overrides_path), overrides_path)
+
+if windows?
+  name "Aerobase"
+  install_dir  "#{default_root}/Aerobase/#{name}"
+else
+  name "aerobase"
+  install_dir  "#{default_root}/#{name}"
+end 
 
 # Creates required build directories
 dependency "preparation"
@@ -52,6 +52,7 @@ dependency "omnibus-ctl-nofisp"
 
 dependency "gem-permissions"
 dependency "shebang-cleanup"
+dependency "ruby-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
 
