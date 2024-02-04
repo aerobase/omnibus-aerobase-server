@@ -17,6 +17,8 @@
 # https://aerobase.atlassian.net/browse/AEROBASE-131
 
 name "omnibus-ctl-nofisp"
+default_version "1.0.0"
+
 dependency "omnibus-ctl"
 
 license :project_license

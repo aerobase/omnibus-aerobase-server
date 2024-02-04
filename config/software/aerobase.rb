@@ -1,4 +1,5 @@
 name "aerobase"
+default_version "1.0.0"
 
 skip_transitive_dependency_licensing true
 
