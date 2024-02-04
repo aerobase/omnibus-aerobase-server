@@ -16,6 +16,7 @@
 #
 
 name "aerobase-config-template"
+default_version "1.0.0"
 
 build do
   command "mkdir -p #{install_dir}/etc"
