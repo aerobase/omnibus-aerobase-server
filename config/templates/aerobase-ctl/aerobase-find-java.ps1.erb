@@ -31,7 +31,7 @@ Param(
     [Parameter(HelpMessage = "Preferred Java vendor")][String][ValidateSet("Oracle", "OpenJDK", "IBM", "Zulu", "Any")]$Vendor = "Any",
     [Parameter(HelpMessage = "Preferred Java architecture")][String][ValidateSet("32", "32bit", "64", "64bit", "Match", "All")]$Architecture = "Match",
     [Parameter(HelpMessage = "Preferred Java package")][String][ValidateSet("JRE", "JDK", "Server-JRE", "Any")]$Package = "Any",
-    [Parameter(HelpMessage = "Preferred Java version")][String][ValidateSet("1.6", "1.7", "1.8", "9", "10", "11", "Latest")]$Version = "Latest",
+    [Parameter(HelpMessage = "Preferred Java version")][String][ValidateSet("17", "Latest")]$Version = "Latest",
     [Switch]$SetSession,
     [Switch]$SetUser,
     [Switch]$SetSystem,

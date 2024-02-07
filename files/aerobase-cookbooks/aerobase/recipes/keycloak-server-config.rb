@@ -80,6 +80,7 @@ include_recipe "aerobase::mysql-module-conf"
 include_recipe "aerobase::mariadb-module-conf"
 
 if database_adapter == 'postgresql'
+  db_adapter = "postgres"
   jdbc_url = pgsql_helper.psql_jdbc_url(database_host, database_port, database_name)
   jdbc_hbm_dialect = "org.hibernate.dialect.PostgreSQL95Dialect"
   jdbc_driver_name = "postgresql"
@@ -88,6 +89,7 @@ if database_adapter == 'postgresql'
 end
 
 if database_adapter == 'mssql'
+  db_adapter = database_adapter
   jdbc_url = mssql_helper.mssql_jdbc_url(database_host, database_port, database_name, database_username, database_password)
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect"
   jdbc_driver_name = "sqlserver"
@@ -96,6 +98,7 @@ if database_adapter == 'mssql'
 end
 
 if mysql_helper.is_mysql_type
+  db_adapter = database_adapter
   jdbc_url = mysql_helper.mysql_jdbc_url(database_host, database_port, database_name)
   jdbc_hbm_dialect = mysql_helper.mysql_jdbc_hbm_dialect
   jdbc_driver_name = mysql_helper.mysql_type
@@ -111,7 +114,8 @@ template "#{server_dir}/conf/keycloak.conf" do
   mode 0755
   source "keycloak-conf.erb"
   variables(keycloak_vars.merge(global_vars).merge({
-    :jdbc_url => jdbc_url
+    :db_adapter :=> db_adapter,
+    :jdbc_url => jdbc_url,
     :jdbc_driver_name => jdbc_driver_name,
     :jdbc_driver_module_name => jdbc_driver_module_name,
     :jdbc_driver_class_name => jdbc_driver_class_name

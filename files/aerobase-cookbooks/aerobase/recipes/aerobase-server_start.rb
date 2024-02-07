@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+os_helper = OsHelper.new(node)
+
 server_dir = node['unifiedpush']['aerobase-server']['dir']
 service_name = "Aerobase-Application-Server"
 

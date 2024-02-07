@@ -31,8 +31,8 @@ if os_helper.is_windows?
     action :create
     binary_path_name "\"#{install_dir}/embedded/bin/pg_ctl.exe\" runservice -N \"#{win_service_name}\" -D \"#{postgresql_data_dir}\" -w"
     startup_type :automatic
-	delayed_start postgresql_delayed_start
-	display_name "#{service_label} PostgreSQL" 
+    delayed_start postgresql_delayed_start
+    display_name "#{service_label} PostgreSQL" 
     description "#{service_label} PostgreSQL (Powered by Aerobase)"
   end
 

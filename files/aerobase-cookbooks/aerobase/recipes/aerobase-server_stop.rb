@@ -16,6 +16,7 @@
 #
 
 os_helper = OsHelper.new(node)
+cmd_helper = CmdHelper.new(node)
 
 # Default location of install-dir is /opt/aerobase/. This path is set during build time.
 # DO NOT change this value unless you are building your own Aerobase packages
@@ -32,6 +33,7 @@ if os_helper.is_windows?
   ruby_block "Waiting 30 seconds for aerobase-server service to stop ..." do
     block do
       sleep 30
+      only_if { cmd_helper.success("#{server_dir}/bin/aerobasesw.exe stop") }
     end
   end
 end

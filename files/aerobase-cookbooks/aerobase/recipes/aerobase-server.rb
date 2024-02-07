@@ -59,8 +59,8 @@ end
 ruby_block 'copy_aerobase_theme' do
   block do
     FileUtils.cp_r "#{install_dir}/embedded/apps/themes/.", "#{server_dir}/themes"
-    FileUtils.cp_r "#{install_dir}/embedded/apps/themes/aerobase/admin/resources/img/logo.png", "#{server_dir}/themes/keycloak/admin/resources/img/keyclok-logo.png"
-    FileUtils.cp_r "#{install_dir}/embedded/apps/themes/aerobase/admin/resources/img/favicon.ico", "#{server_dir}/themes/keycloak/admin/resources/img/favicon.ico"
+    #FileUtils.cp_r "#{install_dir}/embedded/apps/themes/aerobase/admin/resources/img/logo.png", "#{server_dir}/themes/keycloak/admin/resources/img/keyclok-logo.png"
+    #FileUtils.cp_r "#{install_dir}/embedded/apps/themes/aerobase/admin/resources/img/favicon.ico", "#{server_dir}/themes/keycloak/admin/resources/img/favicon.ico"
   end
   action :run
 end

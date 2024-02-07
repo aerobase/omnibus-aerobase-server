@@ -17,7 +17,7 @@
 
 add_command 'status', 'Status for windows service', 2 do |cmd_name, props|
   if !::File.exists? "#{etc_path}/aerobase.rb" then
-    abort('It looks like aerobase has not been installed yet; skipping tail '\
+    abort('It looks like aerobase has not been installed yet; skipping status '\
       'script.')
   end
   
