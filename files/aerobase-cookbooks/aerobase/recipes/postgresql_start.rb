@@ -33,7 +33,6 @@ if os_helper.is_windows?
     startup_type :automatic
     delayed_start postgresql_delayed_start
     display_name "#{service_label} PostgreSQL" 
-    description "#{service_label} PostgreSQL (Powered by Aerobase)"
   end
 
   service "#{win_service_name}" do

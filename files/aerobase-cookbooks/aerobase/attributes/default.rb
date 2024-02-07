@@ -157,16 +157,16 @@ default['unifiedpush']['postgresql']['semopm'] = 32
 default['unifiedpush']['postgresql']['semmni'] = ((node['unifiedpush']['postgresql']['max_connections'].to_i / 16) + 250)
 
 # Resolves CHEF-3889
-if (node['memory']['total'].to_i / 4) > ((node['unifiedpush']['postgresql']['shmmax'].to_i / 1024) - 2097152)
+if (node['memory']['total'].to_i / 8) > ((node['unifiedpush']['postgresql']['shmmax'].to_i / 1024) - 2097152)
   # guard against setting shared_buffers > shmmax on hosts with installed RAM > 64GB
   # use 2GB less than shmmax as the default for these large memory machines
   default['unifiedpush']['postgresql']['shared_buffers'] = "14336MB"
 else
-  default['unifiedpush']['postgresql']['shared_buffers'] = "#{(node['memory']['total'].to_i / 4) / (1024)}MB"
+  default['unifiedpush']['postgresql']['shared_buffers'] = "#{(node['memory']['total'].to_i / 8) / (1024)}MB"
 end
 
 default['unifiedpush']['postgresql']['work_mem'] = "8MB"
-default['unifiedpush']['postgresql']['effective_cache_size'] = "#{(node['memory']['total'].to_i / 2) / (1024)}MB"
+default['unifiedpush']['postgresql']['effective_cache_size'] = "#{(node['memory']['total'].to_i / 8) / (1024)}MB"
 default['unifiedpush']['postgresql']['max_wal_size'] = "1GB"
 default['unifiedpush']['postgresql']['checkpoint_timeout'] = "5min"
 default['unifiedpush']['postgresql']['checkpoint_completion_target'] = 0.9

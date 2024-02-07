@@ -114,7 +114,7 @@ template "#{server_dir}/conf/keycloak.conf" do
   mode 0755
   source "keycloak-conf.erb"
   variables(keycloak_vars.merge(global_vars).merge({
-    :db_adapter :=> db_adapter,
+    :db_adapter => db_adapter,
     :jdbc_url => jdbc_url,
     :jdbc_driver_name => jdbc_driver_name,
     :jdbc_driver_module_name => jdbc_driver_module_name,
