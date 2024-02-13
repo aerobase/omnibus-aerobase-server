@@ -8,7 +8,8 @@
   <description><%= @srv_label %> IAM Server (Powered by Aerobase)</description>
   
   <!-- Path to the executable, which should be started -->
-  <executable><%= @server_dir %>\bin\kc.bat start --log="file"</executable>
+  <executable><%= @service_command %></executable>
+  <arguments><%= @service_args %></arguments>
   <% if @delayed_start %>
   <delayedAutoStart/>
   <% end %>

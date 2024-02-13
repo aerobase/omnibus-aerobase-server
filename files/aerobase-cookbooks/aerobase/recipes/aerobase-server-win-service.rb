@@ -40,9 +40,9 @@ execute "stop aerobase-server service" do
   only_if { cmd_helper.success("#{server_dir}/bin/aerobasesw.exe stop") }
 end
 
-ruby_block "Waiting 30 seconds for aerobase-server service to stop ..." do
+ruby_block "Waiting 2 seconds for aerobase-server service to stop ..." do
   block do
-    sleep 30
+    sleep 2
   end
 end
 			 
@@ -60,11 +60,6 @@ directory "#{server_dir}/temp" do
   mode '0750'
 end
 
-execute "uninstall aerobase-server service" do
-  command "#{server_dir}/bin/aerobasesw.exe uninstall"
-  only_if { ::File.exist? "#{server_dir}/bin/aerobasesw.exe" }
-end
-
 ruby_block 'copy_aerobase_server_winsw' do
   block do
     FileUtils.cp "#{install_dir}/embedded/apps/winsw/aerobasesw.exe", "#{server_dir}/bin"
@@ -77,7 +72,19 @@ template "#{server_dir}/bin/aerobasesw.xml" do
   owner aerobase_user
   group aerobase_group
   mode "0644"
-  variables all_vars
+  variables(
+    lazy do
+      all_vars.merge({
+        :service_command => node['unifiedpush']['aerobase-server']['service_command'],
+		:service_args =>  node['unifiedpush']['aerobase-server']['service_args']
+      })
+	end
+  )
+end
+
+execute "uninstall aerobase-server service" do
+  command "#{server_dir}/bin/aerobasesw.exe uninstall"
+  only_if { ::File.exist? "#{server_dir}/bin/aerobasesw.exe" }
 end
 
 execute "install aerobase-server service" do

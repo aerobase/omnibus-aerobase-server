@@ -30,9 +30,9 @@ if os_helper.is_windows?
     only_if { cmd_helper.success("#{server_dir}/bin/aerobasesw.exe stop") }
   end
 
-  ruby_block "Waiting 30 seconds for aerobase-server service to stop ..." do
+  ruby_block "Waiting 2 seconds for aerobase-server service to stop ..." do
     block do
-      sleep 30
+      sleep 2
       only_if { cmd_helper.success("#{server_dir}/bin/aerobasesw.exe stop") }
     end
   end

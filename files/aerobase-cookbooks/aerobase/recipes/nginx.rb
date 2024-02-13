@@ -68,9 +68,6 @@ aerobase_http_conf = File.join(nginx_conf_dir, "aerobase-http.conf")
 aerobase_cache_conf = File.join(nginx_conf_dir, "aerobase-proxy-cache.conf")
 aerobase_locations_import = File.join(nginx_conf_dir, "aerobase-locations.import")
 aerobase_sub_module_import = File.join(nginx_conf_dir, "aerobase-sub-module.import")
-subdomains_http_conf = File.join(nginx_conf_dir, "aerobase-subdomains.conf")
-subdomains_http_service_conf = File.join(nginx_html_dir, "mobile-services.json")
-subdomains_http_auth_conf = File.join(nginx_html_dir, "aerobase.json")
 nginx_aerobase_js = File.join(nginx_html_dir, "aerobase.js")
 
 # If the service is enabled, check if we are using internal nginx
@@ -86,10 +83,9 @@ top_domain = node['unifiedpush']['global']['top_domain']
 # Include the config file for aerobase-server in nginx.conf later
 nginx_vars = node['unifiedpush']['nginx'].to_hash.merge({
 		:aerobase_http_conf => aerobase_server_enabled || keycloak_server_enabled ? aerobase_http_conf : nil,
-		:subdomains_http_conf => aerobase_server_enabled || keycloak_server_enabled ? subdomains_http_conf : nil,
 		:aerobase_http_configd => nginx_confd_dir,
 		:aerobase_cache_conf => aerobase_cache_conf,
-                :server_contactpoints => aerobase_server_contactpoints,
+    :server_contactpoints => aerobase_server_contactpoints,
 		:fqdn => aerobase_server_fqdn,
 		:aerobase_server_port => aerobase_server_port,
 		:html_dir => "www/html",
