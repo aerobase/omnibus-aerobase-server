@@ -60,14 +60,17 @@
 
 # - Connection Settings -
 
-listen_addresses =  'localhost' # what IP address(es) to listen on;
+listen_addresses =  '<%= node['unifiedpush']['postgresql']['listen_address'] %>' # what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost'; use '*' for all
 					# (change requires restart)
-port = 5432		# (change requires restart)
-max_connections = 200			# (change requires restart)
+port = <%= node['unifiedpush']['postgresql']['port'] %>		# (change requires restart)
+max_connections = <%= node['unifiedpush']['postgresql']['max_connections'] %>			# (change requires restart)
 #superuser_reserved_connections = 3	# (change requires restart)
-unix_socket_directories = 'C:/Aerobase/Data/postgresql'	# comma-separated list of directories
+<% if @unix_system %>
+unix_socket_directories = '<%= node['unifiedpush']['postgresql']['dir'] %>'	# comma-separated list of directories
+<% end %>
+#unix_socket_directories = ''	# comma-separated list of directories
 					# (change requires restart)
 #unix_socket_group = ''			# (change requires restart)
 #unix_socket_permissions = 0777		# begin with 0 to use octal notation
@@ -127,7 +130,7 @@ unix_socket_directories = 'C:/Aerobase/Data/postgresql'	# comma-separated list o
 
 # - Memory -
 
-shared_buffers = 3839MB			# min 128kB
+shared_buffers = <%= node['unifiedpush']['postgresql']['shared_buffers'] %>			# min 128kB
 					# (change requires restart)
 #huge_pages = try			# on, off, or try
 					# (change requires restart)
@@ -138,7 +141,7 @@ shared_buffers = 3839MB			# min 128kB
 					# (change requires restart)
 # Caution: it is not advisable to set max_prepared_transactions nonzero unless
 # you actively intend to use prepared transactions.
-work_mem = 8MB				# min 64kB
+work_mem = <%= node['unifiedpush']['postgresql']['work_mem'] %>				# min 64kB
 #hash_mem_multiplier = 2.0		# 1-1000.0 multiplier on hash table work_mem
 #maintenance_work_mem = 64MB		# min 1MB
 #autovacuum_work_mem = -1		# min 1MB, or -1 to use maintenance_work_mem
@@ -150,7 +153,7 @@ work_mem = 8MB				# min 64kB
 					#   sysv
 					#   windows
 					# (change requires restart)
-dynamic_shared_memory_type = windows	# the default is usually the first option
+dynamic_shared_memory_type = <%= @shared_memory %>	# the default is usually the first option
 					# supported by the operating system:
 					#   posix
 					#   sysv
@@ -237,11 +240,11 @@ dynamic_shared_memory_type = windows	# the default is usually the first option
 
 # - Checkpoints -
 
-checkpoint_timeout = 5min		# range 30s-1d
-checkpoint_completion_target = 0.9	# checkpoint target duration, 0.0 - 1.0
+checkpoint_timeout = <%= node['unifiedpush']['postgresql']['checkpoint_timeout'] %>		# range 30s-1d
+checkpoint_completion_target = <%= node['unifiedpush']['postgresql']['checkpoint_completion_target'] %>	# checkpoint target duration, 0.0 - 1.0
 #checkpoint_flush_after = 0		# measured in pages, 0 disables
-checkpoint_warning = 30s		# 0 disables
-max_wal_size = 1GB
+checkpoint_warning = <%= node['unifiedpush']['postgresql']['checkpoint_warning'] %>		# 0 disables
+max_wal_size = <%= node['unifiedpush']['postgresql']['max_wal_size'] %>
 min_wal_size = 80MB
 
 # - Prefetching during recovery -
@@ -403,7 +406,7 @@ min_wal_size = 80MB
 #parallel_tuple_cost = 0.1		# same scale as above
 #min_parallel_table_scan_size = 8MB
 #min_parallel_index_scan_size = 512kB
-effective_cache_size = 7679MB
+effective_cache_size = <%= node['unifiedpush']['postgresql']['effective_cache_size'] %>
 
 #jit_above_cost = 100000		# perform JIT compilation if available
 					# and query more expensive than this;
@@ -444,31 +447,31 @@ effective_cache_size = 7679MB
 
 # - Where to Log -
 
-#log_destination = 'stderr'		# Valid values are combinations of
+log_destination = 'stderr'		# Valid values are combinations of
 					# stderr, csvlog, jsonlog, syslog, and
 					# eventlog, depending on platform.
 					# csvlog and jsonlog require
 					# logging_collector to be on.
 
 # This is used when logging to stderr:
-#logging_collector = off		# Enable capturing of stderr, jsonlog,
+logging_collector = on		# Enable capturing of stderr, jsonlog,
 					# and csvlog into log files. Required
 					# to be on for csvlogs and jsonlogs.
 					# (change requires restart)
 
 # These are only used if logging_collector is on:
-#log_directory = 'log'			# directory where log files are written,
+log_directory = 'pg_log'			# directory where log files are written,
 					# can be absolute or relative to PGDATA
-#log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'	# log file name pattern,
+log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'	# log file name pattern,
 					# can include strftime() escapes
 log_file_mode = 0640			# creation mode for log files,
 					# begin with 0 to use octal notation
-#log_rotation_age = 1d			# Automatic rotation of logfiles will
+log_rotation_age = 1d			# Automatic rotation of logfiles will
 					# happen after that time.  0 disables.
-#log_rotation_size = 10MB		# Automatic rotation of logfiles will
+log_rotation_size = 10MB		# Automatic rotation of logfiles will
 					# happen after that much log output.
 					# 0 disables.
-#log_truncate_on_rotation = off		# If on, an existing log file with the
+log_truncate_on_rotation = on		# If on, an existing log file with the
 					# same name as the new log file will be
 					# truncated rather than appended to.
 					# But such truncation only occurs on
@@ -725,11 +728,10 @@ timezone = 'Atlantic/Reykjavik'
 					# encoding
 
 # These settings are initialized by initdb, but they can be changed.
-lc_messages = 'English_United States.1252'			# locale for system error message
-									# strings
-lc_monetary = 'English_United States.1252'			# locale for monetary formatting
-lc_numeric = 'English_United States.1252'			# locale for number formatting
-lc_time = 'English_United States.1252'				# locale for time formatting
+lc_messages = '<%= @encoding %>'
+lc_monetary = '<%= @encoding %>'
+lc_numeric = '<%= @encoding %>'
+lc_time = '<%= @encoding %>'
 
 # default configuration for text search
 default_text_search_config = 'pg_catalog.english'
