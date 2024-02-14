@@ -149,7 +149,7 @@ ruby_block "Prepare java command for windows services" do
     block do
         #tricky way to load this Chef::Mixin::ShellOut utilities
         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-        command = "#{server_dir}/bin/#{cli_cmd} start --log=\"file\""
+        command = "#{server_dir}/bin/#{cli_cmd} start --log=\"file\" --import-realm"
         command_out = shell_out(command)
         node.override['unifiedpush']['aerobase-server']['service_command'] = command_out.stdout.split(/\n/).first.chomp
 		node.override['unifiedpush']['aerobase-server']['service_args'] = command_out.stdout.split(/\n/).last.chomp

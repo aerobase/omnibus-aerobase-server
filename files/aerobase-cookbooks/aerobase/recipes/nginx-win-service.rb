@@ -66,11 +66,6 @@ ruby_block 'copy_nginx_index_html' do
   action :run
 end
 
-execute "uninstall nginx service" do
-  command "#{nginx_dir}/aerobasesw.exe uninstall"
-  only_if { ::File.exist? "#{nginx_dir}/aerobasesw.exe" }
-end
-
 ruby_block 'copy_nginx_winsw' do
   block do
     FileUtils.cp "#{install_dir}/embedded/apps/winsw/aerobasesw.exe", "#{nginx_dir}"
@@ -91,6 +86,10 @@ ruby_block 'copy_nginx_exe' do
     FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
   end
   action :run
+end
+
+execute "uninstall nginx service" do
+  command "#{nginx_dir}/aerobasesw.exe uninstall"
 end
 
 execute "install nginx service" do
