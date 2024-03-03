@@ -124,6 +124,8 @@ end
 
 if os_helper.is_windows?
   cli_cmd = "kc.bat"
+  cli_echo_cmd = "kc-echo.bat"
+  file_seperator = "///"
 else
   cli_cmd = "kc.sh"
 end
@@ -132,10 +134,20 @@ execute 'KC datasource and config cli script' do
   command "#{server_dir}/bin/#{cli_cmd} build"
 end
 
+# Copy KC CLI
+remote_file "Copy KC cli file" do
+  path "#{server_dir}/bin/#{cli_echo_cmd}"
+  source "file:#{file_seperator}#{server_dir}/bin/#{cli_cmd}"
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  only_if { os_helper.is_windows? }
+end
+
 # prepare kc start command to echo and not exec
 ruby_block "Prepare echo command for windows service" do
   block do
-    fe = Chef::Util::FileEdit.new("#{server_dir}/bin/#{cli_cmd}")
+    fe = Chef::Util::FileEdit.new("#{server_dir}/bin/#{cli_echo_cmd}")
     fe.search_file_replace('"%JAVA%" !JAVA_RUN_OPTS!',
                                'echo "%JAVA%"')
 	fe.insert_line_after_match('echo "%JAVA%"',"    echo !JAVA_RUN_OPTS!")		   
@@ -149,7 +161,7 @@ ruby_block "Prepare java command for windows services" do
     block do
         #tricky way to load this Chef::Mixin::ShellOut utilities
         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-        command = "#{server_dir}/bin/#{cli_cmd} start --log=\"file\" --import-realm"
+        command = "#{server_dir}/bin/#{cli_echo_cmd} start --log=\"file\" --import-realm"
         command_out = shell_out(command)
         node.override['unifiedpush']['aerobase-server']['service_command'] = command_out.stdout.split(/\n/).first.chomp
 		node.override['unifiedpush']['aerobase-server']['service_args'] = command_out.stdout.split(/\n/).last.chomp

@@ -26,6 +26,8 @@ db-url=<%= @jdbc_url %>
 hostname-strict-https=false
 hostname-strict-http=false
 http-enabled=true
+http-relative-path=/auth
+
 # The file path to a server certificate or certificate chain in PEM format.
 #https-certificate-file=${kc.home.dir}conf/server.crt.pem
 
@@ -33,7 +35,7 @@ http-enabled=true
 #https-certificate-key-file=${kc.home.dir}conf/server.key.pem
 
 # The proxy address forwarding mode if the server is behind a reverse proxy.
-#proxy=reencrypt
+proxy=edge
 
 # Do not attach route to cookies and rely on the session affinity capabilities from reverse proxy
 #spi-sticky-session-encoder-infinispan-should-attach-route=false

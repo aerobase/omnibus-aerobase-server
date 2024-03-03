@@ -73,7 +73,7 @@ module Unifiedpush
     def parse_external_url
       return unless external_url
 
-      uri = URI(external_url.to_s)
+      uri = URI(external_url.to_s.downcase)
 
       unless uri.host
         raise "Aerobase external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
