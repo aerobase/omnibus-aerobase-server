@@ -44,6 +44,8 @@ database_name = node['unifiedpush']['keycloak-server']['db_database']
 database_username = node['unifiedpush']['keycloak-server']['db_username']
 database_password = node['unifiedpush']['keycloak-server']['db_password']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
+java_opts = node['unifiedpush']['aerobase-server']['java_opts']
+java_xmx = node['unifiedpush']['aerobase-server']['java_xmx']
 
 ruby_block 'copy_keycloak_sources' do
   block do
@@ -150,7 +152,11 @@ ruby_block "Prepare echo command for windows service" do
     fe = Chef::Util::FileEdit.new("#{server_dir}/bin/#{cli_echo_cmd}")
     fe.search_file_replace('"%JAVA%" !JAVA_RUN_OPTS!',
                                'echo "%JAVA%"')
-	fe.insert_line_after_match('echo "%JAVA%"',"    echo !JAVA_RUN_OPTS!")		   
+	fe.insert_line_after_match('echo "%JAVA%"',"    echo !JAVA_RUN_OPTS!")	
+
+	# Handle java additional arguments
+    fe.search_file_replace('-Xmx512m',"-Xmx#{java_xmx} #{java_opts}")
+	
     fe.write_file
   end
   only_if { os_helper.is_windows? }
