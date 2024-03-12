@@ -38,6 +38,7 @@ aerobase_group = account_helper.aerobase_group
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 
+start_flags = node['unifiedpush']['keycloak-server']['start_flags']
 database_host = node['unifiedpush']['keycloak-server']['db_host']
 database_port = node['unifiedpush']['keycloak-server']['db_port']
 database_name = node['unifiedpush']['keycloak-server']['db_database']
@@ -46,6 +47,7 @@ database_password = node['unifiedpush']['keycloak-server']['db_password']
 database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 java_opts = node['unifiedpush']['aerobase-server']['java_opts']
 java_xmx = node['unifiedpush']['aerobase-server']['java_xmx']
+
 
 ruby_block 'copy_keycloak_sources' do
   block do
@@ -167,7 +169,7 @@ ruby_block "Prepare java command for windows services" do
     block do
         #tricky way to load this Chef::Mixin::ShellOut utilities
         Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)      
-        command = "#{server_dir}/bin/#{cli_echo_cmd} start --log=\"file\" --import-realm"
+        command = "#{server_dir}/bin/#{cli_echo_cmd} start --log=\"file\" --import-realm #{start_flags}"
         command_out = shell_out(command)
         node.override['unifiedpush']['aerobase-server']['service_command'] = command_out.stdout.split(/\n/).first.chomp
 		node.override['unifiedpush']['aerobase-server']['service_args'] = command_out.stdout.split(/\n/).last.chomp
