@@ -15,19 +15,29 @@
 # limitations under the License.
 #
 
+# Default location of install-dir is /opt/aerobase/. This path is set during build time.
+# DO NOT change this value unless you are building your own Aerobase packages
+
+os_helper = OsHelper.new(node)
+
+install_dir = node['package']['install-dir']
+server_dir = node['unifiedpush']['aerobase-server']['dir']
+modules_dir = "#{server_dir}/lib/lib/main"
+
 account_helper = AccountHelper.new(node)
 aerobase_user = account_helper.aerobase_user
 aerobase_group = account_helper.aerobase_group
 
-server_dir = node['unifiedpush']['aerobase-server']['dir']
-keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
-global_vars = node['unifiedpush']['global'].to_hash
+file_seperator = "//"
+if os_helper.is_windows?
+  file_seperator = "///"
+end
 
-# Prepare ups realm json
-template "#{server_dir}/standalone/configuration/keycloak-server-aerobase-realm.json" do
+# Copy mariadb JDBC driver
+remote_file "Copy mariadb driver file" do
+  path "#{modules_dir}/mariadb-java-client-2.4.4.jar"
+  source "file:#{file_seperator}#{install_dir}/embedded/apps/mariadb/mariadb-java-client-2.4.4.jar"
   owner aerobase_user
   group aerobase_group
   mode 0755
-  source "keycloak-server-aerobase-realm-json.erb"
-  variables(keycloak_vars.merge(global_vars))
 end

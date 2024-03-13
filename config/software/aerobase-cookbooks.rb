@@ -17,6 +17,9 @@
 
 name "aerobase-cookbooks"
 license :project_license
+
+default_version "1.0.0"
+
 skip_transitive_dependency_licensing true
 
 source :path => File.expand_path("files/aerobase-cookbooks", Omnibus::Config.project_root)

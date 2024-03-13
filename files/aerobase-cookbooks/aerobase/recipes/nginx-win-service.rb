@@ -45,7 +45,7 @@ ruby_block "Waiting 5 seconds for nginx service to stop ..." do
   end
 end
 			 
-directory nginx_dir do
+directory "#{nginx_dir}" do
   if web_server_group
     rights :full_control, web_server_group, :applies_to_children => true
   end
@@ -64,11 +64,6 @@ ruby_block 'copy_nginx_index_html' do
     FileUtils.cp_r "#{install_dir}/embedded/html/.", "#{nginx_html_dir}"
   end
   action :run
-end
-
-execute "uninstall nginx service" do
-  command "#{nginx_dir}/aerobasesw.exe uninstall"
-  only_if { ::File.exist? "#{nginx_dir}/aerobasesw.exe" }
 end
 
 ruby_block 'copy_nginx_winsw' do
@@ -91,6 +86,10 @@ ruby_block 'copy_nginx_exe' do
     FileUtils.cp "#{install_dir}/embedded/sbin/nginx.exe", "#{nginx_dir}"
   end
   action :run
+end
+
+execute "uninstall nginx service" do
+  command "#{nginx_dir}/aerobasesw.exe uninstall"
 end
 
 execute "install nginx service" do

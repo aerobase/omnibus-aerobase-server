@@ -14,11 +14,11 @@
 #
 
 name "postgresql-jdbc"
-default_version "42.2.12"
+default_version "42.7.1"
 skip_transitive_dependency_licensing true
 
-version "42.2.12" do
-  source md5: "f8d55c8180c54ce6c713025faf459fd5"
+version "42.7.1" do
+  source md5: "b4eb1aeaee4d3465b58f910ef47a0d49"
 end
 
 source url: "https://jdbc.postgresql.org/download/postgresql-#{version}.jar"

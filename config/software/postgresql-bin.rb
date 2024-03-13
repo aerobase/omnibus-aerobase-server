@@ -15,10 +15,10 @@
 #
 
 name "postgresql-bin"
-default_version "9.6.9-1"
+default_version "15.5-1"
 
-version "9.6.9-1" do
-  source md5: "a3bc0afea4f31ec27ebf2ed4a80c9476"
+version "15.5-1" do
+  source md5: "5b8d9a2d5144b914e175002fbfeb9555"
 end
 
 source url: "https://get.enterprisedb.com/postgresql/postgresql-#{version}-windows-x64-binaries.zip"

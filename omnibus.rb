@@ -32,8 +32,9 @@ env_omnibus_windows_arch = :x86 unless %w{x86 x64}.include?(env_omnibus_windows_
 windows_arch   env_omnibus_windows_arch
 
 # Disable git caching
+# WARNNING - When its enables rubygems/ssl builds failed
 # ------------------------------
-# use_git_caching false
+use_git_caching true
 
 # Enable S3 asset caching
 # ------------------------------

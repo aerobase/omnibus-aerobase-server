@@ -17,12 +17,14 @@
 # https://aerobase.atlassian.net/browse/AEROBASE-131
 
 name "omnibus-ctl-nofisp"
+default_version "1.0.0"
+
 dependency "omnibus-ctl"
 
 license :project_license
 
 build do
   if windows?
-    ruby "-pi.bk -e \"gsub(/chef-client/, 'chef-client --no-fips')\" #{install_dir}/embedded/lib/ruby/gems/2.7.0/gems/omnibus-ctl-0.6.0/lib/omnibus-ctl.rb"
+    ruby "-pi.bk -e \"gsub(/chef-client/, 'chef-client --no-fips')\" #{install_dir}/embedded/lib/ruby/gems/3.0.0/gems/omnibus-ctl-0.6.0/lib/omnibus-ctl.rb"
   end
 end

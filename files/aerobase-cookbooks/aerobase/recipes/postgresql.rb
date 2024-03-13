@@ -100,9 +100,11 @@ postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
 if os_helper.is_windows? 
   encoding = "English_United States.1252" 
   shared_memory = "windows"
+  unix_system = false
 else
   encoding = "en_US.UTF-8"
   shared_memory = "posix"
+  unix_system = true
 end
 
 template postgresql_config do
@@ -110,6 +112,7 @@ template postgresql_config do
   owner postgresql_user
   mode "0644"
   variables(node['unifiedpush']['postgresql'].to_hash.merge({
+    :unix_system => unix_system,
     :encoding => encoding, 
 	:shared_memory =>  shared_memory
   }))

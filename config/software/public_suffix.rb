@@ -1,5 +1,5 @@
-# Copyright:: Copyright (c) 2015.
-# License:: Apache License, Version 2.0
+#
+# Copyright 2014 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,24 +14,24 @@
 # limitations under the License.
 #
 
-name "aerobase-gsg-ui"
-default_version "v2.17.0"
-license :project_license
+name "public_suffix"
+default_version "v5.0.4"
 
-source git: "https://github.com/aerobase/aerobase-gsg-ui.git"
+license "Apache-2.0"
+license_file "LICENSE.txt"
 
-relative_path "aerobase-gsg-ui"
-build_dir = "#{project_dir}"
+source git: "https://github.com/weppos/publicsuffix-ruby.git"
+
+dependency "rubygems"
+dependency "bundler"
 
 build do
-  if windows?
-    command "mvn install"
-  else
-    command "npm install"
-    command "npm run build"
-  end
+  env = with_standard_compiler_flags(with_embedded_path)
 
-  # Copy dist to package dir.
-  command "mkdir -p #{install_dir}/embedded/apps/aerobase-gsg-ui"
-  sync "./dist/", "#{install_dir}/embedded/apps/aerobase-gsg-ui"
+  bundle "config set --local without 'development'", env: env
+  bundle "install", env: env
+
+  gem "build public_suffix.gemspec", env: env
+  gem "install public_suffix-*.gem" \
+      "  --no-document", env: env
 end

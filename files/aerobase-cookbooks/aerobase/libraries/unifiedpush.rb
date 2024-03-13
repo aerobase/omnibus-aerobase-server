@@ -60,7 +60,7 @@ module Unifiedpush
 
     def generate_secrets(node_name)
       secret_helper = SecretsHelper.new(node)
-	  secret_helper.read_unifiedpush_secrets
+      secret_helper.read_unifiedpush_secrets
 
       # Note: If you add another secret to generate here make sure it gets written to disk in SecretsHelper.write_to_unifiedpush_secrets
       Unifiedpush['aerobase_server']['secret_token'] ||= generate_hex(64)
@@ -73,7 +73,7 @@ module Unifiedpush
     def parse_external_url
       return unless external_url
 
-      uri = URI(external_url.to_s)
+      uri = URI(external_url.to_s.downcase)
 
       unless uri.host
         raise "Aerobase external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
@@ -81,7 +81,7 @@ module Unifiedpush
 
       info("Installing according to external_url -> " + uri.host)
 	  
-      Unifiedpush['global']['fqdn'] = external_url.to_s
+      Unifiedpush['global']['fqdn'] = uri.host
       Unifiedpush['global']['top_domain'] = DomainHelper.new(node).parse_domain(uri.host)
       
       # access_port is derived from external url 
@@ -202,7 +202,7 @@ module Unifiedpush
         "bootstrap",
         "global",
         "user",
-	"unifiedpush_server",
+        "unifiedpush_server",
         "aerobase_server",
         "keycloak_server",
         "web_server",

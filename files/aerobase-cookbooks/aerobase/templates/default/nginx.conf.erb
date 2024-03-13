@@ -83,8 +83,5 @@ http {
   <% if @aerobase_http_conf %>
   include aerobase-http.conf;
   <% end %>
-  <% if @subdomains_http_conf %>
-  include aerobase-subdomains.conf;
-  <% end %>
   include ../conf.d/*.conf;
 }

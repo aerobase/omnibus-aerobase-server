@@ -14,7 +14,7 @@ add_command 'tail', 'Print service logs', 2 do |cmd_name, props|
   path = "#{log_path}/#{servicename}/logs"
   
   if props == "aerobase-server" 
-    files = ["#{path}/server.log", "#{path}/audit.log"]
+    files = ["#{path}/keycloak.log"]
 	number = 200
   else
     files = Dir.glob("#{path}/*.*").reject{ |e| File.directory? e }

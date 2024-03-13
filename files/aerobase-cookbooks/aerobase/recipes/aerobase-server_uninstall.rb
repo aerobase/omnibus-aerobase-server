@@ -28,8 +28,8 @@ win_service_name = "Aerobase-Application-Server"
 include_recipe "aerobase::aerobase-server_stop"
 
 if os_helper.is_windows?
-  execute "#{server_dir}/bin/service.bat uninstall /name #{win_service_name}" do
-    ignore_failure true
-    only_if { ::File.exist? "#{server_dir}/bin/service.bat" }
+  execute "uninstall aerobase-server service" do
+    command "#{server_dir}/bin/aerobasesw.exe uninstall"
+    only_if { ::File.exist? "#{server_dir}/bin/aerobasesw.exe" }
   end
 end

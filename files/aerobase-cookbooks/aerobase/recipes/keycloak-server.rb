@@ -15,5 +15,5 @@
 # limitations under the License.
 #
 
-include_recipe "aerobase::keycloak-embeded-wildfly-conf"
-include_recipe "aerobase::keycloak-server-wildfly-conf"
+include_recipe "aerobase::keycloak-server-config"
+include_recipe "aerobase::keycloak-server-aerobase-realm"
