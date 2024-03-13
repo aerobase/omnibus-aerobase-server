@@ -39,6 +39,7 @@ keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
 
 start_flags = node['unifiedpush']['keycloak-server']['start_flags']
+cache_owners = node['unifiedpush']['keycloak-server']['cache_owners']
 database_host = node['unifiedpush']['keycloak-server']['db_host']
 database_port = node['unifiedpush']['keycloak-server']['db_port']
 database_name = node['unifiedpush']['keycloak-server']['db_database']
@@ -110,7 +111,6 @@ if mysql_helper.is_mysql_type
   jdbc_driver_class_name = mysql_helper.mysql_jdbc_driver_class_name 
 end
 
-
 # Prepare keycloak config file
 template "#{server_dir}/conf/keycloak.conf" do
   owner aerobase_user
@@ -126,6 +126,15 @@ template "#{server_dir}/conf/keycloak.conf" do
   })) 
 end
 
+# Prepare keycloak cache file
+template "#{server_dir}/conf/cache-ispn.xml" do
+  owner aerobase_user
+  group aerobase_group
+  mode 0755
+  source "keycloak-cache-conf.erb"
+  variables(keycloak_vars.merge(global_vars)) 
+end
+
 if os_helper.is_windows?
   cli_cmd = "kc.bat"
   cli_echo_cmd = "kc-echo.bat"
@@ -134,8 +143,12 @@ else
   cli_cmd = "kc.sh"
 end
 
+if cache_owners > 1
+  cache_flags = "--cache=ispn"
+end
+
 execute 'KC datasource and config cli script' do
-  command "#{server_dir}/bin/#{cli_cmd} build"
+  command "#{server_dir}/bin/#{cli_cmd} build #{cache_flags}"
 end
 
 # Copy KC CLI
