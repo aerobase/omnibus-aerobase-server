@@ -57,9 +57,10 @@ dependency "nokogiri" # (nokogiri cannot go in the Gemfile, see wall of text in 
 # FIXME?: might make sense to move dependencies below into the omnibus-software chef
 #  definition or into a chef-complete definition added to omnibus-software.
 dependency "gem-permissions"
-dependency "shebang-cleanup"
 dependency "version-manifest"
 dependency "openssl-customization"
+dependency "shebang-cleanup"
+dependency "ruby-cleanup"
 
 package :rpm do
   compression_level 6
