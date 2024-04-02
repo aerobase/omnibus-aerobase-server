@@ -22,7 +22,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-rbenv global 2.7.2
+rbenv global 3.0.3
 
 ruby -v 
 gem -v
