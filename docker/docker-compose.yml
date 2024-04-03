@@ -2,7 +2,7 @@ version: '3'
 services:
   aerobase:
     image: 'aerobase/aerobase:latest'
-    restart: always
+    restart: never
     hostname: 'aerobase.example.com'
     ports:
       - "80:80"
