@@ -299,7 +299,7 @@ default['unifiedpush']['logging']['logrotate_postrotate'] = nil # no postrotate 
 ###
 # Logrotate
 ###
-default['unifiedpush']['logrotate']['enable'] = true
+default['unifiedpush']['logrotate']['enable'] = false
 default['unifiedpush']['logrotate']['ha'] = false
 default['unifiedpush']['logrotate']['dir'] = "#{node['package']['runtime-dir']}/logrotate"
 default['unifiedpush']['logrotate']['log_directory'] = "#{node['package']['logs-dir']}/logrotate"

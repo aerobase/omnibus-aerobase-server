@@ -43,6 +43,7 @@ nginx_ssl_dir = File.join(config_dir, "ssl")
   nginx_gsg_html_dir,
   nginx_log_dir,
   nginx_ssl_dir,
+  "#{nginx_dir}/logs"
 ].each do |dir_name|
   directory dir_name do
     owner web_server_user
@@ -52,14 +53,8 @@ nginx_ssl_dir = File.join(config_dir, "ssl")
   end
 end
 
-link File.join(nginx_dir, "logs") do
-  to nginx_log_dir
-end
-
-# Link logrotate dir to self.
-# A workarround to ensure logrotate always exists at log_directory/logs
 link "#{nginx_log_dir}/logs" do
-  to nginx_log_dir
+  to "#{nginx_dir}/logs"
 end
 
 nginx_config = File.join(nginx_conf_dir, "nginx.conf")

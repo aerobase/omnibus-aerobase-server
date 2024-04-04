@@ -63,7 +63,8 @@ end
   server_mssql_dir,
   server_log_dir,
   server_doc_dir, 
-  server_upl_dir
+  server_upl_dir,
+  "#{server_dir}/data/log"
 ].each do |dir_name|
   directory dir_name do
     owner aerobase_user
