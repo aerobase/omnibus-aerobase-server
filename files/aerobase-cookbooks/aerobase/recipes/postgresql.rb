@@ -139,6 +139,7 @@ else
   component_runit_service "postgresql" do
     package "unifiedpush"
     control ['t']
+    retries 3
   end
 
   execute "#{install_dir}/bin/aerobase-ctl restart postgresql" do

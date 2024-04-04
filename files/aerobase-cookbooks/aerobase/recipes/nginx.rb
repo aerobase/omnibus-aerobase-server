@@ -145,6 +145,7 @@ if os_helper.is_windows?
 else
   component_runit_service "nginx" do
     package "unifiedpush"
+    retries 3
   end
 
   execute "/opt/aerobase/bin/aerobase-ctl restart nginx" do

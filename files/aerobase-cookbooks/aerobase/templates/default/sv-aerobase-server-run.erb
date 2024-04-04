@@ -1,4 +1,4 @@
 #!/bin/sh
 exec 2>&1
 cd <%= node['unifiedpush']['aerobase-server']['dir'] %>
-exec chpst -P -U <%= node['unifiedpush']['user']['username'] %> -u <%= node['unifiedpush']['user']['username'] %> bin/kc.sh start --log=\"file\" --import-realm <%= node['unifiedpush']['keycloak-server']['start_flags'] %>
+exec chpst -P -U <%= node['unifiedpush']['user']['username'] %> -u <%= node['unifiedpush']['user']['username'] %> bin/kc.sh start --log=file --import-realm <%= node['unifiedpush']['keycloak-server']['start_flags'] %>

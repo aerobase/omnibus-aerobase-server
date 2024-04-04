@@ -92,6 +92,8 @@ if os_helper.is_windows?
 else
   component_runit_service "aerobase-server" do
     package "unifiedpush"
+    retry_delay 1
+    retries 3
   end
 
   execute "/opt/aerobase/bin/aerobase-ctl restart aerobase-server" do
