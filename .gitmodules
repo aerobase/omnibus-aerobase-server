@@ -1,7 +1,7 @@
 [submodule "enterprise"]
 	path = files/aerobase-cookbooks/enterprise
 	url = https://github.com/aerobase/enterprise-chef-common.git
-        branch = v0.15.2
+        branch = v1.2.0
 [submodule "runit"]
 	path = files/aerobase-cookbooks/runit
 	url = https://github.com/chef-cookbooks/runit.git
