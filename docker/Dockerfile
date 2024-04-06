@@ -35,6 +35,10 @@ COPY assets/ /assets
 RUN /assets/download
 RUN /assets/setup
 
+# Workaround to `reload_log` on resources 
+# Reduce retry to 3 attempts so we can moveon
+RUN sed -i 's\20\3\g' /opt/aerobase/embedded/cookbooks/enterprise/resources/component_runit_service.rb
+ 
 # Allow to access embedded tools
 ENV PATH /opt/aerobase/embedded/bin:/opt/aerobase/bin:/assets:$PATH
 
