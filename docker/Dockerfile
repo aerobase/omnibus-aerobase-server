@@ -34,10 +34,6 @@ RUN ln -fs /dev/null /run/motd.dynamic
 COPY assets/ /assets
 RUN /assets/download
 RUN /assets/setup
-
-# Workaround to `reload_log` on resources 
-# Reduce retry to 3 attempts so we can moveon
-RUN sed -i 's\20\3\g' /opt/aerobase/embedded/cookbooks/enterprise/resources/component_runit_service.rb
  
 # Allow to access embedded tools
 ENV PATH /opt/aerobase/embedded/bin:/opt/aerobase/bin:/assets:$PATH
@@ -45,15 +41,19 @@ ENV PATH /opt/aerobase/embedded/bin:/opt/aerobase/bin:/assets:$PATH
 # Resolve error: TERM environment variable not set.
 ENV TERM xterm
 
+RUN cd /opt/aerobase/embedded/lib/ruby
+RUN gem install rack -v 2.2.3.1
+RUN gem uninstall rack -v 2.2.3
+
+# Workaround to `reload_log` on resources 
+# Reduce retry to 3 attempts so we can moveon
+RUN sed -i 's|20|3|g' /opt/aerobase/embedded/cookbooks/enterprise/resources/component_runit_service.rb
+
 # Expose web & ssh
 EXPOSE 443 80 22
 
 # Define data volumes
 VOLUME ["/etc/aerobase", "/var/opt/aerobase", "/var/log/aerobase", "/etc/init"]
-
-RUN cd /opt/aerobase/embedded/lib/ruby
-RUN gem install rack -v 2.2.3.1
-RUN gem uninstall rack -v 2.2.3
 
 # Wrapper to handle signal, trigger runit and reconfigure Aerobase
 CMD ["/assets/wrapper"]
