@@ -1,0 +1,39 @@
+FROM aerobase/aerobase:latest
+MAINTAINER Aerobase LTD. <support@aerobase.io>
+
+
+# Create aerobase user 
+RUN groupadd aerobase-group
+RUN useradd -ms /bin/bash -G aerobase-group aerobase -d /home/aerobase
+
+RUN echo "postgresql['enable']=false" >> /etc/aerobase/overrides.rb
+RUN echo "aerobase_server['db_initialize']=false" >> /etc/aerobase/overrides.rb
+RUN echo "nginx['enable']=false" >> /etc/aerobase/overrides.rb
+RUN echo "logrotate['enable']=false" >> /etc/aerobase/overrides.rb
+RUN echo "user['manage_accounts']=false" >> /etc/aerobase/overrides.rb
+RUN echo "user['none_root']=true" >> /etc/aerobase/overrides.rb
+
+RUN sed -i 's|/var/opt/#{name}|/home/#{name}/opt|g' /opt/aerobase/embedded/lib/ruby/gems/3.0.0/gems/omnibus-ctl-0.6.0/lib/omnibus-ctl.rb
+RUN sed -i 's|/var/log/#{name}|/home/#{name}/log|g' /opt/aerobase/embedded/lib/ruby/gems/3.0.0/gems/omnibus-ctl-0.6.0/lib/omnibus-ctl.rb
+
+RUN sed -i 's|/var/opt/aerobase|/home/aerobase/opt|g' /opt/aerobase/embedded/cookbooks/package/attributes/default.rb
+RUN sed -i 's|/var/log/aerobase|/home/aerobase/log|g' /opt/aerobase/embedded/cookbooks/package/attributes/default.rb
+
+RUN mkdir /home/aerobase/opt && chown aerobase:aerobase-group /home/aerobase/opt
+RUN mkdir /home/aerobase/log && chown aerobase:aerobase-group /home/aerobase/log
+
+RUN chmod -R 777 /opt/aerobase/embedded/nodes
+RUN chmod -R 777 /etc/aerobase
+RUN chown -R aerobase:aerobase-group /etc/aerobase
+
+# Resolve error: TERM environment variable not set.
+ENV TERM xterm
+
+# Expose web & ssh
+EXPOSE 443 80 22
+
+# Define data volumes
+VOLUME ["/etc/aerobase", "/home/aerobase/opt", "/home/aerobase/log", "/etc/init"]
+
+# Wrapper to handle signal, trigger runit and reconfigure Aerobase
+CMD ["/assets/wrapper"]

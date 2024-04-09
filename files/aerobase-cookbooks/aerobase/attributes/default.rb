@@ -42,6 +42,7 @@ default['unifiedpush']['global']['srv_start'] = true
 default['unifiedpush']['user']['username'] = "aerobase"
 default['unifiedpush']['user']['group'] = "aerobase-group"
 default['unifiedpush']['user']['manage_accounts'] = true
+default['unifiedpush']['user']['none_root'] = false
 # Used only under windows os
 default['unifiedpush']['user']['password'] = "$1$8AKNexhr$XEYpJFyWMcI.c96XLKLSk/"
 default['unifiedpush']['user']['uid'] = nil

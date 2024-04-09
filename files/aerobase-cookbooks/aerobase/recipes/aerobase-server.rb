@@ -94,9 +94,11 @@ else
     package "unifiedpush"
     retry_delay 1
     retries 3
+    not_if { node['unifiedpush']['user']['none_root'] }
   end
 
   execute "/opt/aerobase/bin/aerobase-ctl restart aerobase-server" do
     retries 20
+    not_if { node['unifiedpush']['user']['none_root'] }
   end
 end

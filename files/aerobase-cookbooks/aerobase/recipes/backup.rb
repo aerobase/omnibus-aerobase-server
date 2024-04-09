@@ -49,4 +49,5 @@ cron 'postgresql-nightly-backup' do
   command "sh -x #{install_dir}/embedded/cookbooks/aerobase/libraries/pg_backup_rotated.sh -c #{home_dir}/postgresql-backup.conf > /tmp/postgresql-backup.log 2>&1"
   not_if { !node['unifiedpush']['postgresql']['enable'] }
   only_if { find_executable 'crontab' }
+  not_if { node['unifiedpush']['user']['none_root'] }
 end

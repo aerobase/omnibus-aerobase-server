@@ -53,15 +53,19 @@ postgresql_password = account_helper.postgresql_password
 include_recipe "aerobase::users"
 
 # These directories do not need to be writable for aerobase-server
-[
-  config_dir,
-  runtime_dir,
-].each do |dir_name|
-  directory dir_name do
-    owner aerobase_user
-	group aerobase_group
-    mode '0775'
-  end
+
+directory "#{config_dir}" do
+  owner aerobase_user
+  group aerobase_group
+  mode '0775'
+  not_if { node['unifiedpush']['user']['none_root'] }
+end
+
+# These directories do not need to be writable for aerobase-server
+directory "#{runtime_dir}" do
+  owner aerobase_user
+  group aerobase_group
+  mode '0775'
 end
 
 directory "#{install_dir}/embedded/etc" do
@@ -70,10 +74,11 @@ directory "#{install_dir}/embedded/etc" do
   mode "0755"
   recursive true
   action :create
+  not_if { node['unifiedpush']['user']['none_root'] }
 end
 
 # Install our runit instance for none windows os
-if os_helper.not_windows?
+if os_helper.not_windows? && node['unifiedpush']['user']['none_root']==false
   include_recipe "enterprise::runit"
 end
 
