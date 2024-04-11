@@ -130,5 +130,8 @@ if os_helper.not_windows?
   end
 end 
 
-include_recipe "aerobase::backup"
+# Skip backups for noneroot users
+if node['unifiedpush']['user']['none_root'] == false
+  include_recipe "aerobase::backup"
+end
 include_recipe "aerobase::bootstrap"

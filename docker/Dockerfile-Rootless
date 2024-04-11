@@ -22,8 +22,8 @@ RUN sed -i 's|/var/log/aerobase|/home/aerobase/log|g' /opt/aerobase/embedded/coo
 RUN mkdir /home/aerobase/opt && chown aerobase:aerobase-group /home/aerobase/opt
 RUN mkdir /home/aerobase/log && chown aerobase:aerobase-group /home/aerobase/log
 
-RUN chmod -R 777 /opt/aerobase/embedded/nodes
-RUN chmod -R 777 /etc/aerobase
+RUN chown -R aerobase:aerobase-group /opt/aerobase/embedded/
+RUN chmod -R 766 /etc/aerobase
 RUN chown -R aerobase:aerobase-group /etc/aerobase
 
 # Resolve error: TERM environment variable not set.
