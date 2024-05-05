@@ -79,7 +79,7 @@ module Unifiedpush
         raise "Aerobase external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
       end
 	  
-      if uri.port.nil? || uri.port == 80 || uri.port = 443
+      if uri.port.nil? || uri.port == 80 || uri.port == 443
         info("Installing according to external_url -> " + uri.host)
         Unifiedpush['global']['fqdn'] = uri.host 
       else
