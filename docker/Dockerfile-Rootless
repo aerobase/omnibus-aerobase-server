@@ -7,7 +7,6 @@ RUN groupadd aerobase-group
 RUN useradd -ms /bin/bash -G aerobase-group aerobase -d /home/aerobase
 
 RUN echo "postgresql['enable']=false" >> /etc/aerobase/overrides.rb
-RUN echo "aerobase_server['db_initialize']=false" >> /etc/aerobase/overrides.rb
 RUN echo "nginx['enable']=false" >> /etc/aerobase/overrides.rb
 RUN echo "logrotate['enable']=false" >> /etc/aerobase/overrides.rb
 RUN echo "user['manage_accounts']=false" >> /etc/aerobase/overrides.rb
@@ -31,6 +30,9 @@ ENV TERM xterm
 
 # Expose web & ssh
 EXPOSE 443 80 22
+
+# Override in case wrapper-rootless was modified
+COPY assets/ /assets
 
 # Define data volumes
 VOLUME ["/etc/aerobase", "/home/aerobase/opt", "/home/aerobase/log", "/etc/init"]

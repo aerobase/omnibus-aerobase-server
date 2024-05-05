@@ -78,10 +78,14 @@ module Unifiedpush
       unless uri.host
         raise "Aerobase external URL must include a schema and FQDN, e.g. http://aerobase.example.com/"
       end
-
-      info("Installing according to external_url -> " + uri.host)
 	  
-      Unifiedpush['global']['fqdn'] = uri.host
+      if uri.port.nil? || uri.port == 80 || uri.port = 443
+        info("Installing according to external_url -> " + uri.host)
+        Unifiedpush['global']['fqdn'] = uri.host 
+      else
+        info("Installing according to external_url -> " + uri.host + ":" + uri.port.to_s)
+        Unifiedpush['global']['fqdn'] = uri.host + ":" + uri.port.to_s
+      end 
       Unifiedpush['global']['top_domain'] = DomainHelper.new(node).parse_domain(uri.host)
       
       # access_port is derived from external url 

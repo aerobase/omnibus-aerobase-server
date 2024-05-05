@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+
+function sigterm_handler() {
+    echo "SIGTERM signal received, try to gracefully shutdown all services..."
+    aerobase-ctl stop
+}
+
+trap "sigterm_handler; exit" TERM
+
+echo "Thank you for using Aerobase Docker Image!"
+echo ""
+echo "Configure Aerobase for your system by editing /etc/aerobase/aerobase.rb file"
+echo "And restart this container to reload settings."
+echo "To do it use docker exec:"
+echo
+echo "  docker exec -it aerobase vim /etc/aerobase/aerobase.rb"
+echo "  docker restart aerobase"
+echo
+echo "For a comprehensive list of configuration options please see the Aerobase configuration guide"
+echo "https://aerobase.io/docs/installation/index.html"
+echo
+sleep 3s
+
+# Start service manager
+echo "Starting services..."
+AEROBASE_OMNIBUS_CONFIG= /opt/aerobase/embedded/bin/runsvdir-start &
+
+echo "Configuring Aerobase..."
+aerobase-ctl reconfigure --accept-license
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+$DIR/update-permissions
+
+cd /home/aerobase/opt/aerobase-server/bin/
+./kc.sh start

@@ -13,6 +13,9 @@ docker-compose up -d
 ```
 docker build -t aerobase/aerobase:latest .
 ```
+```
+docker build -t aerobase/aerobase-rootless -f Dockerfile-Rootless .
+```
 ### Open web browser and access http(s)://aerobase.example.com/auth/admin/aerobase/console
 Username: admin
 Password: 123
