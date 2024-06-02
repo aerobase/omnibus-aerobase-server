@@ -13,6 +13,7 @@ db-password=<%= @db_password %>
 
 # The full database JDBC URL. If not provided, a default URL is set based on the selected database vendor.
 db-url=<%= @jdbc_url %>
+db-driver=<%= @jdbc_driver_class_name %>
 
 # Observability
 
@@ -27,18 +28,33 @@ hostname-strict-https=false
 hostname-strict-http=false
 http-enabled=true
 http-relative-path=/auth
+<% if !@server_https  %>
+http-port=<%= @server_port %>
+<% end %>
 
+<% if @server_https &&  @server_port != "8080" %>
+https-port=<%= @server_port %>
+<% end %>
+
+<% if @server_https  %>
 # The file path to a server certificate or certificate chain in PEM format.
-#https-certificate-file=${kc.home.dir}conf/server.crt.pem
+https-certificate-file=<%= @ssl_certificate %>
 
 # The file path to a private key in PEM format.
-#https-certificate-key-file=${kc.home.dir}conf/server.key.pem
+https-certificate-key-file=<%= @ssl_certificate_key %>
+<% end %>
 
-# The proxy address forwarding mode if the server is behind a reverse proxy.
-proxy=edge
-
+# The proxy headers that should be accepted by the server.
+proxy-headers=<%= @proxy_headers %>
 # Do not attach route to cookies and rely on the session affinity capabilities from reverse proxy
 #spi-sticky-session-encoder-infinispan-should-attach-route=false
 
 # Hostname for the Keycloak server.
 hostname=<%= @fqdn %>
+
+# Cloud vendor specific stacks have additional dependencies for Red Hat build of Keycloak. 
+# For more information and links to repositories with these dependencies, see the Infinispan documentation.
+# https://infinispan.org/docs/dev/titles/embedding/embedding.html#jgroups-cloud-discovery-protocols_cluster-transport
+cache-stack=<%= @cache_stack %>
+
+<%= @build_flags %>

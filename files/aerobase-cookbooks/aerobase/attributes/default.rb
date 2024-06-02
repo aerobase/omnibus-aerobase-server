@@ -104,10 +104,13 @@ default['unifiedpush']['keycloak-server']['aerobase_patch'] = false
 default['unifiedpush']['keycloak-server']['private_themes'] = false
 default['unifiedpush']['keycloak-server']['ha'] = false
 default['unifiedpush']['keycloak-server']['cache_owners'] = 1
+default['unifiedpush']['keycloak-server']['cache_stack'] = "udp"
 default['unifiedpush']['keycloak-server']['cache_size'] = 10000
 default['unifiedpush']['keycloak-server']['theme_cache'] = true
 default['unifiedpush']['keycloak-server']['start_timeout'] = "600"
 default['unifiedpush']['keycloak-server']['start_flags'] = ""
+default['unifiedpush']['keycloak-server']['build_flags'] = ""
+default['unifiedpush']['keycloak-server']['proxy_headers'] = "forwarded"
 # Database properties
 # db_username, db_host, db_port oveeride PostgreSQL properties [sql_kc_user, listen_address, port]
 default['unifiedpush']['keycloak-server']['db_database'] = "keycloak_server"

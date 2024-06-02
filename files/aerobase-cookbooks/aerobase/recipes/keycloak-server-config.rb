@@ -37,6 +37,7 @@ aerobase_group = account_helper.aerobase_group
 
 keycloak_vars = node['unifiedpush']['keycloak-server'].to_hash
 global_vars = node['unifiedpush']['global'].to_hash
+aerobase_vars = node['unifiedpush']['aerobase-server'].to_hash
 
 start_flags = node['unifiedpush']['keycloak-server']['start_flags']
 cache_owners = node['unifiedpush']['keycloak-server']['cache_owners']
@@ -49,6 +50,8 @@ database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 java_opts = node['unifiedpush']['aerobase-server']['java_opts']
 java_xmx = node['unifiedpush']['aerobase-server']['java_xmx']
 
+ssl_certificate_key = node['unifiedpush']['nginx']['ssl_certificate_key']
+ssl_certificate = node['unifiedpush']['nginx']['ssl_certificate']
 
 ruby_block 'copy_keycloak_sources' do
   block do
@@ -118,12 +121,14 @@ template "#{server_dir}/conf/keycloak.conf" do
   group aerobase_group
   mode 0755
   source "keycloak-conf.erb"
-  variables(keycloak_vars.merge(global_vars).merge({
+  variables(keycloak_vars.merge(global_vars).merge(aerobase_vars).merge({
     :db_adapter => db_adapter,
     :jdbc_url => jdbc_url,
     :jdbc_driver_name => jdbc_driver_name,
     :jdbc_driver_module_name => jdbc_driver_module_name,
-    :jdbc_driver_class_name => jdbc_driver_class_name
+    :jdbc_driver_class_name => jdbc_driver_class_name,
+    :ssl_certificate_key => ssl_certificate_key,
+    :ssl_certificate => ssl_certificate
   })) 
 end
 

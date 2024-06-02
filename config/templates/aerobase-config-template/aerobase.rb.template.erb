@@ -87,10 +87,13 @@ external_url 'GENERATED_EXTERNAL_URL'
 # keycloak_server['server_host'] = node['fqdn']
 # keycloak_server['server_https'] = false
 # keycloak_server['cache_owners'] = 1
+# keycloak_server['cache_stack'] = "udp"
 # keycloak_server['cache_size'] = 10000
 # keycloak_server['theme_cache'] = true
 # keycloak_server['start_timeout'] = "600"
 # keycloak_server['start_flags'] = ""
+# keycloak_server['build_flags'] = ""
+# keycloak_server['proxy_headers'] = "forwarded"
 # keycloak_server['db_database'] = "keycloak_server"
 ## db_username, db_host, db_port oveeridden by postgresql/mssql properties [sql_kc_user, listen_address, port]
 ## When explicitly seting a value for db_username, db_host, db_port we will never override from postgresql/mssql sql_kc_user, listen_address, port
