@@ -13,3 +13,5 @@ if [ ! -f /assets/aerobase-iam_23.0.7-4_amd64.deb ]; then
 else
   cp /assets/aerobase-iam_23.0.7-4_amd64.deb /tmp
 fi
+
+

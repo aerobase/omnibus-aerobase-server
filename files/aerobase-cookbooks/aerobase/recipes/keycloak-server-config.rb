@@ -123,9 +123,7 @@ template "#{server_dir}/conf/keycloak.conf" do
     :jdbc_url => jdbc_url,
     :jdbc_driver_name => jdbc_driver_name,
     :jdbc_driver_module_name => jdbc_driver_module_name,
-    :jdbc_driver_class_name => jdbc_driver_class_name,
-    :ssl_certificate_key => ssl_certificate_key,
-    :ssl_certificate => ssl_certificate
+    :jdbc_driver_class_name => jdbc_driver_class_name
   })) 
 end
 
