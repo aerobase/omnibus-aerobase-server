@@ -50,9 +50,6 @@ database_adapter = node['unifiedpush']['aerobase-server']['db_adapter']
 java_opts = node['unifiedpush']['aerobase-server']['java_opts']
 java_xmx = node['unifiedpush']['aerobase-server']['java_xmx']
 
-ssl_certificate_key = node['unifiedpush']['nginx']['ssl_certificate_key']
-ssl_certificate = node['unifiedpush']['nginx']['ssl_certificate']
-
 ruby_block 'copy_keycloak_sources' do
   block do
     FileUtils.cp_r "#{install_dir}/embedded/apps/keycloak-server/keycloak/.", "#{server_dir}"

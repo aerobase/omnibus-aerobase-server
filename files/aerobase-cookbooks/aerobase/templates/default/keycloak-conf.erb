@@ -32,7 +32,7 @@ http-relative-path=/auth
 http-port=<%= @server_port %>
 <% end %>
 
-<% if @server_https &&  @server_port != "8080" %>
+<% if @server_https && @server_port.to_s != "8080" %>
 https-port=<%= @server_port %>
 <% end %>
 
