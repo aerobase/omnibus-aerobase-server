@@ -59,6 +59,10 @@ dependency "openssl-customization"
 dependency "shebang-cleanup"
 dependency "ruby-cleanup"
 
+if windows?
+  dependency "aerobase-fix-parser"
+end
+
 package :rpm do
   compression_level 6
   compression_type :xz

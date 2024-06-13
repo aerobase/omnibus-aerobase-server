@@ -100,7 +100,7 @@ if database_adapter == 'mssql'
   jdbc_hbm_dialect = "org.hibernate.dialect.SQLServer2012Dialect"
   jdbc_driver_name = "sqlserver"
   jdbc_driver_module_name = "com.microsoft"
-  jdbc_driver_class_name = "com.microsoft.sqlserver.jdbc.SQLServerXADataSource"
+  jdbc_driver_class_name = "com.microsoft.sqlserver.jdbc.SQLServerDataSource"
 end
 
 if mysql_helper.is_mysql_type

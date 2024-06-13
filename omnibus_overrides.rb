@@ -1,4 +1,6 @@
 override :chef, version: "v17.10.119"
+override :"chef-config", version: "v17.10.119"
+override :"chef-utils", version: "v17.10.119"
 override :ruby, version: "3.0.6"
 # rubygems / bundler should always have the same minor version e.g: x.3.18
 override :rubygems, version: "3.3.18"
@@ -33,4 +35,3 @@ override "ruby-windows-devkit-bash", version: "3.1.23-4-msys-1.0.18"
 override "util-macros", version: "1.19.0"
 override "xproto", version: "7.0.28"
 override "zlib", version: "1.2.11"
-
